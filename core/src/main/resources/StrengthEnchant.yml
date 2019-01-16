@@ -1,0 +1,65 @@
+enchant-id: Strength
+
+max-tier: 3
+
+book-item:
+  material: BOOK
+  display-name: "&cStrength {tier}"
+  lore:
+    - "&7Drag on to enchant"
+    - "&cDestroy Rate {destroy_rate}"
+    - "&aSuccess Rate {success_rate}"
+
+#Format as seen in the lore of the item
+applied-format: "&7Strength {tier}"
+
+#What items this enchant can be applied too
+item-whitelist:
+  - "DIAMOND_HELMET"
+  - "GOLD_HELMET"
+  - "STONE_HELMET"
+  - "LEATHER_HELMET"
+
+#Potion effects applied on equip
+potion-effects:
+  - "STRENGTH:{tier}"
+
+#Spawned when hit or when you strike an enemy in case of tools
+mobs:
+  IRON_GOLEM:
+    spawn-percentage: 20
+    health: 80
+    attack-damage: 2
+    hostile: true
+    display-name: "&cAngry guy"
+    armor:
+      helmet:
+        material: DIAMOND_HELMET
+        enchants:
+          - "UNBREAKING:3"
+          - "THORNS:2"
+      chest-plate:
+        material: DIAMOND_CHESTPLATE
+        enchants:
+          - "UNBREAKING:3"
+          - "THORNS:2"
+      leggings:
+        material: DIAMOND_LEGGINGS
+        enchants:
+          - "UNBREAKING:3"
+          - "THORNS:2"
+      boots:
+        material: DIAMOND_BOOTS
+        enchants:
+          - "UNBREAKING:3"
+          - "THORNS:2"
+
+#On hit or deal damage
+action:
+  modify-damage-taken: 40
+  modify-damage-given: -10
+  potion-effects:
+    STRENGTH:
+      duration: 3
+      chance: 20
+      amplifier: 2

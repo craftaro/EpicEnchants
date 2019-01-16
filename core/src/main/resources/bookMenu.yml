@@ -1,0 +1,18 @@
+title: "Books"
+rows: 3
+
+fill:
+  material: "STAINED_GLASS_PANE"
+  display-name: "&r"
+  data: 7
+
+contents:
+  1:
+    material: "BOOK"
+    display-name: "&cClick to purchase random book"
+    data: 7
+    tier: 1
+    exp-cost: 2000
+    eco-cost: 2000
+    row: 3
+    column: 5

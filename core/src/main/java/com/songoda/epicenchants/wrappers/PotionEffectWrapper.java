@@ -1,23 +1,23 @@
 package com.songoda.epicenchants.wrappers;
 
-import io.netty.util.internal.ThreadLocalRandom;
-import org.bukkit.entity.Player;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.String.valueOf;
+
+@Builder
+@AllArgsConstructor
 public class PotionEffectWrapper {
-    private PotionEffect potionEffect;
-    private double chance;
+    private PotionEffectType type;
+    private String amplifier;
+    private String duration;
 
-    public PotionEffectWrapper(PotionEffect potionEffect, double chance) {
-        this.potionEffect = potionEffect;
-        this.chance = chance;
-    }
-
-    public boolean test() {
-        return ThreadLocalRandom.current().nextDouble(101) < chance;
-    }
-
-    public void perform(Player player) {
-        player.addPotionEffect(potionEffect);
+    public PotionEffect get(int tier) {
+        int tempAmplifier = amplifier.isEmpty() ? 0 : parseInt(amplifier.replace("{tier}", valueOf(tier)));
+        int tempDuration = duration.isEmpty() ? 0 : parseInt(duration.replace("{tier}", valueOf(tier)));
+        return new PotionEffect(type, tempDuration, tempAmplifier);
     }
 }

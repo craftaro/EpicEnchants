@@ -1,32 +1,39 @@
-enchant-id: Strength
+#The enchant identifier must be unique
+identifier: Strength
 
-max-tier: 3
+#The max level for this enchant
+max-level: 3
 
+#The tier of this enchant
+tier: 1
+
+#The book item
 book-item:
   material: BOOK
-  display-name: "&cStrength {tier}"
+  display-name: "&cStrength {level}"
   lore:
     - "&7Drag on to enchant"
     - "&cDestroy Rate {destroy_rate}"
     - "&aSuccess Rate {success_rate}"
 
 #Format as seen in the lore of the item
-applied-format: "&7Strength {tier}"
+applied-format: "&7Strength {level}"
 
 #What items this enchant can be applied too
 item-whitelist:
   - "DIAMOND_HELMET"
-  - "GOLD_HELMET"
-  - "STONE_HELMET"
+  - "IRON_HELMET"
   - "LEATHER_HELMET"
 
 #Potion effects applied on equip
 potion-effects:
-  - "STRENGTH:{tier}"
+  INCREASE_DAMAGE:
+    amplifier: {level}
 
 #Spawned when hit or when you strike an enemy in case of tools
 mobs:
   IRON_GOLEM:
+    amount: 3
     spawn-percentage: 20
     health: 80
     attack-damage: 2
@@ -36,22 +43,22 @@ mobs:
       helmet:
         material: DIAMOND_HELMET
         enchants:
-          - "UNBREAKING:3"
+          - "DURABILITY:3"
           - "THORNS:2"
       chest-plate:
         material: DIAMOND_CHESTPLATE
         enchants:
-          - "UNBREAKING:3"
+          - "DURABILITY:3"
           - "THORNS:2"
       leggings:
         material: DIAMOND_LEGGINGS
         enchants:
-          - "UNBREAKING:3"
+          - "DURABILITY:3"
           - "THORNS:2"
       boots:
         material: DIAMOND_BOOTS
         enchants:
-          - "UNBREAKING:3"
+          - "DURABILITY:3"
           - "THORNS:2"
 
 #On hit or deal damage

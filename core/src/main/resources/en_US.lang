@@ -1,0 +1,14 @@
+#General Messages
+
+general.nametag.prefix= "&8[&6EpicEnchants&8]"
+
+#Command Messages
+
+command.give.success= "&7You have been given a &6tier {tier} &7Book."
+
+#Event Messages
+
+event.general.nopermission= "&cYou do not have permission to do that."
+event.purchase.noenchant= "&cThere is no enchant available for &6tier {tier}&7."
+event.purchase.cannotafford= "&cYou cannot afford this purchase."
+event.purchase.success= "&7You successfully purchased a &6tier {tier} &7Book."

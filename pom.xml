@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.songoda</groupId>
-    <artifactId>epicenchants</artifactId>
+    <artifactId>EpicEnchants-Parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
     <modules>
@@ -31,6 +31,13 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

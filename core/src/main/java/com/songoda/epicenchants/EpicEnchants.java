@@ -67,10 +67,8 @@ public class EpicEnchants extends JavaPlugin {
         this.commandManager = new BukkitCommandManager(this);
 
         commandManager.registerDependency(EpicEnchants.class, "instance", this);
-
         commandManager.getCommandCompletions().registerCompletion("enchants", c -> enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
-
-        commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.getFirstArg()).orElseThrow(() -> new InvalidCommandArgument("Unknown enchant: " + c.getFirstArg())));
+        commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No echant exists by that name")));
 
         commandManager.registerCommand(new EnchantCommand());
     }

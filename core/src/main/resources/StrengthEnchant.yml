@@ -65,8 +65,13 @@ mobs:
 action:
   modify-damage-taken: 40
   modify-damage-given: -10
-  potion-effects:
+  potion-effects-wearer:
     STRENGTH:
       duration: 3
-      chance: 20
+      chance: 20 * {level}
+      amplifier: 2
+  potion-effects-opponent:
+    STRENGTH:
+      duration: 3
+      chance: 20 * {level}
       amplifier: 2

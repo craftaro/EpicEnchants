@@ -185,6 +185,12 @@ public class ItemBuilder {
         return item;
     }
 
+    public ItemStack buildWithWrappers(int level) {
+        item.setItemMeta(meta);
+        enchantmentWrappers.forEach(enchant -> item.addEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level)));
+        return item;
+    }
+
     public Map<Enchantment, Integer> getEnchants() {
         return meta.getEnchants();
     }

@@ -1,15 +1,16 @@
 package com.songoda.epicenchants.wrappers;
 
+import com.songoda.epicenchants.objects.LeveledModifier;
 import lombok.Builder;
 import org.bukkit.enchantments.Enchantment;
 
 @Builder
 public class EnchantmentWrapper {
-    private String amplifier;
+    private LeveledModifier amplifier;
     private Enchantment enchantment;
 
-    public int getAmplifier(int tier) {
-        return amplifier.isEmpty() ? 0 : Integer.parseInt(amplifier.replaceAll("\\{tier}", "" + tier));
+    public int getAmplifier(int level) {
+        return (int) amplifier.get(level);
     }
 
     public Enchantment getEnchantment() {

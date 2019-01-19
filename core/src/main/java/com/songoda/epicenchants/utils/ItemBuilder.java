@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.utils;
 
+import com.songoda.epicenchants.utils.parser.ConfigParser;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
@@ -110,6 +111,15 @@ public class ItemBuilder {
         List<String> toAdd = meta.getLore();
         toAdd.addAll(lore);
         meta.setLore(toAdd);
+        return this;
+    }
+
+    public ItemBuilder removeLore(String string) {
+        if(!meta.hasLore()) {
+            return this;
+        }
+
+        meta.setLore(meta.getLore().stream().filter(s -> !s.startsWith(string)).collect(Collectors.toList()));
         return this;
     }
 

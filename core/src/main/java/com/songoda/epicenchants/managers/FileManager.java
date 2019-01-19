@@ -2,7 +2,8 @@ package com.songoda.epicenchants.managers;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.utils.ConfigParser;
+import com.songoda.epicenchants.utils.Chat;
+import com.songoda.epicenchants.utils.parser.ConfigParser;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.songoda.epicenchants.utils.Chat.color;
+import static com.songoda.epicenchants.utils.parser.ConfigParser.parseEnchant;
 import static java.io.File.separator;
 import static java.util.Arrays.asList;
 
@@ -61,34 +64,13 @@ public class FileManager {
         File dir = new File(instance.getDataFolder() + separator + "enchants" + separator);
         Arrays.stream(dir.listFiles((dir1, filename) -> filename.endsWith(".yml"))).forEach(file -> {
             try {
-                instance.getEnchantManager().addEnchant(loadEnchant(YamlConfiguration.loadConfiguration(file)));
+                instance.getEnchantManager().addEnchant(parseEnchant(YamlConfiguration.loadConfiguration(file)));
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("Something went wrong loading the enchant from file " + file.getName());
                 Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");
                 e.printStackTrace();
             }
         });
-    }
-
-    private Enchant loadEnchant(FileConfiguration config) {
-        return Enchant.builder()
-                .identifier(config.getString("identifier"))
-                .tier(config.getInt("tier"))
-                .maxLevel(config.getInt("max-tier"))
-                .format(config.getString("applied-format"))
-                .action(ConfigParser.parseActionClass(config.getConfigurationSection("action")))
-                .bookItem(ConfigParser.parseBookItem(config.getConfigurationSection("book-item")))
-                .itemWhitelist(config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()))
-                .potionEffects(config.getConfigurationSection("potion-effects").getKeys(false).stream()
-                        .map(s -> "potion-effects." + s)
-                        .map(config::getConfigurationSection)
-                        .map(ConfigParser::parsePotionEffect)
-                        .collect(Collectors.toSet()))
-                .mobs(config.getConfigurationSection("mobs").getKeys(false).stream()
-                        .map(s -> "mobs." + s)
-                        .map(config::getConfigurationSection)
-                        .map(ConfigParser::parseMobWrapper).collect(Collectors.toSet()))
-                .build();
     }
 
     public FileConfiguration getConfiguration(String key) {

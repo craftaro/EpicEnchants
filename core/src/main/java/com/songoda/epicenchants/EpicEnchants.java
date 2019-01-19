@@ -3,16 +3,24 @@ package com.songoda.epicenchants;
 import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.InvalidCommandArgument;
 import com.songoda.epicenchants.commands.EnchantCommand;
+import com.songoda.epicenchants.listeners.ArmorListener;
+import com.songoda.epicenchants.listeners.BookListener;
+import com.songoda.epicenchants.listeners.PlayerListener;
 import com.songoda.epicenchants.managers.EnchantManager;
 import com.songoda.epicenchants.managers.FileManager;
 import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.utils.InventoryParser;
+import com.songoda.epicenchants.utils.EnchantUtils;
+import com.songoda.epicenchants.utils.VersionDependentList;
+import com.songoda.epicenchants.utils.parser.InventoryParser;
 import fr.minuskube.inv.InventoryManager;
 import fr.minuskube.inv.SmartInventory;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.utils.Chat.color;
@@ -27,6 +35,7 @@ public class EpicEnchants extends JavaPlugin {
     @Getter private Economy economy;
     @Getter private Locale locale;
     @Getter private SmartInventory bookInventory;
+    @Getter private EnchantUtils enchantUtils;
 
     @Override
     public void onEnable() {
@@ -37,14 +46,19 @@ public class EpicEnchants extends JavaPlugin {
         this.fileManager = new FileManager(this);
         this.enchantManager = new EnchantManager();
         this.inventoryManager = new InventoryManager(this);
-        this.locale = Locale.getLocale(getConfig().getString("System.Language Mode", getConfig().getString("language")));
         this.economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        this.enchantUtils = new EnchantUtils(this);
+
+        Locale.init(this);
+        this.locale = Locale.getLocale(getConfig().getString("language"));
 
         fileManager.createFiles();
         fileManager.loadEnchants();
         inventoryManager.init();
 
         setupCommands();
+        setupListeners();
+        setupVersion();
 
         if (!enchantManager.getEnchants().isEmpty()) {
             getLogger().info("Successfully loaded: " + enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.joining(",")));
@@ -72,4 +86,24 @@ public class EpicEnchants extends JavaPlugin {
 
         commandManager.registerCommand(new EnchantCommand());
     }
+
+    private void setupListeners() {
+        EpicEnchants instance = this;
+        new HashSet<Listener>() {{
+            add(new BookListener(instance));
+            add(new ArmorListener());
+            add(new PlayerListener(instance));
+        }}.forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
+    }
+
+    private void setupVersion() {
+        int currentVersion = Integer.parseInt(getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[1]);
+
+        if(currentVersion >= 13) {
+            VersionDependentList.initDefault();
+        } else {
+            VersionDependentList.initLegacy();
+        }
+    }
+
 }

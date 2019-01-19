@@ -67,6 +67,7 @@ public class Locale {
 
         localeFolder.mkdirs();
         Locale.searchForLocales();
+        Locale.saveDefaultLocale("en_US");
     }
 
     /**
@@ -260,6 +261,26 @@ public class Locale {
     }
 
     /**
+     * Get a message set for a specific node with prefix
+     *
+     * @param node the node to get
+     * @return the message for the specified node
+     */
+    public String getMessageWithPrefix(String node) {
+        return ChatColor.translateAlternateColorCodes('&', getPrefix() + this.getMessageOrDefault(node, node));
+    }
+
+    /**
+     * Get a message set for a specific node with prefix
+     *
+     * @param node the node to get
+     * @return the message for the specified node
+     */
+    public String getMessageWithPrefix(String node, Object... args) {
+        return ChatColor.translateAlternateColorCodes('&', getPrefix() + getMessage(node, args));
+    }
+
+    /**
      * Get a message set for a specific node and replace its params with a supplied arguments.
      *
      * @param node the node to get
@@ -269,7 +290,7 @@ public class Locale {
     public String getMessage(String node, Object... args) {
         String message = getMessage(node);
         for (Object arg : args) {
-            message = message.replaceFirst("%.*?%", arg.toString());
+            message = message.replaceFirst("\\{.*?}", arg.toString());
         }
         return message;
     }

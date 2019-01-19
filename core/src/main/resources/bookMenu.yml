@@ -12,7 +12,7 @@ contents:
     display-name: "&cClick to purchase random book"
     data: 7
     tier: 1
-    exp-cost: 2000
+    exp-cost: 20
     eco-cost: 2000
-    row: 3
-    column: 5
+    row: 1
+    column: 4

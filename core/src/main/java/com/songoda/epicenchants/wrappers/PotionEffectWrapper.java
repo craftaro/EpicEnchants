@@ -14,6 +14,6 @@ public class PotionEffectWrapper {
     private LeveledModifier duration;
 
     public PotionEffect get(int level) {
-        return new PotionEffect(type, (int) amplifier.get(level), (int) duration.get(level));
+        return new PotionEffect(type, (int) duration.get(level), (int) amplifier.get(level) - 1);
     }
 }

@@ -1,7 +1,7 @@
 #The enchant identifier must be unique
 identifier: Strength
 
-#The max level for this enchant
+#The max tier for this enchant
 max-level: 3
 
 #The tier of this enchant
@@ -28,50 +28,53 @@ item-whitelist:
 #Potion effects applied on equip
 potion-effects:
   INCREASE_DAMAGE:
-    amplifier: {level}
+    amplifier: "{level}"
+    duration: MAX
 
-#Spawned when hit or when you strike an enemy in case of tools
-mobs:
-  IRON_GOLEM:
-    amount: 3
-    spawn-percentage: 20
-    health: 80
-    attack-damage: 2
-    hostile: true
-    display-name: "&cAngry guy"
-    armor:
-      helmet:
-        material: DIAMOND_HELMET
-        enchants:
-          - "DURABILITY:3"
-          - "THORNS:2"
-      chest-plate:
-        material: DIAMOND_CHESTPLATE
-        enchants:
-          - "DURABILITY:3"
-          - "THORNS:2"
-      leggings:
-        material: DIAMOND_LEGGINGS
-        enchants:
-          - "DURABILITY:3"
-          - "THORNS:2"
-      boots:
-        material: DIAMOND_BOOTS
-        enchants:
-          - "DURABILITY:3"
-          - "THORNS:2"
+#Type of material this enchant will be applied to (WEAPON/ARMOR/TOOL)
+type: ARMOR
 
 #On hit or deal damage
 action:
-  modify-damage-taken: 40
-  modify-damage-given: -10
+  #Percentage that will be added or subtracted from the total damage.
+  modify-damage: 40
   potion-effects-wearer:
     STRENGTH:
       duration: 3
-      chance: 20 * {level}
+      chance: "20 * {level}"
       amplifier: 2
   potion-effects-opponent:
     STRENGTH:
       duration: 3
-      chance: 20 * {level}
+      chance: "20 * {level}"
       amplifier: 2
+  #Spawned when hit or when you strike an enemy in case of tools
+  mobs:
+    IRON_GOLEM:
+      amount: 3
+      spawn-percentage: 20
+      health: 80
+      attack-damage: 2
+      hostile: true
+      display-name: "&cAngry guy"
+      armor:
+        helmet:
+          material: DIAMOND_HELMET
+          enchants:
+            - "DURABILITY:3"
+            - "THORNS:2"
+        chest-plate:
+          material: DIAMOND_CHESTPLATE
+          enchants:
+            - "DURABILITY:3"
+            - "THORNS:2"
+        leggings:
+          material: DIAMOND_LEGGINGS
+          enchants:
+            - "DURABILITY:3"
+            - "THORNS:2"
+        boots:
+          material: DIAMOND_BOOTS
+          enchants:
+            - "DURABILITY:3"
+            - "THORNS:2"

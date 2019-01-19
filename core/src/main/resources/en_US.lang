@@ -12,3 +12,9 @@ event.general.nopermission= "&cYou do not have permission to do that."
 event.purchase.noenchant= "&cThere is no enchant available for &6tier {tier}&7."
 event.purchase.cannotafford= "&cYou cannot afford this purchase."
 event.purchase.success= "&7You successfully purchased a &6tier {tier} &7Book."
+
+#Enchant Messages
+enchant.invalidmaterial= "&cYou can not apply &6{enchant} to that item."
+enchant.failure= "&cYou failed to apply &6{enchant}."
+enchant.brokenfailure= "&6{enchant} failed to apply and broke your item..."
+enchant.success= "&aYou have success fully applied &6{enchant}."

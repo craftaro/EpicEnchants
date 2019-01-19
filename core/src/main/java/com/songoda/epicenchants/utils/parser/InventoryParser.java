@@ -1,7 +1,8 @@
-package com.songoda.epicenchants.utils;
+package com.songoda.epicenchants.utils.parser;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.utils.ItemBuilder;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -32,17 +33,14 @@ public class InventoryParser {
                                 .filter(StringUtils::isNumeric)
                                 .map(s -> "contents." + s)
                                 .map(config::getConfigurationSection)
-                                .forEach(config -> {
-                                    double expCost = config.getDouble("exp-cost");
-                                    double ecoCost = config.getDouble("eco-cost");
-                                    int tier = config.getInt("tier");
-                                    inventoryContents.set(config.getInt("row"), config.getInt("column"), ClickableItem.of(new ItemBuilder(config).build(), event -> {
+                                .forEach(section -> {
+                                    double expCost = section.getDouble("exp-cost");
+                                    double ecoCost = section.getDouble("eco-cost");
+                                    int tier = section.getInt("tier");
+                                    inventoryContents.set(section.getInt("row"), section.getInt("column"), ClickableItem.of(new ItemBuilder(section).build(), event -> {
                                         Player player = ((Player) event.getWhoClicked());
                                         if (!instance.getEconomy().has((player), ecoCost) || (player).getLevel() < expCost) {
-                                            player
-                                                    .sendMessage(instance
-                                                            .getLocale().getPrefix() + instance.getLocale()
-                                                            .getMessage("event.purchase.cannotafford"));
+                                            player.sendMessage(instance.getLocale().getPrefix() + instance.getLocale().getMessage("event.purchase.cannotafford"));
                                             return;
                                         }
 
@@ -55,8 +53,8 @@ public class InventoryParser {
 
                                         instance.getEconomy().withdrawPlayer(player, ecoCost);
                                         player.setLevel((int) (player.getLevel() - expCost));
-                                        player.getInventory().addItem(enchant.get().getBookItem().get(enchant.get(), current().nextInt(enchant.get().getMaxLevel() + 1)));
-                                        player.sendMessage(instance.getLocale().getPrefix() + instance.getLocale().getMessage("event.purchase.successful"));
+                                        player.getInventory().addItem(enchant.get().getBookItem().get(enchant.get()));
+                                        player.sendMessage(instance.getLocale().getPrefix() + instance.getLocale().getMessage("event.purchase.success", "" + tier));
                                     }));
                                 });
                     }

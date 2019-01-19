@@ -17,8 +17,8 @@ public class EnchantCommand extends BaseCommand {
     @CommandCompletion("@players @enchants @nothing @nothing @nothing")
     @Description("Give books to players")
     @CommandPermission("epicenchants.givebook")
-    public void onGiveBook(@Flags("other") Player target, Enchant enchant, @Default("1") int tier, @Optional Double successRate, @Optional Double destroyRate) {
-        target.getInventory().addItem(enchant.getBookItem().get(enchant, tier, successRate, destroyRate));
+    public void onGiveBook(@Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
+        target.getInventory().addItem(enchant.getBookItem().get(enchant, level, successRate, destroyRate));
     }
 
     @Default

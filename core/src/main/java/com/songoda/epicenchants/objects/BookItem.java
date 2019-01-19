@@ -18,27 +18,35 @@ public class BookItem {
     private String displayName;
     private List<String> lore;
 
-    public ItemStack get(Enchant enchant, int level) {
-        return get(enchant, level, current().nextDouble(101), current().nextDouble(101));
+    public ItemStack get(Enchant enchant) {
+        return get(enchant, current().nextInt(enchant.getMaxLevel()) + 1);
     }
 
-    public ItemStack get(Enchant enchant, int level, @Optional Double successRate, @Optional Double destroyRate) {
+    public ItemStack get(Enchant enchant, int level) {
+        return get(enchant, level, current().nextInt(101), current().nextInt(101));
+    }
+
+    public ItemStack get(Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         successRate = successRate == null ? current().nextInt(101) : successRate;
         destroyRate = destroyRate == null ? current().nextInt(101) : destroyRate;
+        level = level == null ? current().nextInt(0, enchant.getMaxLevel() + 1) : level;
 
-        double finalSuccessRate = successRate;
-        double finalDestroyRate = destroyRate;
+        int finalSuccessRate = successRate;
+        int finalDestroyRate = destroyRate;
+        int finalLevel = level;
         ItemBuilder itemBuilder = new ItemBuilder(material)
                 .name(displayName.replace("{level}", "" + level))
                 .lore(lore.stream()
-                        .map(s -> s.replace("{level}", "" + level)
+                        .map(s -> s.replace("{level}", "" + finalLevel)
                                 .replace("{success_rate}", "" + finalSuccessRate)
                                 .replace("{destroy_rate}", "" + finalDestroyRate))
                         .collect(Collectors.toList()));
 
         NBTItem nbtItem = itemBuilder.nbt();
-        nbtItem.setDouble("success-rate", successRate);
-        nbtItem.setDouble("destroy-rate", destroyRate);
+        nbtItem.setBoolean("book-item", true);
+        nbtItem.setInteger("success-rate", successRate);
+        nbtItem.setInteger("destroy-rate", destroyRate);
+        nbtItem.setInteger("level", level);
         nbtItem.setString("enchant", enchant.getIdentifier());
 
         return nbtItem.getItem();

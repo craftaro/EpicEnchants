@@ -1,11 +1,13 @@
-package com.songoda.epicenchants.utils;
+package com.songoda.epicenchants.utils.parser;
 
-import com.songoda.epicenchants.objects.ActionClass;
-import com.songoda.epicenchants.objects.BookItem;
-import com.songoda.epicenchants.objects.LeveledModifier;
+import com.songoda.epicenchants.enums.MaterialType;
+import com.songoda.epicenchants.objects.*;
+import com.songoda.epicenchants.utils.Chat;
+import com.songoda.epicenchants.utils.ItemBuilder;
 import com.songoda.epicenchants.wrappers.*;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffectType;
 
@@ -15,12 +17,33 @@ import java.util.stream.Collectors;
 import static com.songoda.epicenchants.utils.Chat.color;
 
 public class ConfigParser {
+    public static Enchant parseEnchant(FileConfiguration config) {
+        return Enchant.builder()
+                .identifier(config.getString("identifier"))
+                .tier(config.getInt("tier"))
+                .materialType(MaterialType.of(config.getString("type")))
+                .maxLevel(config.getInt("max-level"))
+                .format(color(config.getString("applied-format")))
+                .action(parseActionClass(config.getConfigurationSection("action")))
+                .bookItem(parseBookItem(config.getConfigurationSection("book-item")))
+                .itemWhitelist(config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()))
+                .potionEffects(config.getConfigurationSection("potion-effects").getKeys(false).stream()
+                        .map(s -> "potion-effects." + s)
+                        .map(config::getConfigurationSection)
+                        .map(ConfigParser::parsePotionEffect)
+                        .collect(Collectors.toSet()))
+                .build();
+    }
+
     public static ActionClass parseActionClass(ConfigurationSection section) {
         return ActionClass.builder()
-                .modifyDamageGiven(LeveledModifier.of(section.getString("modify-damage-given")))
-                .modifyDamageTaken(LeveledModifier.of(section.getString("modify-damage-taken")))
-                .potionEffectsWearer(ConfigParser.getPotionChanceSet(section.getConfigurationSection("potion-effects-defendant")))
+                .modifyDamage(LeveledModifier.of(section.getString("modify-damage")))
+                .potionEffectsWearer(ConfigParser.getPotionChanceSet(section.getConfigurationSection("potion-effects-wearer")))
                 .potionEffectOpponent(ConfigParser.getPotionChanceSet(section.getConfigurationSection("potion-effects-opponent")))
+                .mobs(section.getConfigurationSection("mobs").getKeys(false).stream()
+                        .map(s -> "mobs." + s)
+                        .map(section::getConfigurationSection)
+                        .map(ConfigParser::parseMobWrapper).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -59,7 +82,7 @@ public class ConfigParser {
                 .helmet(new ItemBuilder(section.getConfigurationSection("armor.helmet")))
                 .leggings(new ItemBuilder(section.getConfigurationSection("armor.chest-plate")))
                 .chestPlate(new ItemBuilder(section.getConfigurationSection("armor.leggings")))
-                .boots(new ItemBuilder(section.getConfigurationSection("armor.boots")).build())
+                .boots(new ItemBuilder(section.getConfigurationSection("armor.boots")))
                 .build();
     }
 

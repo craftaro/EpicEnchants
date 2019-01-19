@@ -32,4 +32,9 @@ public class EnchantManager {
     public Collection<Enchant> getEnchants() {
         return Collections.unmodifiableCollection(enchantMap.values());
     }
+
+
+    public Enchant getEnchantUnsafe(String identifier) {
+        return getEnchant(identifier).orElse(null);
+    }
 }

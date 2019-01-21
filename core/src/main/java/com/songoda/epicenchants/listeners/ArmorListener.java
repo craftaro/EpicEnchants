@@ -3,7 +3,7 @@ package com.songoda.epicenchants.listeners;
 import com.songoda.epicenchants.events.ArmorEquipEvent;
 import com.songoda.epicenchants.events.ArmorEquipEvent.ArmorType;
 import com.songoda.epicenchants.events.ArmorEquipEvent.EquipMethod;
-import com.songoda.epicenchants.utils.VersionDependentList;
+import com.songoda.epicenchants.utils.VersionDependent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -106,7 +106,7 @@ public class ArmorListener implements Listener {
             final Player player = e.getPlayer();
             if (e.getClickedBlock() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {// Having both of these checks is useless, might as well do it though.
                 // Some blocks have actions when you right click them which stops the client from equipping the armor in hand.
-                if (VersionDependentList.getBlackList().stream().anyMatch(type -> e.getClickedBlock().getType().equals(type))) {
+                if (VersionDependent.getBlackList().stream().anyMatch(type -> e.getClickedBlock().getType().equals(type))) {
                     return;
                 }
             }

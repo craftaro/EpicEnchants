@@ -61,7 +61,7 @@ public class EnchantUtils {
     }
 
     public void handlePlayer(Player player, Event event, EnchantProcType damageType) {
-        List<ItemStack> stacks = Arrays.asList(player.getInventory().getArmorContents());
+        List<ItemStack> stacks = new ArrayList<>(Arrays.asList(player.getInventory().getArmorContents()));
         stacks.add(player.getItemInHand());
         stacks.removeIf(Objects::isNull);
 
@@ -69,8 +69,10 @@ public class EnchantUtils {
             switch (damageType) {
                 case DAMAGED:
                     enchant.onReceiveDamage((EntityDamageByEntityEvent) event, level);
+                    break;
                 case DEALT_DAMAGE:
                     enchant.onDealDamage((EntityDamageByEntityEvent) event, level);
+                    break;
                 case MINED:
                     enchant.onMine((BlockBreakEvent) event, level);
             }

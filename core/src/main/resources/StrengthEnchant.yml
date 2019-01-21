@@ -7,6 +7,9 @@ max-level: 3
 #The tier of this enchant
 tier: 1
 
+#Type of material this enchant will be applied to (WEAPON/ARMOR/TOOL)
+type: ARMOR
+
 #The book item
 book-item:
   material: BOOK
@@ -25,56 +28,71 @@ item-whitelist:
   - "IRON_HELMET"
   - "LEATHER_HELMET"
 
-#Potion effects applied on equip
+#Potion effect applied on equip
 potion-effects:
   INCREASE_DAMAGE:
     amplifier: "{level}"
     duration: MAX
 
-#Type of material this enchant will be applied to (WEAPON/ARMOR/TOOL)
-type: ARMOR
+#Custom effect:
+# FLY:
+# LIGHTNING:
+#
+#
+#
+#
+#
+effects:
+  FLY:
+    type: "STATIC_EFFECT"
+    chance: 20
+    who: OPPONENT
 
-#On hit or deal damage
-action:
-  #Percentage that will be added or subtracted from the total damage.
-  modify-damage: 40
-  potion-effects-wearer:
-    STRENGTH:
-      duration: 3
-      chance: "20 * {level}"
-      amplifier: 2
-  potion-effects-opponent:
-    STRENGTH:
-      duration: 3
-      chance: "20 * {level}"
-      amplifier: 2
-  #Spawned when hit or when you strike an enemy in case of tools
-  mobs:
-    IRON_GOLEM:
-      amount: 3
-      spawn-percentage: 20
-      health: 80
-      attack-damage: 2
-      hostile: true
-      display-name: "&cAngry guy"
-      armor:
-        helmet:
-          material: DIAMOND_HELMET
-          enchants:
-            - "DURABILITY:3"
-            - "THORNS:2"
-        chest-plate:
-          material: DIAMOND_CHESTPLATE
-          enchants:
-            - "DURABILITY:3"
-            - "THORNS:2"
-        leggings:
-          material: DIAMOND_LEGGINGS
-          enchants:
-            - "DURABILITY:3"
-            - "THORNS:2"
-        boots:
-          material: DIAMOND_BOOTS
-          enchants:
-            - "DURABILITY:3"
-            - "THORNS:2"
+#Percentage that will be added or subtracted from the total damage.
+modify-damage: 40
+
+#Potion effect that will given to the wearer on damage
+potion-effects-wearer:
+  SPEED:
+    duration: 3
+    chance: "20 * {level}"
+    amplifier: 2
+
+#Potion effect that will given to the opponent on damage
+potion-effects-opponent:
+  SPEED:
+    duration: 3
+    chance: "20 * {level}"
+    amplifier: 2
+
+#Spawned when hit or when you strike an enemy in case of tools
+mobs:
+  ZOMBIE:
+    max-amount: 3
+    spawn-percentage: 20
+    armor-drop-chance: 0
+    health: 20
+    attack-damage: 2
+    hostile: true
+    display-name: "&cAngry guy"
+    equipment:
+      helmet:
+        material: DIAMOND_HELMET
+        enchants:
+          - "DURABILITY:3"
+          - "THORNS:2"
+      chestplate:
+        material: DIAMOND_CHESTPLATE
+        enchants:
+          - "DURABILITY:3"
+          - "THORNS:2"
+      leggings:
+        material: DIAMOND_LEGGINGS
+        enchants:
+          - "DURABILITY:3"
+          - "THORNS:2"
+      boots:
+        material: DIAMOND_BOOTS
+        enchants:
+          - "DURABILITY:3"
+          - "THORNS:2"

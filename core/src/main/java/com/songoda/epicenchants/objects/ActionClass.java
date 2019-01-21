@@ -12,8 +12,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.songoda.epicenchants.enums.EnchantProcType.*;
-import static com.songoda.epicenchants.enums.MaterialType.*;
+import static com.songoda.epicenchants.enums.EnchantProcType.DAMAGED;
+import static com.songoda.epicenchants.enums.EnchantProcType.DEALT_DAMAGE;
+import static com.songoda.epicenchants.enums.MaterialType.ARMOR;
+import static com.songoda.epicenchants.enums.MaterialType.WEAPON;
 
 @Builder
 public class ActionClass {
@@ -26,12 +28,12 @@ public class ActionClass {
         potionEffectsWearer.stream().filter(p -> p.test(level)).forEach(p -> p.perform(wearer, level));
         Optional.ofNullable(opponent).ifPresent(a -> potionEffectOpponent.stream().filter(p -> p.test(level)).forEach(p -> p.perform(opponent, level)));
 
-        mobs.forEach(mob -> mob.trySpawn(wearer.getLocation(), level));
+        mobs.forEach(mob -> mob.trySpawn(wearer, opponent, level));
 
         double percentage = 0;
 
-        if((procType == DAMAGED && type == ARMOR) || (procType == DEALT_DAMAGE && type == WEAPON)) {
-            percentage = modifyDamage.get(level);
+        if ((procType == DAMAGED && type == ARMOR) || (procType == DEALT_DAMAGE && type == WEAPON)) {
+            percentage = modifyDamage.get(level) / 100.0;
         }
 
         return damage + damage * percentage;

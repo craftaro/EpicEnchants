@@ -1,10 +1,11 @@
 title: "Books"
-rows: 3
+rows: 1
 
-fill:
-  material: "STAINED_GLASS_PANE"
-  display-name: "&r"
-  data: 7
+#You can choose to fill the entire inventory witht this material
+#fill:
+#  material: "MATERIAL_HERE"
+#  display-name: "&r"
+#  data: 7
 
 contents:
   1:

@@ -10,7 +10,7 @@ import com.songoda.epicenchants.managers.EnchantManager;
 import com.songoda.epicenchants.managers.FileManager;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
-import com.songoda.epicenchants.utils.VersionDependentList;
+import com.songoda.epicenchants.utils.VersionDependent;
 import com.songoda.epicenchants.utils.parser.InventoryParser;
 import fr.minuskube.inv.InventoryManager;
 import fr.minuskube.inv.SmartInventory;
@@ -100,9 +100,9 @@ public class EpicEnchants extends JavaPlugin {
         int currentVersion = Integer.parseInt(getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[1]);
 
         if(currentVersion >= 13) {
-            VersionDependentList.initDefault();
+            VersionDependent.initDefault(currentVersion);
         } else {
-            VersionDependentList.initLegacy();
+            VersionDependent.initLegacy(currentVersion);
         }
     }
 

@@ -12,7 +12,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.util.Map;
 
-import static com.songoda.epicenchants.enums.EnchantProcType.*;
+import static com.songoda.epicenchants.enums.EnchantProcType.DAMAGED;
+import static com.songoda.epicenchants.enums.EnchantProcType.DEALT_DAMAGE;
 
 public class PlayerListener implements Listener {
     private final EpicEnchants instance;
@@ -32,7 +33,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() != EntityType.PLAYER || (event.getDamager() instanceof Player)) {
+        if (event.getEntityType() != EntityType.PLAYER || !(event.getDamager() instanceof Player)) {
             return;
         }
         Player player = (Player) event.getEntity();

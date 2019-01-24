@@ -7,7 +7,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class LeveledModifier {
-    private String string;
+    private final String string;
 
     private LeveledModifier(String string) {
         this.string = string;
@@ -17,7 +17,7 @@ public class LeveledModifier {
         return new LeveledModifier(string);
     }
 
-    public double get(int level, int def) {
+    public double get(int level, double def) {
         if (string == null || string.isEmpty()) {
             return def;
         }

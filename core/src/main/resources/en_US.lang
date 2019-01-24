@@ -6,6 +6,9 @@ general.nametag.prefix= "&8[&6EpicEnchants&8]"
 
 command.book.give= "&7You have been given a &6tier {tier} &7Book."
 command.book.gave= "&7You gave {player} a &6tier {tier} &7Book."
+command.list= "&6{enchant} &7- {effects}"
+command.reload= "&6Configuration files reload"
+command.filereload= "&6{file} has been reloaded&7, please check console for potential errors."
 
 #Event Messages
 

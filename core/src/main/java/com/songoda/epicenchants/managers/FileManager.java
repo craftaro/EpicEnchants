@@ -9,9 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.songoda.epicenchants.utils.parser.ConfigParser.parseEnchant;
 import static java.io.File.separator;
@@ -55,19 +53,35 @@ public class FileManager {
     }
 
     public void loadEnchants() {
-        File dir = new File(instance.getDataFolder() + separator + "enchants" + separator);
-        Arrays.stream(dir.listFiles((dir1, filename) -> filename.endsWith(".yml"))).forEach(file -> {
-            try {
-                instance.getEnchantManager().addEnchant(parseEnchant(YamlConfiguration.loadConfiguration(file)));
-            } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("Something went wrong loading the enchant from file " + file.getName());
-                Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");
-                e.printStackTrace();
-            }
-        });
+        getEnchantFiles().ifPresent(list -> list.forEach(this::loadEnchant));
     }
 
     public FileConfiguration getConfiguration(String key) {
         return configurationMap.get(key);
+    }
+
+    public void loadEnchant(File file) {
+        try {
+            instance.getEnchantManager().addEnchant(parseEnchant(YamlConfiguration.loadConfiguration(file)));
+        } catch (Exception e) {
+            Bukkit.getConsoleSender().sendMessage("Something went wrong loading the enchant from file " + file.getName());
+            Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");
+            e.printStackTrace();
+        }
+    }
+
+    public Optional<File> getEnchantFile(String path) {
+        File file = new File(instance.getDataFolder() + separator + "enchants" + separator + path);
+        return file.exists() ? Optional.of(file) : Optional.empty();
+    }
+
+    public Optional<List<File>> getEnchantFiles() {
+        File dir = new File(instance.getDataFolder() + separator + "enchants" + separator);
+        File[] files = dir.listFiles((dir1, filename) -> filename.endsWith(".yml"));
+
+        if (files != null)
+            return Optional.of(Arrays.asList(files));
+
+        return Optional.empty();
     }
 }

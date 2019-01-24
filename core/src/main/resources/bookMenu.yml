@@ -9,7 +9,7 @@ rows: 1
 
 contents:
   1:
-    material: "BOOK"
+    material: "PAPER"
     display-name: "&cClick to purchase random book"
     data: 7
     tier: 1

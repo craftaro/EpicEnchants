@@ -10,6 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.File;
+import java.util.stream.Collectors;
+
 @CommandAlias("epicenchants|ee")
 public class EnchantCommand extends BaseCommand {
 
@@ -30,8 +33,8 @@ public class EnchantCommand extends BaseCommand {
     @CommandPermission("epicenchants.give")
     public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         target.getInventory().addItem(enchant.getBookItem().get(enchant, level, successRate, destroyRate));
-        target.sendMessage(instance.getLocale().getMessageWithPrefix("command.given", enchant.getIdentifier()));
-        sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.gave", target.getName(), enchant.getIdentifier()));
+        target.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.given", enchant.getIdentifier()));
+        sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.gave", target.getName(), enchant.getIdentifier()));
     }
 
     //ee apply {enchant} {tier}
@@ -63,5 +66,32 @@ public class EnchantCommand extends BaseCommand {
 
         player.sendMessage(instance.getLocale().getMessageWithPrefix(messageKey, enchant.getIdentifier()));
         player.getInventory().setItem(slot, result.getLeft());
+    }
+
+    //ee list
+    @Subcommand("list")
+    @CommandPermission("epicenchants.list")
+    @Description("List all enchants with their effects")
+    public void onList(Player player) {
+        instance.getEnchantManager().getEnchants().forEach(enchant ->
+                player.sendMessage(instance.getLocale().getMessageWithPrefix("command.list", enchant.getIdentifier(),
+                        enchant.getEffectExecutors().stream().map(s -> s.getClass().getSimpleName()).collect(Collectors.joining(", ")))));
+    }
+
+    //ee reload [enchantFileName]
+    @Subcommand("reload")
+    @CommandAlias("load")
+    @Description("Reload all config files, or reload/load specific enchant files")
+    @CommandCompletion("@enchantFiles")
+    public void onReload(Player player, @Optional File fileName) {
+        if (fileName == null) {
+            instance.reload();
+            player.sendMessage(instance.getLocale().getMessageWithPrefix("command.reload"));
+            return;
+        }
+
+        instance.getFileManager().loadEnchant(fileName);
+        player.sendMessage(instance.getLocale().getMessageWithPrefix("command.filereload", fileName.getName()));
+
     }
 }

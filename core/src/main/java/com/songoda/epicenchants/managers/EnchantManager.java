@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class EnchantManager {
-    private Map<String, Enchant> enchantMap;
+    private final Map<String, Enchant> enchantMap;
 
     public EnchantManager() {
         this.enchantMap = new HashMap<>();

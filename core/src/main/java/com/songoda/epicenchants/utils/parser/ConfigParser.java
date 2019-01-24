@@ -15,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -31,17 +32,17 @@ public class ConfigParser {
                 .bookItem(parseBookItem(config.getConfigurationSection("book-item")))
                 .itemWhitelist(config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()))
                 .conflict(new HashSet<>(config.getStringList("conflicting-enchants")))
-                .mobs(config.getConfigurationSection("mobs").getKeys(false).stream()
+                .mobs(config.isConfigurationSection("mobs") ? config.getConfigurationSection("mobs").getKeys(false).stream()
                         .map(s -> "mobs." + s)
                         .map(config::getConfigurationSection)
-                        .map(ConfigParser::parseMobWrapper).collect(Collectors.toSet()))
-                .effectExecutors(config.getConfigurationSection("effects").getKeys(false).stream()
+                        .map(ConfigParser::parseMobWrapper).collect(Collectors.toSet()) : Collections.emptySet())
+                .effectExecutors(config.isConfigurationSection("effects") ? config.getConfigurationSection("effects").getKeys(false).stream()
                         .map(s -> "effects." + s)
                         .map(config::getConfigurationSection)
                         .map(EffectManager::getEffect)
                         .map(o -> o.orElse(null))
                         .filter(Objects::nonNull)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toSet()) : Collections.emptySet())
                 .build();
     }
 

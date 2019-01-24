@@ -1,21 +1,19 @@
 package com.songoda.epicenchants.utils;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.bukkit.Material.*;
+import static org.bukkit.Material.valueOf;
 
 public class VersionDependent {
-    private static Set<Material> blacklistLegacy;
     private static Set<Material> blacklist;
     private static int version;
 
     public static void initLegacy(int serverVersion) {
         version = serverVersion;
-        blacklistLegacy = new HashSet<Material>() {
+        blacklist = new HashSet<Material>() {
             {
                 add(valueOf("FURNACE"));
                 add(valueOf("CHEST"));
@@ -172,50 +170,7 @@ public class VersionDependent {
     }
 
     public static Set<Material> getBlackList() {
-        return !blacklist.isEmpty() ? blacklist : !blacklistLegacy.isEmpty() ? blacklistLegacy : null;
-    }
-
-    public static ItemStack getStainedGlassPane(int data) {
-        if (version >= 13) {
-            switch (data) {
-                case 0:
-                    return new ItemStack(WHITE_STAINED_GLASS_PANE);
-                case 1:
-                    return new ItemStack(ORANGE_STAINED_GLASS_PANE);
-                case 2:
-                    return new ItemStack(MAGENTA_STAINED_GLASS_PANE);
-                case 3:
-                    return new ItemStack(LIGHT_BLUE_STAINED_GLASS_PANE);
-                case 4:
-                    return new ItemStack(YELLOW_STAINED_GLASS_PANE);
-                case 5:
-                    return new ItemStack(LIME_STAINED_GLASS_PANE);
-                case 6:
-                    return new ItemStack(PINK_STAINED_GLASS);
-                case 7:
-                    return new ItemStack(GRAY_STAINED_GLASS_PANE);
-                case 8:
-                    return new ItemStack(LIGHT_GRAY_STAINED_GLASS_PANE);
-                case 9:
-                    return new ItemStack(CYAN_STAINED_GLASS_PANE);
-                case 10:
-                    return new ItemStack(PURPLE_STAINED_GLASS_PANE);
-                case 11:
-                    return new ItemStack(BLUE_STAINED_GLASS_PANE);
-                case 12:
-                    return new ItemStack(BROWN_STAINED_GLASS_PANE);
-                case 13:
-                    return new ItemStack(GREEN_STAINED_GLASS_PANE);
-                case 14:
-                    return new ItemStack(RED_STAINED_GLASS_PANE);
-                case 15:
-                    return new ItemStack(BLACK_STAINED_GLASS_PANE);
-                default:
-                    return null;
-            }
-        }
-
-        return new ItemStack(Material.valueOf("STAINED_GLASS_PANE"), 1, (short) data);
+        return blacklist;
     }
 }
 

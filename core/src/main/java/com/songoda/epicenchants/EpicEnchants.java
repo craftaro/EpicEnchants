@@ -5,6 +5,7 @@ import co.aikar.commands.InvalidCommandArgument;
 import com.songoda.epicenchants.commands.EnchantCommand;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.BookListener;
+import com.songoda.epicenchants.listeners.EntityListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
 import com.songoda.epicenchants.managers.EnchantManager;
 import com.songoda.epicenchants.managers.FileManager;
@@ -19,6 +20,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -79,8 +82,12 @@ public class EpicEnchants extends JavaPlugin {
         this.commandManager = new BukkitCommandManager(this);
 
         commandManager.registerDependency(EpicEnchants.class, "instance", this);
+
         commandManager.getCommandCompletions().registerCompletion("enchants", c -> enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
-        commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No echant exists by that name")));
+        commandManager.getCommandCompletions().registerCompletion("enchantFiles", c -> fileManager.getEnchantFiles().orElse(Collections.emptyList()).stream().map(File::getName).collect(Collectors.toList()));
+
+        commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No enchant exists by that name")));
+        commandManager.getCommandContexts().registerContext(File.class, c -> fileManager.getEnchantFile(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No EnchantFile exists by that name")));
 
         commandManager.registerCommand(new EnchantCommand());
     }
@@ -91,6 +98,7 @@ public class EpicEnchants extends JavaPlugin {
             add(new BookListener(instance));
             add(new ArmorListener());
             add(new PlayerListener(instance));
+            add(new EntityListener(instance));
         }}.forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 
@@ -104,4 +112,9 @@ public class EpicEnchants extends JavaPlugin {
         }
     }
 
+    public void reload() {
+        reloadConfig();
+        locale.reloadMessages();
+        fileManager.loadEnchants();
+    }
 }

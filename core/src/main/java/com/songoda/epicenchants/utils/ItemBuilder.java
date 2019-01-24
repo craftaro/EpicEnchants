@@ -18,7 +18,7 @@ public class ItemBuilder {
 
     private final ItemStack item;
     private ItemMeta meta;
-    private Set<EnchantmentWrapper> enchantmentWrappers;
+    private final Set<EnchantmentWrapper> enchantmentWrappers;
 
     /*
      * Constructors:

@@ -28,11 +28,11 @@ public class FastInv implements InventoryHolder {
 
     private static Plugin plugin = null;
     private boolean cancelTasksOnClose = true;
-    private Set<FastInvClickListener> clickListeners = new HashSet<>();
-    private Set<FastInvCloseListener> closeListeners = new HashSet<>();
+    private final Set<FastInvClickListener> clickListeners = new HashSet<>();
+    private final Set<FastInvCloseListener> closeListeners = new HashSet<>();
     private Inventory inventory;
-    private Map<Integer, FastInvClickListener> itemListeners = new HashMap<>();
-    private Set<BukkitTask> tasks = new HashSet<>();
+    private final Map<Integer, FastInvClickListener> itemListeners = new HashMap<>();
+    private final Set<BukkitTask> tasks = new HashSet<>();
 
     /**
      * Create a new FastInv with a custom size.
@@ -422,8 +422,8 @@ public class FastInv implements InventoryHolder {
     public static abstract class FastInvEvent {
 
         private boolean cancelled;
-        private FastInv inventory;
-        private Player player;
+        private final FastInv inventory;
+        private final Player player;
 
         FastInvEvent(Player player, FastInv inventory, boolean cancelled) {
             this.player = player;
@@ -470,10 +470,10 @@ public class FastInv implements InventoryHolder {
 
     public static class FastInvClickEvent extends FastInvEvent {
 
-        private InventoryAction action;
-        private ClickType clickType;
-        private ItemStack item;
-        private int slot;
+        private final InventoryAction action;
+        private final ClickType clickType;
+        private final ItemStack item;
+        private final int slot;
 
         private FastInvClickEvent(Player player, FastInv inventory, int slot, ItemStack item,
                                   boolean cancelled, InventoryAction action, ClickType clickType) {

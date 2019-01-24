@@ -33,7 +33,7 @@ public class EnchantUtils {
             return GeneralUtils.chance(destroyRate) ? Pair.of(new ItemStack(Material.AIR), BROKEN_FAILURE) : Pair.of(itemStack, FAILURE);
         }
 
-        if (getEnchants(itemStack).keySet().stream().anyMatch(s -> enchant.getIdentifier().equalsIgnoreCase(s.getIdentifier()))) {
+        if (getEnchants(itemStack).keySet().stream().anyMatch(s -> enchant.getConflict().contains(s.getIdentifier()))) {
             return Pair.of(itemStack, CONFLICT);
         }
 

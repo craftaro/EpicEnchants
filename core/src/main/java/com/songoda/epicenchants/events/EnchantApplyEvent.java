@@ -10,9 +10,11 @@ import org.bukkit.inventory.ItemStack;
 @Getter
 public class EnchantApplyEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private ItemStack toEnchant;
-    private Enchant enchant;
-    private int level, successRate, destroyRate;
+    private final ItemStack toEnchant;
+    private final Enchant enchant;
+    private final int level;
+    private final int successRate;
+    private final int destroyRate;
     private boolean cancelled = false;
 
     public EnchantApplyEvent(ItemStack toEnchant, Enchant enchant, int level, int successRate, int destroyRate) {

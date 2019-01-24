@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.effect;
 
-import com.songoda.epicenchants.enums.EnchantType;
+import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.GeneralUtils;
@@ -16,15 +16,15 @@ import static com.songoda.epicenchants.effect.EffectExecutor.Who.WEARER;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
-    @Getter private final EnchantType enchantType;
+    @Getter private final EffectType effectType;
 
     public EffectExecutor(ConfigurationSection section) {
         this.section = section;
-        this.enchantType = EnchantType.valueOf(section.getString("type"));
+        this.effectType = EffectType.valueOf(section.getString("type"));
     }
 
-    public void testAndRun(Player wearer, Player opponent, int level, EnchantType type, Event event, EventType eventType) {
-        if (type != enchantType) {
+    public void testAndRun(Player wearer, Player opponent, int level, EffectType type, Event event, EventType eventType) {
+        if (type != effectType) {
             return;
         }
 
@@ -55,7 +55,7 @@ public abstract class EffectExecutor {
     }
 
     public void consume(Consumer<Player> playerConsumer, Player wearer, Player opponent) {
-        if (enchantType == EnchantType.HELD_ITEM || enchantType == EnchantType.STATIC_EFFECT) {
+        if (effectType == EffectType.HELD_ITEM || effectType == EffectType.STATIC_EFFECT) {
             playerConsumer.accept(wearer);
             return;
         }

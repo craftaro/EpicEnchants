@@ -36,7 +36,7 @@ effects:
   #The "-1" is added because every effect key has to be unique.
   POTION-1:
     #The EffectType
-    type: DEFENSE_PLAYER
+    type: DEFENSE_PLAYER_MELEE
     #What player should the effect be ran on
     who: WEARER
     potion-type: SPEED
@@ -54,7 +54,7 @@ mobs:
   #EntityType
   ZOMBIE:
     #Max amount zombies that will be spawned
-    effect-type: DEFENSE_PLAYER
+    effect-type: DEFENSE_PLAYER_MELEE
     max-amount: "{level}"
     spawn-percentage: "20 * {level}"
     equipment-drop-chance: "10 * {level}"

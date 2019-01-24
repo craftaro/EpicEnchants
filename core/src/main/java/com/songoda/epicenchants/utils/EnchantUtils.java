@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.utils;
 
 import com.songoda.epicenchants.EpicEnchants;
+import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EnchantResult;
-import com.songoda.epicenchants.enums.EnchantType;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.Enchant;
 import de.tr7zw.itemnbtapi.NBTCompound;
@@ -17,8 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.songoda.epicenchants.enums.EffectType.HELD_ITEM;
 import static com.songoda.epicenchants.enums.EnchantResult.*;
-import static com.songoda.epicenchants.enums.EnchantType.HELD_ITEM;
 
 public class EnchantUtils {
 
@@ -66,12 +66,16 @@ public class EnchantUtils {
                 .collect(Collectors.toMap(key -> instance.getEnchantManager().getEnchantUnsafe(key), compound::getInteger));
     }
 
-    public void handlePlayer(Player player, Event event, EnchantType enchantType) {
+    public void handlePlayer(Player player, Event event, EffectType effectType) {
+        if (player == null) {
+            return;
+        }
+
         List<ItemStack> stacks = new ArrayList<>(Arrays.asList(player.getInventory().getArmorContents()));
         stacks.add(player.getItemInHand());
         stacks.removeIf(Objects::isNull);
 
-        if (enchantType == HELD_ITEM) {
+        if (effectType == HELD_ITEM) {
             stacks = Collections.singletonList(player.getItemInHand());
         }
 
@@ -80,7 +84,7 @@ public class EnchantUtils {
                     ((EntityDamageByEntityEvent) event).getDamager() instanceof Player ?
                             ((Player) ((EntityDamageByEntityEvent) event).getDamager()) : null : null;
 
-            enchant.onAction(player, opponent, event, level, enchantType, EventType.NONE);
+            enchant.onAction(player, opponent, event, level, effectType, EventType.NONE);
         }));
     }
 }

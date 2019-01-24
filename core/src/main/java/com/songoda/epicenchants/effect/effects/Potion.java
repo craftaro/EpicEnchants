@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
-import com.songoda.epicenchants.enums.EnchantType;
+import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.GeneralUtils;
@@ -28,7 +28,7 @@ public class Potion extends EffectExecutor {
             return;
         }
 
-        if (getEnchantType() == EnchantType.STATIC_EFFECT || getEnchantType() == EnchantType.HELD_ITEM) {
+        if (this.getEffectType() == EffectType.STATIC_EFFECT || this.getEffectType() == EffectType.HELD_ITEM) {
             if (eventType == EventType.ON) {
                 consume(player -> player.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, ((int) amplifier.get(level, 0)))), wearer, opponent);
             } else if (eventType == EventType.OFF) {

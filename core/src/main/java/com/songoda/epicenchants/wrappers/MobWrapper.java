@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.wrappers;
 
-import com.songoda.epicenchants.enums.EnchantType;
+import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.GeneralUtils;
 import com.songoda.epicenchants.utils.ItemBuilder;
@@ -20,7 +20,7 @@ public class MobWrapper {
     private String displayName;
     private EntityType entityType;
     private LeveledModifier attackDamage;
-    private EnchantType enchantType;
+    private EffectType effectType;
     private LeveledModifier equipmentDropChance;
     private LeveledModifier spawnPercentage;
     private LeveledModifier health;
@@ -28,8 +28,8 @@ public class MobWrapper {
     private boolean hostile;
     private LeveledModifier maxAmount;
 
-    public void trySpawn(@NotNull Player player, Player opponent, int level, EnchantType enchantType) {
-        if (this.enchantType != enchantType) {
+    public void trySpawn(@NotNull Player player, Player opponent, int level, EffectType effectType) {
+        if (this.effectType != effectType) {
             return;
         }
 

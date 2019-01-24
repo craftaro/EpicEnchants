@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.utils.parser;
 
 import com.songoda.epicenchants.effect.EffectManager;
-import com.songoda.epicenchants.enums.EnchantType;
+import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.objects.BookItem;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.LeveledModifier;
@@ -47,7 +47,7 @@ public class ConfigParser {
 
     public static MobWrapper parseMobWrapper(ConfigurationSection section) {
         return section != null ? MobWrapper.builder()
-                .enchantType(EnchantType.valueOf(section.getString("effect-type")))
+                .effectType(EffectType.valueOf(section.getString("effect-type")))
                 .entityType(EntityType.valueOf(section.getName()))
                 .maxAmount(LeveledModifier.of(section.getString("max-amount")))
                 .spawnPercentage(LeveledModifier.of(section.getString("spawn-percentage")))

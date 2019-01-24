@@ -17,8 +17,12 @@ public class LeveledModifier {
         return new LeveledModifier(string);
     }
 
-    public double get(int level) {
-        if (string.isEmpty() || string.equalsIgnoreCase("MAX")) {
+    public double get(int level, int def) {
+        if (string == null || string.isEmpty()) {
+            return def;
+        }
+
+        if (string.equalsIgnoreCase("MAX")) {
             return Integer.MAX_VALUE;
         }
 
@@ -28,7 +32,7 @@ public class LeveledModifier {
             return Double.parseDouble(scriptEngine.eval(string.replace("{level}", "" + level)).toString());
         } catch (ScriptException | NumberFormatException e) {
             Bukkit.getLogger().warning("[EpicEnchants] One of your math expressions is not properly formatted.");
-            return 0;
+            return def;
         }
     }
 }

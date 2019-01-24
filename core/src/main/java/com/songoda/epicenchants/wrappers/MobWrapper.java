@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.wrappers;
 
+import com.songoda.epicenchants.enums.EnchantType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.GeneralUtils;
 import com.songoda.epicenchants.utils.ItemBuilder;
@@ -17,24 +18,28 @@ import static java.util.concurrent.ThreadLocalRandom.current;
 @Builder
 public class MobWrapper {
     private String displayName;
-    private int amount;
-    private int health;
-    private int armorDropChance;
     private EntityType entityType;
+    private LeveledModifier attackDamage;
+    private EnchantType enchantType;
+    private LeveledModifier equipmentDropChance;
     private LeveledModifier spawnPercentage;
-    private double attackDamage;
+    private LeveledModifier health;
+    private ItemBuilder helmet, chestPlate, leggings, boots, handItem;
     private boolean hostile;
-    private ItemBuilder helmet, chestPlate, leggings, boots;
+    private LeveledModifier maxAmount;
 
-    public boolean trySpawn(@NotNull Player player, Player opponent, int level) {
-        if (!GeneralUtils.chance(spawnPercentage.get(level))) {
-            return false;
+    public void trySpawn(@NotNull Player player, Player opponent, int level, EnchantType enchantType) {
+        if (this.enchantType != enchantType) {
+            return;
+        }
+
+        if (!GeneralUtils.chance(spawnPercentage.get(level, 100))) {
+            return;
         }
 
         Location location = player.getLocation();
 
-
-        for (int i = 0; i < current().nextInt(amount + 1); i++) {
+        for (int i = 0; i < current().nextInt((int) (maxAmount.get(level, 1) + 1)); i++) {
             Location spawnLocation = location.clone().add(current().nextInt(-3, 3), 0, current().nextInt(-3, 3));
             int y = location.getWorld().getHighestBlockAt(spawnLocation).getY();
 
@@ -44,19 +49,24 @@ public class MobWrapper {
 
             Entity entity = location.getWorld().spawnEntity(spawnLocation, entityType);
 
-            entity.setCustomName(displayName);
+            entity.setCustomName(displayName.replace("{level}", "" + level));
             entity.setCustomNameVisible(true);
 
             if (entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;
-                livingEntity.getEquipment().setHelmet(helmet.buildWithWrappers(level));
-                livingEntity.getEquipment().setChestplate(chestPlate.buildWithWrappers(level));
-                livingEntity.getEquipment().setLeggings(leggings.buildWithWrappers(level));
-                livingEntity.getEquipment().setBoots(boots.buildWithWrappers(level));
-                livingEntity.getEquipment().setHelmetDropChance(armorDropChance);
-                livingEntity.getEquipment().setLeggingsDropChance(armorDropChance);
-                livingEntity.getEquipment().setHelmetDropChance(armorDropChance);
-                livingEntity.getEquipment().setChestplateDropChance(armorDropChance);
+                int dropChance = (int) equipmentDropChance.get(level, 0);
+
+                if (helmet != null) livingEntity.getEquipment().setHelmet(helmet.buildWithWrappers(level));
+                if (chestPlate != null) livingEntity.getEquipment().setChestplate(chestPlate.buildWithWrappers(level));
+                if (leggings != null) livingEntity.getEquipment().setLeggings(leggings.buildWithWrappers(level));
+                if (boots != null) livingEntity.getEquipment().setBoots(boots.buildWithWrappers(level));
+                livingEntity.getEquipment().setHelmetDropChance(dropChance);
+                livingEntity.getEquipment().setLeggingsDropChance(dropChance);
+                livingEntity.getEquipment().setHelmetDropChance(dropChance);
+                livingEntity.getEquipment().setChestplateDropChance(dropChance);
+
+                if (handItem != null) livingEntity.getEquipment().setItemInMainHand(handItem.buildWithWrappers(level));
+                livingEntity.getEquipment().setItemInMainHandDropChance(dropChance);
             }
 
             if (entity instanceof Monster && opponent != null) {
@@ -69,16 +79,16 @@ public class MobWrapper {
             for (int j = 0; j < list.size(); j++) {
                 NBTListCompound lc = list.getCompound(j);
                 if (lc.getString("Name").equals("generic.attackDamage")) {
-                    lc.setDouble("Base", attackDamage);
+                    lc.setDouble("Base", attackDamage.get(level, (int) lc.getDouble("Base")));
                     continue;
                 }
 
                 if (lc.getString("Name").equals("generic.maxHealth")) {
-                    lc.setDouble("Base", health);
+                    lc.setDouble("Base", health.get(level, (int) lc.getDouble("Base")));
                 }
             }
         }
 
-        return true;
+        return;
     }
 }

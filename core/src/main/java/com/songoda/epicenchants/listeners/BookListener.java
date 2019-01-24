@@ -7,13 +7,13 @@ import com.songoda.epicenchants.objects.Enchant;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 public class BookListener implements Listener {
@@ -25,25 +25,16 @@ public class BookListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getCursor() == null || event.getCurrentItem() == null || (event.getWhoClicked().getGameMode() != GameMode.CREATIVE && event.getAction() != InventoryAction.SWAP_WITH_CURSOR)) {
+        if (event.getCursor() == null || event.getCurrentItem() == null || event.getAction() != InventoryAction.SWAP_WITH_CURSOR || event.getClickedInventory().getType() == InventoryType.CREATIVE) {
             return;
         }
 
         NBTItem nbtItem = new NBTItem(event.getCursor());
         ItemStack toApplyTo = event.getCurrentItem();
-        boolean incorrectItem = false;
 
-        try {
-            if (!nbtItem.getBoolean("book-item")) {
-                incorrectItem = true;
-                return;
-            }
-        } catch (NullPointerException ignore) {
-            incorrectItem = true;
+        if (!nbtItem.getBoolean("book-item")) {
+            return;
         }
-
-        if(incorrectItem) return;
-
 
         Enchant enchant = instance.getEnchantManager().getEnchant(nbtItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 

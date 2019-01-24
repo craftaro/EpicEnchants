@@ -1,0 +1,89 @@
+#The enchant identifier must be unique
+identifier: ExampleEnchant
+
+#The max tier for this enchant
+max-level: 4
+
+#The tier of this enchant
+tier: 1
+
+#The book item
+book-item:
+  material: BOOK
+  display-name: "&cExampleEnchant {level}"
+  lore:
+    - "&7Drag on to enchant"
+    - "&cDestroy Rate {destroy_rate}"
+    - "&aSuccess Rate {success_rate}"
+
+#Format as seen in the lore of the item
+applied-format: "&cExampleEnchant {level}"
+
+#What items this enchant can be applied too
+item-whitelist:
+  - "DIAMOND_HELMET"
+  - "IRON_HELMET"
+  - "LEATHER_HELMET"
+
+conflicting-enchants:
+  - "someEnchant"
+
+#Effects
+effects:
+  FLY:
+    type: STATIC_EFFECT
+    who: WEARER
+  #The "-1" is added because every effect key has to be unique.
+  POTION-1:
+    #The EffectType
+    type: DEFENSE_PLAYER
+    #What player should the effect be ran on
+    who: WEARER
+    potion-type: SPEED
+    duration: "10 * {level}"
+    chance: "20 * {level}"
+    amplifier: "{level} - 1"
+  POTION-2:
+    type: STATIC_EFFECT
+    who: WEARER
+    potion-type: INCREASE_DAMAGE
+    amplifier: "{level} - 1"
+
+#Chance of spawning when damaged by another player
+mobs:
+  #EntityType
+  ZOMBIE:
+    #Max amount zombies that will be spawned
+    effect-type: DEFENSE_PLAYER
+    max-amount: "{level}"
+    spawn-percentage: "20 * {level}"
+    equipment-drop-chance: "10 * {level}"
+    health: "3 * {level}"
+    attack-damage: "{level}"
+    hostile: true
+    display-name: "&cAngry guy level {level}"
+    equipment:
+      helmet:
+        material: DIAMOND_HELMET
+        enchants:
+          - "DURABILITY:{level}"
+          - "THORNS:{level} - 1"
+      chestplate:
+        material: DIAMOND_CHESTPLATE
+        enchants:
+          - "DURABILITY:{level}"
+          - "THORNS:{level} - 1"
+      leggings:
+        material: DIAMOND_LEGGINGS
+        enchants:
+          - "DURABILITY:{level}"
+          - "THORNS:{level} - 1"
+      boots:
+        material: DIAMOND_BOOTS
+        enchants:
+          - "DURABILITY:{level}"
+          - "THORNS:{level} - 1"
+      hand-item:
+        material: DIAMOND_SWORD
+        enchant:
+          - "SHARPNESS:{level}"

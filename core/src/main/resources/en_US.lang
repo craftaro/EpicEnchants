@@ -4,7 +4,8 @@ general.nametag.prefix= "&8[&6EpicEnchants&8]"
 
 #Command Messages
 
-command.give.success= "&7You have been given a &6tier {tier} &7Book."
+command.book.give= "&7You have been given a &6tier {tier} &7Book."
+command.book.gave= "&7You gave {player} a &6tier {tier} &7Book."
 
 #Event Messages
 
@@ -18,3 +19,4 @@ enchant.invalidmaterial= "&cYou can not apply &6{enchant} to that item."
 enchant.failure= "&cYou failed to apply &6{enchant}."
 enchant.brokenfailure= "&6{enchant} failed to apply and broke your item..."
 enchant.success= "&aYou have success fully applied &6{enchant}."
+enchant.conflict= "&cYou cannot apply this enchant as it conflicts with another enchant."

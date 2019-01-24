@@ -1,8 +1,9 @@
 package com.songoda.epicenchants.utils;
 
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.enums.EnchantProcType;
 import com.songoda.epicenchants.enums.EnchantResult;
+import com.songoda.epicenchants.enums.EnchantType;
+import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.Enchant;
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
@@ -10,7 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.enums.EnchantResult.*;
+import static com.songoda.epicenchants.enums.EnchantType.HELD_ITEM;
 
 public class EnchantUtils {
 
@@ -30,6 +31,10 @@ public class EnchantUtils {
     public Pair<ItemStack, EnchantResult> apply(ItemStack itemStack, Enchant enchant, int level, int successRate, int destroyRate) {
         if (!GeneralUtils.chance(successRate)) {
             return GeneralUtils.chance(destroyRate) ? Pair.of(new ItemStack(Material.AIR), BROKEN_FAILURE) : Pair.of(itemStack, FAILURE);
+        }
+
+        if (getEnchants(itemStack).keySet().stream().anyMatch(s -> enchant.getIdentifier().equalsIgnoreCase(s.getIdentifier()))) {
+            return Pair.of(itemStack, CONFLICT);
         }
 
         ItemBuilder itemBuilder = new ItemBuilder(itemStack);
@@ -57,25 +62,25 @@ public class EnchantUtils {
             return Collections.emptyMap();
         }
 
-        return compound.getKeys().stream().collect(Collectors.toMap(key -> instance.getEnchantManager().getEnchantUnsafe(key), compound::getInteger));
+        return compound.getKeys().stream().filter(key -> instance.getEnchantManager().getEnchantUnsafe(key) != null)
+                .collect(Collectors.toMap(key -> instance.getEnchantManager().getEnchantUnsafe(key), compound::getInteger));
     }
 
-    public void handlePlayer(Player player, Event event, EnchantProcType damageType) {
+    public void handlePlayer(Player player, Event event, EnchantType enchantType) {
         List<ItemStack> stacks = new ArrayList<>(Arrays.asList(player.getInventory().getArmorContents()));
         stacks.add(player.getItemInHand());
         stacks.removeIf(Objects::isNull);
 
+        if (enchantType == HELD_ITEM) {
+            stacks = Collections.singletonList(player.getItemInHand());
+        }
+
         stacks.stream().map(this::getEnchants).forEach(list -> list.forEach((enchant, level) -> {
-            switch (damageType) {
-                case DAMAGED:
-                    enchant.onReceiveDamage((EntityDamageByEntityEvent) event, level);
-                    break;
-                case DEALT_DAMAGE:
-                    enchant.onDealDamage((EntityDamageByEntityEvent) event, level);
-                    break;
-                case MINED:
-                    enchant.onMine((BlockBreakEvent) event, level);
-            }
+            Player opponent = event instanceof EntityDamageByEntityEvent ?
+                    ((EntityDamageByEntityEvent) event).getDamager() instanceof Player ?
+                            ((Player) ((EntityDamageByEntityEvent) event).getDamager()) : null : null;
+
+            enchant.onAction(player, opponent, event, level, enchantType, EventType.NONE);
         }));
     }
 }

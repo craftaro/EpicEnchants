@@ -9,11 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 
 import java.util.Map;
 
-import static com.songoda.epicenchants.enums.EnchantProcType.DAMAGED;
-import static com.songoda.epicenchants.enums.EnchantProcType.DEALT_DAMAGE;
+import static com.songoda.epicenchants.enums.EnchantType.*;
+import static com.songoda.epicenchants.enums.EventType.OFF;
+import static com.songoda.epicenchants.enums.EventType.ON;
 
 public class PlayerListener implements Listener {
     private final EpicEnchants instance;
@@ -27,19 +29,30 @@ public class PlayerListener implements Listener {
         Map<Enchant, Integer> oldArmorMap = instance.getEnchantUtils().getEnchants(event.getOldArmorPiece());
         Map<Enchant, Integer> newArmorMap = instance.getEnchantUtils().getEnchants(event.getNewArmorPiece());
 
-        oldArmorMap.forEach((enchant, level) -> enchant.onUnEquip(event.getPlayer(), level));
-        newArmorMap.forEach((enchant, level) -> enchant.onEquip(event.getPlayer(), level));
+        oldArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, OFF));
+        newArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getEntityType() != EntityType.PLAYER || !(event.getDamager() instanceof Player)) {
-            return;
+        if (event.getEntityType() == EntityType.PLAYER) {
+            Player defender = (Player) event.getEntity();
+            instance.getEnchantUtils().handlePlayer(defender, event, event.getDamager() instanceof Player ? DEFENSE_PLAYER : DEFENSE_MOB);
         }
-        Player player = (Player) event.getEntity();
-        Player damager = (Player) event.getDamager();
 
-        instance.getEnchantUtils().handlePlayer(player, event, DAMAGED);
-        instance.getEnchantUtils().handlePlayer(damager, event, DEALT_DAMAGE);
+        if (event.getDamager() instanceof Player) {
+            Player attacker = (Player) event.getDamager();
+            instance.getEnchantUtils().handlePlayer(attacker, event, ATTACK_PLAYER);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerItemHeld(PlayerItemHeldEvent event) {
+        instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getNewSlot()))
+                .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
+
+        instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getPreviousSlot()))
+                .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, OFF));
+
     }
 }

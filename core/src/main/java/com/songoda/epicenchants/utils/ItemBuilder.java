@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -158,6 +159,28 @@ public class ItemBuilder {
     }
 
     /*
+     * Skulls:
+     */
+    public boolean hasSkullOwner() {
+        return ((SkullMeta) meta).hasOwner();
+    }
+
+    public String getSkullOwner() {
+        return ((SkullMeta) meta).getOwner();
+    }
+
+    public ItemBuilder skullOwner(String owner) {
+        item.setDurability((short) 3);
+        ((SkullMeta) meta).setOwner(owner);
+        return this;
+    }
+
+    public ItemBuilder durability(int durability) {
+        item.setDurability((short) durability);
+        return this;
+    }
+
+    /*
      * Flags:
      */
     public boolean hasFlag(ItemFlag flag) {
@@ -197,7 +220,7 @@ public class ItemBuilder {
 
     public ItemStack buildWithWrappers(int level) {
         item.setItemMeta(meta);
-        enchantmentWrappers.forEach(enchant -> item.addEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level)));
+        enchantmentWrappers.forEach(enchant -> item.addUnsafeEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level)));
         return item;
     }
 

@@ -1,20 +1,16 @@
 package com.songoda.epicenchants.objects;
 
-import com.songoda.epicenchants.enums.MaterialType;
-import com.songoda.epicenchants.wrappers.PotionEffectWrapper;
+import com.songoda.epicenchants.effect.EffectExecutor;
+import com.songoda.epicenchants.enums.EnchantType;
+import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.wrappers.MobWrapper;
 import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.event.Event;
 
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import static com.songoda.epicenchants.enums.EnchantProcType.*;
 
 @Builder
 @Getter
@@ -22,30 +18,16 @@ public class Enchant {
     private String identifier;
     private int tier;
     private int maxLevel;
-    private MaterialType materialType;
-    private Set<PotionEffectWrapper> potionEffects;
+    private Set<String> conflict;
     private Set<Material> itemWhitelist;
+    private Set<EffectExecutor> effectExecutors;
+    private Set<MobWrapper> mobs;
     private String format;
-    private ActionClass action;
     private BookItem bookItem;
+    private LeveledModifier modifyDamage;
 
-    public void onEquip(Player player, int level) {
-        potionEffects.stream().map(p -> p.get(level)).forEach(player::addPotionEffect);
-    }
-
-    public void onUnEquip(Player player, int level) {
-        Set<PotionEffectType> effects = potionEffects.stream().map(p -> p.get(level)).map(PotionEffect::getType).collect(Collectors.toSet());
-        player.getActivePotionEffects().stream().map(PotionEffect::getType).filter(effects::contains).forEach(player::removePotionEffect);
-    }
-
-    public void onReceiveDamage(EntityDamageByEntityEvent event, int level) {
-        event.setDamage(action.run(((Player) event.getEntity()), ((Player) event.getDamager()), level, event.getDamage(), DAMAGED, materialType));
-    }
-
-    public void onDealDamage(EntityDamageByEntityEvent event, int level) {
-        event.setDamage(action.run(((Player) event.getEntity()), ((Player) event.getDamager()), level, event.getDamage(), DEALT_DAMAGE, materialType));
-    }
-
-    public void onMine(BlockBreakEvent event, int level) {
+    public void onAction(Player wearer, Player attacker, Event event, int level, EnchantType enchantType, EventType eventType) {
+        effectExecutors.forEach(effect -> effect.testAndRun(wearer, attacker, level, enchantType, event, eventType));
+        mobs.forEach(mobWrapper -> mobWrapper.trySpawn(wearer, attacker, level, enchantType));
     }
 }

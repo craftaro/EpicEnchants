@@ -3,7 +3,7 @@ package com.songoda.epicenchants.listeners;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EffectType;
 import org.bukkit.entity.Explosive;
-import org.bukkit.entity.Mob;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -12,9 +12,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import static com.songoda.epicenchants.enums.EffectType.*;
+import static com.songoda.epicenchants.utils.Constants.MONSTER_MAP;
 import static org.bukkit.entity.EntityType.PLAYER;
 import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
 
@@ -27,7 +29,7 @@ public class EntityListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent event) {
-        if (event.getEntity() instanceof Mob && event.getEntity().getKiller() != null) {
+        if (event.getEntity() instanceof Monster && event.getEntity().getKiller() != null) {
             instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event, KILLED_MOB);
         }
     }
@@ -55,7 +57,7 @@ public class EntityListener implements Listener {
 
             if (event.getDamager() instanceof Player) {
                 effectType = DEFENSE_PLAYER_MELEE;
-            } else if (event.getDamager() instanceof Mob) {
+            } else if (event.getDamager() instanceof Monster) {
                 effectType = DEFENSE_MOB_MELEE;
             } else if (event.getDamager() instanceof Explosive) {
                 effectType = EXPLOSION_DAMAGE;
@@ -72,7 +74,7 @@ public class EntityListener implements Listener {
 
             if (event.getEntity() instanceof Player) {
                 effectType = ATTACK_PLAYER_MELEE;
-            } else if (event.getEntity() instanceof Mob) {
+            } else if (event.getEntity() instanceof Monster) {
                 effectType = ATTACK_MOB_MELEE;
             }
 
@@ -99,5 +101,11 @@ public class EntityListener implements Listener {
         }
     }
 
-
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onEntityTargetLivingEntity(EntityTargetLivingEntityEvent event) {
+        if (MONSTER_MAP.containsValue(event.getEntity().getUniqueId())) {
+            //TODO: Add team support.
+            event.setCancelled(true);
+        }
+    }
 }

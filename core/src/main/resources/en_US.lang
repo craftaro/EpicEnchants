@@ -4,18 +4,18 @@ general.nametag.prefix= "&8[&6EpicEnchants&8]"
 
 #Command Messages
 
-command.book.give= "&7You have been given a &6tier {tier} &7Book."
-command.book.gave= "&7You gave {player} a &6tier {tier} &7Book."
-command.list= "&6{enchant} &7- {effects}"
+command.book.give= "&7You have been given a &6{group-name} &7book."
+command.book.gave= "&7You gave {player} a &6{group-name} &7book."
 command.reload= "&6Configuration files reload"
-command.filereload= "&6{file} has been reloaded&7, please check console for potential errors."
+command.filereload.success= "&6{file-name} has been successfully reloaded."
+command.filereload.failed= "&c{file-name} failed to be reloaded. &7Please check console for errors."
 
 #Event Messages
 
 event.general.nopermission= "&cYou do not have permission to do that."
-event.purchase.noenchant= "&cThere is no enchant available for &6tier {tier}&7."
+event.purchase.noenchant= "&cThere is no enchant available for &6{group-name}&7."
 event.purchase.cannotafford= "&cYou cannot afford this purchase."
-event.purchase.success= "&7You successfully purchased a &6tier {tier} &7Book."
+event.purchase.success= "&7You successfully purchased a &6{group-name} &7Book."
 
 #Enchant Messages
 enchant.invalidmaterial= "&cYou can not apply &6{enchant} to that item."

@@ -9,7 +9,8 @@ import com.songoda.epicenchants.listeners.EntityListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
 import com.songoda.epicenchants.managers.EnchantManager;
 import com.songoda.epicenchants.managers.FileManager;
-import com.songoda.epicenchants.menus.BookMenu;
+import com.songoda.epicenchants.managers.GroupManager;
+import com.songoda.epicenchants.managers.InfoManager;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
 import com.songoda.epicenchants.utils.FastInv;
@@ -25,16 +26,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.utils.Chat.color;
+import static com.songoda.epicenchants.utils.GeneralUtils.color;
 import static org.bukkit.Bukkit.getConsoleSender;
 
 @Getter
 public class EpicEnchants extends JavaPlugin {
 
-    private FastInv bookInventory;
     private BukkitCommandManager commandManager;
     private Economy economy;
     private EnchantManager enchantManager;
+    private InfoManager infoManager;
+    private GroupManager groupManager;
     private EnchantUtils enchantUtils;
     private FileManager fileManager;
     private Locale locale;
@@ -50,22 +52,24 @@ public class EpicEnchants extends JavaPlugin {
 
         this.locale = Locale.getLocale(getConfig().getString("language"));
         this.fileManager = new FileManager(this);
-        this.enchantManager = new EnchantManager();
-        this.economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
+        this.groupManager = new GroupManager(this);
+        this.enchantManager = new EnchantManager(this);
         this.enchantUtils = new EnchantUtils(this);
+        this.infoManager = new InfoManager(this);
+        this.economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
 
         fileManager.createFiles();
-        fileManager.loadEnchants();
+        groupManager.loadGroups();
+        enchantManager.loadEnchants();
+        infoManager.loadMenus();
 
         setupCommands();
         setupListeners();
         setupVersion();
 
         if (!enchantManager.getEnchants().isEmpty()) {
-            getLogger().info("Successfully loaded enchants: " + enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.joining(",")));
+            getLogger().info("Successfully loaded enchants: " + enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
         }
-
-        this.bookInventory = new BookMenu(this, fileManager.getConfiguration("bookMenu"));
 
         getConsoleSender().sendMessage(color("&a============================="));
     }
@@ -84,10 +88,10 @@ public class EpicEnchants extends JavaPlugin {
         commandManager.registerDependency(EpicEnchants.class, "instance", this);
 
         commandManager.getCommandCompletions().registerCompletion("enchants", c -> enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
-        commandManager.getCommandCompletions().registerCompletion("enchantFiles", c -> fileManager.getEnchantFiles().orElse(Collections.emptyList()).stream().map(File::getName).collect(Collectors.toList()));
+        commandManager.getCommandCompletions().registerCompletion("enchantFiles", c -> fileManager.getYmlFiles("enchants").orElse(Collections.emptyList()).stream().map(File::getName).collect(Collectors.toList()));
 
         commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No enchant exists by that name")));
-        commandManager.getCommandContexts().registerContext(File.class, c -> fileManager.getEnchantFile(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No EnchantFile exists by that name")));
+        commandManager.getCommandContexts().registerContext(File.class, c -> enchantManager.getEnchantFile(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No EnchantFile exists by that name")));
 
         commandManager.registerCommand(new EnchantCommand());
     }
@@ -115,6 +119,9 @@ public class EpicEnchants extends JavaPlugin {
     public void reload() {
         reloadConfig();
         locale.reloadMessages();
-        fileManager.loadEnchants();
+
+        enchantManager.loadEnchants();
+        groupManager.loadGroups();
+        infoManager.loadMenus();
     }
 }

@@ -1,0 +1,61 @@
+groups:
+  SIMPLE:
+    group-color: "&7"
+    group-name: "Simple"
+    group-format: "{group_color} {enchant} {level}"
+    slots-used: 1
+    book-item:
+      material: BOOK
+      display-name: "&7{enchant} {level}"
+      lore:
+        - "&7Drag on to item to enchant"
+        - "&7Destroy Rate &c{destroy_rate}"
+        - "&7Success Rate &a{success_rate}"
+  UNIQUE:
+    group-color: "&a"
+    group-name: "Unique"
+    group-format: "{group_color} {enchant} {level}"
+    slots-used: 1
+    book-item:
+      material: BOOK
+      display-name: "{group_color}{enchant} {level}"
+      lore:
+        - "&7Drag on to item to enchant"
+        - "&7Destroy Rate &c{destroy_rate}"
+        - "&7Success Rate &a{success_rate}"
+  ELITE:
+    group-color: "&b"
+    group-name: "Elite"
+    group-format: "{group_color} {enchant} {level}"
+    slots-used: 1
+    book-item:
+      material: BOOK
+      display-name: "{group_color} {enchant} {level}"
+      lore:
+        - "&7Drag on to item to enchant"
+        - "&7Destroy Rate &c{destroy_rate}"
+        - "&7Success Rate &a{success_rate}"
+  ULTIMATE:
+    group-color: "&e"
+    group-name: "Ultimate"
+    group-format: "{group_color} {enchant} {level}"
+    slots-used: 2
+    book-item:
+      material: BOOK
+      display-name: "{group_color} {enchant} {level}"
+      lore:
+        - "&7Drag on to item to enchant"
+        - "&cDestroy Rate {destroy_rate}"
+        - "&aSuccess Rate {success_rate}"
+  LEGENDARY:
+    group-color: "&6"
+    group-name: "Legendary"
+    group-format: "{group_color} {enchant} {level}"
+    slots-used: 1
+    book-item:
+      material: BOOK
+      display-name: "{group_color} {enchant} {level}"
+      lore:
+        - "&7Drag on to item to enchant"
+        - "&cDestroy Rate {destroy_rate}"
+        - "&aSuccess Rate {success_rate}"

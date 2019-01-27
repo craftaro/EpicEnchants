@@ -1,11 +1,11 @@
 #The enchant identifier must be unique
 identifier: ExampleEnchant
 
-#The max tier for this enchant
+#The max group for this enchant
 max-level: 4
 
-#The tier of this enchant
-tier: 1
+#The group of this enchant
+group: SIMPLE
 
 #The book item
 book-item:

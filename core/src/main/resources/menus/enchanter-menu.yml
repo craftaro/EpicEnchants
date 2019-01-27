@@ -1,0 +1,25 @@
+title: "Enchanter"
+rows: 1
+
+#You can choose to fill the entire inventory witht this material
+#fill:
+#  material: "MATERIAL_HERE"
+#  display-name: "&r"
+#  data: 7
+
+contents:
+  1:
+    material: "PAPER"
+    display-name: "&f&lSimple Enchantment &7(Right Click)"
+    lore:
+      - "&7Examine to receive a random"
+      - "&fSimple &7enchantment book."
+      - ""
+      - "&b&lCOST&8:"
+      - "&f{exp_cost} EXP &7(You need {exp_left} more EXP)"
+      - "&f{eco_cost} $ &7(You need {eco_left} more $)"
+    group: SIMPLE
+    exp-cost: 20
+    eco-cost: 2000
+    row: 1
+    column: 5

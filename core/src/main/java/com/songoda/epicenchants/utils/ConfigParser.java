@@ -1,12 +1,12 @@
-package com.songoda.epicenchants.utils.parser;
+package com.songoda.epicenchants.utils;
 
+import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.effect.EffectManager;
 import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.objects.BookItem;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.epicenchants.utils.Chat;
-import com.songoda.epicenchants.utils.ItemBuilder;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import com.songoda.epicenchants.wrappers.MobWrapper;
 import org.bukkit.Material;
@@ -20,18 +20,18 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.utils.Chat.color;
+import static com.songoda.epicenchants.utils.GeneralUtils.color;
 
 public class ConfigParser {
-    public static Enchant parseEnchant(FileConfiguration config) {
+    public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) {
         return Enchant.builder()
                 .identifier(config.getString("identifier"))
-                .tier(config.getInt("tier"))
+                .group(instance.getGroupManager().getGroup(config.getString("group").toUpperCase()).orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))))
                 .maxLevel(config.getInt("max-level"))
                 .format(color(config.getString("applied-format")))
                 .bookItem(parseBookItem(config.getConfigurationSection("book-item")))
-                .itemWhitelist(config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()))
-                .conflict(new HashSet<>(config.getStringList("conflicting-enchants")))
+                .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()) : Collections.emptySet()))
+                .conflict(config.isList("conflicting-enchants") ? new HashSet<>(config.getStringList("conflicting-enchants")) : Collections.emptySet())
                 .mobs(config.isConfigurationSection("mobs") ? config.getConfigurationSection("mobs").getKeys(false).stream()
                         .map(s -> "mobs." + s)
                         .map(config::getConfigurationSection)
@@ -43,6 +43,7 @@ public class ConfigParser {
                         .map(o -> o.orElse(null))
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet()) : Collections.emptySet())
+                .description(config.isList("description") ? new HashSet<>(config.getStringList("description")) : Collections.emptySet())
                 .build();
     }
 
@@ -72,11 +73,22 @@ public class ConfigParser {
                 .build();
     }
 
-    public static BookItem parseBookItem(ConfigurationSection section) {
+    private static BookItem parseBookItem(ConfigurationSection section) {
         return section != null ? BookItem.builder()
                 .material(Material.valueOf(section.getString("material")))
                 .displayName(color(section.getString("display-name")))
-                .lore(section.getStringList("lore").stream().map(Chat::color).collect(Collectors.toList()))
+                .lore(section.getStringList("lore").stream().map(GeneralUtils::color).collect(Collectors.toList()))
+                .build() : null;
+    }
+
+    public static Group parseGroup(ConfigurationSection section) {
+        return section != null ? Group.builder()
+                .identifier(section.getName())
+                .name(color(section.getString("group-name")))
+                .format(section.getString("group-format"))
+                .color(section.getString("group-color"))
+                .bookItem(parseBookItem(section.getConfigurationSection("book-item")))
+                .slotsUsed(section.getInt("slots-used"))
                 .build() : null;
     }
 }

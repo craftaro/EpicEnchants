@@ -1,0 +1,34 @@
+title: "Main info menu"
+size: 9
+
+contents:
+  1:
+    material: "PAPER"
+    display-name: "&f&lSimple Enchantments"
+    group: SIMPLE
+    row: 1
+    column: 1
+  2:
+    material: "PAPER"
+    display-name: "&a&lUnique Enchantments"
+    group: UNIQUE
+    row: 1
+    column: 2
+  3:
+    material: "PAPER"
+    display-name: "&b&lElite Enchantments"
+    group: ELITE
+    row: 1
+    column: 3
+  4:
+    material: "PAPER"
+    display-name: "&e&lUltimate Enchantments"
+    group: ULTIMATE
+    row: 1
+    column: 4
+  5:
+    material: "PAPER"
+    display-name: "&6&lLegendary Enchantments"
+    group: LEGENDARY
+    row: 1
+    column: 5

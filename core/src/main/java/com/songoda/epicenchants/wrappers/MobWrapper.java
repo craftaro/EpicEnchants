@@ -13,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.NotNull;
 
+import static com.songoda.epicenchants.utils.Constants.MONSTER_MAP;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 @Builder
@@ -87,6 +88,8 @@ public class MobWrapper {
                     lc.setDouble("Base", health.get(level, (int) lc.getDouble("Base")));
                 }
             }
+
+            MONSTER_MAP.put(player.getUniqueId(), entity.getUniqueId());
         }
     }
 }

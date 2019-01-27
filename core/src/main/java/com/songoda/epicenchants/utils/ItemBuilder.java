@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.utils;
 
-import com.songoda.epicenchants.utils.parser.ConfigParser;
+import com.songoda.epicenchants.objects.Placeholder;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.songoda.epicenchants.utils.GeneralUtils.color;
 
 public class ItemBuilder {
 
@@ -39,7 +41,7 @@ public class ItemBuilder {
         this(new ItemStack(material, amount, data));
     }
 
-    public ItemBuilder(ConfigurationSection section) {
+    public ItemBuilder(ConfigurationSection section, Placeholder... placeholders) {
         this(Material.valueOf(section.getString("material")), (byte) (section.contains("data") ? section.getInt("data") : 0));
 
         if (section.contains("enchants")) {
@@ -49,11 +51,31 @@ public class ItemBuilder {
         }
 
         if (section.contains("display-name")) {
-            name(Chat.color(section.getString("display-name")));
+            String displayName = section.getString("display-name");
+            for (Placeholder placeholder : placeholders) {
+                displayName = displayName.replaceAll(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
+            }
+            name(color(displayName));
         }
 
         if (section.contains("lore")) {
-            lore(section.getStringList("lore").stream().map(Chat::color).collect(Collectors.toList()));
+            List<String> lore = section.getStringList("lore");
+            for (int i = 0; i < lore.size(); i++) {
+                String string = lore.get(i);
+
+                for (Placeholder placeholder : placeholders) {
+                    if (placeholder.getToReplace() instanceof HashSet && string.contains(placeholder.getPlaceholder())) {
+                        lore.remove(i);
+
+                        Set<String> stringSet = (Set<String>) placeholder.getToReplace();
+                        stringSet.forEach(System.out::println);
+                        lore.addAll(i, stringSet);
+                    } else {
+                        lore.set(i, string.replaceAll(placeholder.getPlaceholder(), placeholder.getToReplace().toString()));
+                    }
+                }
+            }
+            lore(lore.stream().map(GeneralUtils::color).collect(Collectors.toList()));
         }
     }
 
@@ -116,7 +138,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder removeLore(String string) {
-        if(!meta.hasLore()) {
+        if (!meta.hasLore()) {
             return this;
         }
 

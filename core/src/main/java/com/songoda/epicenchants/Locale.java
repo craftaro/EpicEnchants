@@ -3,6 +3,7 @@ package com.songoda.epicenchants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.songoda.epicenchants.objects.Placeholder;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -276,8 +277,8 @@ public class Locale {
      * @param node the node to get
      * @return the message for the specified node
      */
-    public String getMessageWithPrefix(String node, Object... args) {
-        return ChatColor.translateAlternateColorCodes('&', getPrefix() + getMessage(node, args));
+    public String getMessageWithPrefix(String node, Placeholder... placeholders) {
+        return ChatColor.translateAlternateColorCodes('&', getPrefix() + getMessage(node, placeholders));
     }
 
     /**
@@ -287,10 +288,10 @@ public class Locale {
      * @param args the replacement arguments
      * @return the message for the specified node
      */
-    public String getMessage(String node, Object... args) {
+    public String getMessage(String node, Placeholder... placeholders) {
         String message = getMessage(node);
-        for (Object arg : args) {
-            message = message.replaceFirst("\\{.*?}", arg.toString());
+        for (Placeholder placeholder : placeholders) {
+            message = message.replaceAll(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
         }
         return message;
     }

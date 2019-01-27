@@ -5,7 +5,7 @@ import com.songoda.epicenchants.enums.EventType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import static com.songoda.epicenchants.utils.Chat.color;
+import static com.songoda.epicenchants.utils.GeneralUtils.color;
 
 public class Message extends EffectExecutor {
     public Message(ConfigurationSection section) {

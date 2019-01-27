@@ -16,6 +16,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+import static com.songoda.epicenchants.objects.Placeholder.of;
+
 public class BookListener implements Listener {
     private final EpicEnchants instance;
 
@@ -39,7 +41,7 @@ public class BookListener implements Listener {
         Enchant enchant = instance.getEnchantManager().getEnchant(nbtItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
         if (!enchant.getItemWhitelist().contains(toApplyTo.getType())) {
-            event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.invalidmaterial", enchant.getIdentifier()));
+            event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.invalidmaterial", of("enchant", enchant.getIdentifier())));
             return;
         }
 
@@ -58,14 +60,14 @@ public class BookListener implements Listener {
 
         switch (result.getRight()) {
             case FAILURE:
-                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.failure", enchant.getIdentifier()));
+                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.failure", of("enchant", enchant.getIdentifier())));
                 break;
             case BROKEN_FAILURE:
                 event.getCurrentItem().setType(Material.AIR);
-                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.brokenfailure", enchant.getIdentifier()));
+                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.brokenfailure", of("enchant", enchant.getIdentifier())));
                 break;
             case SUCCESS:
-                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.success", enchant.getIdentifier()));
+                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.success", of("enchant", enchant.getIdentifier())));
         }
 
         event.getWhoClicked().setItemOnCursor(null);

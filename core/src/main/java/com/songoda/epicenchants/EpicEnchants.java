@@ -3,10 +3,8 @@ package com.songoda.epicenchants;
 import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.InvalidCommandArgument;
 import com.songoda.epicenchants.commands.EnchantCommand;
-import com.songoda.epicenchants.listeners.ArmorListener;
-import com.songoda.epicenchants.listeners.BookListener;
-import com.songoda.epicenchants.listeners.EntityListener;
-import com.songoda.epicenchants.listeners.PlayerListener;
+import com.songoda.epicenchants.enums.GiveType;
+import com.songoda.epicenchants.listeners.*;
 import com.songoda.epicenchants.managers.EnchantManager;
 import com.songoda.epicenchants.managers.FileManager;
 import com.songoda.epicenchants.managers.GroupManager;
@@ -14,6 +12,7 @@ import com.songoda.epicenchants.managers.InfoManager;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
 import com.songoda.epicenchants.utils.FastInv;
+import com.songoda.epicenchants.utils.SpecialItems;
 import com.songoda.epicenchants.utils.VersionDependent;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
@@ -22,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -39,6 +39,7 @@ public class EpicEnchants extends JavaPlugin {
     private GroupManager groupManager;
     private EnchantUtils enchantUtils;
     private FileManager fileManager;
+    private SpecialItems specialItems;
     private Locale locale;
 
     @Override
@@ -56,6 +57,7 @@ public class EpicEnchants extends JavaPlugin {
         this.enchantManager = new EnchantManager(this);
         this.enchantUtils = new EnchantUtils(this);
         this.infoManager = new InfoManager(this);
+        this.specialItems = new SpecialItems(this);
         this.economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
 
         fileManager.createFiles();
@@ -89,9 +91,15 @@ public class EpicEnchants extends JavaPlugin {
 
         commandManager.getCommandCompletions().registerCompletion("enchants", c -> enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
         commandManager.getCommandCompletions().registerCompletion("enchantFiles", c -> fileManager.getYmlFiles("enchants").orElse(Collections.emptyList()).stream().map(File::getName).collect(Collectors.toList()));
+        commandManager.getCommandCompletions().registerCompletion("giveType", c -> Arrays.stream(GiveType.values()).map(s -> s.toString().replace("_", "").toLowerCase()).collect(Collectors.toList()));
 
         commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No enchant exists by that name")));
         commandManager.getCommandContexts().registerContext(File.class, c -> enchantManager.getEnchantFile(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No EnchantFile exists by that name")));
+
+        commandManager.getCommandContexts().registerContext(GiveType.class, c -> Arrays.stream(GiveType.values())
+                .filter(s -> s.toString().toLowerCase().replace("_", "").equalsIgnoreCase(c.popFirstArg()))
+                .findFirst()
+                .orElseThrow(() -> new InvalidCommandArgument("No item by that type.")));
 
         commandManager.registerCommand(new EnchantCommand());
     }
@@ -103,6 +111,7 @@ public class EpicEnchants extends JavaPlugin {
             add(new ArmorListener());
             add(new PlayerListener(instance));
             add(new EntityListener(instance));
+            add(new WhiteScrollListener(instance));
         }}.forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
     }
 

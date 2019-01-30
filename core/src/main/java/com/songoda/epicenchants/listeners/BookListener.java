@@ -65,7 +65,6 @@ public class BookListener implements Listener {
 
         if (result.getRight() == BROKEN_FAILURE) {
             event.getClickedInventory().clear(event.getSlot());
-            return;
         }
 
         if (result.getRight() != CONFLICT && result.getRight() != MAXED_OUT) {
@@ -81,5 +80,4 @@ public class BookListener implements Listener {
         event.getClickedInventory().setItem(event.getSlot(), result.getLeft());
 
     }
-
 }

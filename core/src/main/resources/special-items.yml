@@ -1,0 +1,16 @@
+white-scroll:
+  material: EMPTY_MAP
+  display-name: "&e&lWhite Scroll"
+  lore:
+    - "&7Prevents an item from being destroyed"
+    - "&7due to a failed Enchantment Book."
+    - "&ePlace scroll on item to apply."
+
+black-scroll:
+  material: INK_SAC
+  display-name: "&f&lBlack Scroll"
+  lore:
+    - "&7Removes a random enchantment"
+    - "&7from an item and converts"
+    - "&7it into a {percentage} success book."
+    - "&fPlace scroll on item to extract."

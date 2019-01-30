@@ -31,16 +31,42 @@ public class EnchantCommand extends BaseCommand {
         new EnchanterMenu(instance, instance.getFileManager().getConfiguration("menus/enchanter-menu"), player).open(player);
     }
 
-    //ee give {player} {enchant} {group}
-    @Subcommand("give")
-    @CommandCompletion("@players @enchants @nothing @nothing @nothing")
+    //ee give book {player} {enchant} {group}
+    @Subcommand("give book")
+    @CommandCompletion("@giveType @players @enchants @nothing @nothing @nothing")
     @Description("Give enchant books to players")
     @CommandPermission("epicenchants.give")
-    public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
+    public void onGive(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         target.getInventory().addItem(enchant.getBookItem().get(enchant, level, successRate, destroyRate));
         target.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.received", of("enchant", enchant.getIdentifier())));
         sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.gave", of("player", target.getName()), of("enchant", enchant.getIdentifier())));
     }
+
+    //ee give item {player} {giveType} {group}
+    @Subcommand("give item")
+    @CommandCompletion("@giveType @players @enchants @nothing @nothing @nothing")
+    @Description("Give enchant books to players")
+    @CommandPermission("epicenchants.give")
+    public void onGive(CommandSender sender, @Flags("other") Player target, String giveType, @Optional Integer amount, @Optional Integer successRate) {
+        String messageKey;
+
+        switch (giveType.toLowerCase()) {
+            case "whitescroll":
+                target.getInventory().addItem(instance.getSpecialItems().getWhiteScroll(amount));
+                messageKey = "whitescroll";
+                break;
+            case "blackscroll":
+                messageKey = "blackscroll";
+                target.getInventory().addItem(instance.getSpecialItems().getBlackScroll(amount, successRate));
+                break;
+            default:
+                return;
+        }
+
+        target.sendMessage(instance.getLocale().getMessageWithPrefix("command." + messageKey + ".received"));
+        sender.sendMessage(instance.getLocale().getMessageWithPrefix("command." + messageKey + ".gave", of("player", target.getName())));
+    }
+
 
     //ee apply {enchant} {group}
     @Subcommand("apply")

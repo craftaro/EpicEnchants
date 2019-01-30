@@ -2,7 +2,8 @@ package com.songoda.epicenchants.listeners;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EffectType;
-import org.bukkit.entity.Explosive;
+import de.tr7zw.itemnbtapi.NBTEntity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -16,9 +17,6 @@ import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import static com.songoda.epicenchants.enums.EffectType.*;
-import static com.songoda.epicenchants.utils.Constants.MONSTER_MAP;
-import static org.bukkit.entity.EntityType.PLAYER;
-import static org.bukkit.event.entity.EntityDamageEvent.DamageCause.*;
 
 public class EntityListener implements Listener {
     private final EpicEnchants instance;
@@ -30,44 +28,55 @@ public class EntityListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof Monster && event.getEntity().getKiller() != null) {
-            instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event, KILLED_MOB);
+            instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event.getEntity(), event, KILLED_MOB);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity)) {
+            return;
+        }
+
+        LivingEntity hitEntity = (LivingEntity) event.getEntity();
+
+        //Hit by projectile
         if (event.getDamager() instanceof Projectile) {
             ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
 
-            if (event.getEntity() instanceof Player) {
-                instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), event, source instanceof Player ? DEFENSE_PLAYER_RANGE : DEFENSE_MOB_RANGE);
+            if (hitEntity instanceof Player) {
+                LivingEntity opponent = source instanceof LivingEntity ? ((LivingEntity) source) : null;
+                EffectType type = source instanceof Player ? DEFENSE_PLAYER_RANGE : DEFENSE_MOB_RANGE;
+                instance.getEnchantUtils().handlePlayer(((Player) hitEntity), opponent, event, type);
             }
 
-            if (!(source instanceof Player)) {
-                return;
+            if (source instanceof Player) {
+                EffectType type = event.getEntity() instanceof Player ? ATTACK_PLAYER_RANGE : ATTACK_MOB_RANGE;
+                instance.getEnchantUtils().handlePlayer(((Player) source), hitEntity, event, type);
             }
-
-            instance.getEnchantUtils().handlePlayer(((Player) source), event, event.getEntity() instanceof Player ? ATTACK_PLAYER_RANGE : ATTACK_MOB_RANGE);
         }
 
 
+        //Player got hit
         if (event.getEntity() instanceof Player) {
             Player defender = (Player) event.getEntity();
             EffectType effectType = null;
+            LivingEntity opponent = null;
 
             if (event.getDamager() instanceof Player) {
+                opponent = ((LivingEntity) event.getDamager());
                 effectType = DEFENSE_PLAYER_MELEE;
             } else if (event.getDamager() instanceof Monster) {
+                opponent = ((LivingEntity) event.getDamager());
                 effectType = DEFENSE_MOB_MELEE;
-            } else if (event.getDamager() instanceof Explosive) {
-                effectType = EXPLOSION_DAMAGE;
             }
 
             if (effectType != null) {
-                instance.getEnchantUtils().handlePlayer(defender, event, effectType);
+                instance.getEnchantUtils().handlePlayer(defender, opponent, event, effectType);
             }
         }
 
+        //Player damaged an entity
         if (event.getDamager() instanceof Player) {
             Player attacker = (Player) event.getDamager();
             EffectType effectType = null;
@@ -79,10 +88,8 @@ public class EntityListener implements Listener {
             }
 
             if (effectType != null) {
-                instance.getEnchantUtils().handlePlayer(attacker, event, effectType);
+                instance.getEnchantUtils().handlePlayer(attacker, ((LivingEntity) event.getEntity()), event, effectType);
             }
-
-            instance.getEnchantUtils().handlePlayer(attacker, event, event.getEntityType() == PLAYER ? ATTACK_PLAYER_MELEE : ATTACK_MOB_MELEE);
         }
     }
 
@@ -91,19 +98,28 @@ public class EntityListener implements Listener {
         if (!(event.getEntity() instanceof Player)) {
             return;
         }
-        if (event.getCause() == FALL) {
-            instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), event, FALL_DAMAGE);
-            return;
-        }
-
-        if (event.getCause() == FIRE || event.getCause() == FIRE_TICK) {
-            instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), event, FIRE_DAMAGE);
+        switch (event.getCause()) {
+            case FALL:
+                instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, FALL_DAMAGE);
+                break;
+            case FIRE:
+            case FIRE_TICK:
+                instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, FIRE_DAMAGE);
+                break;
+            case BLOCK_EXPLOSION:
+            case ENTITY_EXPLOSION:
+                instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, EXPLOSION_DAMAGE);
+                break;
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityTargetLivingEntity(EntityTargetLivingEntityEvent event) {
-        if (MONSTER_MAP.containsValue(event.getEntity().getUniqueId())) {
+        if (event.getEntity() == null || event.getTarget() == null) {
+            return;
+        }
+
+        if (new NBTEntity(event.getEntity()).hasKey(event.getTarget().getUniqueId().toString())) {
             //TODO: Add team support.
             event.setCancelled(true);
         }

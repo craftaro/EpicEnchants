@@ -7,8 +7,10 @@ import com.songoda.epicenchants.wrappers.MobWrapper;
 import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -28,9 +30,9 @@ public class Enchant {
     @Nullable private BookItem bookItem;
     private LeveledModifier modifyDamage;
 
-    public void onAction(Player wearer, Player attacker, Event event, int level, EffectType effectType, EventType eventType) {
-        effectExecutors.forEach(effect -> effect.testAndRun(wearer, attacker, level, effectType, event, eventType));
-        mobs.forEach(mobWrapper -> mobWrapper.trySpawn(wearer, attacker, level, effectType));
+    public void onAction(@NotNull Player wearer, @Nullable LivingEntity opponent, Event event, int level, EffectType effectType, EventType eventType) {
+        effectExecutors.forEach(effect -> effect.testAndRun(wearer, opponent, level, effectType, event, eventType));
+        mobs.forEach(mobWrapper -> mobWrapper.trySpawn(wearer, opponent, level, effectType));
     }
 
     public BookItem getBookItem() {

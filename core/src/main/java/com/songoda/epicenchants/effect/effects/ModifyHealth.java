@@ -2,22 +2,26 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class ConsoleCommand extends EffectExecutor {
-    public ConsoleCommand(ConfigurationSection section) {
+public class ModifyHealth extends EffectExecutor {
+
+    public ModifyHealth(ConfigurationSection section) {
         super(section);
     }
 
     @Override
     public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), getSection().getString("command")
-                .replace("{level}", "" + level)
-                .replace("{wearer}", wearer.getName())
-                .replace("{opponent}", opponent == null ? "" : opponent.getName()));
+        consume(entity -> {
+            double amount = getAmount().get(level, 0);
+            if (entity.getHealth() + amount > entity.getMaxHealth()) {
+                entity.setHealth(entity.getMaxHealth());
+            } else {
+                entity.setHealth(entity.getHealth() + amount);
+            }
+        }, wearer, opponent);
     }
 }

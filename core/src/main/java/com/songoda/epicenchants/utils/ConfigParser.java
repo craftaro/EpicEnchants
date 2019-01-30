@@ -89,6 +89,10 @@ public class ConfigParser {
                 .color(section.getString("group-color"))
                 .bookItem(parseBookItem(section.getConfigurationSection("book-item")))
                 .slotsUsed(section.getInt("slots-used"))
+                .destroyRateMin(section.getInt("rates.destroy-min"))
+                .destroyRateMax(section.getInt("rates.destroy-max"))
+                .successRateMin(section.getInt("rates.success-min"))
+                .successRateMax(section.getInt("rates.success-max"))
                 .build() : null;
     }
 }

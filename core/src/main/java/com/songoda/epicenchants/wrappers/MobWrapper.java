@@ -12,8 +12,8 @@ import lombok.Builder;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import static com.songoda.epicenchants.utils.Constants.MONSTER_MAP;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 @Builder
@@ -29,7 +29,7 @@ public class MobWrapper {
     private boolean hostile;
     private LeveledModifier maxAmount;
 
-    public void trySpawn(@NotNull Player player, Player opponent, int level, EffectType effectType) {
+    public void trySpawn(@NotNull Player player, @Nullable LivingEntity opponent, int level, EffectType effectType) {
         if (this.effectType != effectType) {
             return;
         }
@@ -75,6 +75,9 @@ public class MobWrapper {
             }
 
             NBTEntity nbtEntity = new NBTEntity(entity);
+
+            nbtEntity.setBoolean(player.getUniqueId().toString(), true);
+
             NBTList list = nbtEntity.getList("Attributes", NBTType.NBTTagCompound);
 
             for (int j = 0; j < list.size(); j++) {
@@ -88,8 +91,6 @@ public class MobWrapper {
                     lc.setDouble("Base", health.get(level, (int) lc.getDouble("Base")));
                 }
             }
-
-            MONSTER_MAP.put(player.getUniqueId(), entity.getUniqueId());
         }
     }
 }

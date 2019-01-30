@@ -12,4 +12,5 @@ public class Group {
     private String color;
     private int slotsUsed;
     private BookItem bookItem;
+    private int destroyRateMin, destroyRateMax, successRateMin, successRateMax;
 }

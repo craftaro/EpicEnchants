@@ -9,11 +9,13 @@ import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,8 +35,18 @@ public class EnchantUtils {
             return GeneralUtils.chance(destroyRate) ? Pair.of(new ItemStack(Material.AIR), BROKEN_FAILURE) : Pair.of(itemStack, FAILURE);
         }
 
-        if (getEnchants(itemStack).keySet().stream().anyMatch(s -> enchant.getConflict().contains(s.getIdentifier()))) {
+        Map<Enchant, Integer> enchantMap = getEnchants(itemStack);
+
+        if (enchantMap.keySet().stream().anyMatch(s -> enchant.getConflict().contains(s.getIdentifier()))) {
             return Pair.of(itemStack, CONFLICT);
+        }
+
+        if (enchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == enchant.getMaxLevel())) {
+            return Pair.of(itemStack, MAXED_OUT);
+        }
+
+        if (enchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == level)) {
+            return Pair.of(itemStack, ALREADY_APPLIED);
         }
 
         ItemBuilder itemBuilder = new ItemBuilder(itemStack);
@@ -66,11 +78,7 @@ public class EnchantUtils {
                 .collect(Collectors.toMap(key -> instance.getEnchantManager().getEnchantUnsafe(key), compound::getInteger));
     }
 
-    public void handlePlayer(Player player, Event event, EffectType effectType) {
-        if (player == null) {
-            return;
-        }
-
+    public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, EffectType effectType) {
         List<ItemStack> stacks = new ArrayList<>(Arrays.asList(player.getInventory().getArmorContents()));
         stacks.add(player.getItemInHand());
         stacks.removeIf(Objects::isNull);
@@ -80,10 +88,6 @@ public class EnchantUtils {
         }
 
         stacks.stream().map(this::getEnchants).forEach(list -> list.forEach((enchant, level) -> {
-            Player opponent = event instanceof EntityDamageByEntityEvent ?
-                    ((EntityDamageByEntityEvent) event).getDamager() instanceof Player ?
-                            ((Player) ((EntityDamageByEntityEvent) event).getDamager()) : null : null;
-
             enchant.onAction(player, opponent, event, level, effectType, EventType.NONE);
         }));
     }

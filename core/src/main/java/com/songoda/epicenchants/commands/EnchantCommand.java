@@ -14,7 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 
+import static com.songoda.epicenchants.enums.EnchantResult.BROKEN_FAILURE;
 import static com.songoda.epicenchants.objects.Placeholder.of;
+import static com.songoda.epicenchants.utils.GeneralUtils.getMessageFromResult;
 
 @CommandAlias("epicenchants|ee")
 public class EnchantCommand extends BaseCommand {
@@ -36,7 +38,7 @@ public class EnchantCommand extends BaseCommand {
     @CommandPermission("epicenchants.give")
     public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         target.getInventory().addItem(enchant.getBookItem().get(enchant, level, successRate, destroyRate));
-        target.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.given", of("enchant", enchant.getIdentifier())));
+        target.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.received", of("enchant", enchant.getIdentifier())));
         sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.gave", of("player", target.getName()), of("enchant", enchant.getIdentifier())));
     }
 
@@ -50,24 +52,14 @@ public class EnchantCommand extends BaseCommand {
         ItemStack before = player.getItemInHand();
         Pair<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(before, enchant, level,
                 successRate == null ? 100 : successRate, destroyRate == null ? 0 : destroyRate);
-        String messageKey = "";
 
-        switch (result.getRight()) {
-            case FAILURE:
-                messageKey = "enchant.failure";
-                break;
-            case BROKEN_FAILURE:
-                player.getInventory().clear(slot);
-                messageKey = "enchant.brokenfailure";
-                break;
-            case SUCCESS:
-                messageKey = "enchant.success";
-                break;
-            case CONFLICT:
-                messageKey = "enchant.conflict";
+        player.sendMessage(instance.getLocale().getMessageWithPrefix(getMessageFromResult(result.getRight()), of("enchant", enchant.getIdentifier())));
+
+        if (result.getRight() == BROKEN_FAILURE) {
+            player.getInventory().clear(slot);
+            return;
         }
 
-        player.sendMessage(instance.getLocale().getMessageWithPrefix(messageKey, of("enchant", enchant.getIdentifier())));
         player.getInventory().setItem(slot, result.getLeft());
     }
 
@@ -84,6 +76,7 @@ public class EnchantCommand extends BaseCommand {
     @CommandAlias("load")
     @Description("Reload all config files, or reload/load specific enchant files")
     @CommandCompletion("@enchantFiles")
+    @CommandPermission("epicenchants.reload")
     public void onReload(CommandSender sender, @Optional File fileName) {
         if (fileName == null) {
             instance.reload();

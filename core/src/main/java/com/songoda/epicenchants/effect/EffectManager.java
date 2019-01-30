@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.effect;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.lang.reflect.Constructor;
@@ -23,7 +24,7 @@ public class EffectManager {
             Object object = constructor.newInstance(section);
             return Optional.of((EffectExecutor) object);
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassCastException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe("Invalid effect:" + section.getName());
         }
 
         return Optional.empty();

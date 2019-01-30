@@ -3,7 +3,9 @@ package com.songoda.epicenchants.effect.effects;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class Repair extends EffectExecutor {
     public Repair(ConfigurationSection section) {
@@ -11,7 +13,10 @@ public class Repair extends EffectExecutor {
     }
 
     @Override
-    public void execute(Player wearer, Player opponent, int level, EventType eventType) {
-        consume(player -> player.getItemInHand().setDurability((short) 0), wearer, opponent);
+    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+        consume(livingEntity -> {
+            if (livingEntity instanceof Player)
+                ((Player) livingEntity).getItemInHand().setDurability((short) 0);
+        }, wearer, opponent);
     }
 }

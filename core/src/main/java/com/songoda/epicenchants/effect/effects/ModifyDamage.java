@@ -4,6 +4,7 @@ import com.songoda.epicenchants.effect.EffectEventExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -14,7 +15,7 @@ public class ModifyDamage extends EffectEventExecutor {
     }
 
     @Override
-    public void execute(Player wearer, Player opponent, int level, Event event, EventType eventType) {
+    public void execute(Player wearer, LivingEntity opponent, int level, Event event, EventType eventType) {
         if (!(event instanceof EntityDamageEvent)) {
             return;
         }

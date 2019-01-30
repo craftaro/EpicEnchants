@@ -285,13 +285,12 @@ public class Locale {
      * Get a message set for a specific node and replace its params with a supplied arguments.
      *
      * @param node the node to get
-     * @param args the replacement arguments
      * @return the message for the specified node
      */
     public String getMessage(String node, Placeholder... placeholders) {
         String message = getMessage(node);
         for (Placeholder placeholder : placeholders) {
-            message = message.replaceAll(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
+            message = message.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
         }
         return message;
     }

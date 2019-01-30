@@ -4,6 +4,7 @@ import com.songoda.epicenchants.effect.EffectEventExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -18,7 +19,7 @@ public class MoreDrops extends EffectEventExecutor {
     }
 
     @Override
-    public void execute(Player player, Player opponent, int level, Event event, EventType type) {
+    public void execute(Player player, LivingEntity opponent, int level, Event event, EventType type) {
         if (!(event instanceof EntityDeathEvent)) {
             return;
         }

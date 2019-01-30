@@ -53,7 +53,7 @@ public class ItemBuilder {
         if (section.contains("display-name")) {
             String displayName = section.getString("display-name");
             for (Placeholder placeholder : placeholders) {
-                displayName = displayName.replaceAll(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
+                displayName = displayName.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
             }
             name(color(displayName));
         }
@@ -68,12 +68,13 @@ public class ItemBuilder {
                         lore.remove(i);
 
                         Set<String> stringSet = (Set<String>) placeholder.getToReplace();
-                        stringSet.forEach(System.out::println);
                         lore.addAll(i, stringSet);
                     } else {
-                        lore.set(i, string.replaceAll(placeholder.getPlaceholder(), placeholder.getToReplace().toString()));
+                        string = string.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
                     }
                 }
+
+                lore.set(i, string);
             }
             lore(lore.stream().map(GeneralUtils::color).collect(Collectors.toList()));
         }

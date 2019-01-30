@@ -4,10 +4,10 @@ import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.events.EnchantApplyEvent;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.utils.GeneralUtils;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+import static com.songoda.epicenchants.enums.EnchantResult.*;
 import static com.songoda.epicenchants.objects.Placeholder.of;
 
 public class BookListener implements Listener {
@@ -58,21 +59,27 @@ public class BookListener implements Listener {
 
         Pair<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(toApplyTo, enchant, enchantEvent.getLevel(), enchantEvent.getSuccessRate(), enchantEvent.getDestroyRate());
 
-        switch (result.getRight()) {
-            case FAILURE:
-                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.failure", of("enchant", enchant.getIdentifier())));
-                break;
-            case BROKEN_FAILURE:
-                event.getCurrentItem().setType(Material.AIR);
-                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.brokenfailure", of("enchant", enchant.getIdentifier())));
-                break;
-            case SUCCESS:
-                event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix("enchant.success", of("enchant", enchant.getIdentifier())));
+        event.getWhoClicked().sendMessage(instance.getLocale().getMessageWithPrefix(GeneralUtils.getMessageFromResult(result.getRight()),
+                of("enchant", enchant.getIdentifier())));
+        event.setCancelled(true);
+
+        if (result.getRight() == BROKEN_FAILURE) {
+            event.getClickedInventory().clear(event.getSlot());
+            return;
         }
 
-        event.getWhoClicked().setItemOnCursor(null);
+        if (result.getRight() != CONFLICT && result.getRight() != MAXED_OUT) {
+            if (event.getCursor().getAmount() > 1) {
+                ItemStack toSet = event.getCursor();
+                toSet.setAmount(toSet.getAmount() - 1);
+                event.getWhoClicked().setItemOnCursor(toSet);
+            } else {
+                event.getWhoClicked().setItemOnCursor(null);
+            }
+        }
+
         event.getClickedInventory().setItem(event.getSlot(), result.getLeft());
-        event.setCancelled(true);
+
     }
 
 }

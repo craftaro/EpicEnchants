@@ -11,7 +11,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import static com.songoda.epicenchants.enums.EffectType.*;
@@ -46,22 +48,33 @@ public class PlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        instance.getEnchantUtils().handlePlayer(event.getEntity(), event, DEATH);
+        instance.getEnchantUtils().handlePlayer(event.getEntity(), event.getEntity().getKiller(), event, DEATH);
 
         if (event.getEntity().getKiller() != null) {
-            instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event, KILLED_PLAYER);
+            instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event.getEntity(), event, KILLED_PLAYER);
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            instance.getEnchantUtils().handlePlayer(event.getPlayer(), event, RIGHT_CLICK);
+            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
-        instance.getEnchantUtils().handlePlayer(event.getPlayer(), event, BLOCK_BREAK);
+        instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, BLOCK_BREAK);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        event.getPlayer().getActivePotionEffects().stream().filter(potion -> potion.getDuration() >= 32760)
+                .forEach(potionEffect -> event.getPlayer().removePotionEffect(potionEffect.getType()));
+
+        Arrays.stream(event.getPlayer().getInventory().getArmorContents()).forEach(itemStack -> {
+            instance.getEnchantUtils().getEnchants(itemStack).forEach((enchant, level) ->
+                    enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
+        });
     }
 }

@@ -4,11 +4,12 @@ import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.epicenchants.utils.GeneralUtils;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 public class Potion extends EffectExecutor {
     public Potion(ConfigurationSection section) {
@@ -16,7 +17,7 @@ public class Potion extends EffectExecutor {
     }
 
     @Override
-    public void execute(Player wearer, Player opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
         if (!getSection().isString("potion-type")) {
             return;
         }
@@ -28,24 +29,19 @@ public class Potion extends EffectExecutor {
             return;
         }
 
-        if (this.getEffectType() == EffectType.STATIC_EFFECT || this.getEffectType() == EffectType.HELD_ITEM) {
+        if (getEffectType() == EffectType.STATIC_EFFECT || getEffectType() == EffectType.HELD_ITEM) {
             if (eventType == EventType.ON) {
-                consume(player -> player.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, ((int) amplifier.get(level, 0)),
+                consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, ((int) amplifier.get(level, 0)),
                         false, false)), wearer, opponent);
             } else if (eventType == EventType.OFF) {
-                consume(player -> player.removePotionEffect(effectType), wearer, opponent);
+                consume(entity -> entity.removePotionEffect(effectType), wearer, opponent);
             }
             return;
         }
 
         LeveledModifier duration = LeveledModifier.of(getSection().getString("duration"));
-        LeveledModifier chance = LeveledModifier.of(getSection().getString("chance"));
 
-        if (!GeneralUtils.chance(chance.get(level, 100))) {
-            return;
-        }
-
-        consume(player -> player.addPotionEffect(new PotionEffect(effectType, ((int) duration.get(level, Integer.MAX_VALUE)),
+        consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, ((int) duration.get(level, 60)),
                 ((int) amplifier.get(level, 0)), false, false)), wearer, opponent);
     }
 

@@ -23,7 +23,9 @@ public class BookItem {
     }
 
     public ItemStack get(Enchant enchant, int level) {
-        return get(enchant, level, current().nextInt(101), current().nextInt(101));
+        return get(enchant, level,
+                current().nextInt(enchant.getGroup().getSuccessRateMin(), enchant.getGroup().getSuccessRateMax()),
+                current().nextInt(enchant.getGroup().getDestroyRateMin(), enchant.getGroup().getDestroyRateMax()));
     }
 
     public ItemStack get(Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {

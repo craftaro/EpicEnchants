@@ -3,7 +3,11 @@ groups:
     group-color: "&7"
     group-name: "Simple"
     group-format: "{group_color} {enchant} {level}"
-    slots-used: 1
+    rates:
+      destroy-min: 10
+      destroy-max: 100
+      success-min: 20
+      success-max: 80
     book-item:
       material: BOOK
       display-name: "&7{enchant} {level}"
@@ -14,8 +18,12 @@ groups:
   UNIQUE:
     group-color: "&a"
     group-name: "Unique"
-    group-format: "{group_color} {enchant} {level}"
-    slots-used: 1
+    group-format: "{group_color}{enchant} {level}"
+    rates:
+      destroy-min: 10
+      destroy-max: 100
+      success-min: 20
+      success-max: 80
     book-item:
       material: BOOK
       display-name: "{group_color}{enchant} {level}"
@@ -26,11 +34,15 @@ groups:
   ELITE:
     group-color: "&b"
     group-name: "Elite"
-    group-format: "{group_color} {enchant} {level}"
-    slots-used: 1
+    group-format: "{group_color}{enchant} {level}"
+    rates:
+      destroy-min: 10
+      destroy-max: 100
+      success-min: 20
+      success-max: 80
     book-item:
       material: BOOK
-      display-name: "{group_color} {enchant} {level}"
+      display-name: "{group_color}{enchant} {level}"
       lore:
         - "&7Drag on to item to enchant"
         - "&7Destroy Rate &c{destroy_rate}"
@@ -38,11 +50,15 @@ groups:
   ULTIMATE:
     group-color: "&e"
     group-name: "Ultimate"
-    group-format: "{group_color} {enchant} {level}"
-    slots-used: 2
+    group-format: "{group_color}{enchant} {level}"
+    rates:
+      destroy-min: 10
+      destroy-max: 100
+      success-min: 20
+      success-max: 80
     book-item:
       material: BOOK
-      display-name: "{group_color} {enchant} {level}"
+      display-name: "{group_color}{enchant} {level}"
       lore:
         - "&7Drag on to item to enchant"
         - "&cDestroy Rate {destroy_rate}"
@@ -50,11 +66,15 @@ groups:
   LEGENDARY:
     group-color: "&6"
     group-name: "Legendary"
-    group-format: "{group_color} {enchant} {level}"
-    slots-used: 1
+    group-format: "{group_color}{enchant} {level}"
+    rates:
+      destroy-min: 10
+      destroy-max: 100
+      success-min: 20
+      success-max: 80
     book-item:
       material: BOOK
-      display-name: "{group_color} {enchant} {level}"
+      display-name: "{group_color}{enchant} {level}"
       lore:
         - "&7Drag on to item to enchant"
         - "&cDestroy Rate {destroy_rate}"

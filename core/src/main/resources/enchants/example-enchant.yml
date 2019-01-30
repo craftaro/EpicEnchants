@@ -1,47 +1,50 @@
-#The enchant identifier must be unique
+# The enchant identifier must be unique.
 identifier: ExampleEnchant
 
-#The max group for this enchant
-max-level: 4
+# The max level for this enchant.
+max-level: 3
 
-#The group of this enchant
+# The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-#The book item
+# The item that the enchantment book is.
 book-item:
-  material: BOOK
-  display-name: "&cExampleEnchant {level}"
+  material: STONE
+  display-name: "&b&lExampleEnchant {level}"
+  # The lore on the enchantments books.
   lore:
     - "&7Drag on to enchant"
-    - "&cDestroy Rate {destroy_rate}"
-    - "&aSuccess Rate {success_rate}"
+    - "&a{success_rate}% Success Rate"
+    - "&c{destroy_rate}% Destroy Rate"
 
-#Format as seen in the lore of the item
+# How the enchant should be formatted on the enchanted item.
 applied-format: "&cExampleEnchant {level}"
 
-#What items this enchant can be applied too
+# What items this enchant can be applied too.
 item-whitelist:
   - "DIAMOND_HELMET"
   - "IRON_HELMET"
   - "LEATHER_HELMET"
 
+# This enchantment can not be applied if then enchantment below is already on the item.
 conflicting-enchants:
   - "someEnchant"
 
-#Effects
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
 effects:
-  FLY:
-    type: STATIC_EFFECT
-    who: WEARER
-  #The "-1" is added because every effect key has to be unique.
+  # The "-1" is added because every effect key has to be unique.
   POTION-1:
-    #The EffectType
+    # The Effect Type
     type: DEFENSE_PLAYER_MELEE
-    #What player should the effect be ran on
+    # What player should the effect be ran on: WEARER/OPPONENT.
     who: WEARER
+    # Potion Effect that should be applied.
     potion-type: SPEED
+    # Duration of the Potion Effect in seconds.
     duration: "10 * {level}"
+    # Chance that the Effect gets activated.
     chance: "20 * {level}"
+    # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
     amplifier: "{level} - 1"
   POTION-2:
     type: STATIC_EFFECT
@@ -49,19 +52,25 @@ effects:
     potion-type: INCREASE_DAMAGE
     amplifier: "{level} - 1"
 
-#Chance of spawning when damaged by another player
+# Chance of spawning when damaged by another player.
 mobs:
-  #EntityType
+  # Type of Mob
   ZOMBIE:
-    #Max amount zombies that will be spawned
+    # Trigger event that spawns the mob.
     effect-type: DEFENSE_PLAYER_MELEE
+    # Max amount mobs that will be spawned.
     max-amount: "{level}"
+    # Chance of trigger the mob spawning.
     spawn-percentage: "20 * {level}"
+    # Drop chance of the mob its equipment upon death.
     equipment-drop-chance: "10 * {level}"
+    # Health of the mob.
     health: "3 * {level}"
+    # Amount of damage the mob deals.
     attack-damage: "{level}"
-    hostile: true
+    # Display name of the spawned mob
     display-name: "&cAngry guy level {level}"
+    # The equiment that the mob wears
     equipment:
       helmet:
         material: DIAMOND_HELMET

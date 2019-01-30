@@ -8,7 +8,7 @@ public class Placeholder {
     private Object toReplace;
 
     private Placeholder(String placeholder, Object toReplace) {
-        this.placeholder = "\\{" + placeholder + "\\}";
+        this.placeholder = "{" + placeholder + "}";
         this.toReplace = toReplace;
     }
 

@@ -4,8 +4,8 @@ general.nametag.prefix= "&8[&6EpicEnchants&8]"
 
 #Command Messages
 
-command.book.give= "&7You have been given a &6{group-name} &7book."
-command.book.gave= "&7You gave {player} a &6{group-name} &7book."
+command.book.received= "&7You have been given a &6{enchant} &7book."
+command.book.gave= "&7You gave {player} a &6{enchant} &7book."
 command.reload= "&6Configuration files reload"
 command.filereload.success= "&6{file-name} has been successfully reloaded."
 command.filereload.failed= "&c{file-name} failed to be reloaded. &7Please check console for errors."
@@ -18,8 +18,10 @@ event.purchase.cannotafford= "&cYou cannot afford this purchase."
 event.purchase.success= "&7You successfully purchased a &6{group-name} &7Book."
 
 #Enchant Messages
-enchant.invalidmaterial= "&cYou can not apply &6{enchant} to that item."
+enchant.invalidmaterial= "&cYou can not apply &6{enchant} &cto that item."
 enchant.failure= "&cYou failed to apply &6{enchant}."
-enchant.brokenfailure= "&6{enchant} failed to apply and broke your item..."
+enchant.brokenfailure= "&6{enchant} &cfailed to apply and broke your item..."
 enchant.success= "&aYou have success fully applied &6{enchant}."
 enchant.conflict= "&cYou cannot apply this enchant as it conflicts with another enchant."
+enchant.maxedout= "&cYou already have that enchant maxed on this item."
+enchant.alreadyapplied= "&cYou already have that enchant with that level applied on this item."

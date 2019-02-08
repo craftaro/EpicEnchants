@@ -3,17 +3,11 @@ package com.songoda.epicenchants.listeners;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EffectType;
 import de.tr7zw.itemnbtapi.NBTEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.projectiles.ProjectileSource;
 
 import static com.songoda.epicenchants.enums.EffectType.*;
@@ -66,7 +60,7 @@ public class EntityListener implements Listener {
             if (event.getDamager() instanceof Player) {
                 opponent = ((LivingEntity) event.getDamager());
                 effectType = DEFENSE_PLAYER_MELEE;
-            } else if (event.getDamager() instanceof Monster) {
+            } else if (event.getDamager() instanceof LivingEntity && !(event.getDamager() instanceof Player)) {
                 opponent = ((LivingEntity) event.getDamager());
                 effectType = DEFENSE_MOB_MELEE;
             }
@@ -83,7 +77,7 @@ public class EntityListener implements Listener {
 
             if (event.getEntity() instanceof Player) {
                 effectType = ATTACK_PLAYER_MELEE;
-            } else if (event.getEntity() instanceof Monster) {
+            } else if (event.getEntity() instanceof LivingEntity) {
                 effectType = ATTACK_MOB_MELEE;
             }
 

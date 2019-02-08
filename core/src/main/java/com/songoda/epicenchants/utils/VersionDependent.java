@@ -67,7 +67,7 @@ public class VersionDependent {
         };
     }
 
-    public static void initDefault(int serverVersion) {
+    /*public static void initDefault(int serverVersion) {
         version = serverVersion;
         blacklist = new HashSet<Material>() {
             {
@@ -167,7 +167,7 @@ public class VersionDependent {
                 add(valueOf("YELLOW_SHULKER_BOX"));
             }
         };
-    }
+    }*/
 
     public static Set<Material> getBlackList() {
         return blacklist;

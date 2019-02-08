@@ -20,6 +20,6 @@ public class Message extends EffectExecutor {
             consume(entity -> entity.sendMessage(color(getSection().getString("message"))
                     .replace("{level}", "" + level)
                     .replace("{wearer}", wearer.getName())
-                    .replace("{opponent}", opponent.getName())), wearer, opponent);
+                    .replace("{opponent}", opponent == null ? "" : opponent.getName())), wearer, opponent);
     }
 }

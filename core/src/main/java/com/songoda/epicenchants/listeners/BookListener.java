@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import static com.songoda.epicenchants.enums.EnchantResult.*;
 import static com.songoda.epicenchants.objects.Placeholder.of;
@@ -32,8 +33,12 @@ public class BookListener implements Listener {
             return;
         }
 
-        NBTItem nbtItem = new NBTItem(event.getCursor());
+        @Nullable NBTItem nbtItem = new NBTItem(event.getCursor());
         ItemStack toApplyTo = event.getCurrentItem();
+
+        if (nbtItem == null) {
+            return;
+        }
 
         if (!nbtItem.getBoolean("book-item")) {
             return;
@@ -67,7 +72,7 @@ public class BookListener implements Listener {
             event.getClickedInventory().clear(event.getSlot());
         }
 
-        if (result.getRight() != CONFLICT && result.getRight() != MAXED_OUT) {
+        if (result.getRight() != CONFLICT && result.getRight() != MAXED_OUT && result.getRight() != ALREADY_APPLIED) {
             if (event.getCursor().getAmount() > 1) {
                 ItemStack toSet = event.getCursor();
                 toSet.setAmount(toSet.getAmount() - 1);

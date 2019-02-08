@@ -33,10 +33,16 @@ public class EnchantCommand extends BaseCommand {
 
     //ee give book {player} {enchant} {group}
     @Subcommand("give book")
-    @CommandCompletion("@giveType @players @enchants @nothing @nothing @nothing")
+    @CommandCompletion("@players @enchants @nothing @nothing @nothing")
     @Description("Give enchant books to players")
     @CommandPermission("epicenchants.give")
-    public void onGive(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
+    public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
+        if (level > enchant.getMaxLevel()) {
+            sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.maxlevel",
+                    of("enchant", enchant.getIdentifier()),
+                    of("max-level", enchant.getMaxLevel())));
+            return;
+        }
         target.getInventory().addItem(enchant.getBookItem().get(enchant, level, successRate, destroyRate));
         target.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.received", of("enchant", enchant.getIdentifier())));
         sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.gave", of("player", target.getName()), of("enchant", enchant.getIdentifier())));
@@ -44,10 +50,10 @@ public class EnchantCommand extends BaseCommand {
 
     //ee give item {player} {giveType} {group}
     @Subcommand("give item")
-    @CommandCompletion("@giveType @players @enchants @nothing @nothing @nothing")
+    @CommandCompletion("@players @giveType @nothing @nothing")
     @Description("Give enchant books to players")
     @CommandPermission("epicenchants.give")
-    public void onGive(CommandSender sender, @Flags("other") Player target, String giveType, @Optional Integer amount, @Optional Integer successRate) {
+    public void onGiveItem(CommandSender sender, @Flags("other") Player target, String giveType, @Optional Integer amount, @Optional Integer successRate) {
         String messageKey;
 
         switch (giveType.toLowerCase()) {

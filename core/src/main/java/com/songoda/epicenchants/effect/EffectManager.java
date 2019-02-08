@@ -7,8 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
-import static com.google.common.base.CaseFormat.UPPER_CAMEL;
-import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
+import static com.google.common.base.CaseFormat.*;
 
 public class EffectManager {
 
@@ -24,7 +23,7 @@ public class EffectManager {
             Object object = constructor.newInstance(section);
             return Optional.of((EffectExecutor) object);
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassCastException e) {
-            Bukkit.getLogger().severe("Invalid effect:" + section.getName());
+            Bukkit.getLogger().severe("Invalid effect: " + section.getName());
         }
 
         return Optional.empty();

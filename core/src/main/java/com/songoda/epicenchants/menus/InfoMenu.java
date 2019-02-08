@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
 import static com.songoda.epicenchants.utils.GeneralUtils.color;
-import static com.songoda.epicenchants.utils.GeneralUtils.getSlot;
 import static java.util.Arrays.stream;
 
 public class InfoMenu extends FastInv {
@@ -43,6 +42,6 @@ public class InfoMenu extends FastInv {
                     .stream()
                     .map(s -> "contents." + s)
                     .map(config::getConfigurationSection)
-                    .forEach(section -> addItem(getSlot(section.getInt("row"), section.getInt("column")), new ItemBuilder(section).build()));
+                    .forEach(section -> addItem(section.getInt("slot"), new ItemBuilder(section).build()));
     }
 }

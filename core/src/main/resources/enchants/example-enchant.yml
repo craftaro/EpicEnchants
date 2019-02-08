@@ -9,7 +9,7 @@ group: SIMPLE
 
 # The item that the enchantment book is.
 book-item:
-  material: STONE
+  material: BOOK
   display-name: "&b&lExampleEnchant {level}"
   # The lore on the enchantments books.
   lore:

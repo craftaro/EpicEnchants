@@ -5,15 +5,9 @@ import co.aikar.commands.InvalidCommandArgument;
 import com.songoda.epicenchants.commands.EnchantCommand;
 import com.songoda.epicenchants.enums.GiveType;
 import com.songoda.epicenchants.listeners.*;
-import com.songoda.epicenchants.managers.EnchantManager;
-import com.songoda.epicenchants.managers.FileManager;
-import com.songoda.epicenchants.managers.GroupManager;
-import com.songoda.epicenchants.managers.InfoManager;
+import com.songoda.epicenchants.managers.*;
 import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.utils.EnchantUtils;
-import com.songoda.epicenchants.utils.FastInv;
-import com.songoda.epicenchants.utils.SpecialItems;
-import com.songoda.epicenchants.utils.VersionDependent;
+import com.songoda.epicenchants.utils.*;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -117,12 +111,7 @@ public class EpicEnchants extends JavaPlugin {
 
     private void setupVersion() {
         int currentVersion = Integer.parseInt(getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[1]);
-
-        if (currentVersion >= 13) {
-            VersionDependent.initDefault(currentVersion);
-        } else {
-            VersionDependent.initLegacy(currentVersion);
-        }
+        VersionDependent.initLegacy(currentVersion);
     }
 
     public void reload() {

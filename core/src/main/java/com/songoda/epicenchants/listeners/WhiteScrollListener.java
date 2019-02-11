@@ -25,6 +25,10 @@ public class WhiteScrollListener implements Listener {
         NBTItem nbtItem = new NBTItem(event.getCursor());
         NBTItem toApplyTo = new NBTItem(event.getCurrentItem());
 
+        if (nbtItem == null) {
+            return;
+        }
+
         if (!nbtItem.getBoolean("white-scroll")) {
             return;
         }

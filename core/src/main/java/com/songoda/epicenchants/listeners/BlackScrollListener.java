@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.jetbrains.annotations.Nullable;
 
 public class BlackScrollListener {
     private final EpicEnchants instance;
@@ -21,8 +22,12 @@ public class BlackScrollListener {
             return;
         }
 
-        NBTItem nbtItem = new NBTItem(event.getCursor());
+        @Nullable NBTItem nbtItem = new NBTItem(event.getCursor());
         NBTItem toApplyTo = new NBTItem(event.getCurrentItem());
+
+        if (nbtItem == null) {
+            return;
+        }
 
         if (!nbtItem.getBoolean("black-scroll")) {
             return;

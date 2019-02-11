@@ -34,8 +34,8 @@ conflicting-enchants:
 effects:
   # The "-1" is added because every effect key has to be unique.
   POTION-1:
-    # The Effect Type
-    type: DEFENSE_PLAYER_MELEE
+    # The trigger that will fire this effect
+    trigger: DEFENSE_PLAYER_MELEE
     # What player should the effect be ran on: WEARER/OPPONENT.
     who: WEARER
     # Potion Effect that should be applied.
@@ -47,7 +47,7 @@ effects:
     # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
     amplifier: "{level} - 1"
   POTION-2:
-    type: STATIC_EFFECT
+    trigger: STATIC_EFFECT
     who: WEARER
     potion-type: INCREASE_DAMAGE
     amplifier: "{level} - 1"
@@ -57,7 +57,7 @@ mobs:
   # Type of Mob
   ZOMBIE:
     # Trigger event that spawns the mob.
-    effect-type: DEFENSE_PLAYER_MELEE
+    trigger: DEFENSE_PLAYER_MELEE
     # Max amount mobs that will be spawned.
     max-amount: "{level}"
     # Chance of trigger the mob spawning.

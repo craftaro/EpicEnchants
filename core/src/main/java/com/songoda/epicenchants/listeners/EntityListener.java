@@ -1,16 +1,22 @@
 package com.songoda.epicenchants.listeners;
 
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.enums.EffectType;
+import com.songoda.epicenchants.enums.TriggerType;
 import de.tr7zw.itemnbtapi.NBTEntity;
-import org.bukkit.entity.*;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import static com.songoda.epicenchants.enums.EffectType.*;
+import static com.songoda.epicenchants.enums.TriggerType.*;
 
 public class EntityListener implements Listener {
     private final EpicEnchants instance;
@@ -40,12 +46,12 @@ public class EntityListener implements Listener {
 
             if (hitEntity instanceof Player) {
                 LivingEntity opponent = source instanceof LivingEntity ? ((LivingEntity) source) : null;
-                EffectType type = source instanceof Player ? DEFENSE_PLAYER_RANGE : DEFENSE_MOB_RANGE;
+                TriggerType type = source instanceof Player ? DEFENSE_PLAYER_RANGE : DEFENSE_MOB_RANGE;
                 instance.getEnchantUtils().handlePlayer(((Player) hitEntity), opponent, event, type);
             }
 
             if (source instanceof Player) {
-                EffectType type = event.getEntity() instanceof Player ? ATTACK_PLAYER_RANGE : ATTACK_MOB_RANGE;
+                TriggerType type = event.getEntity() instanceof Player ? ATTACK_PLAYER_RANGE : ATTACK_MOB_RANGE;
                 instance.getEnchantUtils().handlePlayer(((Player) source), hitEntity, event, type);
             }
         }
@@ -54,35 +60,35 @@ public class EntityListener implements Listener {
         //Player got hit
         if (event.getEntity() instanceof Player) {
             Player defender = (Player) event.getEntity();
-            EffectType effectType = null;
+            TriggerType triggerType = null;
             LivingEntity opponent = null;
 
             if (event.getDamager() instanceof Player) {
                 opponent = ((LivingEntity) event.getDamager());
-                effectType = DEFENSE_PLAYER_MELEE;
+                triggerType = DEFENSE_PLAYER_MELEE;
             } else if (event.getDamager() instanceof LivingEntity && !(event.getDamager() instanceof Player)) {
                 opponent = ((LivingEntity) event.getDamager());
-                effectType = DEFENSE_MOB_MELEE;
+                triggerType = DEFENSE_MOB_MELEE;
             }
 
-            if (effectType != null) {
-                instance.getEnchantUtils().handlePlayer(defender, opponent, event, effectType);
+            if (triggerType != null) {
+                instance.getEnchantUtils().handlePlayer(defender, opponent, event, triggerType);
             }
         }
 
         //Player damaged an entity
         if (event.getDamager() instanceof Player) {
             Player attacker = (Player) event.getDamager();
-            EffectType effectType = null;
+            TriggerType triggerType = null;
 
             if (event.getEntity() instanceof Player) {
-                effectType = ATTACK_PLAYER_MELEE;
+                triggerType = ATTACK_PLAYER_MELEE;
             } else if (event.getEntity() instanceof LivingEntity) {
-                effectType = ATTACK_MOB_MELEE;
+                triggerType = ATTACK_MOB_MELEE;
             }
 
-            if (effectType != null) {
-                instance.getEnchantUtils().handlePlayer(attacker, ((LivingEntity) event.getEntity()), event, effectType);
+            if (triggerType != null) {
+                instance.getEnchantUtils().handlePlayer(attacker, ((LivingEntity) event.getEntity()), event, triggerType);
             }
         }
     }

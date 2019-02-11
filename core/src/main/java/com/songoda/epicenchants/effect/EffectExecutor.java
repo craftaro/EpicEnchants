@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.effect;
 
-import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.GeneralUtils;
 import lombok.Getter;
@@ -20,22 +20,22 @@ import static com.songoda.epicenchants.effect.EffectExecutor.Who.WEARER;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
-    @Getter private final EffectType effectType;
-    private EffectType[] allowedEffects;
+    @Getter private final TriggerType triggerType;
+    private TriggerType[] allowedEffects;
 
-    public EffectExecutor(ConfigurationSection section, EffectType... allowedEffects) {
+    public EffectExecutor(ConfigurationSection section, TriggerType... allowedEffects) {
         this.section = section;
-        this.effectType = EffectType.valueOf(section.getString("type"));
+        this.triggerType = TriggerType.valueOf(section.getString("trigger"));
         this.allowedEffects = allowedEffects;
     }
 
-    public void testAndRun(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, EffectType type, Event event, EventType eventType) {
-        if (type != effectType) {
+    public void testAndRun(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
+        if (type != triggerType) {
             return;
         }
 
-        if (allowedEffects.length != 0 && Arrays.stream(allowedEffects).noneMatch(t -> t == effectType)) {
-            throw new IllegalStateException(section.getName() + " cannot be triggered by " + effectType.toString());
+        if (allowedEffects.length != 0 && Arrays.stream(allowedEffects).noneMatch(t -> t == triggerType)) {
+            throw new IllegalStateException(section.getName() + " cannot be triggered by " + triggerType.toString());
         }
 
         if (section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(section.getString("chance")).get(level, 100))) {
@@ -65,7 +65,7 @@ public abstract class EffectExecutor {
     }
 
     public void consume(Consumer<LivingEntity> playerConsumer, Player wearer, @Nullable LivingEntity opponent) {
-        if (effectType == EffectType.HELD_ITEM || effectType == EffectType.STATIC_EFFECT) {
+        if (triggerType == TriggerType.HELD_ITEM || triggerType == TriggerType.STATIC_EFFECT) {
             playerConsumer.accept(wearer);
             return;
         }

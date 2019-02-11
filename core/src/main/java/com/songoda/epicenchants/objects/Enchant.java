@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.objects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
-import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.wrappers.MobWrapper;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,9 +30,9 @@ public class Enchant {
     @Nullable private BookItem bookItem;
     private LeveledModifier modifyDamage;
 
-    public void onAction(@NotNull Player wearer, @Nullable LivingEntity opponent, Event event, int level, EffectType effectType, EventType eventType) {
-        effectExecutors.forEach(effect -> effect.testAndRun(wearer, opponent, level, effectType, event, eventType));
-        mobs.forEach(mobWrapper -> mobWrapper.trySpawn(wearer, opponent, level, effectType));
+    public void onAction(@NotNull Player wearer, @Nullable LivingEntity opponent, Event event, int level, TriggerType triggerType, EventType eventType) {
+        effectExecutors.forEach(effect -> effect.testAndRun(wearer, opponent, level, triggerType, event, eventType));
+        mobs.forEach(mobWrapper -> mobWrapper.trySpawn(wearer, opponent, level, triggerType));
     }
 
     public BookItem getBookItem() {

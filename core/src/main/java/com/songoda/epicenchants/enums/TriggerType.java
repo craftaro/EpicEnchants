@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.enums;
 
-public enum EffectType {
+public enum TriggerType {
     ATTACK_PLAYER_MELEE,
     ATTACK_PLAYER_RANGE,
 

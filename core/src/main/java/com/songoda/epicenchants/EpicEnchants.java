@@ -5,9 +5,14 @@ import co.aikar.commands.InvalidCommandArgument;
 import com.songoda.epicenchants.commands.EnchantCommand;
 import com.songoda.epicenchants.enums.GiveType;
 import com.songoda.epicenchants.listeners.*;
-import com.songoda.epicenchants.managers.*;
+import com.songoda.epicenchants.managers.EnchantManager;
+import com.songoda.epicenchants.managers.FileManager;
+import com.songoda.epicenchants.managers.GroupManager;
+import com.songoda.epicenchants.managers.InfoManager;
 import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.utils.*;
+import com.songoda.epicenchants.utils.EnchantUtils;
+import com.songoda.epicenchants.utils.FastInv;
+import com.songoda.epicenchants.utils.SpecialItems;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -18,7 +23,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.songoda.epicenchants.utils.GeneralUtils.color;
 import static org.bukkit.Bukkit.getConsoleSender;
@@ -61,7 +68,6 @@ public class EpicEnchants extends JavaPlugin {
 
         setupCommands();
         setupListeners();
-        setupVersion();
 
         if (!enchantManager.getEnchants().isEmpty()) {
             getLogger().info("Successfully loaded enchants: " + enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
@@ -86,6 +92,8 @@ public class EpicEnchants extends JavaPlugin {
         commandManager.getCommandCompletions().registerCompletion("enchants", c -> enchantManager.getEnchants().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
         commandManager.getCommandCompletions().registerCompletion("enchantFiles", c -> fileManager.getYmlFiles("enchants").orElse(Collections.emptyList()).stream().map(File::getName).collect(Collectors.toList()));
         commandManager.getCommandCompletions().registerCompletion("giveType", c -> Arrays.stream(GiveType.values()).map(s -> s.toString().replace("_", "").toLowerCase()).collect(Collectors.toList()));
+        commandManager.getCommandCompletions().registerCompletion("levels", c -> IntStream.rangeClosed(1, c.getContextValue(Enchant.class).getMaxLevel()).boxed().map(Objects::toString).collect(Collectors.toList()));
+        commandManager.getCommandCompletions().registerCompletion("increment", c -> IntStream.rangeClosed(0, 100).filter(i -> i % 10 == 0).boxed().map(Objects::toString).collect(Collectors.toList()));
 
         commandManager.getCommandContexts().registerContext(Enchant.class, c -> enchantManager.getEnchant(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No enchant exists by that name")));
         commandManager.getCommandContexts().registerContext(File.class, c -> enchantManager.getEnchantFile(c.popFirstArg()).orElseThrow(() -> new InvalidCommandArgument("No EnchantFile exists by that name")));
@@ -107,11 +115,6 @@ public class EpicEnchants extends JavaPlugin {
             add(new EntityListener(instance));
             add(new WhiteScrollListener(instance));
         }}.forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
-    }
-
-    private void setupVersion() {
-        int currentVersion = Integer.parseInt(getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[1]);
-        VersionDependent.initLegacy(currentVersion);
     }
 
     public void reload() {

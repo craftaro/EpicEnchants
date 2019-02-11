@@ -1,9 +1,9 @@
 package com.songoda.epicenchants.utils;
 
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.Enchant;
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
@@ -19,8 +19,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.enums.EffectType.HELD_ITEM;
 import static com.songoda.epicenchants.enums.EnchantResult.*;
+import static com.songoda.epicenchants.enums.TriggerType.HELD_ITEM;
 
 public class EnchantUtils {
 
@@ -78,17 +78,17 @@ public class EnchantUtils {
                 .collect(Collectors.toMap(key -> instance.getEnchantManager().getEnchantUnsafe(key), compound::getInteger));
     }
 
-    public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, EffectType effectType) {
+    public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, TriggerType triggerType) {
         List<ItemStack> stacks = new ArrayList<>(Arrays.asList(player.getInventory().getArmorContents()));
         stacks.add(player.getItemInHand());
         stacks.removeIf(Objects::isNull);
 
-        if (effectType == HELD_ITEM) {
+        if (triggerType == HELD_ITEM) {
             stacks = Collections.singletonList(player.getItemInHand());
         }
 
         stacks.stream().map(this::getEnchants).forEach(list -> list.forEach((enchant, level) -> {
-            enchant.onAction(player, opponent, event, level, effectType, EventType.NONE);
+            enchant.onAction(player, opponent, event, level, triggerType, EventType.NONE);
         }));
     }
 }

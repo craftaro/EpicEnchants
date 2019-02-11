@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
-import com.songoda.epicenchants.enums.EffectType;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
@@ -29,7 +29,7 @@ public class Potion extends EffectExecutor {
             return;
         }
 
-        if (getEffectType() == EffectType.STATIC_EFFECT || getEffectType() == EffectType.HELD_ITEM) {
+        if (this.getTriggerType() == TriggerType.STATIC_EFFECT || this.getTriggerType() == TriggerType.HELD_ITEM) {
             if (eventType == EventType.ON) {
                 consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, ((int) amplifier.get(level, 0)),
                         false, false)), wearer, opponent);

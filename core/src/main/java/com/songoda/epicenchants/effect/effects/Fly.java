@@ -7,9 +7,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static com.songoda.epicenchants.enums.EffectType.HELD_ITEM;
-import static com.songoda.epicenchants.enums.EffectType.STATIC_EFFECT;
 import static com.songoda.epicenchants.enums.EventType.ON;
+import static com.songoda.epicenchants.enums.TriggerType.HELD_ITEM;
+import static com.songoda.epicenchants.enums.TriggerType.STATIC_EFFECT;
 
 public class Fly extends EffectExecutor {
     public Fly(ConfigurationSection section) {

@@ -4,3 +4,4 @@ main: com.songoda.epicenchants.EpicEnchants
 authors: [GB6]
 website: https://songoda.com/
 depend: [Vault]
+api-version: 1.13

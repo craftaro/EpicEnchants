@@ -33,11 +33,11 @@ public class EnchantCommand extends BaseCommand {
 
     //ee give book {player} {enchant} {group}
     @Subcommand("give book")
-    @CommandCompletion("@players @enchants @nothing @nothing @nothing")
+    @CommandCompletion("@players @enchants @levels @increment @increment")
     @Description("Give enchant books to players")
     @CommandPermission("epicenchants.give")
     public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
-        if (level > enchant.getMaxLevel()) {
+        if (level != null && level > enchant.getMaxLevel()) {
             sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.maxlevel",
                     of("enchant", enchant.getIdentifier()),
                     of("max-level", enchant.getMaxLevel())));

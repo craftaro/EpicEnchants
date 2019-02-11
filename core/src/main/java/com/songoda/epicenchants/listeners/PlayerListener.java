@@ -16,9 +16,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.songoda.epicenchants.enums.EffectType.*;
 import static com.songoda.epicenchants.enums.EventType.OFF;
 import static com.songoda.epicenchants.enums.EventType.ON;
+import static com.songoda.epicenchants.enums.TriggerType.*;
 
 public class PlayerListener implements Listener {
     private final EpicEnchants instance;

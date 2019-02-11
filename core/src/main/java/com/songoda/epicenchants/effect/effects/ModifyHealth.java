@@ -20,7 +20,7 @@ public class ModifyHealth extends EffectExecutor {
             if (entity.getHealth() + amount > entity.getMaxHealth()) {
                 entity.setHealth(entity.getMaxHealth());
             } else if (entity.getHealth() + amount < 0) {
-                entity.setHealth(0);
+                entity.setHealth(0D);
             } else {
                 entity.setHealth(entity.getHealth() + amount);
             }

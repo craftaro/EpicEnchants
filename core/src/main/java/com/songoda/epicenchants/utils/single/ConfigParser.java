@@ -1,12 +1,10 @@
-package com.songoda.epicenchants.utils;
+package com.songoda.epicenchants.utils.single;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.effect.EffectManager;
 import com.songoda.epicenchants.enums.TriggerType;
-import com.songoda.epicenchants.objects.BookItem;
-import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.objects.Group;
-import com.songoda.epicenchants.objects.LeveledModifier;
+import com.songoda.epicenchants.objects.*;
+import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import com.songoda.epicenchants.wrappers.MobWrapper;
 import org.bukkit.Material;
@@ -20,18 +18,19 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.utils.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class ConfigParser {
     public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) {
         return Enchant.builder()
                 .identifier(config.getString("identifier"))
-                .group(instance.getGroupManager().getGroup(config.getString("group").toUpperCase()).orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))))
+                .group(instance.getGroupManager().getValue(config.getString("group").toUpperCase()).orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))))
                 .maxLevel(config.getInt("max-level"))
                 .format(color(config.getString("applied-format")))
                 .bookItem(parseBookItem(config.getConfigurationSection("book-item")))
                 .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()) : Collections.emptySet()))
                 .conflict(config.isList("conflicting-enchants") ? new HashSet<>(config.getStringList("conflicting-enchants")) : Collections.emptySet())
+                .condition(Condition.of(config.getString("condition")))
                 .mobs(config.isConfigurationSection("mobs") ? config.getConfigurationSection("mobs").getKeys(false).stream()
                         .map(s -> "mobs." + s)
                         .map(config::getConfigurationSection)
@@ -89,6 +88,7 @@ public class ConfigParser {
                 .color(section.getString("group-color"))
                 .bookItem(parseBookItem(section.getConfigurationSection("book-item")))
                 .slotsUsed(section.getInt("slots-used"))
+                .tinkererExp(section.getInt("tinkerer-exp-per-level"))
                 .destroyRateMin(section.getInt("rates.destroy-min"))
                 .destroyRateMax(section.getInt("rates.destroy-max"))
                 .successRateMin(section.getInt("rates.success-min"))

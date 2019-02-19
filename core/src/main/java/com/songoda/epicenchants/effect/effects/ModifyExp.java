@@ -2,7 +2,8 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
-import com.songoda.epicenchants.utils.Experience;
+import com.songoda.epicenchants.objects.LeveledModifier;
+import com.songoda.epicenchants.utils.single.Experience;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,7 +19,12 @@ public class ModifyExp extends EffectExecutor {
     public void execute(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> {
             if (entity instanceof Player) {
-                Experience.changeExp(((Player) entity), (int) getAmount().get(level, 0));
+                Player player = (Player) entity;
+                if (getSection().getString("amount").endsWith("L")) {
+                    player.setLevel((int) (player.getLevel() + LeveledModifier.of(getSection().getString("amount").replace("L", "")).get(level, 0)));
+                } else {
+                    Experience.changeExp(player, (int) getAmount().get(level, 0));
+                }
             }
         }, wearer, opponent);
     }

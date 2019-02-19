@@ -1,0 +1,41 @@
+title: "Tinkerer"
+rows: 6
+
+player-slots: "1,2,3,9,10,11,12,18,19,20,21,27,28,29,30,36,37,38,39,45,46,47,48"
+
+tinkerer-slots: "5,6,7,14,15,16,17,23,24,25,26,32,33,34,35,41,42,43,44,50,51,52,53"
+
+slots: "(1,5) (2,6) (3,7) (9,14)
+(10,15) (11,16) (12,17) (18,23)
+(19,24) (20,25) (21,26) (27,32)
+(28,33) (29,34) (30,35) (36,41)
+(37,42) (38,43) (39,44) (45,50)
+(46,51) (47,52) (48,53)"
+
+contents:
+  1:
+    material: "STAINED_GLASS_PANE"
+    display-name: " "
+    slot: "4,13,22,31,40"
+  accept-left:
+    material: "STAINED_GLASS_PANE"
+    data: 4
+    display-name: "&eClick to accept trade"
+    slot: 0
+  accept-right:
+    material: "STAINED_GLASS_PANE"
+    data: 4
+    display-name: "&eClick to accept trade"
+    slot: 8
+  deposit-all:
+    material: "STAINED_GLASS_PANE"
+    data: 4
+    display-name: "&l&eDeposit All"
+    lore:
+      - "&7Click to deposit all tinkerable items."
+    slot: "49"
+
+exp-table-per-level:
+  DEFAULT: 10
+  DEPTH_STRIDER: 20
+  ExampleEnchant: 50

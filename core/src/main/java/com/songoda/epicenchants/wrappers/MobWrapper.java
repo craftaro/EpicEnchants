@@ -2,12 +2,9 @@ package com.songoda.epicenchants.wrappers;
 
 import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.epicenchants.utils.GeneralUtils;
-import com.songoda.epicenchants.utils.ItemBuilder;
-import de.tr7zw.itemnbtapi.NBTEntity;
-import de.tr7zw.itemnbtapi.NBTList;
-import de.tr7zw.itemnbtapi.NBTListCompound;
-import de.tr7zw.itemnbtapi.NBTType;
+import com.songoda.epicenchants.utils.objects.ItemBuilder;
+import com.songoda.epicenchants.utils.single.GeneralUtils;
+import de.tr7zw.itemnbtapi.*;
 import lombok.Builder;
 import org.bukkit.Location;
 import org.bukkit.entity.*;

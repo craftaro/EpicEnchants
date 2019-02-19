@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.utils;
+package com.songoda.epicenchants.utils.objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,10 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A fast API to easily create advanced GUI.
@@ -99,61 +96,58 @@ public class FastInv implements InventoryHolder {
         }
     }
 
-    private static Listener getListener() {
-        return new Listener() {
+    public static class FastInvClickEvent extends FastInvEvent {
+        private final InventoryClickEvent event;
+        private final InventoryAction action;
+        private final ClickType clickType;
+        private final ItemStack item;
+        private final int slot;
 
-            @EventHandler
-            public void onClick(InventoryClickEvent event) {
-                if (event.getInventory().getHolder() instanceof FastInv && event.getWhoClicked() instanceof Player) {
-                    int slot = event.getRawSlot();
-                    FastInv inv = (FastInv) event.getInventory().getHolder();
+        private FastInvClickEvent(Player player, FastInv inventory, InventoryClickEvent event, int slot, ItemStack item,
+                                  boolean cancelled, InventoryAction action, ClickType clickType) {
+            super(player, inventory, cancelled);
+            this.event = event;
+            this.slot = slot;
+            this.item = item;
+            this.action = action;
+            this.clickType = clickType;
+        }
 
-                    FastInvClickEvent clickEvent = new FastInvClickEvent((Player) event.getWhoClicked(), inv, slot,
-                            event.getCurrentItem(), true, event.getAction(), event.getClick());
+        /**
+         * @return The action of the event
+         */
+        public InventoryAction getAction() {
+            return this.action;
+        }
 
-                    if (inv.itemListeners.containsKey(slot)) {
-                        inv.itemListeners.get(slot).onClick(clickEvent);
-                    }
+        /**
+         * @return The click type
+         */
+        public ClickType getClickType() {
+            return this.clickType;
+        }
 
-                    inv.clickListeners.forEach(listener -> listener.onClick(clickEvent));
+        /**
+         * Get the clicked {@link ItemStack}
+         *
+         * @return The clicked item
+         */
+        public ItemStack getItem() {
+            return this.item;
+        }
 
-                    if (clickEvent.isCancelled()) {
-                        event.setCancelled(true);
-                    }
-                }
-            }
+        /**
+         * Get the number of the clicked slot
+         *
+         * @return The slot number
+         */
+        public int getSlot() {
+            return this.slot;
+        }
 
-            @EventHandler
-            public void onClose(InventoryCloseEvent event) {
-                if (event.getInventory().getHolder() instanceof FastInv && event.getPlayer() instanceof Player) {
-                    Player player = (Player) event.getPlayer();
-                    FastInv inv = (FastInv) event.getInventory().getHolder();
-
-                    FastInvCloseEvent closeEvent = new FastInvCloseEvent(player, inv, false);
-                    inv.closeListeners.forEach(listener -> listener.onClose(closeEvent));
-
-                    Bukkit.getScheduler().runTask(plugin, () -> {
-                        // Tiny delay to prevent errors.
-                        if (closeEvent.isCancelled() && player.isOnline()) {
-                            player.openInventory(inv.getInventory());
-                        } else if (inv.getInventory().getViewers().isEmpty() && inv.cancelTasksOnClose) {
-                            inv.cancelTasks();
-                        }
-                    });
-                }
-            }
-
-            @EventHandler
-            public void onDisable(PluginDisableEvent event) {
-                if (event.getPlugin().equals(plugin)) {
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (player.getOpenInventory().getTopInventory().getHolder() instanceof FastInv) {
-                            player.closeInventory();
-                        }
-                    }
-                }
-            }
-        };
+        public InventoryClickEvent getEvent() {
+            return event;
+        }
     }
 
     /**
@@ -420,7 +414,6 @@ public class FastInv implements InventoryHolder {
     }
 
     public static abstract class FastInvEvent {
-
         private boolean cancelled;
         private final FastInv inventory;
         private final Player player;
@@ -468,53 +461,61 @@ public class FastInv implements InventoryHolder {
         }
     }
 
-    public static class FastInvClickEvent extends FastInvEvent {
+    private static Listener getListener() {
+        return new Listener() {
 
-        private final InventoryAction action;
-        private final ClickType clickType;
-        private final ItemStack item;
-        private final int slot;
+            @EventHandler
+            public void onClick(InventoryClickEvent event) {
+                if (event.getInventory().getHolder() instanceof FastInv && event.getWhoClicked() instanceof Player) {
+                    int slot = event.getRawSlot();
+                    FastInv inv = (FastInv) event.getInventory().getHolder();
 
-        private FastInvClickEvent(Player player, FastInv inventory, int slot, ItemStack item,
-                                  boolean cancelled, InventoryAction action, ClickType clickType) {
-            super(player, inventory, cancelled);
-            this.slot = slot;
-            this.item = item;
-            this.action = action;
-            this.clickType = clickType;
-        }
+                    FastInvClickEvent clickEvent = new FastInvClickEvent((Player) event.getWhoClicked(), inv, event, slot,
+                            event.getCurrentItem(), true, event.getAction(), event.getClick());
 
-        /**
-         * @return The action of the event
-         */
-        public InventoryAction getAction() {
-            return this.action;
-        }
+                    if (inv.itemListeners.containsKey(slot)) {
+                        inv.itemListeners.get(slot).onClick(clickEvent);
+                    }
 
-        /**
-         * @return The click type
-         */
-        public ClickType getClickType() {
-            return this.clickType;
-        }
+                    inv.clickListeners.forEach(listener -> listener.onClick(clickEvent));
 
-        /**
-         * Get the clicked {@link ItemStack}
-         *
-         * @return The clicked item
-         */
-        public ItemStack getItem() {
-            return this.item;
-        }
+                    if (clickEvent.isCancelled()) {
+                        event.setCancelled(true);
+                    }
+                }
+            }
 
-        /**
-         * Get the number of the clicked slot
-         *
-         * @return The slot number
-         */
-        public int getSlot() {
-            return this.slot;
-        }
+            @EventHandler
+            public void onClose(InventoryCloseEvent event) {
+                if (event.getInventory().getHolder() instanceof FastInv && event.getPlayer() instanceof Player) {
+                    Player player = (Player) event.getPlayer();
+                    FastInv inv = (FastInv) event.getInventory().getHolder();
+
+                    FastInvCloseEvent closeEvent = new FastInvCloseEvent(player, inv, false);
+                    inv.closeListeners.forEach(listener -> listener.onClose(closeEvent));
+
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        // Tiny delay to prevent errors.
+                        if (closeEvent.isCancelled() && player.isOnline()) {
+                            player.openInventory(inv.getInventory());
+                        } else if (inv.getInventory().getViewers().isEmpty() && inv.cancelTasksOnClose) {
+                            inv.cancelTasks();
+                        }
+                    });
+                }
+            }
+
+            @EventHandler
+            public void onDisable(PluginDisableEvent event) {
+                if (event.getPlugin().equals(plugin)) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        if (player.getOpenInventory().getTopInventory().getHolder() instanceof FastInv) {
+                            player.closeInventory();
+                        }
+                    }
+                }
+            }
+        };
     }
 
     public static class FastInvCloseEvent extends FastInvEvent {

@@ -1,11 +1,15 @@
-package com.songoda.epicenchants.utils;
+package com.songoda.epicenchants.utils.objects;
 
 import com.songoda.epicenchants.objects.Placeholder;
+import com.songoda.epicenchants.utils.single.ConfigParser;
+import com.songoda.epicenchants.utils.single.GeneralUtils;
+import com.songoda.epicenchants.utils.single.XMaterial;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -14,7 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.utils.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class ItemBuilder {
 
@@ -41,8 +45,16 @@ public class ItemBuilder {
         this(new ItemStack(material, amount, data));
     }
 
+    public ItemBuilder(ConfigurationSection section, Player player, Placeholder... placeholders) {
+        this(section, placeholders);
+
+        if (item.getType() == Material.LEGACY_SKULL_ITEM) {
+            ((SkullMeta) item.getItemMeta()).setOwningPlayer(player);
+        }
+    }
+
     public ItemBuilder(ConfigurationSection section, Placeholder... placeholders) {
-        this(Material.valueOf(section.getString("material")), (byte) (section.contains("data") ? section.getInt("data") : 0));
+        this(XMaterial.requestXMaterial(section.getString("material"), (byte) (section.contains("data") ? section.getInt("data") : 0)).parseItem());
 
         if (section.contains("enchants")) {
             section.getStringList("enchants").stream()
@@ -144,6 +156,23 @@ public class ItemBuilder {
         }
 
         meta.setLore(meta.getLore().stream().filter(s -> !s.startsWith(string)).collect(Collectors.toList()));
+        return this;
+    }
+
+    public ItemBuilder removeLore(int index) {
+        if (!meta.hasLore()) {
+            return this;
+        }
+
+        List<String> lore = meta.getLore();
+
+        if (index >= lore.size()) {
+            return this;
+        }
+
+        lore.remove(index);
+
+        meta.setLore(lore);
         return this;
     }
 

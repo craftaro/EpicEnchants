@@ -2,11 +2,11 @@ package com.songoda.epicenchants.menus;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Group;
-import com.songoda.epicenchants.utils.FastInv;
-import com.songoda.epicenchants.utils.ItemBuilder;
+import com.songoda.epicenchants.utils.objects.FastInv;
+import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import static com.songoda.epicenchants.utils.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class MainInfoMenu extends FastInv {
 
@@ -18,7 +18,7 @@ public class MainInfoMenu extends FastInv {
                 .map(config::getConfigurationSection)
                 .forEach(section -> {
                     addItem(section.getInt("slot"), new ItemBuilder(section).build(), event -> {
-                        Group group = instance.getGroupManager().getGroup(section.getString("group"))
+                        Group group = instance.getGroupManager().getValue(section.getString("group"))
                                 .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + section.getString("group")));
                         instance.getInfoManager().getMenu(group).ifPresent(menu -> menu.open(event.getPlayer()));
                     });

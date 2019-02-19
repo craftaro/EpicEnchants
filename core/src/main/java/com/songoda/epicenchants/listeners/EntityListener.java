@@ -3,17 +3,11 @@ package com.songoda.epicenchants.listeners;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.TriggerType;
 import de.tr7zw.itemnbtapi.NBTEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.projectiles.ProjectileSource;
 
 import static com.songoda.epicenchants.enums.TriggerType.*;
@@ -109,6 +103,9 @@ public class EntityListener implements Listener {
             case BLOCK_EXPLOSION:
             case ENTITY_EXPLOSION:
                 instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, EXPLOSION_DAMAGE);
+                break;
+            case POISON:
+                instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, POISON_DAMAGE);
                 break;
         }
     }

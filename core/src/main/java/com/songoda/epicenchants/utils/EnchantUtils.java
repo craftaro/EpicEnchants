@@ -5,6 +5,9 @@ import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.utils.objects.ItemBuilder;
+import com.songoda.epicenchants.utils.single.GeneralUtils;
+import com.songoda.epicenchants.utils.single.RomanNumber;
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.apache.commons.lang3.tuple.Pair;
@@ -31,13 +34,12 @@ public class EnchantUtils {
     }
 
     public Pair<ItemStack, EnchantResult> apply(ItemStack itemStack, Enchant enchant, int level, int successRate, int destroyRate) {
-        if (!GeneralUtils.chance(successRate)) {
-            return GeneralUtils.chance(destroyRate) ? Pair.of(new ItemStack(Material.AIR), BROKEN_FAILURE) : Pair.of(itemStack, FAILURE);
-        }
+        boolean hasProtection = new NBTItem(itemStack).hasKey("protected");
 
         Map<Enchant, Integer> enchantMap = getEnchants(itemStack);
 
-        if (enchantMap.keySet().stream().anyMatch(s -> enchant.getConflict().contains(s.getIdentifier()))) {
+        if (enchantMap.keySet().stream().anyMatch(s -> enchant.getConflict().contains(s.getIdentifier())) ||
+                enchant.getConflict().stream().anyMatch(s -> enchantMap.keySet().stream().map(Enchant::getIdentifier).collect(Collectors.toList()).contains(s))) {
             return Pair.of(itemStack, CONFLICT);
         }
 
@@ -49,9 +51,30 @@ public class EnchantUtils {
             return Pair.of(itemStack, ALREADY_APPLIED);
         }
 
+        if (!GeneralUtils.chance(successRate)) {
+            if (GeneralUtils.chance(destroyRate)) {
+                if (hasProtection) {
+                    NBTItem nbtItem = new ItemBuilder(itemStack).removeLore(instance.getSpecialItems().getWhiteScrollLore()).nbt();
+                    nbtItem.removeKey("protected");
+                    return Pair.of(nbtItem.getItem(), PROTECTED);
+                }
+                return Pair.of(new ItemStack(Material.AIR), BROKEN_FAILURE);
+            }
+            return Pair.of(itemStack, FAILURE);
+        }
+
         ItemBuilder itemBuilder = new ItemBuilder(itemStack);
+
+        if (hasProtection) {
+            itemBuilder.removeLore(instance.getSpecialItems().getWhiteScrollLore());
+        }
+
         itemBuilder.removeLore(enchant.getFormat().replace("{level}", "").trim());
-        itemBuilder.addLore(enchant.getFormat().replace("{level}", "" + level));
+        itemBuilder.addLore(enchant.getFormat().replace("{level}", "" + (instance.getConfig().getBoolean("roman-numbers") ? RomanNumber.toRoman(level) : level)));
+
+        if (hasProtection) {
+            itemBuilder.addLore(instance.getSpecialItems().getWhiteScrollLore());
+        }
 
         NBTItem nbtItem = itemBuilder.nbt();
 
@@ -64,18 +87,24 @@ public class EnchantUtils {
     }
 
     public Map<Enchant, Integer> getEnchants(ItemStack itemStack) {
-        if (itemStack == null) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
             return Collections.emptyMap();
         }
 
-        NBTCompound compound = new NBTItem(itemStack).getCompound("enchants");
+        NBTItem nbtItem = new NBTItem(itemStack);
+
+        if (!nbtItem.hasNBTData() || nbtItem.hasKey("enchants")) {
+            return Collections.emptyMap();
+        }
+
+        NBTCompound compound = nbtItem.getCompound("enchants");
 
         if (compound == null) {
             return Collections.emptyMap();
         }
 
-        return compound.getKeys().stream().filter(key -> instance.getEnchantManager().getEnchantUnsafe(key) != null)
-                .collect(Collectors.toMap(key -> instance.getEnchantManager().getEnchantUnsafe(key), compound::getInteger));
+        return compound.getKeys().stream().filter(key -> instance.getEnchantManager().getValueUnsafe(key) != null)
+                .collect(Collectors.toMap(key -> instance.getEnchantManager().getValueUnsafe(key), compound::getInteger));
     }
 
     public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, TriggerType triggerType) {
@@ -90,5 +119,22 @@ public class EnchantUtils {
         stacks.stream().map(this::getEnchants).forEach(list -> list.forEach((enchant, level) -> {
             enchant.onAction(player, opponent, event, level, triggerType, EventType.NONE);
         }));
+    }
+
+    public ItemStack removeEnchant(ItemStack itemStack, Enchant enchant) {
+        if (itemStack == null) {
+            return null;
+        }
+
+        NBTItem nbtItem = new NBTItem(itemStack);
+
+        if (nbtItem.getCompound("enchants") == null || nbtItem.getCompound("enchants").getInteger(enchant.getIdentifier()) == null) {
+            return itemStack;
+        }
+
+        nbtItem.getCompound("enchants").removeKey(enchant.getIdentifier());
+        ItemBuilder output = new ItemBuilder(nbtItem.getItem());
+        output.removeLore(enchant.getFormat().replace("{level}", "").trim());
+        return output.build();
     }
 }

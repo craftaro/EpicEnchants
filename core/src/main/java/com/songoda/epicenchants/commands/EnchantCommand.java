@@ -1,22 +1,22 @@
 package com.songoda.epicenchants.commands;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.menus.EnchanterMenu;
+import com.songoda.epicenchants.menus.TinkererMenu;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.objects.Group;
 import org.apache.commons.lang3.tuple.Pair;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
-
 import static com.songoda.epicenchants.enums.EnchantResult.BROKEN_FAILURE;
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.GeneralUtils.getMessageFromResult;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.getMessageFromResult;
 
 @CommandAlias("epicenchants|ee")
 public class EnchantCommand extends BaseCommand {
@@ -24,38 +24,55 @@ public class EnchantCommand extends BaseCommand {
     @Dependency("instance")
     private EpicEnchants instance;
 
-    @Default
-    @Subcommand("enchanter")
+    @Subcommand("%enchanter")
     @Description("Opens the Enchanter")
-    public void onGui(Player player) {
+    @CommandPermission("epicenchants.enchanter")
+    public void onEnchanter(Player player) {
         new EnchanterMenu(instance, instance.getFileManager().getConfiguration("menus/enchanter-menu"), player).open(player);
     }
 
-    //ee give book {player} {enchant} {group}
+    @Subcommand("%tinkerer")
+    @Description("Opens the Tinkerer")
+    @CommandPermission("epicenchants.tinkerer")
+    public void onTinkerer(Player player) {
+        new TinkererMenu(instance, instance.getFileManager().getConfiguration("menus/tinkerer-menu")).open(player);
+    }
+
+    //ee give book [player] [enchant] <level> <success-rate> <destroy-rate>
     @Subcommand("give book")
     @CommandCompletion("@players @enchants @levels @increment @increment")
     @Description("Give enchant books to players")
-    @CommandPermission("epicenchants.give")
+    @CommandPermission("epicenchants.give.book")
     public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         if (level != null && level > enchant.getMaxLevel()) {
-            sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.maxlevel",
+            instance.getAction().perform(sender, "command.book.max-level",
                     of("enchant", enchant.getIdentifier()),
-                    of("max-level", enchant.getMaxLevel())));
+                    of("max-level", enchant.getMaxLevel()));
             return;
         }
-        target.getInventory().addItem(enchant.getBookItem().get(enchant, level, successRate, destroyRate));
-        target.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.received", of("enchant", enchant.getIdentifier())));
-        sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.book.gave", of("player", target.getName()), of("enchant", enchant.getIdentifier())));
+
+        target.getInventory().addItem(enchant.getBook().get(enchant, level, successRate, destroyRate));
+        instance.getAction().perform(target, "command.book.received", of("enchant", enchant.getIdentifier()));
+        instance.getAction().perform(sender, "command.book.gave", of("player", target.getName()), of("enchant", enchant.getIdentifier()));
     }
 
-    //ee give item {player} {giveType} {group}
+    //ee give item dust [player] [group] <type> <percentage>
+    @Subcommand("give item dust")
+    @CommandCompletion("@players @groups @dustTypes @nothing")
+    @CommandPermission("epicenchants.give.item.dust")
+    public void onGiveDust(CommandSender sender, @Flags("other") Player target, Group group, @Optional String dustType, @Optional Integer percentage) {
+        target.getInventory().addItem(instance.getSpecialItems().getDust(group, dustType, percentage));
+        instance.getAction().perform(target, "command.dust.received", of("group", group.getIdentifier()));
+        instance.getAction().perform(sender, "command.dust.gave", of("player", target.getName()), of("group", group.getIdentifier()));
+    }
+
+    //ee give item [giveType] [player] <amount> <success-rate>
     @Subcommand("give item")
     @CommandCompletion("@players @giveType @nothing @nothing")
     @Description("Give enchant books to players")
-    @CommandPermission("epicenchants.give")
+    @CommandPermission("epicenchants.give.item")
     public void onGiveItem(CommandSender sender, @Flags("other") Player target, String giveType, @Optional Integer amount, @Optional Integer successRate) {
         String messageKey;
-
         switch (giveType.toLowerCase()) {
             case "whitescroll":
                 target.getInventory().addItem(instance.getSpecialItems().getWhiteScroll(amount));
@@ -69,23 +86,28 @@ public class EnchantCommand extends BaseCommand {
                 return;
         }
 
-        target.sendMessage(instance.getLocale().getMessageWithPrefix("command." + messageKey + ".received"));
-        sender.sendMessage(instance.getLocale().getMessageWithPrefix("command." + messageKey + ".gave", of("player", target.getName())));
+        instance.getAction().perform(target, "command." + messageKey + ".received");
+        instance.getAction().perform(sender, "command." + messageKey + ".gave", of("player", target.getName()));
     }
 
 
-    //ee apply {enchant} {group}
+    //ee apply [enchant] [level] <success-rate> <destroy-rate>
     @Subcommand("apply")
     @CommandCompletion("@enchants @nothing")
     @Description("Apply enchant to item in hand")
     @CommandPermission("epicenchants.apply")
     public void onApply(Player player, Enchant enchant, int level, @Optional Integer successRate, @Optional Integer destroyRate) {
+        if (player.getItemInHand() == null) {
+            instance.getAction().perform(player, "command.apply.noitem", of("enchant", enchant.getIdentifier()));
+            return;
+        }
+
         int slot = player.getInventory().getHeldItemSlot();
         ItemStack before = player.getItemInHand();
         Pair<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(before, enchant, level,
                 successRate == null ? 100 : successRate, destroyRate == null ? 0 : destroyRate);
 
-        player.sendMessage(instance.getLocale().getMessageWithPrefix(getMessageFromResult(result.getRight()), of("enchant", enchant.getIdentifier())));
+        instance.getAction().perform(player, getMessageFromResult(result.getRight()), of("enchant", enchant.getIdentifier()));
 
         if (result.getRight() == BROKEN_FAILURE) {
             player.getInventory().clear(slot);
@@ -105,27 +127,16 @@ public class EnchantCommand extends BaseCommand {
 
     //ee reload [enchantFileName]
     @Subcommand("reload")
-    @CommandAlias("load")
-    @Description("Reload all config files, or reload/load specific enchant files")
+    @Description("Reload all config files.")
     @CommandCompletion("@enchantFiles")
     @CommandPermission("epicenchants.reload")
-    public void onReload(CommandSender sender, @Optional File fileName) {
-        if (fileName == null) {
-            instance.reload();
-            sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.reload"));
-            return;
-        }
+    public void onReload(CommandSender sender) {
+        instance.reload();
+        instance.getAction().perform(sender, "command.reload");
+    }
 
-        try {
-            instance.getEnchantManager().loadEnchant(fileName);
-        } catch (Exception e) {
-            sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.filereload.failed", of("file-name", fileName.getName())));
-            Bukkit.getConsoleSender().sendMessage("Something went wrong loading the enchant from file " + fileName.getName());
-            Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");
-            e.printStackTrace();
-            return;
-        }
-        sender.sendMessage(instance.getLocale().getMessageWithPrefix("command.filereload.success", of("file-name", fileName.getName())));
-
+    @HelpCommand
+    public void doHelp(CommandSender sender, CommandHelp help) {
+        help.showHelp();
     }
 }

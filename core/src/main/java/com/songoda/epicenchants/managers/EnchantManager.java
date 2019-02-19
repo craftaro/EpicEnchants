@@ -7,45 +7,26 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.utils.ConfigParser.parseEnchant;
-import static java.io.File.separator;
+import static com.songoda.epicenchants.utils.single.ConfigParser.parseEnchant;
 
-public class EnchantManager {
-    private final Map<String, Enchant> enchantMap;
-    private final EpicEnchants instance;
+public class EnchantManager extends Manager<String, Enchant> {
 
     public EnchantManager(EpicEnchants instance) {
-        this.instance = instance;
-        this.enchantMap = new HashMap<>();
-    }
-
-    public Optional<Enchant> getEnchant(String identifier) {
-        return Optional.ofNullable(enchantMap.get(identifier));
-    }
-
-    public void addEnchant(Enchant enchant) {
-        enchantMap.put(enchant.getIdentifier(), enchant);
+        super(instance);
     }
 
     public Collection<Enchant> getEnchants(Group group) {
-        return Collections.unmodifiableCollection(enchantMap.values().stream().filter(s -> s.getGroup().equals(group)).collect(Collectors.toList()));
+        return Collections.unmodifiableCollection(getValues().stream().filter(s -> s.getGroup().equals(group)).collect(Collectors.toList()));
     }
 
     public Optional<Enchant> getRandomEnchant(Group group) {
         Collection<Enchant> tierList = getEnchants(group);
         return tierList.stream().skip((int) (tierList.size() * Math.random())).findFirst();
-    }
-
-    public Collection<Enchant> getEnchants() {
-        return Collections.unmodifiableCollection(enchantMap.values());
-    }
-
-
-    public Enchant getEnchantUnsafe(String identifier) {
-        return getEnchant(identifier).orElse(null);
     }
 
     public void loadEnchants() {
@@ -61,12 +42,9 @@ public class EnchantManager {
     }
 
     public void loadEnchant(File file) throws Exception {
-        addEnchant(parseEnchant(instance, YamlConfiguration.loadConfiguration(file)));
+        Enchant enchant = parseEnchant(instance, YamlConfiguration.loadConfiguration(file));
+        add(enchant.getIdentifier(), enchant);
     }
-
-    public Optional<File> getEnchantFile(String path) {
-        File file = new File(instance.getDataFolder() + separator + "enchants" + separator + path);
-        return file.exists() ? Optional.of(file) : Optional.empty();
-    }
-
 }
+
+

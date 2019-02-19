@@ -1,0 +1,39 @@
+secret-dust:
+  material: FIREBALL
+  display-name: "{group-color}{group-name} Secret Dust &7(Right click)"
+  lore:
+    - "&aSuccess: +{min-rate}-{max-rate}%"
+    - "&7Contains &bMagic&7, &ePrimal&7 or &fMystery &7dust."
+    - "&7An unidentified satchel of dust."
+
+dusts:
+  mystery:
+    chance: 50
+    material: SULPHUR
+    display-name: "&fMystery Dust"
+    lore:
+      - "&7The failed bi-product of"
+      - "&7Mystery and Primal dust."
+
+  magic:
+    chance: 40
+    material: SUGAR
+    display-name: "{group-color}{group-name} Magic Dust"
+    lore:
+      - "&a+{percentage}% success"
+      - "&7Apply to a &l{group-color}{group-name} Enchantment Book"
+      - "&7to increase its success rate by &l{group-color}{percentage}%"
+      - ""
+      - "&7Place dust on enchantment book."
+  primal:
+    chance: 10
+    min-rate: 10
+    max-rate: 30
+    material: GLOWSTONE_DUST
+    display-name: "&l{group-color}{group-name} Primal Dust"
+    lore:
+      - "&a&l+{percentage}% SUCCESS"
+      - "&fApply to a &l{group-color}{group-name} Enchantment Book"
+      - "&fto increase its success rate by &l{group-color}{percentage}%"
+      - ""
+      - "&fPlace dust on enchantment book."

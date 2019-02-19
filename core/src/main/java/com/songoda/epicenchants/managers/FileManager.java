@@ -2,6 +2,7 @@ package com.songoda.epicenchants.managers;
 
 import com.songoda.epicenchants.EpicEnchants;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,27 +16,31 @@ import static java.io.File.separator;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.tuple.Pair.of;
 
-public class FileManager {
-    private final EpicEnchants instance;
-    private final Map<String, FileConfiguration> configurationMap;
+public class FileManager extends Manager<String, FileConfiguration> {
+
+    private final LinkedHashSet<Pair<String, Boolean>> files = new LinkedHashSet<>(asList(of("menus/main-info-menu.yml", true),
+            of("menus/enchanter-menu.yml", true),
+            of("menus/tinkerer-menu.yml", true),
+            of("menus/groups/simple-menu.yml", false),
+            of("menus/groups/unique-menu.yml", false),
+            of("menus/groups/elite-menu.yml", false),
+            of("menus/groups/ultimate-menu.yml", false),
+            of("menus/groups/legendary-menu.yml", false),
+            of("enchants/example-enchant.yml", false),
+            of("config.yml", true),
+            of("groups.yml", true),
+            of("actions.yml", true),
+            of("items/special-items.yml", true),
+            of("items/dusts.yml", true)
+    ));
 
     public FileManager(EpicEnchants instance) {
-        this.instance = instance;
-        this.configurationMap = new HashMap<>();
+        super(instance);
     }
 
-    public void createFiles() {
+    public void loadFiles() {
         Set<String> recentDirs = new HashSet<>();
-        asList(of("menus/main-info-menu.yml", true),
-                of("menus/enchanter-menu.yml", true),
-                of("menus/groups/simple-menu.yml", false),
-                of("menus/groups/unique-menu.yml", false),
-                of("menus/groups/elite-menu.yml", false),
-                of("menus/groups/ultimate-menu.yml", false),
-                of("menus/groups/legendary-menu.yml", false),
-                of("enchants/example-enchant.yml", false),
-                of("config.yml", true),
-                of("groups.yml", true)).forEach(pair -> {
+        files.forEach(pair -> {
             File file = new File(instance.getDataFolder() + separator + pair.getLeft());
 
             if (!file.exists() && (pair.getRight() || (!file.getParent().equals(instance.getDataFolder().getPath())
@@ -57,13 +62,13 @@ public class FileManager {
                 } catch (IOException | InvalidConfigurationException e) {
                     e.printStackTrace();
                 }
-                configurationMap.put(pair.getLeft().replace(".yml", ""), configuration);
+                add(pair.getLeft().replace(".yml", ""), configuration);
             }
         });
     }
 
     public FileConfiguration getConfiguration(String key) {
-        return configurationMap.get(key);
+        return getValueUnsafe(key);
     }
 
     public Optional<List<File>> getYmlFiles(String directory) {

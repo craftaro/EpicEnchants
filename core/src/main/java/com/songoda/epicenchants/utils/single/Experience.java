@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.utils;
+package com.songoda.epicenchants.utils.single;
 
 import org.bukkit.entity.Player;
 

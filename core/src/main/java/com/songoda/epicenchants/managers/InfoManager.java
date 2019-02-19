@@ -31,7 +31,7 @@ public class InfoManager {
         instance.getFileManager().getYmlFiles("menus/groups").ifPresent(list -> list.forEach(file -> {
             try {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                infoMenus.put(instance.getGroupManager().getGroup(config.getString("group"))
+                infoMenus.put(instance.getGroupManager().getValue(config.getString("group"))
                         .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))), new InfoMenu(instance, config));
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("Something went wrong loading the menu from file " + file.getName());

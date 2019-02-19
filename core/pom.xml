@@ -5,7 +5,7 @@
     <parent>
         <artifactId>EpicEnchants-Parent</artifactId>
         <groupId>com.songoda</groupId>
-        <version>1.0.1-ALPHA</version>
+        <version>1.0.3-ALPHA</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>com.github.tr7zw</groupId>
             <artifactId>Item-NBT-API</artifactId>
-            <version>9c5f6575a8</version>
+            <version>master-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
@@ -98,6 +98,13 @@
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.songoda</groupId>
+            <artifactId>UltimateBottles</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

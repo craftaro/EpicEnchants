@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.objects;
 
 import co.aikar.commands.annotation.Optional;
-import com.songoda.epicenchants.utils.ItemBuilder;
+import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import de.tr7zw.itemnbtapi.NBTItem;
 import lombok.Builder;
 import org.bukkit.Material;

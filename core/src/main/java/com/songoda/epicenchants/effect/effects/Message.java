@@ -7,7 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static com.songoda.epicenchants.utils.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class Message extends EffectExecutor {
     public Message(ConfigurationSection section) {

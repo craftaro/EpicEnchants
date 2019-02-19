@@ -47,7 +47,8 @@ public class Throw extends EffectExecutor {
                 vector = new Vector();
         }
 
-        if (vector.length() != 0)
+        if (vector.length() != 0) {
             livingEntity.setVelocity(vector);
+        }
     }
 }

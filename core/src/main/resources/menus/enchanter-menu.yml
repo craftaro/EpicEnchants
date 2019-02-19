@@ -21,5 +21,4 @@ contents:
     group: SIMPLE
     exp-cost: 20
     eco-cost: 2000
-    row: 1
-    column: 5
+    slot: 4

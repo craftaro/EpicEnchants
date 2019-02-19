@@ -3,7 +3,7 @@ package com.songoda.epicenchants.effect;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.epicenchants.utils.GeneralUtils;
+import com.songoda.epicenchants.utils.single.GeneralUtils;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
@@ -12,30 +12,22 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.WEARER;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.*;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
     @Getter private final TriggerType triggerType;
-    private TriggerType[] allowedEffects;
 
-    public EffectExecutor(ConfigurationSection section, TriggerType... allowedEffects) {
+    public EffectExecutor(ConfigurationSection section) {
         this.section = section;
         this.triggerType = TriggerType.valueOf(section.getString("trigger"));
-        this.allowedEffects = allowedEffects;
     }
 
     public void testAndRun(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
         if (type != triggerType) {
             return;
-        }
-
-        if (allowedEffects.length != 0 && Arrays.stream(allowedEffects).noneMatch(t -> t == triggerType)) {
-            throw new IllegalStateException(section.getName() + " cannot be triggered by " + triggerType.toString());
         }
 
         if (section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(section.getString("chance")).get(level, 100))) {

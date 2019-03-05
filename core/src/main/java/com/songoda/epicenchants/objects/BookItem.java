@@ -31,7 +31,7 @@ public class BookItem {
     public ItemStack get(Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         successRate = successRate == null ? current().nextInt(101) : successRate;
         destroyRate = destroyRate == null ? current().nextInt(101) : destroyRate;
-        level = level == null ? current().nextInt(0, enchant.getMaxLevel() + 1) : level;
+        level = level == null ? current().nextInt(1, enchant.getMaxLevel() + 1) : level;
 
         int finalSuccessRate = successRate;
         int finalDestroyRate = destroyRate;

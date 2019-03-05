@@ -5,7 +5,7 @@
     <parent>
         <artifactId>EpicEnchants-Parent</artifactId>
         <groupId>com.songoda</groupId>
-        <version>1.0.3-ALPHA</version>
+        <version>1.0.4-ALPHA</version>
     </parent>
     <packaging>pom</packaging>
 

@@ -36,18 +36,20 @@ public class EnchantUtils {
     public Pair<ItemStack, EnchantResult> apply(ItemStack itemStack, Enchant enchant, int level, int successRate, int destroyRate) {
         boolean hasProtection = new NBTItem(itemStack).hasKey("protected");
 
-        Map<Enchant, Integer> enchantMap = getEnchants(itemStack);
+        Map<Enchant, Integer> currentEnchantMap = getEnchants(itemStack);
+        Set<String> currentIds = currentEnchantMap.keySet().stream().map(Enchant::getIdentifier).collect(Collectors.toSet());
+        Set<String> currentConflicts = currentEnchantMap.keySet().stream().map(Enchant::getConflict).flatMap(Collection::stream).collect(Collectors.toSet());
 
-        if (enchantMap.keySet().stream().anyMatch(s -> enchant.getConflict().contains(s.getIdentifier())) ||
-                enchant.getConflict().stream().anyMatch(s -> enchantMap.keySet().stream().map(Enchant::getIdentifier).collect(Collectors.toList()).contains(s))) {
+
+        if (enchant.getConflict().stream().anyMatch(currentIds::contains) || currentConflicts.contains(enchant.getIdentifier())) {
             return Pair.of(itemStack, CONFLICT);
         }
 
-        if (enchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == enchant.getMaxLevel())) {
+        if (currentEnchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == enchant.getMaxLevel())) {
             return Pair.of(itemStack, MAXED_OUT);
         }
 
-        if (enchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == level)) {
+        if (currentEnchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == level)) {
             return Pair.of(itemStack, ALREADY_APPLIED);
         }
 
@@ -93,7 +95,7 @@ public class EnchantUtils {
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.hasNBTData() || nbtItem.hasKey("enchants")) {
+        if (!nbtItem.hasNBTData() || !nbtItem.hasKey("enchants")) {
             return Collections.emptyMap();
         }
 

@@ -65,6 +65,7 @@ public class TinkererMenu extends FastInv {
 
                             int amount = 0;
 
+                            outer:
                             for (int i = 0; i < inventory.getSize(); i++) {
                                 ItemStack itemStack = inventory.getItem(i);
                                 ItemType itemType = isTinkerable(itemStack);
@@ -73,21 +74,24 @@ public class TinkererMenu extends FastInv {
                                     continue;
                                 }
 
+                                int toSet = itemStack.getAmount();
+
                                 for (int j = 0; j < itemStack.getAmount(); j++) {
                                     if (!handleItem(itemStack, itemType)) {
-                                        continue;
+                                        continue outer;
                                     }
 
                                     amount++;
-
-                                    if (itemStack.getAmount() > 1) {
-                                        itemStack.setAmount(itemStack.getAmount() - 1);
-                                        inventory.setItem(i, itemStack);
-                                        continue;
-                                    }
-
-                                    inventory.clear(i);
+                                    toSet--;
                                 }
+
+                                if (toSet < 1) {
+                                    inventory.clear(i);
+                                    continue;
+                                }
+
+                                itemStack.setAmount(toSet);
+                                inventory.setItem(i, itemStack);
                             }
 
                             instance.getAction().perform(event.getPlayer(), "tinkerer.deposited-all", of("amount", amount));
@@ -137,10 +141,13 @@ public class TinkererMenu extends FastInv {
             }
         });
 
-        onClose(event -> slotMap.keySet().stream().filter(s -> getInventory().getItem(s) != null).forEach(s -> {
+        onClose(event -> {
+            slotMap.keySet().stream().filter(s -> getInventory().getItem(s) != null).forEach(s -> {
+                event.getPlayer().getInventory().addItem(getInventory().getItem(s));
+            });
+
             instance.getAction().perform(event.getPlayer(), "tinkerer.cancelled");
-            event.getPlayer().getInventory().addItem(getInventory().getItem(s));
-        }));
+        });
     }
 
     private ItemType isTinkerable(ItemStack itemStack) {
@@ -170,7 +177,9 @@ public class TinkererMenu extends FastInv {
     }
 
     private boolean handleItem(ItemStack itemStack, ItemType itemType) {
-        Optional<Map.Entry<Integer, Integer>> emptySlot = slotMap.entrySet().stream().filter(slot -> getInventory().getItem(slot.getKey()) == null || getInventory().getItem(slot.getKey()).getType() == Material.AIR).findFirst();
+        Optional<Map.Entry<Integer, Integer>> emptySlot = slotMap.entrySet().stream()
+                .filter(slot -> getInventory().getItem(slot.getKey()) == null || getInventory().getItem(slot.getKey()).getType() == Material.AIR)
+                .findFirst();
 
         if (!emptySlot.isPresent()) {
             return false;

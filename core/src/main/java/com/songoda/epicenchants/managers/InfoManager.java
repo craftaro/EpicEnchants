@@ -28,7 +28,7 @@ public class InfoManager {
 
     public void loadMenus() {
         mainInfoMenu = new MainInfoMenu(instance, instance.getFileManager().getConfiguration("menus/main-info-menu"));
-        instance.getFileManager().getYmlFiles("menus/groups").ifPresent(list -> list.forEach(file -> {
+        instance.getFileManager().getYmlFiles("menus/groups").forEach(file -> {
             try {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 infoMenus.put(instance.getGroupManager().getValue(config.getString("group"))
@@ -38,7 +38,7 @@ public class InfoManager {
                 Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");
                 e.printStackTrace();
             }
-        }));
+        });
     }
 
 }

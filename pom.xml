@@ -7,7 +7,7 @@
     <groupId>com.songoda</groupId>
     <artifactId>EpicEnchants-Parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.3-ALPHA</version>
+    <version>1.0.4-ALPHA</version>
     <modules>
         <module>core</module>
         <module>hooks</module>

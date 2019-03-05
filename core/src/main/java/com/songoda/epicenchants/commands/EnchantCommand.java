@@ -128,7 +128,6 @@ public class EnchantCommand extends BaseCommand {
     //ee reload [enchantFileName]
     @Subcommand("reload")
     @Description("Reload all config files.")
-    @CommandCompletion("@enchantFiles")
     @CommandPermission("epicenchants.reload")
     public void onReload(CommandSender sender) {
         instance.reload();

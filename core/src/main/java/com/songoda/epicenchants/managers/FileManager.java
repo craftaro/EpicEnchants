@@ -71,13 +71,23 @@ public class FileManager extends Manager<String, FileConfiguration> {
         return getValueUnsafe(key);
     }
 
-    public Optional<List<File>> getYmlFiles(String directory) {
+    public List<File> getYmlFiles(String directory) {
         File dir = new File(instance.getDataFolder() + separator + directory + separator);
-        File[] files = dir.listFiles((dir1, filename) -> filename.endsWith(".yml"));
+        File[] allFiles = dir.listFiles();
+        List<File> output = new ArrayList<>();
 
-        if (files != null)
-            return Optional.of(Arrays.asList(files));
+        if (allFiles == null) {
+            return output;
+        }
 
-        return Optional.empty();
+        Optional.ofNullable(dir.listFiles((dir1, filename) -> filename.endsWith(".yml"))).ifPresent(list -> {
+            output.addAll(Arrays.asList(list));
+        });
+
+        Arrays.stream(allFiles)
+                .filter(File::isDirectory)
+                .filter(s -> !s.getName().equalsIgnoreCase("old"))
+                .forEach(f -> output.addAll(getYmlFiles(directory + separator + f.getName())));
+        return output;
     }
 }

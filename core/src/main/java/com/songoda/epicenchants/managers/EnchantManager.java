@@ -30,7 +30,7 @@ public class EnchantManager extends Manager<String, Enchant> {
     }
 
     public void loadEnchants() {
-        instance.getFileManager().getYmlFiles("enchants").ifPresent(list -> list.forEach(file -> {
+        instance.getFileManager().getYmlFiles("enchants").forEach(file -> {
             try {
                 loadEnchant(file);
             } catch (Exception e) {
@@ -38,7 +38,7 @@ public class EnchantManager extends Manager<String, Enchant> {
                 Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");
                 e.printStackTrace();
             }
-        }));
+        });
     }
 
     public void loadEnchant(File file) throws Exception {

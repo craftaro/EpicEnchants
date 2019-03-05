@@ -8,9 +8,7 @@ import com.songoda.epicenchants.enums.GiveType;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,9 +25,6 @@ public class CommandManager extends BukkitCommandManager {
 
         getCommandCompletions().registerCompletion("enchants", c ->
                 instance.getEnchantManager().getValues().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
-
-        getCommandCompletions().registerCompletion("enchantFiles", c ->
-                instance.getFileManager().getYmlFiles("enchants").orElse(Collections.emptyList()).stream().map(File::getName).collect(Collectors.toList()));
 
         getCommandCompletions().registerCompletion("giveType", c ->
                 Arrays.stream(GiveType.values()).map(s -> s.toString().replace("_", "").toLowerCase()).collect(Collectors.toList()));

@@ -63,7 +63,7 @@ public abstract class ItemListener implements Listener {
 
         try {
             if (event.getHand() == EquipmentSlot.OFF_HAND) slot = 40;
-        } catch (Exception ignore) {
+        } catch (Exception | Error ignore) {
         }
 
         if (event.getItem().getAmount() > 1) {

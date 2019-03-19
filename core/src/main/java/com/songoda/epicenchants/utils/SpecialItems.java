@@ -96,7 +96,7 @@ public class SpecialItems {
 
         ConfigurationSection config = dustConfig.getConfigurationSection("dusts." + (type == null ? "mystery" : type));
 
-        if (config.isInt("min-rate") && config.isInt("max-rate")) {
+        if (config.isInt("min-rate") && config.isInt("max-rate") && percentage == null) {
             int minRate = config.getInt("min-rate");
             int maxRate = config.getInt("max-rate");
             percentage = ThreadLocalRandom.current().nextInt(minRate, maxRate + 1);

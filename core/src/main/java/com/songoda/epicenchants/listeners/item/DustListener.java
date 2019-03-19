@@ -52,7 +52,7 @@ public class DustListener extends ItemListener {
 
         event.setCancelled(true);
 
-        if (event.getPlayer().getInventory().firstEmpty() == -1) {
+        if (event.getItem().getAmount() != 1 && event.getPlayer().getInventory().firstEmpty() == -1) {
             return;
         }
 

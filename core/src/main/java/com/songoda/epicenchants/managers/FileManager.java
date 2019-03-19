@@ -18,7 +18,9 @@ import static org.apache.commons.lang3.tuple.Pair.of;
 
 public class FileManager extends Manager<String, FileConfiguration> {
 
-    private final LinkedHashSet<Pair<String, Boolean>> files = new LinkedHashSet<>(asList(of("menus/main-info-menu.yml", true),
+    private final String directory;
+    private final LinkedHashSet<Pair<String, Boolean>> files = new LinkedHashSet<>(asList(
+            of("menus/main-info-menu.yml", true),
             of("menus/enchanter-menu.yml", true),
             of("menus/tinkerer-menu.yml", true),
             of("menus/groups/simple-menu.yml", false),
@@ -36,6 +38,10 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
     public FileManager(EpicEnchants instance) {
         super(instance);
+
+        directory = instance.getVersion() > 12 ? "master-config" : "legacy-config";
+
+        Bukkit.getConsoleSender().sendMessage("Using the " + directory + " because version is 1." + instance.getVersion());
     }
 
     public void loadFiles() {
@@ -49,7 +55,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
                 recentDirs.add(file.getParent());
                 Bukkit.getConsoleSender().sendMessage("Creating file: " + pair.getLeft());
                 try {
-                    FileUtils.copyInputStreamToFile(instance.getResource(pair.getLeft()), file);
+                    FileUtils.copyInputStreamToFile(instance.getResource(directory + "/" + pair.getLeft()), file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

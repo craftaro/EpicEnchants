@@ -39,7 +39,7 @@ public class CommandManager extends BukkitCommandManager {
                 instance.getGroupManager().getValues().stream().map(Group::getIdentifier).collect(Collectors.toList()));
 
         getCommandCompletions().registerCompletion("dustTypes", c ->
-                instance.getFileManager().getConfiguration("items/dusts.yml").getConfigurationSection("dusts").getKeys(false));
+                instance.getFileManager().getConfiguration("items/dusts").getConfigurationSection("dusts").getKeys(false));
 
         // CONTEXTS
 

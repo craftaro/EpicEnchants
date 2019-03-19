@@ -16,7 +16,7 @@ command:
 
 enchanter:
   cannot-afford: "&cYou cannot afford this purchase."
-  success: "&7Purchased {group_color}{group_name} &7book."
+  success: "&7Purchased {group_color}{group_name} &7book for &f{exp_cost} EXP&7."
 
 tinkerer:
   open: "&eTrading with the tinkerer."
@@ -33,5 +33,10 @@ enchants:
   maxed-out: "&cYou already have that enchant maxed on this item."
   already-applied: "&cYou already have that enchant with that level applied on this item."
   protected: "&aYour book would have broken your item, luckily it was protected!"
+
+book:
+  discover:
+    - "&l&e(!) &r&eYou examine the {group_color}{group_name} Enchantment Book..."
+    - "&eand discover &n{enchant_format}!"
 
 

@@ -1,6 +1,6 @@
 white-scroll:
   material: MAP
-  display-name: "&e&lWhite Scroll"
+  display-name: "&eWhite Scroll"
   format: "&7&lPROTECTED"
   lore:
     - "&7Prevents an item from being destroyed"
@@ -18,7 +18,7 @@ black-scroll:
 
 mystery-book:
   material: BOOK
-  display-name: "{group-color}{group-name} Enchantment &7(Right click)"
+  display-name: "{group-color}{group-name} Enchantment Book &7(Right click)"
   lore:
     - "&7Examine to receive a random"
     - "{group-color}{group-name} &7enchantment book."

@@ -11,6 +11,7 @@ import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
 import com.songoda.epicenchants.utils.SpecialItems;
 import com.songoda.epicenchants.utils.objects.FastInv;
+import com.songoda.epicenchants.utils.single.ItemGroup;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -37,6 +38,8 @@ public class EpicEnchants extends JavaPlugin {
     private Action action;
     private Economy economy;
     private EnchantUtils enchantUtils;
+    private ItemGroup itemGroup;
+    private int version;
 
     @Override
     public void onEnable() {
@@ -46,6 +49,7 @@ public class EpicEnchants extends JavaPlugin {
 
         FastInv.init(this);
 
+        this.version = Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("\\.")[1]);
         this.action = new Action();
         this.fileManager = new FileManager(this);
         this.groupManager = new GroupManager(this);
@@ -56,6 +60,7 @@ public class EpicEnchants extends JavaPlugin {
         this.economy = getServer().getServicesManager().getRegistration(Economy.class).getProvider();
         this.commandManager = new CommandManager(this);
         this.hookManager = new HookManager();
+        this.itemGroup = new ItemGroup(this);
 
         fileManager.loadFiles();
         groupManager.loadGroups();

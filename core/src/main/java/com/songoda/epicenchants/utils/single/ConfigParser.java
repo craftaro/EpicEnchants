@@ -13,9 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
@@ -28,7 +26,7 @@ public class ConfigParser {
                 .maxLevel(config.getInt("max-level"))
                 .format(color(config.getString("applied-format")))
                 .bookItem(parseBookItem(config.getConfigurationSection("book-item")))
-                .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(Material::valueOf).collect(Collectors.toSet()) : Collections.emptySet()))
+                .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(instance.getItemGroup()::get).flatMap(Collection::stream).collect(Collectors.toSet()) : Collections.emptySet()))
                 .conflict(config.isList("conflicting-enchants") ? new HashSet<>(config.getStringList("conflicting-enchants")) : Collections.emptySet())
                 .condition(Condition.of(config.getString("condition")))
                 .mobs(config.isConfigurationSection("mobs") ? config.getConfigurationSection("mobs").getKeys(false).stream()
@@ -84,7 +82,7 @@ public class ConfigParser {
         return section != null ? Group.builder()
                 .identifier(section.getName())
                 .name(color(section.getString("group-name")))
-                .format(section.getString("group-format"))
+                .format(section.getString("group-lore-format"))
                 .color(section.getString("group-color"))
                 .bookItem(parseBookItem(section.getConfigurationSection("book-item")))
                 .slotsUsed(section.getInt("slots-used"))

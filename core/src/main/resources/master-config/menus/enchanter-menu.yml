@@ -1,0 +1,84 @@
+title: "Enchanter"
+rows: 1
+
+#You can choose to fill the entire inventory with this material
+#fill:
+#  material: "MATERIAL_HERE"
+#  display-name: "&r"
+
+contents:
+  1:
+    material: "WHITE_STAINED_GLASS_PANE"
+    display-name: "&f&lSimple Enchantment &7(Right Click)"
+    lore:
+      - "&7Examine to receive a random"
+      - "&fsimple &7enchantment book."
+      - ""
+      - "&fUse &f/ee list simple &7to view a list"
+      - "&fof possible enchants you could unlock!"
+      - ""
+      - "&b&lCOST &r&f{exp_cost} EXP"
+    group: SIMPLE
+    exp-cost: 400
+    eco-cost: 0
+    slot: 2
+  2:
+    material: "LIME_STAINED_GLASS_PANE"
+    display-name: "&a&lUnique Enchantment &7(Right Click)"
+    lore:
+      - "&7Examine to receive a random"
+      - "&aunique &7enchantment book."
+      - ""
+      - "&fUse &a/ee list unique &7to view a list"
+      - "&fof possible enchants you could unlock!"
+      - ""
+      - "&b&lCOST &r&f{exp_cost} EXP"
+    group: UNIQUE
+    exp-cost: 800
+    eco-cost: 0
+    slot: 3
+  3:
+    material: "CYAN_STAINED_GLASS_PANE"
+    display-name: "&b&lElite Enchantment &7(Right Click)"
+    lore:
+      - "&7Examine to receive a random"
+      - "&belite &7enchantment book."
+      - ""
+      - "&fUse &b/ee list elite &7to view a list"
+      - "&fof possible enchants you could unlock!"
+      - ""
+      - "&b&lCOST &r&f{exp_cost} EXP"
+    group: ELITE
+    exp-cost: 2500
+    eco-cost: 0
+    slot: 4
+  4:
+    material: "YELLOW_STAINED_GLASS_PANE"
+    display-name: "&e&lUltimate Enchantment &7(Right Click)"
+    lore:
+      - "&7Examine to receive a random"
+      - "&eultimate &7enchantment book."
+      - ""
+      - "&fUse &e/ee list simple &7to view a list"
+      - "&fof possible enchants you could unlock!"
+      - ""
+      - "&b&lCOST &r&f {exp_cost} EXP"
+    group: ULTIMATE
+    exp-cost: 5000
+    eco-cost: 0
+    slot: 5
+  5:
+    material: "ORANGE_STAINED_GLASS_PANE"
+    display-name: "&6&lLegendary Enchantment &7(Right Click)"
+    lore:
+      - "&7Examine to receive a random"
+      - "&6legendary &7enchantment book."
+      - ""
+      - "&fUse &6/ee list simple &7to view a list"
+      - "&fof possible enchants you could unlock!"
+      - ""
+      - "&b&lCOST &r&f{exp_cost} EXP"
+    group: LEGENDARY
+    exp-cost: 25000
+    eco-cost: 0
+    slot: 6

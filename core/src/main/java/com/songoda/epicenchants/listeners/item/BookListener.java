@@ -73,7 +73,7 @@ public class BookListener extends ItemListener {
 
         event.setCancelled(true);
 
-        if (event.getPlayer().getInventory().firstEmpty() == -1) {
+        if (event.getItem().getAmount() != 1 && event.getPlayer().getInventory().firstEmpty() == -1) {
             return;
         }
 
@@ -81,11 +81,16 @@ public class BookListener extends ItemListener {
         Optional<Enchant> enchant = instance.getEnchantManager().getRandomEnchant(group);
 
         if (!enchant.isPresent()) {
-            instance.getAction().perform(event.getPlayer(), "event.purchase.noenchant");
-            return;
+            throw new IllegalStateException("The " + group.getName() + " group does not have any enchants.");
         }
 
         useItem(event);
         event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get()));
+
+        instance.getAction().perform(event.getPlayer(), "book.discover",
+                of("group_name", group.getName()),
+                of("group_color", group.getColor()),
+                of("enchant_format", enchant.get().getFormat())
+        );
     }
 }

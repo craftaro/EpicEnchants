@@ -11,7 +11,7 @@ import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 public class MainInfoMenu extends FastInv {
 
     public MainInfoMenu(EpicEnchants instance, FileConfiguration config) {
-        super(config.getInt("size"), color(config.getString("title")));
+        super(config.getInt("rows") * 9, color(config.getString("title")));
         config.getConfigurationSection("contents").getKeys(false)
                 .stream()
                 .map(s -> "contents." + s)

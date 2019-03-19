@@ -3,7 +3,6 @@ package com.songoda.epicenchants.utils.objects;
 import com.songoda.epicenchants.objects.Placeholder;
 import com.songoda.epicenchants.utils.single.ConfigParser;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
-import com.songoda.epicenchants.utils.single.XMaterial;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
@@ -54,7 +53,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(ConfigurationSection section, Placeholder... placeholders) {
-        this(XMaterial.requestXMaterial(section.getString("material"), (byte) (section.contains("data") ? section.getInt("data") : 0)).parseItem());
+        this(Material.valueOf(section.getString("material")), (byte) (section.contains("data") ? section.getInt("data") : 0));
 
         if (section.contains("enchants")) {
             section.getStringList("enchants").stream()

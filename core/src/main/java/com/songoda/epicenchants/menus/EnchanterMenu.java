@@ -44,7 +44,11 @@ public class EnchanterMenu extends FastInv {
                         }
 
                         instance.getEconomy().withdrawPlayer(player, ecoCost);
-                        instance.getAction().perform(player, "event.purchase.success", of("group-name", group.getName()), of("group_color", group.getColor()));
+                        instance.getAction().perform(player, "enchanter.success",
+                                of("group_name", group.getName()),
+                                of("group_color", group.getColor()),
+                                of("eco_cost", ecoCost),
+                                of("exp_cost", expCost));
 
                         changeExp(player, (int) -expCost);
                         player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));

@@ -14,22 +14,19 @@ slots: "(1,5) (2,6) (3,7) (9,14)
 
 contents:
   1:
-    material: "STAINED_GLASS_PANE"
+    material: "WHITE_STAINED_GLASS_PANE"
     display-name: " "
     slot: "4,13,22,31,40"
   accept-left:
-    material: "STAINED_GLASS_PANE"
-    data: 4
+    material: "LIME_STAINED_GLASS_PANE"
     display-name: "&eClick to accept trade"
     slot: 0
   accept-right:
-    material: "STAINED_GLASS_PANE"
-    data: 4
+    material: "LIME_STAINED_GLASS_PANE"
     display-name: "&eClick to accept trade"
     slot: 8
   deposit-all:
-    material: "STAINED_GLASS_PANE"
-    data: 4
+    material: "LIME_STAINED_GLASS_PANE"
     display-name: "&l&eDeposit All"
     lore:
       - "&7Click to deposit all tinkerable items."

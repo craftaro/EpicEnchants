@@ -7,7 +7,6 @@ import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
-import com.songoda.epicenchants.utils.single.RomanNumber;
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.apache.commons.lang3.tuple.Pair;
@@ -72,7 +71,7 @@ public class EnchantUtils {
         }
 
         itemBuilder.removeLore(enchant.getFormat().replace("{level}", "").trim());
-        itemBuilder.addLore(enchant.getFormat().replace("{level}", "" + (instance.getConfig().getBoolean("roman-numbers") ? RomanNumber.toRoman(level) : level)));
+        itemBuilder.addLore(enchant.getFormat(level, instance.getFileManager().getConfiguration("config").getBoolean("roman-numbers")));
 
         if (hasProtection) {
             itemBuilder.addLore(instance.getSpecialItems().getWhiteScrollLore());

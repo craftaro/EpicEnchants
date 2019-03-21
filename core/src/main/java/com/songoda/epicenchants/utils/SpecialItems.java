@@ -34,7 +34,7 @@ public class SpecialItems {
     }
 
     public ItemStack getBlackScroll(Integer amount, Integer chance) {
-        int successRate = chance == null ? ThreadLocalRandom.current().nextInt(instance.getConfig().getInt("rates.black-scroll-min"), instance.getConfig().getInt("rates.black-scroll-max") + 1) : chance;
+        int successRate = chance == null ? ThreadLocalRandom.current().nextInt(instance.getFileManager().getConfiguration("config").getInt("rates.black-scroll-min"), instance.getFileManager().getConfiguration("config").getInt("rates.black-scroll-max") + 1) : chance;
         NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt();
 
         nbtItem.setBoolean("black-scroll", true);
@@ -74,12 +74,12 @@ public class SpecialItems {
 
         nbtItem.setBoolean("secret-dust", true);
         nbtItem.setString("group", group.getIdentifier());
-        nbtItem.setInteger("max-rate", max);
+        nbtItem.setInteger("max-rate", max + 1);
         nbtItem.setInteger("min-rate", 1);
         return nbtItem.getItem();
     }
 
-    public ItemStack getDust(Group group, @Nullable String type, @Nullable Integer percentage) {
+    public ItemStack getDust(Group group, @Nullable String type, @Nullable Integer percentage, boolean command) {
         FileConfiguration dustConfig = instance.getFileManager().getConfiguration("items/dusts");
         int random = ThreadLocalRandom.current().nextInt(101);
         int counter = 0;
@@ -94,9 +94,11 @@ public class SpecialItems {
             }
         }
 
-        ConfigurationSection config = dustConfig.getConfigurationSection("dusts." + (type == null ? "mystery" : type));
+        type = type == null ? "mystery" : type;
 
-        if (config.isInt("min-rate") && config.isInt("max-rate") && percentage == null) {
+        ConfigurationSection config = dustConfig.getConfigurationSection("dusts." + type);
+
+        if (!command && config.isInt("min-rate") && config.isInt("max-rate")) {
             int minRate = config.getInt("min-rate");
             int maxRate = config.getInt("max-rate");
             percentage = ThreadLocalRandom.current().nextInt(minRate, maxRate + 1);
@@ -109,7 +111,7 @@ public class SpecialItems {
                 of("group-name", group.getName()),
                 of("percentage", percentage)).nbt();
 
-        if (type != null && type.equalsIgnoreCase("mystery")) {
+        if (type.equalsIgnoreCase("mystery")) {
             return nbtItem.getItem();
         }
 

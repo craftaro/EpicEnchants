@@ -52,15 +52,15 @@ public class CommandManager extends BukkitCommandManager {
                 .findFirst()
                 .orElseThrow(() -> new InvalidCommandArgument("No item by that type.", false)));
 
-        getCommandContexts().registerContext(Group.class, c -> instance.getGroupManager().getValue(c.popFirstArg()).orElseThrow(() ->
+        getCommandContexts().registerContext(Group.class, c -> instance.getGroupManager().getValue(c.popFirstArg().toUpperCase()).orElseThrow(() ->
                 new InvalidCommandArgument("No group exists by that name", false)));
 
         // REPLACEMENTS
 
         getCommandReplacements().addReplacements(
-                "enchanter", instance.getConfig().getString("commands.enchanter"),
-                "alchemist", instance.getConfig().getString("commands.alchemist"),
-                "tinkerer", instance.getConfig().getString("commands.tinkerer")
+                "enchanter", instance.getFileManager().getConfiguration("config").getString("commands.enchanter"),
+                "alchemist", instance.getFileManager().getConfiguration("config").getString("commands.alchemist"),
+                "tinkerer", instance.getFileManager().getConfiguration("config").getString("commands.tinkerer")
         );
 
         // API

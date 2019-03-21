@@ -8,22 +8,19 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-public class InfoManager {
-    private final Map<Group, InfoMenu> infoMenus;
+public class InfoManager extends Manager<Group, InfoMenu> {
     private final EpicEnchants instance;
     @Getter private MainInfoMenu mainInfoMenu;
 
     public InfoManager(EpicEnchants instance) {
+        super(instance);
         this.instance = instance;
-        this.infoMenus = new HashMap<>();
     }
 
     public Optional<InfoMenu> getMenu(Group group) {
-        return Optional.ofNullable(infoMenus.get(group));
+        return getValue(group);
     }
 
     public void loadMenus() {
@@ -31,7 +28,7 @@ public class InfoManager {
         instance.getFileManager().getYmlFiles("menus/groups").forEach(file -> {
             try {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                infoMenus.put(instance.getGroupManager().getValue(config.getString("group"))
+                add(instance.getGroupManager().getValue(config.getString("group"))
                         .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))), new InfoMenu(instance, config));
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("Something went wrong loading the menu from file " + file.getName());

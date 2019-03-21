@@ -20,6 +20,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
     private final String directory;
     private final LinkedHashSet<Pair<String, Boolean>> files = new LinkedHashSet<>(asList(
+            of("config.yml", true),
             of("menus/main-info-menu.yml", true),
             of("menus/enchanter-menu.yml", true),
             of("menus/tinkerer-menu.yml", true),
@@ -29,7 +30,6 @@ public class FileManager extends Manager<String, FileConfiguration> {
             of("menus/groups/ultimate-menu.yml", false),
             of("menus/groups/legendary-menu.yml", false),
             of("enchants/example-enchant.yml", false),
-            of("config.yml", true),
             of("groups.yml", true),
             of("actions.yml", true),
             of("items/special-items.yml", true),
@@ -45,15 +45,13 @@ public class FileManager extends Manager<String, FileConfiguration> {
     }
 
     public void loadFiles() {
-        Set<String> recentDirs = new HashSet<>();
         files.forEach(pair -> {
             File file = new File(instance.getDataFolder() + separator + pair.getLeft());
 
-            if (!file.exists() && (pair.getRight() || (!file.getParent().equals(instance.getDataFolder().getPath())
-                    && (!file.getParentFile().exists() || recentDirs.contains(file.getParent()))))) {
+            if (!file.exists() && (pair.getRight() || getConfiguration("config").getBoolean("first-load"))) {
                 file.getParentFile().mkdirs();
-                recentDirs.add(file.getParent());
                 Bukkit.getConsoleSender().sendMessage("Creating file: " + pair.getLeft());
+
                 try {
                     FileUtils.copyInputStreamToFile(instance.getResource(directory + "/" + pair.getLeft()), file);
                 } catch (IOException e) {
@@ -71,6 +69,13 @@ public class FileManager extends Manager<String, FileConfiguration> {
                 add(pair.getLeft().replace(".yml", ""), configuration);
             }
         });
+
+        getConfiguration("config").set("first-load", false);
+        try {
+            getConfiguration("config").save(new File(instance.getDataFolder() + separator + "config.yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public FileConfiguration getConfiguration(String key) {
@@ -94,6 +99,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
                 .filter(File::isDirectory)
                 .filter(s -> !s.getName().equalsIgnoreCase("old"))
                 .forEach(f -> output.addAll(getYmlFiles(directory + separator + f.getName())));
+
         return output;
     }
 }

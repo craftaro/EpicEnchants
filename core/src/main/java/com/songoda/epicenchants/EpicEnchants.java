@@ -47,11 +47,9 @@ public class EpicEnchants extends JavaPlugin {
         getConsoleSender().sendMessage(color("&7" + getDescription().getName() + " " + getDescription().getVersion() + " by &5Songoda <3&7!"));
         getConsoleSender().sendMessage(color("&7Action: &aEnabling&7..."));
 
-        FastInv.init(this);
+        preload();
 
-        this.version = Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("\\.")[1]);
         this.action = new Action();
-        this.fileManager = new FileManager(this);
         this.groupManager = new GroupManager(this);
         this.enchantManager = new EnchantManager(this);
         this.enchantUtils = new EnchantUtils(this);
@@ -62,7 +60,6 @@ public class EpicEnchants extends JavaPlugin {
         this.hookManager = new HookManager();
         this.itemGroup = new ItemGroup(this);
 
-        fileManager.loadFiles();
         groupManager.loadGroups();
         enchantManager.loadEnchants();
         infoManager.loadMenus();
@@ -76,6 +73,13 @@ public class EpicEnchants extends JavaPlugin {
         }
 
         getConsoleSender().sendMessage(color("&a============================="));
+    }
+
+    private void preload() {
+        FastInv.init(this);
+        this.version = Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("\\.")[1]);
+        this.fileManager = new FileManager(this);
+        fileManager.loadFiles();
     }
 
     @Override
@@ -101,10 +105,19 @@ public class EpicEnchants extends JavaPlugin {
 
     public void reload() {
         reloadConfig();
+
+        fileManager.clear();
         fileManager.loadFiles();
-        enchantManager.loadEnchants();
+
+        groupManager.clear();
         groupManager.loadGroups();
+
+        enchantManager.clear();
+        enchantManager.loadEnchants();
+
+        infoManager.clear();
         infoManager.loadMenus();
+
         action.load(fileManager.getConfiguration("actions"));
     }
 }

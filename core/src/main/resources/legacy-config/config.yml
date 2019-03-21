@@ -1,5 +1,7 @@
 #LEGACY CONFIG
 
+first-load: true
+
 language: "en_US"
 
 roman-numbers: true
@@ -7,7 +9,6 @@ roman-numbers: true
 rates:
   black-scroll-min: 20
   black-scroll-max: 100
-
 
 commands:
   enchanter: "enchanter"

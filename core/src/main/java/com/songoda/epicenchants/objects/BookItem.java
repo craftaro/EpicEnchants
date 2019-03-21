@@ -1,7 +1,11 @@
 package com.songoda.epicenchants.objects;
 
 import co.aikar.commands.annotation.Optional;
+import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
+import com.songoda.epicenchants.utils.single.GeneralUtils;
+import com.songoda.epicenchants.utils.single.ItemGroup;
+import com.songoda.epicenchants.utils.single.RomanNumber;
 import de.tr7zw.itemnbtapi.NBTItem;
 import lombok.Builder;
 import org.bukkit.Material;
@@ -10,10 +14,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 @Builder
 public class BookItem {
+    private EpicEnchants instance;
     private Material material;
     private String displayName;
     private List<String> lore;
@@ -35,14 +41,34 @@ public class BookItem {
 
         int finalSuccessRate = successRate;
         int finalDestroyRate = destroyRate;
-        int finalLevel = level;
+
+        List<String> toSet = lore;
+
+        for (int i = lore.size() - 1; i >= 0; i--) {
+            String string = toSet.get(i);
+
+            if (string.contains("{description}")) {
+                lore.remove(i);
+                lore.addAll(i, enchant.getDescription().stream().map(GeneralUtils::color).collect(Collectors.toList()));
+                continue;
+            }
+
+            string = string
+                    .replace("{item_group}", "" + instance.getItemGroup().getGroup(enchant.getItemWhitelist()).map(ItemGroup.Group::getName).orElse("N/A"))
+                    .replace("{success_rate}", "" + finalSuccessRate)
+                    .replace("{destroy_rate}", "" + finalDestroyRate);
+
+            lore.set(i, string);
+        }
+
         ItemBuilder itemBuilder = new ItemBuilder(material)
-                .name(displayName.replace("{level}", "" + level))
-                .lore(lore.stream()
-                        .map(s -> s.replace("{level}", "" + finalLevel)
-                                .replace("{success_rate}", "" + finalSuccessRate)
-                                .replace("{destroy_rate}", "" + finalDestroyRate))
-                        .collect(Collectors.toList()));
+                .name(color(displayName
+                        .replace("{level}", "" + (instance.getFileManager().getConfiguration("config").getBoolean("roman-numbers") ? RomanNumber.toRoman(level) : level))
+                        .replace("{enchant}", "" + enchant.getIdentifier())
+                        .replace("{group_color}", enchant.getGroup().getColor())
+                        .replace("{group_name}", enchant.getGroup().getName())
+                ))
+                .lore(toSet);
 
         NBTItem nbtItem = itemBuilder.nbt();
         nbtItem.setBoolean("book-item", true);

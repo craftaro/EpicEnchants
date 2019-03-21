@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class ConfigParser {
-    public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) {
+    public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) throws Exception {
         return Enchant.builder()
                 .identifier(config.getString("identifier"))
                 .group(instance.getGroupManager().getValue(config.getString("group").toUpperCase()).orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))))
                 .maxLevel(config.getInt("max-level"))
-                .format(color(config.getString("applied-format")))
-                .bookItem(parseBookItem(config.getConfigurationSection("book-item")))
+                .format(config.isSet("appliead-format") ? color(config.getString("applied-format")) : "")
+                .bookItem(parseBookItem(instance, config.getConfigurationSection("book-item")))
                 .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(instance.getItemGroup()::get).flatMap(Collection::stream).collect(Collectors.toSet()) : Collections.emptySet()))
                 .conflict(config.isList("conflicting-enchants") ? new HashSet<>(config.getStringList("conflicting-enchants")) : Collections.emptySet())
                 .condition(Condition.of(config.getString("condition")))
@@ -37,10 +37,10 @@ public class ConfigParser {
                         .map(s -> "effects." + s)
                         .map(config::getConfigurationSection)
                         .map(EffectManager::getEffect)
-                        .map(o -> o.orElse(null))
-                        .filter(Objects::nonNull)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
                         .collect(Collectors.toSet()) : Collections.emptySet())
-                .description(config.isList("description") ? new HashSet<>(config.getStringList("description")) : Collections.emptySet())
+                .description(config.isList("description") ? config.getStringList("description") : Collections.emptyList())
                 .build();
     }
 
@@ -70,21 +70,22 @@ public class ConfigParser {
                 .build();
     }
 
-    private static BookItem parseBookItem(ConfigurationSection section) {
+    private static BookItem parseBookItem(EpicEnchants instance, ConfigurationSection section) {
         return section != null ? BookItem.builder()
+                .instance(instance)
                 .material(Material.valueOf(section.getString("material")))
                 .displayName(color(section.getString("display-name")))
                 .lore(section.getStringList("lore").stream().map(GeneralUtils::color).collect(Collectors.toList()))
                 .build() : null;
     }
 
-    public static Group parseGroup(ConfigurationSection section) {
+    public static Group parseGroup(EpicEnchants instance, ConfigurationSection section) {
         return section != null ? Group.builder()
                 .identifier(section.getName())
                 .name(color(section.getString("group-name")))
                 .format(section.getString("group-lore-format"))
                 .color(section.getString("group-color"))
-                .bookItem(parseBookItem(section.getConfigurationSection("book-item")))
+                .bookItem(parseBookItem(instance, section.getConfigurationSection("book-item")))
                 .slotsUsed(section.getInt("slots-used"))
                 .tinkererExp(section.getInt("tinkerer-exp-per-level"))
                 .destroyRateMin(section.getInt("rates.destroy-min"))

@@ -78,6 +78,7 @@ public class BookListener extends ItemListener {
         }
 
         Group group = instance.getGroupManager().getValueUnsafe(clicked.getString("group"));
+
         Optional<Enchant> enchant = instance.getEnchantManager().getRandomEnchant(group);
 
         if (!enchant.isPresent()) {

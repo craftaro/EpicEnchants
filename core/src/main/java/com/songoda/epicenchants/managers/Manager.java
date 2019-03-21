@@ -30,4 +30,8 @@ public abstract class Manager<K, V> {
         return Collections.unmodifiableCollection(map.values());
     }
 
+    public void clear() {
+        map.clear();
+    }
+
 }

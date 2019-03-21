@@ -60,6 +60,6 @@ public class DustListener extends ItemListener {
         int rate = ThreadLocalRandom.current().nextInt(clicked.getInteger("min-rate"), clicked.getInteger("max-rate"));
 
         useItem(event);
-        event.getPlayer().getInventory().addItem(instance.getSpecialItems().getDust(group, null, rate));
+        event.getPlayer().getInventory().addItem(instance.getSpecialItems().getDust(group, null, rate, false));
     }
 }

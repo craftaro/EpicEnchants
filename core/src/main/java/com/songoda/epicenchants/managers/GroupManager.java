@@ -13,8 +13,8 @@ public class GroupManager extends Manager<String, Group> {
     public void loadGroups() {
         ConfigurationSection config = instance.getFileManager().getConfiguration("groups").getConfigurationSection("groups");
         config.getKeys(false).forEach(key -> {
-            Group group = ConfigParser.parseGroup(config.getConfigurationSection(key));
-            add(group.getIdentifier(), group);
+            Group group = ConfigParser.parseGroup(instance, config.getConfigurationSection(key));
+            add(group.getIdentifier().toUpperCase(), group);
         });
     }
 }

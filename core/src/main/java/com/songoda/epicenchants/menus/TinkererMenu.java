@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,8 @@ public class TinkererMenu extends FastInv {
         this.instance = instance;
         this.config = config;
 
+        AtomicBoolean accepted = new AtomicBoolean(false);
+
         if (config.isConfigurationSection("fill")) {
             fill(new ItemBuilder(config.getConfigurationSection("fill")).build());
         }
@@ -50,6 +53,7 @@ public class TinkererMenu extends FastInv {
                             slotMap.keySet().forEach(slot -> getInventory().clear(slot));
                             event.getPlayer().closeInventory();
                             instance.getAction().perform(event.getPlayer(), "tinkerer.accepted");
+                            accepted.set(true);
                             return;
                         }
 
@@ -141,12 +145,15 @@ public class TinkererMenu extends FastInv {
             }
         });
 
+
+        // Player closed inventory
         onClose(event -> {
             slotMap.keySet().stream().filter(s -> getInventory().getItem(s) != null).forEach(s -> {
                 event.getPlayer().getInventory().addItem(getInventory().getItem(s));
             });
 
-            instance.getAction().perform(event.getPlayer(), "tinkerer.cancelled");
+            if (!accepted.get())
+                instance.getAction().perform(event.getPlayer(), "tinkerer.cancelled");
         });
     }
 

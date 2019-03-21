@@ -2,7 +2,7 @@ groups:
   SIMPLE:
     group-color: "&f"
     group-name: "Simple"
-    group-lore-format: "{group_color} {enchant} {level}"
+    group-lore-format: "{group_color}{enchant} {level}"
     rates:
       destroy-min: 10
       destroy-max: 100
@@ -15,6 +15,7 @@ groups:
         - "&a{success_rate}% Success Rate"
         - "&c{destroy_rate}% Destroy Rate"
         - "{description}"
+        - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   UNIQUE:
     group-color: "&a"
@@ -32,6 +33,7 @@ groups:
         - "&a{success_rate}% Success Rate"
         - "&c{destroy_rate}% Destroy Rate"
         - "{description}"
+        - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   ELITE:
     group-color: "&b"
@@ -49,6 +51,7 @@ groups:
         - "&a{success_rate}% Success Rate"
         - "&c{destroy_rate}% Destroy Rate"
         - "{description}"
+        - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   ULTIMATE:
     group-color: "&e"
@@ -66,6 +69,7 @@ groups:
         - "&a{success_rate}% Success Rate"
         - "&c{destroy_rate}% Destroy Rate"
         - "{description}"
+        - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   LEGENDARY:
     group-color: "&6"
@@ -83,4 +87,5 @@ groups:
         - "&a{success_rate}% Success Rate"
         - "&c{destroy_rate}% Destroy Rate"
         - "{description}"
+        - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."

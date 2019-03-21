@@ -28,7 +28,7 @@ public class GeneralUtils {
     }
 
     public static String getMessageFromResult(EnchantResult result) {
-        return "enchant." + result.toString().toLowerCase().replace("_", "");
+        return "enchants." + result.toString().toLowerCase().replace("_", "-");
     }
 
     public static <X> X getRandomElement(Set<X> set) {

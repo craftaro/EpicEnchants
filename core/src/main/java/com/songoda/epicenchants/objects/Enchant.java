@@ -3,6 +3,7 @@ package com.songoda.epicenchants.objects;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
+import com.songoda.epicenchants.utils.single.RomanNumber;
 import com.songoda.epicenchants.wrappers.MobWrapper;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,10 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
+
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 @Builder
 @Getter
@@ -25,8 +29,8 @@ public class Enchant {
     private Set<Material> itemWhitelist;
     private Set<EffectExecutor> effectExecutors;
     private Set<MobWrapper> mobs;
-    private Set<String> description;
-    @Nullable private String format;
+    private List<String> description;
+    private String format;
     @Nullable private BookItem bookItem;
     private Condition condition;
 
@@ -43,7 +47,14 @@ public class Enchant {
         return bookItem != null ? bookItem : group.getBookItem();
     }
 
-    public String getFormat() {
-        return format != null ? format : group.getFormat();
+    public String getFormat(int level, boolean roman) {
+        String output = format.isEmpty() ? group.getFormat() : format;
+
+        output = output
+                .replace("{level}", "" + (roman ? RomanNumber.toRoman(level) : level))
+                .replace("{enchant}", "" + identifier)
+                .replace("{group_color}", "" + group.getColor());
+
+        return color(output);
     }
 }

@@ -22,9 +22,7 @@ applied-format: "&cExampleEnchant {level}"
 
 # What items this enchant can be applied too.
 item-whitelist:
-  - "DIAMOND_HELMET"
-  - "IRON_HELMET"
-  - "LEATHER_HELMET"
+  - "HELMETS"
 
 # This enchantment can not be applied if then enchantment below is already on the item.
 conflicting-enchants:

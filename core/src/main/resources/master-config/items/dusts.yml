@@ -1,5 +1,5 @@
 secret-dust:
-  material: FIREBALL
+  material: FIRE_CHARGE
   display-name: "{group-color}{group-name} Secret Dust &7(Right click)"
   lore:
     - "&aSuccess: +{min-rate}-{max-rate}%"
@@ -9,7 +9,7 @@ secret-dust:
 dusts:
   mystery:
     chance: 50
-    material: SULPHUR
+    material: GUNPOWDER
     display-name: "&fMystery Dust"
     lore:
       - "&7The failed bi-product of"

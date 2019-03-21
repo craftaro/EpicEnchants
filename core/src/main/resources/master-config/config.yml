@@ -1,5 +1,7 @@
 #MASTER CONFIG
 
+first-load: true
+
 language: "en_US"
 
 roman-numbers: true

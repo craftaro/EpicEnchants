@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.utils.single;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.songoda.epicenchants.EpicEnchants;
 import lombok.Getter;
@@ -17,7 +18,8 @@ public class ItemGroup {
     private Multimap<Group, Material> groupMap;
 
     public ItemGroup(EpicEnchants instance) {
-        if (instance.getVersion() > 1.12) setupMaster();
+        groupMap = HashMultimap.create();
+        if (instance.getVersion() > 12) setupMaster();
         else setupLegacy();
     }
 
@@ -71,6 +73,10 @@ public class ItemGroup {
         }
 
         return output;
+    }
+
+    public Optional<Group> getGroup(Set<Material> materials) {
+        return groupMap.asMap().entrySet().stream().filter(s -> s.getValue().equals(materials)).map(Map.Entry::getKey).findFirst();
     }
 
 

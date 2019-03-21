@@ -61,7 +61,7 @@ public class EnchantCommand extends BaseCommand {
     @CommandCompletion("@players @groups @dustTypes @nothing")
     @CommandPermission("epicenchants.give.item.dust")
     public void onGiveDust(CommandSender sender, @Flags("other") Player target, Group group, @Optional String dustType, @Optional Integer percentage) {
-        target.getInventory().addItem(instance.getSpecialItems().getDust(group, dustType, percentage));
+        target.getInventory().addItem(instance.getSpecialItems().getDust(group, dustType, percentage, true));
         instance.getAction().perform(target, "command.dust.received", of("group", group.getIdentifier()));
         instance.getAction().perform(sender, "command.dust.gave", of("player", target.getName()), of("group", group.getIdentifier()));
     }

@@ -63,8 +63,8 @@ public class MobWrapper {
                 livingEntity.getEquipment().setHelmetDropChance(dropChance);
                 livingEntity.getEquipment().setChestplateDropChance(dropChance);
 
-                if (handItem != null) livingEntity.getEquipment().setItemInMainHand(handItem.buildWithWrappers(level));
-                livingEntity.getEquipment().setItemInMainHandDropChance(dropChance);
+                if (handItem != null) livingEntity.getEquipment().setItemInHand(handItem.buildWithWrappers(level));
+                livingEntity.getEquipment().setItemInHandDropChance(dropChance);
             }
 
             if (entity instanceof Monster && opponent != null) {

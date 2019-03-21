@@ -1,6 +1,5 @@
 package com.songoda.epicenchants.objects;
 
-import co.aikar.commands.annotation.Optional;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
@@ -10,7 +9,9 @@ import de.tr7zw.itemnbtapi.NBTItem;
 import lombok.Builder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class BookItem {
                 current().nextInt(enchant.getGroup().getDestroyRateMin(), enchant.getGroup().getDestroyRateMax()));
     }
 
-    public ItemStack get(Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
+    public ItemStack get(Enchant enchant, @Nullable Integer level, @Nullable Integer successRate, @Nullable Integer destroyRate) {
         successRate = successRate == null ? current().nextInt(101) : successRate;
         destroyRate = destroyRate == null ? current().nextInt(101) : destroyRate;
         level = level == null ? current().nextInt(1, enchant.getMaxLevel() + 1) : level;
@@ -42,14 +43,14 @@ public class BookItem {
         int finalSuccessRate = successRate;
         int finalDestroyRate = destroyRate;
 
-        List<String> toSet = lore;
+        List<String> toSet = new ArrayList<>(lore);
 
-        for (int i = lore.size() - 1; i >= 0; i--) {
+        for (int i = toSet.size() - 1; i >= 0; i--) {
             String string = toSet.get(i);
 
             if (string.contains("{description}")) {
-                lore.remove(i);
-                lore.addAll(i, enchant.getDescription().stream().map(GeneralUtils::color).collect(Collectors.toList()));
+                toSet.remove(i);
+                toSet.addAll(i, enchant.getDescription().stream().map(GeneralUtils::color).collect(Collectors.toList()));
                 continue;
             }
 
@@ -58,7 +59,7 @@ public class BookItem {
                     .replace("{success_rate}", "" + finalSuccessRate)
                     .replace("{destroy_rate}", "" + finalDestroyRate);
 
-            lore.set(i, string);
+            toSet.set(i, string);
         }
 
         ItemBuilder itemBuilder = new ItemBuilder(material)

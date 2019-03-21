@@ -37,7 +37,6 @@ public class DustListener extends ItemListener {
         }
 
         successRate = successRate + cursor.getInteger("percentage") > 100 ? 100 : successRate + cursor.getInteger("percentage");
-
         event.setCurrentItem(enchant.getBook().get(enchant, current.getInteger("level"), successRate, current.getInteger("destroy-rate")));
 
         event.setCancelled(true);

@@ -24,7 +24,7 @@ public class ConfigParser {
                 .identifier(config.getString("identifier"))
                 .group(instance.getGroupManager().getValue(config.getString("group").toUpperCase()).orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))))
                 .maxLevel(config.getInt("max-level"))
-                .format(config.isSet("appliead-format") ? color(config.getString("applied-format")) : "")
+                .format(config.isSet("applied-format") ? color(config.getString("applied-format")) : "")
                 .bookItem(parseBookItem(instance, config.getConfigurationSection("book-item")))
                 .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(instance.getItemGroup()::get).flatMap(Collection::stream).collect(Collectors.toSet()) : Collections.emptySet()))
                 .conflict(config.isList("conflicting-enchants") ? new HashSet<>(config.getStringList("conflicting-enchants")) : Collections.emptySet())

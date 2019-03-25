@@ -2,6 +2,7 @@ package com.songoda.epicenchants.effect;
 
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
+import com.songoda.epicenchants.objects.Condition;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
 import lombok.Getter;
@@ -14,15 +15,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.*;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.WEARER;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
     @Getter private final TriggerType triggerType;
+    private final Condition condition;
 
     public EffectExecutor(ConfigurationSection section) {
         this.section = section;
         this.triggerType = TriggerType.valueOf(section.getString("trigger"));
+        this.condition = Condition.of(section.getString("condition"));
     }
 
     public void testAndRun(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
@@ -31,6 +35,10 @@ public abstract class EffectExecutor {
         }
 
         if (section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(section.getString("chance")).get(level, 100))) {
+            return;
+        }
+
+        if (!condition.get(wearer, opponent, level, false)) {
             return;
         }
 

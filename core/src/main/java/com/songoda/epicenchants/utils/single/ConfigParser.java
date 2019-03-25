@@ -3,7 +3,10 @@ package com.songoda.epicenchants.utils.single;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.effect.EffectManager;
 import com.songoda.epicenchants.enums.TriggerType;
-import com.songoda.epicenchants.objects.*;
+import com.songoda.epicenchants.objects.BookItem;
+import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.objects.Group;
+import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import com.songoda.epicenchants.wrappers.MobWrapper;
@@ -13,7 +16,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
@@ -28,7 +34,6 @@ public class ConfigParser {
                 .bookItem(parseBookItem(instance, config.getConfigurationSection("book-item")))
                 .itemWhitelist((config.isList("item-whitelist") ? config.getStringList("item-whitelist").stream().map(instance.getItemGroup()::get).flatMap(Collection::stream).collect(Collectors.toSet()) : Collections.emptySet()))
                 .conflict(config.isList("conflicting-enchants") ? new HashSet<>(config.getStringList("conflicting-enchants")) : Collections.emptySet())
-                .condition(Condition.of(config.getString("condition")))
                 .mobs(config.isConfigurationSection("mobs") ? config.getConfigurationSection("mobs").getKeys(false).stream()
                         .map(s -> "mobs." + s)
                         .map(config::getConfigurationSection)

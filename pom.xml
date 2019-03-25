@@ -10,7 +10,6 @@
     <version>1.0.4-ALPHA</version>
     <modules>
         <module>core</module>
-        <module>hooks</module>
     </modules>
 
     <repositories>

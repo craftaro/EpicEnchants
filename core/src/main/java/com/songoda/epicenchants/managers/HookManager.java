@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.hooks;
+package com.songoda.epicenchants.managers;
 
 import com.songoda.ultimatebottles.UltimateBottles;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Getter
 public class HookManager {
-    private FactionsHook factionsHook;
     private UltimateBottles ultimateBottles;
 
     public void setup() {

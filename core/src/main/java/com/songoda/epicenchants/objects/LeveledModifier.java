@@ -28,10 +28,13 @@ public class LeveledModifier {
 
         ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
 
+        String toTest = string.replace("{level}", "" + level);
+
         try {
-            return Double.parseDouble(scriptEngine.eval(string.replace("{level}", "" + level)).toString());
+            return Double.parseDouble(scriptEngine.eval(toTest).toString());
         } catch (ScriptException | NumberFormatException e) {
             Bukkit.getLogger().warning("[EpicEnchants] One of your math expressions is not properly formatted.");
+            Bukkit.getLogger().warning(toTest);
             return def;
         }
     }

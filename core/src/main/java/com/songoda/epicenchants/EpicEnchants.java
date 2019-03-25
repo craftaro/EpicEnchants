@@ -1,11 +1,13 @@
 package com.songoda.epicenchants;
 
 import co.aikar.commands.BukkitCommandManager;
-import com.songoda.epicenchants.hooks.HookManager;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.EntityListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
-import com.songoda.epicenchants.listeners.item.*;
+import com.songoda.epicenchants.listeners.item.BlackScrollListener;
+import com.songoda.epicenchants.listeners.item.BookListener;
+import com.songoda.epicenchants.listeners.item.DustListener;
+import com.songoda.epicenchants.listeners.item.WhiteScrollListener;
 import com.songoda.epicenchants.managers.*;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;

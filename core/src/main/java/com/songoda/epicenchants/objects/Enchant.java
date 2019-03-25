@@ -32,13 +32,8 @@ public class Enchant {
     private List<String> description;
     private String format;
     @Nullable private BookItem bookItem;
-    private Condition condition;
 
     public void onAction(@NotNull Player wearer, @Nullable LivingEntity opponent, Event event, int level, TriggerType triggerType, EventType eventType) {
-        if (!condition.get(wearer, opponent, level, false)) {
-            return;
-        }
-
         effectExecutors.forEach(effect -> effect.testAndRun(wearer, opponent, level, triggerType, event, eventType));
         mobs.forEach(mobWrapper -> mobWrapper.trySpawn(wearer, opponent, level, triggerType));
     }

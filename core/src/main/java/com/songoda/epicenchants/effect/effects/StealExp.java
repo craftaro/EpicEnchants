@@ -8,7 +8,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.songoda.epicenchants.utils.single.Experience.*;
+import static com.songoda.epicenchants.utils.single.Experience.changeExp;
+import static com.songoda.epicenchants.utils.single.Experience.getExp;
 
 public class StealExp extends EffectExecutor {
     public StealExp(ConfigurationSection section) {
@@ -16,7 +17,7 @@ public class StealExp extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, @Nullable LivingEntity entity, int level, EventType eventType) {
+    public void execute(@NotNull Player user, @Nullable LivingEntity entity, int level, EventType eventType) {
         double amount = getAmount().get(level, 0);
 
         if (!(entity instanceof Player)) {
@@ -32,10 +33,10 @@ public class StealExp extends EffectExecutor {
             changeExp(opponent, (int) -amount);
         }
 
-        if (getExp(wearer) + amount <= 0) {
-            changeExp(wearer, 0);
+        if (getExp(user) + amount <= 0) {
+            changeExp(user, 0);
         } else {
-            changeExp(wearer, (int) amount);
+            changeExp(user, (int) amount);
         }
     }
 }

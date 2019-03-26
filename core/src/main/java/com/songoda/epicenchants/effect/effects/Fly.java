@@ -15,9 +15,9 @@ public class Fly extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
-        wearer.setAllowFlight(eventType == ON);
-        wearer.setFlying(eventType == ON);
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
+        user.setAllowFlight(eventType == ON);
+        user.setFlying(eventType == ON);
     }
 
 }

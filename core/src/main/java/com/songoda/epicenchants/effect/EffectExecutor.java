@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.WEARER;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.USER;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
@@ -29,7 +29,7 @@ public abstract class EffectExecutor {
         this.condition = Condition.of(section.getString("condition"));
     }
 
-    public void testAndRun(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
+    public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
         if (type != triggerType) {
             return;
         }
@@ -38,41 +38,41 @@ public abstract class EffectExecutor {
             return;
         }
 
-        if (!condition.get(wearer, opponent, level, false)) {
+        if (!condition.get(user, opponent, level, false)) {
             return;
         }
 
         if (this instanceof EffectEventExecutor) {
-            ((EffectEventExecutor) this).execute(wearer, opponent, level, event, eventType);
+            ((EffectEventExecutor) this).execute(user, opponent, level, event, eventType);
             return;
         }
 
-        execute(wearer, opponent, level, eventType);
+        execute(user, opponent, level, eventType);
     }
 
-    public abstract void execute(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, EventType eventType);
+    public abstract void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType);
 
     public Who who() {
         if (section.isString("who")) {
-            if (section.getString("who").equalsIgnoreCase("wearer")) return WEARER;
+            if (section.getString("who").equalsIgnoreCase("user")) return USER;
             else if (section.getString("who").equalsIgnoreCase("opponent")) return OPPONENT;
         }
-        return WEARER;
+        return USER;
     }
 
     public LeveledModifier getAmount() {
         return LeveledModifier.of(section.getString("amount"));
     }
 
-    public void consume(Consumer<LivingEntity> playerConsumer, Player wearer, @Nullable LivingEntity opponent) {
+    public void consume(Consumer<LivingEntity> playerConsumer, Player user, @Nullable LivingEntity opponent) {
         if (triggerType == TriggerType.HELD_ITEM || triggerType == TriggerType.STATIC_EFFECT) {
-            playerConsumer.accept(wearer);
+            playerConsumer.accept(user);
             return;
         }
 
         switch (who()) {
-            case WEARER:
-                playerConsumer.accept(wearer);
+            case USER:
+                playerConsumer.accept(user);
                 break;
             case OPPONENT:
                 if (opponent != null)
@@ -81,6 +81,6 @@ public abstract class EffectExecutor {
     }
 
     public enum Who {
-        WEARER, OPPONENT
+        USER, OPPONENT
     }
 }

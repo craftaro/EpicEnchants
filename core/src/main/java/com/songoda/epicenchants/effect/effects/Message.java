@@ -15,11 +15,11 @@ public class Message extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         if (eventType == EventType.ON || eventType == EventType.NONE)
             consume(entity -> entity.sendMessage(color(getSection().getString("message"))
                     .replace("{level}", "" + level)
-                    .replace("{wearer}", wearer.getName())
-                    .replace("{opponent}", opponent == null ? "" : opponent.getName())), wearer, opponent);
+                    .replace("{user}", user.getName())
+                    .replace("{opponent}", opponent == null ? "" : opponent.getName())), user, opponent);
     }
 }

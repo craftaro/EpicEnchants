@@ -88,7 +88,7 @@ public class ItemGroup {
 
         SWORDS,
         BOWS,
-        WEAPONS(SWORDS, BOWS),
+        WEAPONS(SWORDS, BOWS, AXES),
 
         BOOTS,
         LEGGINGS,

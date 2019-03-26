@@ -16,13 +16,13 @@ public class RemoveEffect extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> {
             if (!getSection().isString("potion-type")) {
                 entity.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(entity::removePotionEffect);
             } else {
                 entity.removePotionEffect(PotionEffectType.getByName(getSection().getString("potion-type")));
             }
-        }, wearer, opponent);
+        }, user, opponent);
     }
 }

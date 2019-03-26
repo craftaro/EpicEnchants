@@ -19,8 +19,8 @@ public class DropHead extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
-        consume(entity -> getHead(entity).ifPresent(head -> entity.getWorld().dropItemNaturally(entity.getLocation(), head)), wearer, opponent);
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
+        consume(entity -> getHead(entity).ifPresent(head -> entity.getWorld().dropItemNaturally(entity.getLocation(), head)), user, opponent);
     }
 
     private Optional<ItemStack> getHead(Entity entity) {

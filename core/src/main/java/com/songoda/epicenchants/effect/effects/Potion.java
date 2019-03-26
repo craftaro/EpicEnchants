@@ -17,7 +17,7 @@ public class Potion extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         if (!getSection().isString("potion-type")) {
             return;
         }
@@ -32,9 +32,9 @@ public class Potion extends EffectExecutor {
         if (this.getTriggerType() == TriggerType.STATIC_EFFECT || this.getTriggerType() == TriggerType.HELD_ITEM) {
             if (eventType == EventType.ON) {
                 consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, ((int) amplifier.get(level, 0)),
-                        false, false)), wearer, opponent);
+                        false, false)), user, opponent);
             } else if (eventType == EventType.OFF) {
-                consume(entity -> entity.removePotionEffect(effectType), wearer, opponent);
+                consume(entity -> entity.removePotionEffect(effectType), user, opponent);
             }
             return;
         }
@@ -42,7 +42,7 @@ public class Potion extends EffectExecutor {
         LeveledModifier duration = LeveledModifier.of(getSection().getString("duration"));
 
         consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, ((int) duration.get(level, 60)),
-                ((int) amplifier.get(level, 0)), false, false)), wearer, opponent);
+                ((int) amplifier.get(level, 0)), false, false)), user, opponent);
     }
 
 }

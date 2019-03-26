@@ -15,8 +15,8 @@ public class DropItem extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> entity.getLocation().getWorld().dropItemNaturally(entity.getLocation(),
-                new ItemBuilder(getSection(), ((Player) entity)).build()), wearer, opponent);
+                new ItemBuilder(getSection(), ((Player) entity)).build()), user, opponent);
     }
 }

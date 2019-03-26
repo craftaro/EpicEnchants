@@ -14,7 +14,7 @@ public class ModifyHealth extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> {
             double amount = getAmount().get(level, 0);
             if (entity.getHealth() + amount > entity.getMaxHealth()) {
@@ -24,6 +24,6 @@ public class ModifyHealth extends EffectExecutor {
             } else {
                 entity.setHealth(entity.getHealth() + amount);
             }
-        }, wearer, opponent);
+        }, user, opponent);
     }
 }

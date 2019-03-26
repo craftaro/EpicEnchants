@@ -12,10 +12,10 @@ public abstract class EffectEventExecutor extends EffectExecutor {
         super(section);
     }
 
-    public abstract void execute(Player wearer, LivingEntity opponent, int level, Event event, EventType eventType);
+    public abstract void execute(Player user, LivingEntity opponent, int level, Event event, EventType eventType);
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         throw new UnsupportedOperationException("This method can not be called on EventEffects");
     }
 }

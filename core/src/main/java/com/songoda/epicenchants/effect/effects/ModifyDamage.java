@@ -15,7 +15,7 @@ public class ModifyDamage extends EffectEventExecutor {
     }
 
     @Override
-    public void execute(Player wearer, LivingEntity opponent, int level, Event event, EventType eventType) {
+    public void execute(Player user, LivingEntity opponent, int level, Event event, EventType eventType) {
         if (!(event instanceof EntityDamageEvent)) {
             return;
         }

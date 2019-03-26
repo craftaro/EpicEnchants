@@ -16,7 +16,7 @@ public class ModifyExp extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, @Nullable LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> {
             if (entity instanceof Player) {
                 Player player = (Player) entity;
@@ -26,6 +26,6 @@ public class ModifyExp extends EffectExecutor {
                     Experience.changeExp(player, (int) getAmount().get(level, 0));
                 }
             }
-        }, wearer, opponent);
+        }, user, opponent);
     }
 }

@@ -23,7 +23,7 @@ public class Condition {
         return new Condition(string);
     }
 
-    public boolean get(Player wearer, @Nullable LivingEntity attacker, int level, boolean def) {
+    public boolean get(Player user, @Nullable LivingEntity attacker, int level, boolean def) {
         if (string == null || string.isEmpty()) {
             return true;
         }
@@ -33,25 +33,25 @@ public class Condition {
 
         for (Placeholder pair : Arrays.asList(
                 Placeholder.of("level", level),
-                Placeholder.of("wearer_health", wearer.getHealth()),
+                Placeholder.of("user_health", user.getHealth()),
                 Placeholder.of("attacker_health", attacker == null ? -1 : attacker.getHealth()),
-                Placeholder.of("wearer_food", wearer.getFoodLevel()),
+                Placeholder.of("user_food", user.getFoodLevel()),
                 Placeholder.of("attacker_food", attacker instanceof Player ? ((Player) attacker).getFoodLevel() : 0),
-                Placeholder.of("wearer_is_sneaking", wearer.isSneaking()),
+                Placeholder.of("user_is_sneaking", user.isSneaking()),
                 Placeholder.of("attacker_is_sneaking", attacker instanceof Player && ((Player) attacker).isSneaking()),
-                Placeholder.of("world", wearer.getWorld().getName()),
-                Placeholder.of("players_near", wearer.getNearbyEntities(4, 4, 4).size()),
-                Placeholder.of("wearer_on_fire", wearer.getFireTicks() != 0),
+                Placeholder.of("world", user.getWorld().getName()),
+                Placeholder.of("players_near", user.getNearbyEntities(4, 4, 4).size()),
+                Placeholder.of("user_on_fire", user.getFireTicks() != 0),
                 Placeholder.of("attacker_on_fire", attacker != null && attacker.getFireTicks() != 0)
         )) {
             toValidate = toValidate.replace(pair.getPlaceholder(), pair.getToReplace().toString());
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            toValidate = PlaceholderAPI.setPlaceholders(wearer, toValidate);
+            toValidate = PlaceholderAPI.setPlaceholders(user, toValidate);
 
             if (attacker instanceof Player) {
-                toValidate = PlaceholderAPI.setRelationalPlaceholders(wearer, (Player) attacker, toValidate);
+                toValidate = PlaceholderAPI.setRelationalPlaceholders(user, (Player) attacker, toValidate);
             }
         }
 

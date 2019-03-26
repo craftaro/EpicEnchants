@@ -13,7 +13,7 @@ public class Extinguish extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
-        consume(player -> player.setFireTicks(0), wearer, opponent);
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
+        consume(player -> player.setFireTicks(0), user, opponent);
     }
 }

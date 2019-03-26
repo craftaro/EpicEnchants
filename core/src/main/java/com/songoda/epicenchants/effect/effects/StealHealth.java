@@ -13,7 +13,7 @@ public class StealHealth extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         double amount = getAmount().get(level, 0);
 
         if (opponent == null) {
@@ -21,7 +21,7 @@ public class StealHealth extends EffectExecutor {
         }
 
         double opponentHealth = opponent.getHealth() - amount;
-        double wearerHealth = wearer.getHealth() + amount;
+        double userHealth = user.getHealth() + amount;
 
         if (opponentHealth <= 0) {
             opponent.setHealth(0);
@@ -31,12 +31,12 @@ public class StealHealth extends EffectExecutor {
             opponent.setHealth(opponentHealth);
         }
 
-        if (wearerHealth <= 0) {
-            wearer.setHealth(0);
-        } else if (wearerHealth > wearer.getMaxHealth()) {
-            wearer.setHealth(wearer.getMaxHealth());
+        if (userHealth <= 0) {
+            user.setHealth(0);
+        } else if (userHealth > user.getMaxHealth()) {
+            user.setHealth(user.getMaxHealth());
         } else {
-            wearer.setHealth(wearerHealth);
+            user.setHealth(userHealth);
         }
     }
 }

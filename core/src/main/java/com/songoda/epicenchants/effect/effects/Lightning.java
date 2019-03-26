@@ -13,7 +13,7 @@ public class Lightning extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
-        consume(entity -> entity.getWorld().strikeLightning(entity.getLocation()), wearer, opponent);
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
+        consume(entity -> entity.getWorld().strikeLightning(entity.getLocation()), user, opponent);
     }
 }

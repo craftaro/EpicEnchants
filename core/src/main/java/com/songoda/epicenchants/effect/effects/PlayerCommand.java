@@ -17,7 +17,7 @@ public class PlayerCommand extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player wearer, LivingEntity opponent, int level, EventType eventType) {
+    public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         if (eventType == ON || eventType == NONE) {
             if (who() == OPPONENT && !(opponent instanceof Player)) {
                 return;
@@ -25,8 +25,8 @@ public class PlayerCommand extends EffectExecutor {
 
             consume(entity -> ((Player) entity).performCommand(getSection().getString("command")
                     .replace("{level}", "" + level)
-                    .replace("{wearer}", wearer.getName())
-                    .replace("{opponent}", opponent.getName())), wearer, opponent);
+                    .replace("{user}", user.getName())
+                    .replace("{opponent}", opponent.getName())), user, opponent);
         }
 
     }

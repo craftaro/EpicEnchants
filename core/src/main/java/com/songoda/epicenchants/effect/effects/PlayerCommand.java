@@ -2,7 +2,7 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
-import com.songoda.epicenchants.managers.HookManager;
+import com.songoda.epicenchants.utils.single.Placeholders;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class PlayerCommand extends EffectExecutor {
             return;
         }
 
-        consume(entity -> ((Player) entity).performCommand(HookManager.setPAPIPlaceholders(getSection().getString("command"), user, opponent, level)), user, opponent);
+        consume(entity -> ((Player) entity).performCommand(Placeholders.setPlaceholders(getSection().getString("command"), user, opponent, level)), user, opponent);
 
     }
 }

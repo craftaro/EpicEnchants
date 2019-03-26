@@ -29,7 +29,7 @@ public class MobWrapper {
     private boolean hostile;
     private LeveledModifier maxAmount;
 
-    public void trySpawn(@NotNull Player player, @Nullable LivingEntity opponent, int level, TriggerType triggerType) {
+    public void trySpawn(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType triggerType) {
         if (this.triggerType != triggerType) {
             return;
         }
@@ -38,7 +38,7 @@ public class MobWrapper {
             return;
         }
 
-        Location location = player.getLocation();
+        Location location = user.getLocation();
 
         for (int i = 0; i < current().nextInt((int) (maxAmount.get(level, 1, user, opponent) + 1)); i++) {
             Location spawnLocation = location.clone().add(current().nextInt(-3, 3), 0, current().nextInt(-3, 3));
@@ -57,16 +57,20 @@ public class MobWrapper {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 int dropChance = (int) equipmentDropChance.get(level, 0, user, opponent);
 
-                if (helmet != null) livingEntity.getEquipment().setHelmet(helmet.buildWithWrappers(level));
-                if (chestPlate != null) livingEntity.getEquipment().setChestplate(chestPlate.buildWithWrappers(level));
-                if (leggings != null) livingEntity.getEquipment().setLeggings(leggings.buildWithWrappers(level));
-                if (boots != null) livingEntity.getEquipment().setBoots(boots.buildWithWrappers(level));
+                if (helmet != null)
+                    livingEntity.getEquipment().setHelmet(helmet.buildWithWrappers(level, user, opponent));
+                if (chestPlate != null)
+                    livingEntity.getEquipment().setChestplate(chestPlate.buildWithWrappers(level, user, opponent));
+                if (leggings != null)
+                    livingEntity.getEquipment().setLeggings(leggings.buildWithWrappers(level, user, opponent));
+                if (boots != null) livingEntity.getEquipment().setBoots(boots.buildWithWrappers(level, user, opponent));
                 livingEntity.getEquipment().setHelmetDropChance(dropChance);
                 livingEntity.getEquipment().setLeggingsDropChance(dropChance);
                 livingEntity.getEquipment().setHelmetDropChance(dropChance);
                 livingEntity.getEquipment().setChestplateDropChance(dropChance);
 
-                if (handItem != null) livingEntity.getEquipment().setItemInHand(handItem.buildWithWrappers(level));
+                if (handItem != null)
+                    livingEntity.getEquipment().setItemInHand(handItem.buildWithWrappers(level, user, opponent));
                 livingEntity.getEquipment().setItemInHandDropChance(dropChance);
             }
 
@@ -76,7 +80,7 @@ public class MobWrapper {
 
             NBTEntity nbtEntity = new NBTEntity(entity);
 
-            nbtEntity.setBoolean(player.getUniqueId().toString(), true);
+            nbtEntity.setBoolean(user.getUniqueId().toString(), true);
 
             NBTList list = nbtEntity.getList("Attributes", NBTType.NBTTagCompound);
 

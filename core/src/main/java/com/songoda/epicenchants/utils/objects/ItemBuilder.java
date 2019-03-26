@@ -8,6 +8,7 @@ import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -269,9 +270,9 @@ public class ItemBuilder {
         return item;
     }
 
-    public ItemStack buildWithWrappers(int level) {
+    public ItemStack buildWithWrappers(int level, Player user, LivingEntity opponent) {
         item.setItemMeta(meta);
-        enchantmentWrappers.forEach(enchant -> item.addUnsafeEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level)));
+        enchantmentWrappers.forEach(enchant -> item.addUnsafeEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level, user, opponent)));
         return item;
     }
 

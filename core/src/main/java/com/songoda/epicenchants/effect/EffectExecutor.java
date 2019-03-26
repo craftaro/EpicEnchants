@@ -31,7 +31,7 @@ public abstract class EffectExecutor {
     }
 
     public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
-        if (triggerTypes.contains(type)) {
+        if (!triggerTypes.contains(type)) {
             return;
         }
 
@@ -39,7 +39,7 @@ public abstract class EffectExecutor {
             return;
         }
 
-        if (!condition.get(user, opponent, level, false)) {
+        if (!condition.get(user, opponent, level, event, false)) {
             return;
         }
 
@@ -53,7 +53,7 @@ public abstract class EffectExecutor {
 
     public abstract void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType);
 
-    public Who who() {
+    protected Who who() {
         if (section.isString("who")) {
             if (section.getString("who").equalsIgnoreCase("user")) return USER;
             else if (section.getString("who").equalsIgnoreCase("opponent")) return OPPONENT;

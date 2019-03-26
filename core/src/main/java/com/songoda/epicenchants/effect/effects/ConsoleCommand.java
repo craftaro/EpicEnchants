@@ -2,7 +2,7 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
-import com.songoda.epicenchants.managers.HookManager;
+import com.songoda.epicenchants.utils.single.Placeholders;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
@@ -17,6 +17,6 @@ public class ConsoleCommand extends EffectExecutor {
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                HookManager.setPAPIPlaceholders(getSection().getString("command"), user, opponent, level));
+                Placeholders.setPlaceholders(getSection().getString("command"), user, opponent, level));
     }
 }

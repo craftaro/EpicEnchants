@@ -13,6 +13,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
@@ -20,21 +21,21 @@ import static com.songoda.epicenchants.effect.EffectExecutor.Who.USER;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
-    @Getter private final TriggerType triggerType;
+    @Getter private final Set<TriggerType> triggerTypes;
     private final Condition condition;
 
     public EffectExecutor(ConfigurationSection section) {
         this.section = section;
-        this.triggerType = TriggerType.valueOf(section.getString("trigger"));
+        this.triggerTypes = GeneralUtils.parseTrigger(section.getString("trigger"));
         this.condition = Condition.of(section.getString("condition"));
     }
 
     public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
-        if (type != triggerType) {
+        if (triggerTypes.contains(type)) {
             return;
         }
 
-        if (section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(section.getString("chance")).get(level, 100))) {
+        if (section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(section.getString("chance")).get(level, 100, user, opponent))) {
             return;
         }
 
@@ -65,7 +66,7 @@ public abstract class EffectExecutor {
     }
 
     public void consume(Consumer<LivingEntity> playerConsumer, Player user, @Nullable LivingEntity opponent) {
-        if (triggerType == TriggerType.HELD_ITEM || triggerType == TriggerType.STATIC_EFFECT) {
+        if (triggerTypes.contains(TriggerType.HELD_ITEM) || triggerTypes.contains(TriggerType.STATIC_EFFECT)) {
             playerConsumer.accept(user);
             return;
         }

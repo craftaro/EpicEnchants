@@ -27,7 +27,7 @@ public class Throw extends EffectExecutor {
         }
 
         Vector vector;
-        double magnitude = LeveledModifier.of(getSection().getString("magnitude")).get(level, 0.1);
+        double magnitude = LeveledModifier.of(getSection().getString("magnitude")).get(level, 0.1, user, opponent);
         LivingEntity livingEntity = who() == USER ? user : opponent;
         LivingEntity relative = getSection().getString("relative-to").equalsIgnoreCase("opponent") ? opponent : user;
 

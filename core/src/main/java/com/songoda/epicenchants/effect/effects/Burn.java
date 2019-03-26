@@ -16,6 +16,6 @@ public class Burn extends EffectExecutor {
 
     @Override
     public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
-        consume(entity -> entity.setFireTicks((int) LeveledModifier.of(getSection().getString("time")).get(level, 20)), user, opponent);
+        consume(entity -> entity.setFireTicks((int) LeveledModifier.of(getSection().getString("time")).get(level, 20, user, opponent)), user, opponent);
     }
 }

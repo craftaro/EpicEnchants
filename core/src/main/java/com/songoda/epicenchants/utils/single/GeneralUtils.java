@@ -1,6 +1,7 @@
 package com.songoda.epicenchants.utils.single;
 
 import com.songoda.epicenchants.enums.EnchantResult;
+import com.songoda.epicenchants.enums.TriggerType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 
@@ -48,5 +49,9 @@ public class GeneralUtils {
 
     public static List<Integer> getSlotsList(String string) {
         return Arrays.stream(string.split(",")).filter(StringUtils::isNumeric).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
+    }
+
+    public static Set<TriggerType> parseTrigger(String triggers) {
+        return Arrays.stream(triggers.replaceAll("\\s+", "").split(",")).map(TriggerType::valueOf).collect(Collectors.toSet());
     }
 }

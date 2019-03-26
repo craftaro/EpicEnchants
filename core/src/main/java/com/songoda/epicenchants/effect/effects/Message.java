@@ -2,6 +2,7 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.managers.HookManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -17,9 +18,6 @@ public class Message extends EffectExecutor {
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         if (eventType == EventType.ON || eventType == EventType.NONE)
-            consume(entity -> entity.sendMessage(color(getSection().getString("message"))
-                    .replace("{level}", "" + level)
-                    .replace("{user}", user.getName())
-                    .replace("{opponent}", opponent == null ? "" : opponent.getName())), user, opponent);
+            consume(entity -> entity.sendMessage(color(HookManager.setPAPIPlaceholders(getSection().getString("message"), user, opponent, level))), user, opponent);
     }
 }

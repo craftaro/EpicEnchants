@@ -18,9 +18,9 @@ public class Tnt extends EffectExecutor {
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         consume(player -> {
-            for (int i = 0; i < LeveledModifier.of(getSection().getString("amount")).get(level, 1); i++) {
+            for (int i = 0; i < LeveledModifier.of(getSection().getString("amount")).get(level, 1, user, opponent); i++) {
                 TNTPrimed tntPrimed = (TNTPrimed) player.getWorld().spawnEntity(player.getLocation(), EntityType.PRIMED_TNT);
-                tntPrimed.setFuseTicks((int) LeveledModifier.of(getSection().getString("fuse")).get(level, 60));
+                tntPrimed.setFuseTicks((int) LeveledModifier.of(getSection().getString("fuse")).get(level, 60, user, opponent));
             }
         }, user, opponent);
     }

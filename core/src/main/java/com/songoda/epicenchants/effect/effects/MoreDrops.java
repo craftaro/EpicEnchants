@@ -19,7 +19,7 @@ public class MoreDrops extends EffectEventExecutor {
     }
 
     @Override
-    public void execute(Player player, LivingEntity opponent, int level, Event event, EventType type) {
+    public void execute(Player user, LivingEntity opponent, int level, Event event, EventType type) {
         if (!(event instanceof EntityDeathEvent)) {
             return;
         }
@@ -27,7 +27,7 @@ public class MoreDrops extends EffectEventExecutor {
         EntityDeathEvent deathEvent = (EntityDeathEvent) event;
         LeveledModifier modifier = getAmount();
         List<ItemStack> newDrops = deathEvent.getDrops().stream()
-                .peek(itemStack -> itemStack.setAmount(((int) (itemStack.getAmount() * modifier.get(level, 1)))))
+                .peek(itemStack -> itemStack.setAmount(((int) (itemStack.getAmount() * modifier.get(level, 1, user, opponent)))))
                 .collect(Collectors.toList());
 
         deathEvent.getDrops().clear();

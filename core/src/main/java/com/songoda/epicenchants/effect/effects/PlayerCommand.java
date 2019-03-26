@@ -2,6 +2,7 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.managers.HookManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,16 +19,15 @@ public class PlayerCommand extends EffectExecutor {
 
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
-        if (eventType == ON || eventType == NONE) {
-            if (who() == OPPONENT && !(opponent instanceof Player)) {
-                return;
-            }
-
-            consume(entity -> ((Player) entity).performCommand(getSection().getString("command")
-                    .replace("{level}", "" + level)
-                    .replace("{user}", user.getName())
-                    .replace("{opponent}", opponent.getName())), user, opponent);
+        if (eventType != ON && eventType != NONE) {
+            return;
         }
+
+        if (who() == OPPONENT && !(opponent instanceof Player)) {
+            return;
+        }
+
+        consume(entity -> ((Player) entity).performCommand(HookManager.setPAPIPlaceholders(getSection().getString("command"), user, opponent, level)), user, opponent);
 
     }
 }

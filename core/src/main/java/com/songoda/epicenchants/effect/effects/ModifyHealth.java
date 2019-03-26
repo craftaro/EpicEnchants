@@ -16,7 +16,7 @@ public class ModifyHealth extends EffectExecutor {
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> {
-            double amount = getAmount().get(level, 0);
+            double amount = getAmount().get(level, 0, user, opponent);
             if (entity.getHealth() + amount > entity.getMaxHealth()) {
                 entity.setHealth(entity.getMaxHealth());
             } else if (entity.getHealth() + amount < 0) {

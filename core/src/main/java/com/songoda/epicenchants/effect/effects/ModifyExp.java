@@ -21,9 +21,9 @@ public class ModifyExp extends EffectExecutor {
             if (entity instanceof Player) {
                 Player player = (Player) entity;
                 if (getSection().getString("amount").endsWith("L")) {
-                    player.setLevel((int) (player.getLevel() + LeveledModifier.of(getSection().getString("amount").replace("L", "")).get(level, 0)));
+                    player.setLevel((int) (player.getLevel() + LeveledModifier.of(getSection().getString("amount").replace("L", "")).get(level, 0, user, opponent)));
                 } else {
-                    Experience.changeExp(player, (int) getAmount().get(level, 0));
+                    Experience.changeExp(player, (int) getAmount().get(level, 0, user, opponent));
                 }
             }
         }, user, opponent);

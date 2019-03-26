@@ -1,6 +1,9 @@
 package com.songoda.epicenchants.objects;
 
+import com.songoda.epicenchants.managers.HookManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -17,7 +20,7 @@ public class LeveledModifier {
         return new LeveledModifier(string);
     }
 
-    public double get(int level, double def) {
+    public double get(int level, double def, Player user, LivingEntity opponent) {
         if (string == null || string.isEmpty()) {
             return def;
         }
@@ -27,8 +30,7 @@ public class LeveledModifier {
         }
 
         ScriptEngine scriptEngine = new ScriptEngineManager().getEngineByName("JavaScript");
-
-        String toTest = string.replace("{level}", "" + level);
+        String toTest = HookManager.setPAPIPlaceholders(string, user, opponent, level);
 
         try {
             return Double.parseDouble(scriptEngine.eval(toTest).toString());

@@ -17,20 +17,20 @@ public class StealExp extends EffectExecutor {
     }
 
     @Override
-    public void execute(@NotNull Player user, @Nullable LivingEntity entity, int level, EventType eventType) {
-        double amount = getAmount().get(level, 0);
+    public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
+        double amount = getAmount().get(level, 0, user, opponent);
 
-        if (!(entity instanceof Player)) {
+        if (!(opponent instanceof Player)) {
             return;
         }
 
-        Player opponent = (Player) entity;
+        Player player = (Player) opponent;
 
 
-        if (getExp(opponent) - amount <= 0) {
-            changeExp(opponent, 0);
+        if (getExp(player) - amount <= 0) {
+            changeExp(player, 0);
         } else {
-            changeExp(opponent, (int) -amount);
+            changeExp(player, (int) -amount);
         }
 
         if (getExp(user) + amount <= 0) {

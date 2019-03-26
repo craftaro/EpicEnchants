@@ -17,7 +17,7 @@ public class ModifyFood extends EffectExecutor {
     public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
         consume(entity -> {
             if (entity instanceof Player) {
-                ((Player) entity).setFoodLevel((int) (((Player) entity).getFoodLevel() + getAmount().get(level, 0)));
+                ((Player) entity).setFoodLevel((int) (((Player) entity).getFoodLevel() + getAmount().get(level, 0, user, opponent)));
             }
         }, user, opponent);
     }

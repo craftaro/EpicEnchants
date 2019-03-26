@@ -20,6 +20,6 @@ public class ModifyDamage extends EffectEventExecutor {
             return;
         }
 
-        ((EntityDamageEvent) event).setDamage(LeveledModifier.of(getSection().getString("modifier")).get(level, 1));
+        ((EntityDamageEvent) event).setDamage(LeveledModifier.of(getSection().getString("modifier")).get(level, 1, user, opponent));
     }
 }

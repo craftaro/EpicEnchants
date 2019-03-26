@@ -4,7 +4,10 @@ import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
-import de.tr7zw.itemnbtapi.*;
+import de.tr7zw.itemnbtapi.NBTEntity;
+import de.tr7zw.itemnbtapi.NBTList;
+import de.tr7zw.itemnbtapi.NBTListCompound;
+import de.tr7zw.itemnbtapi.NBTType;
 import lombok.Builder;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
@@ -31,13 +34,13 @@ public class MobWrapper {
             return;
         }
 
-        if (!GeneralUtils.chance(spawnPercentage.get(level, 100))) {
+        if (!GeneralUtils.chance(spawnPercentage.get(level, 100, user, opponent))) {
             return;
         }
 
         Location location = player.getLocation();
 
-        for (int i = 0; i < current().nextInt((int) (maxAmount.get(level, 1) + 1)); i++) {
+        for (int i = 0; i < current().nextInt((int) (maxAmount.get(level, 1, user, opponent) + 1)); i++) {
             Location spawnLocation = location.clone().add(current().nextInt(-3, 3), 0, current().nextInt(-3, 3));
             int y = location.getWorld().getHighestBlockAt(spawnLocation).getY();
 
@@ -52,7 +55,7 @@ public class MobWrapper {
 
             if (entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;
-                int dropChance = (int) equipmentDropChance.get(level, 0);
+                int dropChance = (int) equipmentDropChance.get(level, 0, user, opponent);
 
                 if (helmet != null) livingEntity.getEquipment().setHelmet(helmet.buildWithWrappers(level));
                 if (chestPlate != null) livingEntity.getEquipment().setChestplate(chestPlate.buildWithWrappers(level));
@@ -80,12 +83,12 @@ public class MobWrapper {
             for (int j = 0; j < list.size(); j++) {
                 NBTListCompound lc = list.getCompound(j);
                 if (lc.getString("Name").equals("generic.attackDamage")) {
-                    lc.setDouble("Base", attackDamage.get(level, (int) lc.getDouble("Base")));
+                    lc.setDouble("Base", attackDamage.get(level, (int) lc.getDouble("Base"), user, opponent));
                     continue;
                 }
 
                 if (lc.getString("Name").equals("generic.maxHealth")) {
-                    lc.setDouble("Base", health.get(level, (int) lc.getDouble("Base")));
+                    lc.setDouble("Base", health.get(level, (int) lc.getDouble("Base"), user, opponent));
                 }
             }
         }

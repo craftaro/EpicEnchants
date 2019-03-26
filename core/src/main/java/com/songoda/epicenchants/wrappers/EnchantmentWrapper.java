@@ -10,7 +10,7 @@ public class EnchantmentWrapper {
     private Enchantment enchantment;
 
     public int getAmplifier(int level) {
-        return (int) amplifier.get(level, 0);
+        return (int) amplifier.get(level, 0, user, opponent);
     }
 
     public Enchantment getEnchantment() {

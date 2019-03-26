@@ -14,7 +14,7 @@ public class StealHealth extends EffectExecutor {
 
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
-        double amount = getAmount().get(level, 0);
+        double amount = getAmount().get(level, 0, user, opponent);
 
         if (opponent == null) {
             return;

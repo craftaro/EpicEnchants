@@ -2,6 +2,7 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
+import com.songoda.epicenchants.utils.single.GeneralUtils;
 import com.songoda.epicenchants.utils.single.Placeholders;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
@@ -9,8 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
-import static com.songoda.epicenchants.enums.EventType.NONE;
-import static com.songoda.epicenchants.enums.EventType.ON;
+import static com.songoda.epicenchants.enums.EventType.*;
 
 public class PlayerCommand extends EffectExecutor {
     public PlayerCommand(ConfigurationSection section) {
@@ -27,7 +27,8 @@ public class PlayerCommand extends EffectExecutor {
             return;
         }
 
-        consume(entity -> ((Player) entity).performCommand(Placeholders.setPlaceholders(getSection().getString("command"), user, opponent, level)), user, opponent);
-
+        consume(entity -> GeneralUtils.getString(getSection(), "message").stream()
+                .map(s -> Placeholders.setPlaceholders(s, user, opponent, level))
+                .forEach(((Player) entity)::performCommand), user, opponent);
     }
 }

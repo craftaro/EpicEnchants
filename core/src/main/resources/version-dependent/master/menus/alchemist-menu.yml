@@ -1,0 +1,50 @@
+title: "Alchemist"
+rows: 3
+
+fill:
+  material: GRAY_STAINED_GLASS_PANE
+  display-name: "&r"
+
+left-slot: 3
+right-slot: 5
+preview-slot: 13
+accept-slot: 22
+
+book:
+  success-rate-formula: "({left_success_rate} + {right_success_rate}) / 4"
+  destroy-rate-formula: "({left_destroy_rate} + {right_destroy_rate}) / 4 + {max_destroy_rate}"
+  eco-cost-formula: "0"
+  exp-cost-formula: "({group_order_index} + 1) * {final_success_rate}"
+
+dust:
+  percentage-formula: "({left_percentage} + {right_percentage}) / 2"
+  eco-cost-formula: "0"
+  exp-cost-formula: "({group_order_index} + 1) * {final_success_rate}"
+
+contents:
+  preview:
+    material: WHITE_STAINED_GLASS_PANE
+    display-name: "&eITEM PREVIEW"
+    lore:
+      - "&7A preview of the item that you"
+      - "&7will receive from the alchemist"
+      - "&7will be displayed here."
+  accept-before:
+    material: RED_STAINED_GLASS_PANE
+    display-name: "&8[&eThe Alchemist&8]"
+    lore:
+      - "&7You will exchange"
+      - ""
+      - "&8- &f2x enchantment books"
+      - "&7(of the same type and level) &ffor"
+      - "&fthe same enchantment book"
+      - "&7(with a higher success rate)"
+  accept-after:
+    material: LIME_STAINED_GLASS_PANE
+    display-name: "&eClick to confirm"
+    lore:
+      - "&cCost: {exp_cost} EXP"
+      - ""
+      - "&7Click to confirm the exchange"
+      - "&7after which you will receive"
+      - "&7the item displayed above."

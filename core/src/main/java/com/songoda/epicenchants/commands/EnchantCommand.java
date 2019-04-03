@@ -5,8 +5,6 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
-import com.songoda.epicenchants.menus.EnchanterMenu;
-import com.songoda.epicenchants.menus.TinkererMenu;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,20 +21,6 @@ public class EnchantCommand extends BaseCommand {
 
     @Dependency("instance")
     private EpicEnchants instance;
-
-    @Subcommand("%enchanter")
-    @Description("Opens the Enchanter")
-    @CommandPermission("epicenchants.enchanter")
-    public void onEnchanter(Player player) {
-        new EnchanterMenu(instance, instance.getFileManager().getConfiguration("menus/enchanter-menu"), player).open(player);
-    }
-
-    @Subcommand("%tinkerer")
-    @Description("Opens the Tinkerer")
-    @CommandPermission("epicenchants.tinkerer")
-    public void onTinkerer(Player player) {
-        new TinkererMenu(instance, instance.getFileManager().getConfiguration("menus/tinkerer-menu")).open(player);
-    }
 
     //ee give book [player] [enchant] <level> <success-rate> <destroy-rate>
     @Subcommand("give book")
@@ -68,10 +52,10 @@ public class EnchantCommand extends BaseCommand {
 
     //ee give item [giveType] [player] <amount> <success-rate>
     @Subcommand("give item")
-    @CommandCompletion("@players @giveType @nothing @nothing")
+    @CommandCompletion("@giveType @players @nothing @nothing")
     @Description("Give enchant books to players")
     @CommandPermission("epicenchants.give.item")
-    public void onGiveItem(CommandSender sender, @Flags("other") Player target, String giveType, @Optional Integer amount, @Optional Integer successRate) {
+    public void onGiveItem(CommandSender sender, String giveType, @Flags("other") Player target, @Optional Integer amount, @Optional Integer successRate) {
         String messageKey;
         switch (giveType.toLowerCase()) {
             case "whitescroll":

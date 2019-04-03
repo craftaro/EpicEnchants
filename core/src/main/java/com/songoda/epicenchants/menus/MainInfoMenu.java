@@ -5,10 +5,11 @@ import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
 
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
-public class MainInfoMenu extends FastInv {
+public class MainInfoMenu extends FastInv implements Listener {
 
     public MainInfoMenu(EpicEnchants instance, FileConfiguration config) {
         super(config.getInt("rows") * 9, color(config.getString("title")));
@@ -24,5 +25,6 @@ public class MainInfoMenu extends FastInv {
                     });
                 });
     }
+
 
 }

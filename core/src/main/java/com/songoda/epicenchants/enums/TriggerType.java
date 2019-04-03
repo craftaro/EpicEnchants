@@ -27,5 +27,6 @@ public enum TriggerType {
 
     BLOCK_BREAK,
     REPEATING,
-    RIGHT_CLICK
+    RIGHT_CLICK,
+    LEFT_CLICK
 }

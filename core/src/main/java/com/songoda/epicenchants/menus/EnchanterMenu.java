@@ -25,9 +25,9 @@ public class EnchanterMenu extends FastInv {
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
                 .forEach(section -> {
-                    double expCost = section.getDouble("exp-cost");
-                    double ecoCost = section.getDouble("eco-cost");
-                    double xpLeft = expCost - player.getLevel() < 0 ? 0 : expCost - player.getLevel();
+                    int expCost = section.getInt("exp-cost");
+                    int ecoCost = section.getInt("eco-cost");
+                    int xpLeft = expCost - player.getLevel() < 0 ? 0 : expCost - player.getLevel();
                     double ecoLeft = ecoCost - instance.getEconomy().getBalance(player) < 0 ? 0 : ecoCost - instance.getEconomy().getBalance(player);
                     Group group = instance.getGroupManager().getValue(section.getString("group").toUpperCase())
                             .orElseThrow(() -> new IllegalArgumentException("Invalid group set in enchanter: " + section.getString("group")));
@@ -50,7 +50,7 @@ public class EnchanterMenu extends FastInv {
                                 of("eco_cost", ecoCost),
                                 of("exp_cost", expCost));
 
-                        changeExp(player, (int) -expCost);
+                        changeExp(player, -expCost);
                         player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));
                     });
                 });

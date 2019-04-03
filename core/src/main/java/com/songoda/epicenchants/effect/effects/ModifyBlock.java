@@ -23,6 +23,12 @@ public class ModifyBlock extends EffectEventExecutor {
         }
 
         Block block = event instanceof BlockEvent ? ((BlockEvent) event).getBlock() : ((PlayerInteractEvent) event).getClickedBlock();
+
+        if (getSection().getBoolean("break-naturally")) {
+            block.breakNaturally();
+            return;
+        }
+
         block.setType(Material.getMaterial(getSection().getString("material")));
     }
 }

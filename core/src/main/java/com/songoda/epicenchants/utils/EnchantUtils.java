@@ -48,7 +48,7 @@ public class EnchantUtils {
             return Pair.of(itemStack, MAXED_OUT);
         }
 
-        if (currentEnchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() == level)) {
+        if (currentEnchantMap.entrySet().stream().anyMatch(entry -> entry.getKey().equals(enchant) && entry.getValue() >= level)) {
             return Pair.of(itemStack, ALREADY_APPLIED);
         }
 
@@ -110,7 +110,7 @@ public class EnchantUtils {
 
     public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, TriggerType triggerType) {
         List<ItemStack> stacks = new ArrayList<>(Arrays.asList(player.getInventory().getArmorContents()));
-        stacks.add(player.getItemInHand());
+        stacks.add(GeneralUtils.getHeldItem(player, event));
         stacks.removeIf(Objects::isNull);
 
         if (triggerType == HELD_ITEM) {

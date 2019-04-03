@@ -123,6 +123,6 @@ public class SpecialItems {
     }
 
     public String getWhiteScrollLore() {
-        return color(instance.getFileManager().getConfiguration("special-items").getConfigurationSection("white-scroll").getString("format"));
+        return color(instance.getFileManager().getConfiguration("items/special-items").getString("white-scroll.format"));
     }
 }

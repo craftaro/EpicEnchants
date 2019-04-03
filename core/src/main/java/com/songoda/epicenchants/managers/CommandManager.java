@@ -3,6 +3,7 @@ package com.songoda.epicenchants.managers;
 import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.InvalidCommandArgument;
 import com.songoda.epicenchants.EpicEnchants;
+import com.songoda.epicenchants.commands.CustomCommand;
 import com.songoda.epicenchants.commands.EnchantCommand;
 import com.songoda.epicenchants.enums.GiveType;
 import com.songoda.epicenchants.objects.Enchant;
@@ -70,5 +71,6 @@ public class CommandManager extends BukkitCommandManager {
         // COMMANDS
 
         registerCommand(new EnchantCommand());
+        registerCommand(new CustomCommand());
     }
 }

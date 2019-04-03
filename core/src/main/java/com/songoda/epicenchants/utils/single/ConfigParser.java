@@ -3,10 +3,7 @@ package com.songoda.epicenchants.utils.single;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.effect.EffectManager;
 import com.songoda.epicenchants.enums.TriggerType;
-import com.songoda.epicenchants.objects.BookItem;
-import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.objects.Group;
-import com.songoda.epicenchants.objects.LeveledModifier;
+import com.songoda.epicenchants.objects.*;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
 import com.songoda.epicenchants.wrappers.MobWrapper;
@@ -16,10 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
@@ -86,6 +80,7 @@ public class ConfigParser {
 
     public static Group parseGroup(EpicEnchants instance, ConfigurationSection section) {
         return section != null ? Group.builder()
+                .order(section.getInt("order"))
                 .identifier(section.getName())
                 .name(color(section.getString("group-name")))
                 .format(section.getString("group-lore-format"))

@@ -51,9 +51,9 @@ public class TinkererMenu extends FastInv {
                         if (section.getName().equalsIgnoreCase("accept-left") || section.getName().equalsIgnoreCase("accept-right")) {
                             slotMap.values().stream().map(slot -> getInventory().getItem(slot)).filter(Objects::nonNull).forEach(event.getPlayer().getInventory()::addItem);
                             slotMap.keySet().forEach(slot -> getInventory().clear(slot));
+                            accepted.set(true);
                             event.getPlayer().closeInventory();
                             instance.getAction().perform(event.getPlayer(), "tinkerer.accepted");
-                            accepted.set(true);
                             return;
                         }
 
@@ -105,7 +105,7 @@ public class TinkererMenu extends FastInv {
 
         // Player clicked an item in tinkerer
         onClick(event -> {
-            if (event.getEvent().getClickedInventory() == null) {
+            if (event.getEvent().getClickedInventory() == null && event.getInventory().equals(this)) {
                 return;
             }
 

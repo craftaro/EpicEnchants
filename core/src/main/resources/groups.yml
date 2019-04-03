@@ -1,5 +1,6 @@
 groups:
   SIMPLE:
+    order: 0
     group-color: "&f"
     group-name: "Simple"
     group-lore-format: "{group_color}{enchant} {level}"
@@ -18,6 +19,7 @@ groups:
         - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   UNIQUE:
+    order: 1
     group-color: "&a"
     group-name: "Unique"
     group-lore-format: "{group_color}{enchant} {level}"
@@ -36,6 +38,7 @@ groups:
         - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   ELITE:
+    order: 2
     group-color: "&b"
     group-name: "Elite"
     group-lore-format: "{group_color}{enchant} {level}"
@@ -54,6 +57,7 @@ groups:
         - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   ULTIMATE:
+    order: 3
     group-color: "&e"
     group-name: "Ultimate"
     group-lore-format: "{group_color}{enchant} {level}"
@@ -72,6 +76,7 @@ groups:
         - "&7{item_group} Enchantment"
         - "&7Drag and drop to enchant."
   LEGENDARY:
+    order: 4
     group-color: "&6"
     group-name: "Legendary"
     group-lore-format: "{group_color}{enchant} {level}"

@@ -13,21 +13,31 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.USER;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.*;
 
 public abstract class EffectExecutor {
     @Getter private final ConfigurationSection section;
     @Getter private final Set<TriggerType> triggerTypes;
+    private final Set<EffectExecutor> simultaneous;
     private final Condition condition;
 
     public EffectExecutor(ConfigurationSection section) {
         this.section = section;
         this.triggerTypes = GeneralUtils.parseTrigger(section.getString("trigger"));
         this.condition = Condition.of(section.getString("condition"));
+        this.simultaneous = section.isConfigurationSection("effects") ? section.getConfigurationSection("effects").getKeys(false).stream()
+                .map(s -> "effects." + s)
+                .map(section::getConfigurationSection)
+                .map(EffectManager::getEffect)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet()) : Collections.emptySet();
     }
 
     public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
@@ -45,10 +55,11 @@ public abstract class EffectExecutor {
 
         if (this instanceof EffectEventExecutor) {
             ((EffectEventExecutor) this).execute(user, opponent, level, event, eventType);
-            return;
+        } else {
+            execute(user, opponent, level, eventType);
         }
 
-        execute(user, opponent, level, eventType);
+        simultaneous.forEach(e -> e.execute(user, opponent, level, eventType));
     }
 
     public abstract void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType);

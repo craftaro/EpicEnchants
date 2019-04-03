@@ -24,6 +24,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
             of("menus/main-info-menu.yml", true),
             of("menus/enchanter-menu.yml", true, true),
             of("menus/tinkerer-menu.yml", true, true),
+            of("menus/alchemist-menu.yml", true, true),
             of("menus/groups/simple-menu.yml", false),
             of("menus/groups/unique-menu.yml", false),
             of("menus/groups/elite-menu.yml", false),
@@ -38,10 +39,8 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
     public FileManager(EpicEnchants instance) {
         super(instance);
-
         directory = instance.getVersion() > 12 ? "master" : "legacy";
-
-        Bukkit.getConsoleSender().sendMessage("Using the " + directory + " because version is 1." + instance.getVersion());
+        Bukkit.getConsoleSender().sendMessage("Using the " + directory + " configurations because version is 1." + instance.getVersion());
     }
 
     public void loadFiles() {

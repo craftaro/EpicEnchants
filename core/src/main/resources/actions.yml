@@ -1,5 +1,4 @@
 general:
-  prefix: "&8[&6EpicEnchants&8]"
   no-permission: "&cYou do not have permission to do that."
 
 command:
@@ -15,15 +14,27 @@ command:
   reload: "&6Configuration files reload"
 
 enchanter:
-  cannot-afford: "&cYou cannot afford this purchase."
+  cannot-afford: "&c&l(!) &r&cYou cannot afford this purchase."
   success: "&7Purchased {group_color}{group_name} &7book for &f{exp_cost} EXP&7."
 
 tinkerer:
   open: "&eTrading with the tinkerer."
-  cancelled: "&cCancelled."
+  cancelled: "&c&l(!) &r&cCancelled."
   accepted: "&aAccepted"
   no-items: "&c&l(!) &r&cThe tinkerer is not interested in any of your items!"
   deposited-all: "&a&l(!) &r&aDeposited {amount} items."
+
+alchemist:
+  max-two-items: "&c&l(!) &r&cYou may only combine 2 items at once."
+  not-interested: "&c&l(!) &r&cThe alchemist is not interested in any of your items!"
+  max-level-book: "&c&l(!) &r&cThe alchemist cannot combine max level books."
+  max-percentage-dust: "&c&l(!) &r&cThe alchemist cannot combine 100% success rate dusts."
+  highest-group-dust: "&c&l(!) &r&cThe alchemist can't accept dust of the highest tier."
+  different-enchantment: "&c&l(!) &r&cThe alchemist can only combine books with the same enchantment."
+  different-levels: "&c&l(!) &r&cThe alchemist can only combine books of the same level."
+  different-groups: "&c&l(!) &r&cThe alchemist can only combine dusts of the same group."
+  cannot-afford: "&c&l(!) You cannot afford this exchange."
+  success: "&7Exchanged for &f{exp_cost} EXP&7."
 
 enchants:
   invalid-material: "&cYou can not apply &6{enchant} &cto that item."
@@ -31,7 +42,7 @@ enchants:
   success: "&aYou have success fully applied &6{enchant}."
   conflict: "&cYou cannot apply this enchant as it conflicts with another enchant."
   maxed-out: "&cYou already have that enchant maxed on this item."
-  already-applied: "&cYou already have that enchant with that level applied on this item."
+  already-applied: "&cYou already have that enchant applied on this item."
   protected: "&aYour book would have broken your item, luckily it was protected!"
 
 book:

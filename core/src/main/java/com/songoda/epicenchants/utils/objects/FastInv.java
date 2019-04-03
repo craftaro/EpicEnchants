@@ -32,15 +32,6 @@ public class FastInv implements InventoryHolder {
     private final Set<BukkitTask> tasks = new HashSet<>();
 
     /**
-     * Create a new FastInv with a custom size.
-     *
-     * @param size The size of the menus.
-     */
-    public FastInv(int size) {
-        this(size, InventoryType.CHEST.getDefaultTitle());
-    }
-
-    /**
      * Create a new FastInv with a custom size and title.
      *
      * @param size  The size of the menus.
@@ -48,26 +39,6 @@ public class FastInv implements InventoryHolder {
      */
     public FastInv(int size, String title) {
         this(size, InventoryType.CHEST, title);
-    }
-
-    /**
-     * Create a new FastInv with a custom type.
-     *
-     * @param type The type of the menus.
-     */
-    public FastInv(InventoryType type) {
-        this(type, type.getDefaultTitle());
-    }
-
-    /**
-     * Create a new FastInv with a custom type and title.
-     *
-     * @param type  The type of the menus.
-     * @param title The title of the menus.
-     * @throws IllegalStateException if FastInv is not init with FastInv.init(Plugin plugin)
-     */
-    public FastInv(InventoryType type, String title) {
-        this(0, type, title);
     }
 
     private FastInv(int size, InventoryType type, String title) {
@@ -250,6 +221,16 @@ public class FastInv implements InventoryHolder {
     }
 
     /**
+     * Clear a spot in the inventory.
+     *
+     * @param slot The slot to clear.
+     * @return This FastInv instance, for chaining.
+     */
+    public FastInv clear(int slot) {
+        return addItem(slot, null);
+    }
+
+    /**
      * Add an {@link ItemStack} to the menus on the edges.
      *
      * @param item The item to add.
@@ -348,19 +329,6 @@ public class FastInv implements InventoryHolder {
      */
     public void open(Player player) {
         Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inventory));
-    }
-
-    /**
-     * Open the menus to players.
-     *
-     * @param players The players to open the menu.
-     */
-    public void open(Player... players) {
-        Bukkit.getScheduler().runTask(plugin, () -> {
-            for (Player p : players) {
-                p.openInventory(inventory);
-            }
-        });
     }
 
     /**

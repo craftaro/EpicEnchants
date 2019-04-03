@@ -14,4 +14,5 @@ public class Group {
     private BookItem bookItem;
     private int destroyRateMin, destroyRateMax, successRateMin, successRateMax;
     private int tinkererExp;
+    private int order;
 }

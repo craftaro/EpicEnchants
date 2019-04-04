@@ -72,15 +72,15 @@ public class ItemBuilder {
 
         if (section.contains("lore")) {
             List<String> lore = section.getStringList("lore");
+            outer:
             for (int i = 0; i < lore.size(); i++) {
                 String string = lore.get(i);
 
                 for (Placeholder placeholder : placeholders) {
-                    if (placeholder.getToReplace() instanceof HashSet && string.contains(placeholder.getPlaceholder())) {
+                    if (placeholder.getToReplace() instanceof ArrayList && string.contains(placeholder.getPlaceholder())) {
                         lore.remove(i);
-
-                        Set<String> stringSet = (Set<String>) placeholder.getToReplace();
-                        lore.addAll(i, stringSet);
+                        lore.addAll(i, (ArrayList<String>) placeholder.getToReplace());
+                        continue outer;
                     } else {
                         string = string.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
                     }

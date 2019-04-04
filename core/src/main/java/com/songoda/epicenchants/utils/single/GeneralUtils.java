@@ -62,7 +62,7 @@ public class GeneralUtils {
     }
 
     public static Set<TriggerType> parseTrigger(String triggers) {
-        return Arrays.stream(triggers.replaceAll("\\s+", "").split(",")).map(TriggerType::valueOf).collect(Collectors.toSet());
+        return triggers == null ? Collections.emptySet() : Arrays.stream(triggers.replaceAll("\\s+", "").split(",")).map(TriggerType::valueOf).collect(Collectors.toSet());
     }
 
     public static ItemStack getHeldItem(Player player, Event event) {
@@ -79,10 +79,9 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
-
         try {
             return SCRIPT_ENGINE.eval(toParse);
-        } catch (ScriptException | NumberFormatException e) {
+        } catch (ScriptException e) {
             Bukkit.getLogger().warning("[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
             Bukkit.getLogger().warning(toParse);
             return def;

@@ -76,6 +76,14 @@ public class ItemGroup {
     }
 
     public Optional<Group> getGroup(Set<Material> materials) {
+        Optional<Group> group = Arrays.stream(Group.values())
+                .filter(s -> !s.getChildren().isEmpty() && s.getChildren().stream().allMatch(child -> materials.containsAll(groupMap.get(child))))
+                .findFirst();
+
+        if (group.isPresent()) {
+            return group;
+        }
+
         return groupMap.asMap().entrySet().stream().filter(s -> s.getValue().equals(materials)).map(Map.Entry::getKey).findFirst();
     }
 

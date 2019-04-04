@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.managers;
 
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.utils.objects.FileLocationObject;
+import com.songoda.epicenchants.utils.objects.FileLocation;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -12,14 +12,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static com.songoda.epicenchants.utils.objects.FileLocationObject.of;
+import static com.songoda.epicenchants.utils.objects.FileLocation.of;
 import static java.io.File.separator;
 import static java.util.Arrays.asList;
 
 public class FileManager extends Manager<String, FileConfiguration> {
 
     private final String directory;
-    private final LinkedHashSet<FileLocationObject> files = new LinkedHashSet<>(asList(
+    private final LinkedHashSet<FileLocation> files = new LinkedHashSet<>(asList(
             of("config.yml", true),
             of("menus/main-info-menu.yml", true),
             of("menus/enchanter-menu.yml", true, true),

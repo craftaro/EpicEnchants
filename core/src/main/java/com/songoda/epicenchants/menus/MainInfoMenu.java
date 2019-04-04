@@ -17,13 +17,11 @@ public class MainInfoMenu extends FastInv implements Listener {
                 .stream()
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
-                .forEach(section -> {
-                    addItem(section.getInt("slot"), new ItemBuilder(section).build(), event -> {
-                        Group group = instance.getGroupManager().getValue(section.getString("group"))
-                                .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + section.getString("group")));
-                        instance.getInfoManager().getMenu(group).ifPresent(menu -> menu.open(event.getPlayer()));
-                    });
-                });
+                .forEach(section -> addItem(section.getInt("slot"), new ItemBuilder(section).build(), event -> {
+                    Group group = instance.getGroupManager().getValue(section.getString("group"))
+                            .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + section.getString("group")));
+                    instance.getInfoManager().getMenu(group).ifPresent(menu -> menu.open(event.getPlayer()));
+                }));
     }
 
 

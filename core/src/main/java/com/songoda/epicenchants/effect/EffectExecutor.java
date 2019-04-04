@@ -31,8 +31,8 @@ public abstract class EffectExecutor {
         this.section = section;
         this.triggerTypes = GeneralUtils.parseTrigger(section.getString("trigger"));
         this.condition = Condition.of(section.getString("condition"));
-        this.simultaneous = section.isConfigurationSection("effects") ? section.getConfigurationSection("effects").getKeys(false).stream()
-                .map(s -> "effects." + s)
+        this.simultaneous = section.isConfigurationSection("simultaneous") ? section.getConfigurationSection("simultaneous").getKeys(false).stream()
+                .map(s -> "simultaneous." + s)
                 .map(section::getConfigurationSection)
                 .map(EffectManager::getEffect)
                 .filter(Optional::isPresent)
@@ -41,7 +41,11 @@ public abstract class EffectExecutor {
     }
 
     public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType) {
-        if (!triggerTypes.contains(type)) {
+        testAndRun(user, opponent, level, type, event, eventType, false);
+    }
+
+    public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType, boolean simul) {
+        if (!simul && !triggerTypes.contains(type)) {
             return;
         }
 
@@ -59,7 +63,7 @@ public abstract class EffectExecutor {
             execute(user, opponent, level, eventType);
         }
 
-        simultaneous.forEach(e -> e.execute(user, opponent, level, eventType));
+        simultaneous.forEach(e -> e.testAndRun(user, opponent, level, type, event, eventType, true));
     }
 
     public abstract void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType);

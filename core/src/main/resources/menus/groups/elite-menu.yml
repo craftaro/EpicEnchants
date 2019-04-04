@@ -1,15 +1,17 @@
 title: "Elite enchants"
-size: 9
+rows: 1
 
 #Slots that you want enchants to be displayed on
-slots: "4,5,6"
+slots: "ALL_SLOTS"
 
 #The group of the enchants to be displayed
 group: ELITE
 
 enchant-item:
   material: "PAPER"
-  display-name: "{group_color} {enchant}"
+  display-name: "{group_color}{enchant}"
   lore:
+    - "&7Max level: &f{max_level}"
+    - "&7Applicable to: &f{applicable_to}"
     - "&7Description:"
     - "{description}"

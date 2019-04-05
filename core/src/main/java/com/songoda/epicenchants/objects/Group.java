@@ -10,6 +10,7 @@ public class Group {
     private String name;
     private String format;
     private String color;
+    private String descriptionColor;
     private int slotsUsed;
     private BookItem bookItem;
     private int destroyRateMin, destroyRateMax, successRateMin, successRateMax;

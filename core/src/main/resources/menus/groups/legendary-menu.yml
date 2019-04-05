@@ -8,6 +8,7 @@ slots: "ALL_SLOTS"
 group: LEGENDARY
 
 enchant-item:
+  description-color: "&f"
   material: "PAPER"
   display-name: "{group_color}{enchant}"
   lore:

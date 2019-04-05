@@ -85,6 +85,7 @@ public class ConfigParser {
                 .name(color(section.getString("group-name")))
                 .format(section.getString("group-lore-format"))
                 .color(section.getString("group-color"))
+                .descriptionColor(section.getString("description-color"))
                 .bookItem(parseBookItem(instance, section.getConfigurationSection("book-item")))
                 .slotsUsed(section.getInt("slots-used"))
                 .tinkererExp(section.getInt("tinkerer-exp-per-level"))

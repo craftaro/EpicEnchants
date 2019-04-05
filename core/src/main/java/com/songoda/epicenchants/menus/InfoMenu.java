@@ -47,7 +47,7 @@ public class InfoMenu extends FastInv {
                     of("max_level", enchant.getMaxLevel()),
                     of("applicable_to", whitelist),
                     of("enchant", enchant.getIdentifier()),
-                    of("description", enchant.getDescription())).build());
+                    of("description", enchant.getDescription().stream().map(s -> config.getString("enchant-item.description-color") + s).collect(Collectors.toList()))).build());
         });
 
         if (config.isConfigurationSection("contents"))

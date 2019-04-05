@@ -50,7 +50,7 @@ public class BookItem {
 
             if (string.contains("{description}")) {
                 toSet.remove(i);
-                toSet.addAll(i, enchant.getDescription().stream().map(GeneralUtils::color).collect(Collectors.toList()));
+                toSet.addAll(i, enchant.getDescription().stream().map(s -> enchant.getGroup().getDescriptionColor() + s).map(GeneralUtils::color).collect(Collectors.toList()));
                 continue;
             }
 

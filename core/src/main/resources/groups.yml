@@ -1,9 +1,10 @@
 groups:
   SIMPLE:
     order: 0
-    group-color: "&f"
+    group-color: "&7&l&n"
     group-name: "Simple"
     group-lore-format: "{group_color}{enchant} {level}"
+    description-color: "&e"
     rates:
       destroy-min: 10
       destroy-max: 100
@@ -20,9 +21,10 @@ groups:
         - "&7Drag and drop to enchant."
   UNIQUE:
     order: 1
-    group-color: "&a"
+    group-color: "&a&l&n"
     group-name: "Unique"
     group-lore-format: "{group_color}{enchant} {level}"
+    description-color: "&e"
     rates:
       destroy-min: 10
       destroy-max: 100
@@ -39,9 +41,10 @@ groups:
         - "&7Drag and drop to enchant."
   ELITE:
     order: 2
-    group-color: "&b"
+    group-color: "&b&l&n"
     group-name: "Elite"
     group-lore-format: "{group_color}{enchant} {level}"
+    description-color: "&e"
     rates:
       destroy-min: 10
       destroy-max: 100
@@ -58,9 +61,10 @@ groups:
         - "&7Drag and drop to enchant."
   ULTIMATE:
     order: 3
-    group-color: "&e"
+    group-color: "&e&l&n"
     group-name: "Ultimate"
     group-lore-format: "{group_color}{enchant} {level}"
+    description-color: "&e"
     rates:
       destroy-min: 10
       destroy-max: 100
@@ -77,9 +81,10 @@ groups:
         - "&7Drag and drop to enchant."
   LEGENDARY:
     order: 4
-    group-color: "&6"
+    group-color: "&6&l&n"
     group-name: "Legendary"
     group-lore-format: "{group_color}{enchant} {level}"
+    description-color: "&e"
     rates:
       destroy-min: 10
       destroy-max: 100

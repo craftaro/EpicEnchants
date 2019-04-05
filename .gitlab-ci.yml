@@ -1,0 +1,19 @@
+stages:
+- build
+
+variables:
+    name: "EpicVouchers"
+    path: "/builds/$CI_PROJECT_PATH"
+    version: "1.0.5-ALPHA"
+
+build:
+  stage: build
+  image: maven:3.5.3-jdk-8
+  script:
+    - mvn clean package
+    - find $path/ -depth -path '*original*' -delete
+    - mv -v $path/target/*.jar $path
+  artifacts:
+    name: $name-$version
+    paths:
+    - "$path/*.jar"

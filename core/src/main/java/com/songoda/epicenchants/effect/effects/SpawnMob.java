@@ -26,13 +26,13 @@ public class SpawnMob extends EffectExecutor {
     private LeveledModifier health;
     private ItemBuilder helmet, chestPlate, leggings, boots, handItem;
     private boolean hostile;
-    private LeveledModifier maxAmount;
+    private LeveledModifier amount;
 
     public SpawnMob(ConfigurationSection section) {
         super(section);
 
-        entityType = EntityType.valueOf(section.getName());
-        maxAmount = of(section.getString("max-amount"));
+        entityType = EntityType.valueOf(section.getString("mob-type"));
+        amount = of(section.getString("amount"));
         health = of(section.getString("health"));
         attackDamage = of(section.getString("attack-damage"));
         equipmentDropChance = LeveledModifier.of(section.getString("equipment-drop-chance"));
@@ -49,7 +49,7 @@ public class SpawnMob extends EffectExecutor {
     public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
         Location location = user.getLocation();
 
-        for (int i = 0; i < current().nextInt((int) (maxAmount.get(level, 1, user, opponent) + 1)); i++) {
+        for (int i = 0; i < amount.get(level, 1, user, opponent); i++) {
             Location spawnLocation = location.clone().add(current().nextInt(-3, 3), 0, current().nextInt(-3, 3));
             int y = location.getWorld().getHighestBlockAt(spawnLocation).getY();
 
@@ -64,6 +64,7 @@ public class SpawnMob extends EffectExecutor {
 
             if (entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;
+                livingEntity.setRemoveWhenFarAway(true);
                 int dropChance = (int) equipmentDropChance.get(level, 0, user, opponent);
 
                 if (helmet != null)

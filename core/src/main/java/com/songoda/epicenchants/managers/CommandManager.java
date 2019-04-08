@@ -25,7 +25,7 @@ public class CommandManager extends BukkitCommandManager {
         // COMPLETIONS
 
         getCommandCompletions().registerCompletion("enchants", c ->
-                instance.getEnchantManager().getValues().stream().map(Enchant::getIdentifier).collect(Collectors.toList()));
+                instance.getEnchantManager().getKeys().stream().map(s -> s.replaceAll("\\s", "_")).collect(Collectors.toList()));
 
         getCommandCompletions().registerCompletion("giveType", c ->
                 Arrays.stream(GiveType.values()).map(s -> s.toString().replace("_", "").toLowerCase()).collect(Collectors.toList()));
@@ -45,7 +45,7 @@ public class CommandManager extends BukkitCommandManager {
         // CONTEXTS
 
         getCommandContexts().registerContext(Enchant.class, c ->
-                instance.getEnchantManager().getValue(c.popFirstArg()).orElseThrow(() ->
+                instance.getEnchantManager().getValue(c.popFirstArg().replaceAll("_", " ")).orElseThrow(() ->
                         new InvalidCommandArgument("No enchant exists by that name", false)));
 
         getCommandContexts().registerContext(GiveType.class, c -> Arrays.stream(GiveType.values())

@@ -78,7 +78,7 @@ public class Placeholders {
                 return;
             }
 
-            Map<String, Integer> args = Arrays.stream(matcher.group(1).replaceAll("/\\s/g", "").split(","))
+            Map<String, Integer> args = Arrays.stream(matcher.group(1).replaceAll("\\s", "").split(","))
                     .collect(Collectors.toMap(s -> s.split("=")[0], s -> Integer.parseInt(s.split("=")[1])));
 
             reference.getAndUpdate(s -> s.replaceAll(pattern.pattern(), "" + ThreadLocalRandom.current().nextInt(args.get("low"), args.get("up"))));

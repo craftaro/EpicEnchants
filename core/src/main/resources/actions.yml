@@ -13,6 +13,14 @@ command:
 
   reload: "&6Configuration files reload"
 
+black-scroll:
+  success: "&aSuccessfully blackscrolled: {group_color}{enchant} {level}&a."
+  no-enchants: "&cNo enchants to blackscroll."
+
+white-scroll:
+  already-applied: "&cThis item is already protected!"
+  applied: "&aThis item is now protected!"
+
 enchanter:
   cannot-afford: "&c&l(!) &r&cYou cannot afford this purchase."
   success: "&7Purchased {group_color}{group_name} &7book for &f{exp_cost} EXP&7."

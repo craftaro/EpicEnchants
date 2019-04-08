@@ -50,7 +50,7 @@ public class Action {
     }
 
     public List<String> getMessage(String node, Placeholder... placeholders) {
-        List<String> output = config.isList(node) ? config.getStringList(node) : Collections.singletonList(config.getString(node));
+        List<String> output = config.isList(node) ? config.getStringList(node) : config.getString(node).isEmpty() ? Collections.emptyList() : Collections.singletonList(config.getString(node));
 
         return output.stream().map(s -> {
             for (Placeholder placeholder : placeholders) {

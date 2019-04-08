@@ -4,7 +4,6 @@ import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.utils.single.RomanNumber;
-import com.songoda.epicenchants.wrappers.MobWrapper;
 import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -28,14 +27,12 @@ public class Enchant {
     private Set<String> conflict;
     private Set<Material> itemWhitelist;
     private Set<EffectExecutor> effectExecutors;
-    private Set<MobWrapper> mobs;
     private List<String> description;
     private String format;
     @Nullable private BookItem bookItem;
 
     public void onAction(@NotNull Player user, @Nullable LivingEntity opponent, Event event, int level, TriggerType triggerType, EventType eventType) {
         effectExecutors.forEach(effect -> effect.testAndRun(user, opponent, level, triggerType, event, eventType));
-        mobs.forEach(mobWrapper -> mobWrapper.trySpawn(user, opponent, level, triggerType));
     }
 
     public BookItem getBook() {

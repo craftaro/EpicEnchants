@@ -2,11 +2,13 @@ package com.songoda.epicenchants.listeners.item;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.utils.single.RomanNumber;
 import de.tr7zw.itemnbtapi.NBTCompound;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import static com.songoda.epicenchants.objects.Placeholder.of;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getRandomElement;
 
 public class BlackScrollListener extends ItemListener {
@@ -24,7 +26,7 @@ public class BlackScrollListener extends ItemListener {
         NBTCompound compound = current.getCompound("enchants");
 
         if (compound == null || compound.getKeys().isEmpty()) {
-            instance.getAction().perform(event.getWhoClicked(), "blackscroll.noenchants");
+            instance.getAction().perform(event.getWhoClicked(), "black-scroll.no-enchants");
             return;
         }
 
@@ -36,7 +38,12 @@ public class BlackScrollListener extends ItemListener {
         event.getWhoClicked().getInventory().addItem(enchant.getBook().get(enchant, level, cursor.getInteger("success-rate"), 100));
         event.setCurrentItem(toSet);
 
-        instance.getAction().perform(event.getWhoClicked(), "blackscroll.success");
+        instance.getAction().perform(event.getWhoClicked(), "black-scroll.success",
+                of("enchant", enchant.getIdentifier()),
+                of("group_color", enchant.getGroup().getColor()),
+                of("group_name", enchant.getGroup().getName()),
+                of("level", RomanNumber.toRoman(level)));
+
         useItem(event);
     }
 }

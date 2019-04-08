@@ -1,43 +1,52 @@
-package com.songoda.epicenchants.wrappers;
+package com.songoda.epicenchants.effect.effects;
 
-import com.songoda.epicenchants.enums.TriggerType;
+import com.songoda.epicenchants.effect.EffectExecutor;
+import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
-import com.songoda.epicenchants.utils.single.GeneralUtils;
 import de.tr7zw.itemnbtapi.NBTEntity;
 import de.tr7zw.itemnbtapi.NBTList;
 import de.tr7zw.itemnbtapi.NBTListCompound;
 import de.tr7zw.itemnbtapi.NBTType;
-import lombok.Builder;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.songoda.epicenchants.objects.LeveledModifier.of;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
-@Builder
-public class MobWrapper {
+public class SpawnMob extends EffectExecutor {
+    private LeveledModifier attackDamage;
     private String displayName;
     private EntityType entityType;
-    private LeveledModifier attackDamage;
-    private TriggerType triggerType;
     private LeveledModifier equipmentDropChance;
-    private LeveledModifier spawnPercentage;
     private LeveledModifier health;
     private ItemBuilder helmet, chestPlate, leggings, boots, handItem;
     private boolean hostile;
     private LeveledModifier maxAmount;
 
-    public void trySpawn(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType triggerType) {
-        if (this.triggerType != triggerType) {
-            return;
-        }
+    public SpawnMob(ConfigurationSection section) {
+        super(section);
 
-        if (!GeneralUtils.chance(spawnPercentage.get(level, 100, user, opponent))) {
-            return;
-        }
+        entityType = EntityType.valueOf(section.getName());
+        maxAmount = of(section.getString("max-amount"));
+        health = of(section.getString("health"));
+        attackDamage = of(section.getString("attack-damage"));
+        equipmentDropChance = LeveledModifier.of(section.getString("equipment-drop-chance"));
+        hostile = section.getBoolean("hostile", false);
+        displayName = section.isString("display-name") ? color(section.getString("display-name")) : "";
+        helmet = section.isConfigurationSection("equipment.helmet") ? new ItemBuilder(section.getConfigurationSection("equipment.helmet")) : null;
+        chestPlate = section.isConfigurationSection("equipment.chestplate") ? new ItemBuilder(section.getConfigurationSection("equipment.chestplate")) : null;
+        leggings = section.isConfigurationSection("equipment.leggings") ? new ItemBuilder(section.getConfigurationSection("equipment.leggings")) : null;
+        boots = section.isConfigurationSection("equipment.boots") ? new ItemBuilder(section.getConfigurationSection("equipment.boots")) : null;
+        handItem = section.isConfigurationSection("equipment.hand-item") ? new ItemBuilder(section.getConfigurationSection("equipment.hand-item")) : null;
+    }
 
+    @Override
+    public void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType) {
         Location location = user.getLocation();
 
         for (int i = 0; i < current().nextInt((int) (maxAmount.get(level, 1, user, opponent) + 1)); i++) {
@@ -74,7 +83,7 @@ public class MobWrapper {
                 livingEntity.getEquipment().setItemInHandDropChance(dropChance);
             }
 
-            if (entity instanceof Monster && opponent != null) {
+            if (hostile && entity instanceof Monster && opponent != null) {
                 ((Monster) entity).setTarget(opponent);
             }
 

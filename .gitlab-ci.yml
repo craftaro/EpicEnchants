@@ -2,9 +2,9 @@ stages:
 - build
 
 variables:
-    name: "EpicEnchants"
-    path: "/builds/$CI_PROJECT_PATH"
-    version: "1.0.5-ALPHA"
+  name: "EpicEnchants"
+  path: "/builds/$CI_PROJECT_PATH"
+  version: "1.0.5-ALPHA"
 
 build:
   stage: build
@@ -18,4 +18,4 @@ build:
   artifacts:
     name: $name-$version
     paths:
-    - "$path/*.jar"
+      - "$path/*.jar"

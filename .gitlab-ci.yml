@@ -2,7 +2,7 @@ stages:
 - build
 
 variables:
-    name: "EpicVouchers"
+    name: "EpicEnchants"
     path: "/builds/$CI_PROJECT_PATH"
     version: "1.0.5-ALPHA"
 

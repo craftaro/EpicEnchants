@@ -35,12 +35,17 @@ contents:
     data: 14
     display-name: "&8[&eThe Alchemist&8]"
     lore:
-      - "&7You will exchange"
+      - "&7The alchemist will exchange:"
       - ""
       - "&8- &f2x enchantment books"
       - "&7(of the same type and level) &ffor"
       - "&fthe same enchantment book"
-      - "&7(with a higher success rate)"
+      - "&7(of a higher level)"
+      - ""
+      - "&8- &f2x magic dust"
+      - "&7(of the same rarity) &ffor"
+      - "&fthe same dust"
+      - "&7(of a higher percentage)"
   accept-after:
     material: STAINED_GLASS_PANE
     data: 5

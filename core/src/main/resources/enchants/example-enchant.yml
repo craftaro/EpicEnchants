@@ -7,7 +7,7 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-# The item that the enchantment book is.
+# The item that the enchantment book is. This will override it's group setting.
 book-item:
   material: BOOK
   display-name: "&b&lExampleEnchant {level}"
@@ -17,14 +17,13 @@ book-item:
     - "&a{success_rate}% Success Rate"
     - "&c{destroy_rate}% Destroy Rate"
 
-# How the enchant should be formatted on the enchanted item.
+# How the enchant should be formatted on the enchanted item. This will override it's group setting.
 applied-format: "&cExampleEnchant {level}"
 
 # What items this enchant can be applied too.
+# For a full list of item groups, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
 item-whitelist:
-  - "DIAMOND_HELMET"
-  - "IRON_HELMET"
-  - "LEATHER_HELMET"
+  - "HELMETS"
 
 # This enchantment can not be applied if then enchantment below is already on the item.
 conflicting-enchants:
@@ -36,13 +35,13 @@ effects:
   POTION-1:
     # The trigger that will fire this effect
     trigger: DEFENSE_PLAYER_MELEE
-    # What player should the effect be ran on: WEARER/OPPONENT.
-    who: WEARER
+    # What player should the effect be ran on: USER/OPPONENT.
+    who: USER
     # Potion Effect that should be applied.
     potion-type: SPEED
     # Duration of the Potion Effect in seconds.
     duration: "10 * {level}"
-    # Chance that the Effect gets activated.
+    # Chance that the effect gets activated.
     chance: "20 * {level}"
     # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
     amplifier: "{level} - 1"
@@ -51,17 +50,15 @@ effects:
     who: WEARER
     potion-type: INCREASE_DAMAGE
     amplifier: "{level} - 1"
-
-# Chance of spawning when damaged by another player.
-mobs:
-  # Type of Mob
-  ZOMBIE:
+  SPAWN_MOB:
+    # The mob type
+    mob-type: CREEPER
     # Trigger event that spawns the mob.
     trigger: DEFENSE_PLAYER_MELEE
     # Max amount mobs that will be spawned.
-    max-amount: "{level}"
-    # Chance of trigger the mob spawning.
-    spawn-percentage: "20 * {level}"
+    amount: "{random(low=0, up={level})}"
+    # Chance that the effect gets activated.
+    chance: "20 * {level}"
     # Drop chance of the mob its equipment upon death.
     equipment-drop-chance: "10 * {level}"
     # Health of the mob.

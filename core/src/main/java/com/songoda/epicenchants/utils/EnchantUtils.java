@@ -39,7 +39,6 @@ public class EnchantUtils {
         Set<String> currentIds = currentEnchantMap.keySet().stream().map(Enchant::getIdentifier).collect(Collectors.toSet());
         Set<String> currentConflicts = currentEnchantMap.keySet().stream().map(Enchant::getConflict).flatMap(Collection::stream).collect(Collectors.toSet());
 
-
         if (enchant.getConflict().stream().anyMatch(currentIds::contains) || currentConflicts.contains(enchant.getIdentifier())) {
             return Pair.of(itemStack, CONFLICT);
         }
@@ -70,7 +69,7 @@ public class EnchantUtils {
             itemBuilder.removeLore(instance.getSpecialItems().getWhiteScrollLore());
         }
 
-        itemBuilder.removeLore(enchant.getFormat().replace("{level}", "").trim());
+        itemBuilder.removeLore(enchant.getFormat(-1, instance.getFileManager().getConfiguration("config").getBoolean("roman-numbers")).replace("-1", "").trim());
         itemBuilder.addLore(enchant.getFormat(level, instance.getFileManager().getConfiguration("config").getBoolean("roman-numbers")));
 
         if (hasProtection) {

@@ -63,16 +63,27 @@ public class ItemGroup {
         Optional<Group> optionalGroup = Group.from(key);
         Set<Material> output = new HashSet<>();
 
-        optionalGroup.ifPresent(group -> {
-            output.addAll(groupMap.get(group));
-            output.addAll(group.getChildren().stream().map(groupMap::get).flatMap(Collection::stream).collect(Collectors.toSet()));
-        });
+        optionalGroup.ifPresent(group -> output.addAll(getMaterials(group)));
 
         if (Material.matchMaterial(key) != null) {
             output.add(Material.matchMaterial(key));
         }
 
         return output;
+    }
+
+    public Set<String> getGroups(Set<Material> materials) {
+        Set<String> groups = new HashSet<>();
+
+        for (int i = 0; i < 5; i++) {
+            getGroup(materials).ifPresent(group -> {
+                groups.add(group.getName());
+                materials.removeAll(getMaterials(group));
+            });
+        }
+
+        groups.addAll(materials.stream().map(Material::toString).collect(Collectors.toSet()));
+        return groups;
     }
 
     public Optional<Group> getGroup(Set<Material> materials) {
@@ -84,7 +95,20 @@ public class ItemGroup {
             return group;
         }
 
-        return groupMap.asMap().entrySet().stream().filter(s -> s.getValue().equals(materials)).map(Map.Entry::getKey).findFirst();
+        return groupMap.asMap().entrySet().stream().filter(s -> materials.containsAll(s.getValue())).map(Map.Entry::getKey).findFirst();
+    }
+
+    public Set<Material> getMaterials(Group group) {
+        Set<Material> out = new HashSet<>();
+
+        for (int i = 0; i < 5; i++) {
+            if (group.getChildren().isEmpty())
+                out.addAll(groupMap.get(group));
+            else
+                out.addAll(group.getChildren().stream().map(this::getMaterials).flatMap(Collection::stream).collect(Collectors.toSet()));
+        }
+
+        return out;
     }
 
 

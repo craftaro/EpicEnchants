@@ -23,4 +23,8 @@ public class FileLocation {
     public String getResourcePath(String dir) {
         return (versionDependent ? "version-dependent/" + dir + "/" : "") + path;
     }
+
+    public boolean isDirectory() {
+        return path.endsWith("/");
+    }
 }

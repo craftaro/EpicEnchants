@@ -28,7 +28,7 @@ public class CommandManager extends BukkitCommandManager {
                 instance.getEnchantManager().getKeys().stream().map(s -> s.replaceAll("\\s", "_")).collect(Collectors.toList()));
 
         getCommandCompletions().registerCompletion("giveType", c ->
-                Arrays.stream(GiveType.values()).map(s -> s.toString().replace("_", "").toLowerCase()).collect(Collectors.toList()));
+                Arrays.stream(GiveType.values()).map(s -> s.toString().replace("_", "-").toLowerCase()).collect(Collectors.toList()));
 
         getCommandCompletions().registerCompletion("levels", c ->
                 IntStream.rangeClosed(1, c.getContextValue(Enchant.class).getMaxLevel()).boxed().map(Objects::toString).collect(Collectors.toList()));
@@ -49,7 +49,7 @@ public class CommandManager extends BukkitCommandManager {
                         new InvalidCommandArgument("No enchant exists by that name", false)));
 
         getCommandContexts().registerContext(GiveType.class, c -> Arrays.stream(GiveType.values())
-                .filter(s -> s.toString().toLowerCase().replace("_", "").equalsIgnoreCase(c.popFirstArg()))
+                .filter(s -> s.toString().toLowerCase().replace("_", "-").equalsIgnoreCase(c.popFirstArg()))
                 .findFirst()
                 .orElseThrow(() -> new InvalidCommandArgument("No item by that type.", false)));
 

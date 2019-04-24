@@ -6,7 +6,6 @@ import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Iterator;
@@ -37,9 +36,10 @@ public class InfoMenu extends FastInv {
         slots.stream().filter(slot -> enchantIterator.hasNext()).forEach(slot -> {
             Enchant enchant = enchantIterator.next();
 
-            String whitelist = instance.getItemGroup().getGroup(enchant.getItemWhitelist())
-                    .map(s -> StringUtils.capitalize(s.getName().toLowerCase()))
-                    .orElse(String.join(", ", enchant.getItemWhitelist().stream().map(Material::toString).collect(Collectors.toSet())));
+            String whitelist = instance.getItemGroup().getGroups(enchant.getItemWhitelist())
+                    .stream()
+                    .map(s -> StringUtils.capitalize(s.toLowerCase()))
+                    .collect(Collectors.joining(", "));
 
             addItem(slot, new ItemBuilder(config.getConfigurationSection("enchant-item"),
                     of("group_color", enchant.getGroup().getColor()),

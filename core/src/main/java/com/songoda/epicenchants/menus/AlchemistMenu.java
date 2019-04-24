@@ -283,6 +283,6 @@ public class AlchemistMenu extends FastInv {
         for (Placeholder placeholder : placeholders)
             toTest = toTest.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());
 
-        return (int) GeneralUtils.parseJS(toTest, "alchemist expression", 0);
+        return (int) Double.parseDouble(GeneralUtils.parseJS(toTest, "alchemist expression", 0).toString());
     }
 }

@@ -8,11 +8,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import static com.songoda.epicenchants.objects.Placeholder.of;
 import static com.songoda.epicenchants.utils.single.Experience.*;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
 
 public class EnchanterMenu extends FastInv {
+    private final Map<UUID, Long> DELAY = new HashMap<>();
+
     public EnchanterMenu(EpicEnchants instance, FileConfiguration config, Player player) {
         super(config.getInt("rows") * 9, color(config.getString("title")));
 
@@ -38,6 +44,11 @@ public class EnchanterMenu extends FastInv {
                             of("eco_left", ecoLeft)).build();
 
                     addItem(getSlots(section.getString("slot")), itemStack, event -> {
+                        // Todo: wanna change this
+                        if (DELAY.getOrDefault(player.getUniqueId(), 0L) > System.currentTimeMillis()) {
+                            return;
+                        }
+
                         if (!instance.getEconomy().has((player), ecoCost) || getExp(player) < expCost) {
                             instance.getAction().perform(player, "enchanter.cannot-afford");
                             return;
@@ -52,6 +63,7 @@ public class EnchanterMenu extends FastInv {
 
                         changeExp(player, -expCost);
                         player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));
+                        DELAY.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + 120);
                     });
                 });
     }

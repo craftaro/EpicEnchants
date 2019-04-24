@@ -3,7 +3,7 @@ package com.songoda.epicenchants.utils.single;
 import java.util.TreeMap;
 
 public class RomanNumber {
-    private final static TreeMap<Integer, String> map = new TreeMap<Integer, String>() {{
+    private final static TreeMap<Integer, String> TREE_MAP = new TreeMap<Integer, String>() {{
         put(1000, "M");
         put(900, "CM");
         put(500, "D");
@@ -17,15 +17,14 @@ public class RomanNumber {
         put(5, "V");
         put(4, "IV");
         put(1, "I");
+        put(-1, "-1");
     }};
 
     public static String toRoman(int number) {
-        int l = map.floorKey(number);
+        int l = TREE_MAP.floorKey(number);
         if (number == l) {
-            return map.get(number);
+            return TREE_MAP.get(number);
         }
-        return map.get(l) + toRoman(number - l);
-
+        return TREE_MAP.get(l) + toRoman(number - l);
     }
-
 }

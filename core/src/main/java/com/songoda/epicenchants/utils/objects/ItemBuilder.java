@@ -151,7 +151,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder removeLore(String string) {
-        if (!meta.hasLore()) {
+        if (meta == null || !meta.hasLore()) {
             return this;
         }
 

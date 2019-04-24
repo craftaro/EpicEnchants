@@ -25,6 +25,7 @@ public class Enchant {
     private Group group;
     private int maxLevel;
     private Set<String> conflict;
+    //TODO: ISSUES
     private Set<Material> itemWhitelist;
     private Set<EffectExecutor> effectExecutors;
     private List<String> description;

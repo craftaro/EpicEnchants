@@ -3,10 +3,7 @@ package com.songoda.epicenchants.listeners;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.TriggerType;
 import de.tr7zw.itemnbtapi.NBTEntity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -127,7 +124,7 @@ public class EntityListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityExplode(EntityExplodeEvent event) {
-        if (event.getEntity().getCustomName().equals("ee")) {
+        if (event.getEntity().getCustomName() != null && event.getEntity().getCustomName().equals("ee")) {
             event.blockList().clear();
         }
     }

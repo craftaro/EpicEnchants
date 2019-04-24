@@ -28,8 +28,8 @@ public class EnchantCommand extends BaseCommand {
     @Description("Give enchant books to players")
     @CommandPermission("epicenchants.give.book")
     public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
-        if (level != null && level > enchant.getMaxLevel()) {
-            instance.getAction().perform(sender, "command.book.max-level",
+        if (level != null && (level > enchant.getMaxLevel() || level < 1)) {
+            instance.getAction().perform(sender, "command.book." + (level > enchant.getMaxLevel() ? "max-level" : "min-level"),
                     of("enchant", enchant.getIdentifier()),
                     of("max-level", enchant.getMaxLevel()));
             return;
@@ -67,6 +67,7 @@ public class EnchantCommand extends BaseCommand {
                 target.getInventory().addItem(instance.getSpecialItems().getBlackScroll(amount, successRate));
                 break;
             default:
+                instance.getAction().perform(target, "command.give-unknown", of("unknown", giveType));
                 return;
         }
 
@@ -81,8 +82,9 @@ public class EnchantCommand extends BaseCommand {
     @Description("Apply enchant to item in hand")
     @CommandPermission("epicenchants.apply")
     public void onApply(Player player, Enchant enchant, int level, @Optional Integer successRate, @Optional Integer destroyRate) {
-        if (player.getItemInHand() == null) {
-            instance.getAction().perform(player, "command.apply.noitem", of("enchant", enchant.getIdentifier()));
+        if (player.getItemInHand() == null || !enchant.getItemWhitelist().contains(player.getItemInHand().getType())) {
+            System.out.println("List = " + enchant.getItemWhitelist());
+            instance.getAction().perform(player, "command.apply.invalid-item", of("enchant", enchant.getIdentifier()));
             return;
         }
 

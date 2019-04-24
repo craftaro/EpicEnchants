@@ -6,12 +6,17 @@ command:
     received: "&7You have been given a &6{enchant} &7book."
     gave: "&7You gave {player} a &6{enchant} &7book."
     max-level: "&cThe max level for {enchant} is {max-level}."
+    min-level: "&cThe min level for {enchant} is 1."
 
   white-scroll:
     received: "&7You have been given a whitescroll."
     gave: "&7You gave {player} a whitescroll."
 
+  apply:
+    invalid-item: "&cYou cannot apply {enchant} to this item."
+
   reload: "&6Configuration files reload"
+  give-unknown: "&cUnknown item to give: &f{unknown}."
 
 black-scroll:
   success: "&aSuccessfully blackscrolled: {group_color}{enchant} {level}&a."
@@ -46,8 +51,9 @@ alchemist:
 
 enchants:
   invalid-material: "&cYou can not apply &6{enchant} &cto that item."
+  failure: "&6{enchant} &cfailed to apply..."
   broken-failure: "&6{enchant} &cfailed to apply and broke your item..."
-  success: "&aYou have success fully applied &6{enchant}."
+  success: "&aYou have successfully applied &6{enchant}."
   conflict: "&cYou cannot apply this enchant as it conflicts with another enchant."
   maxed-out: "&cYou already have that enchant maxed on this item."
   already-applied: "&cYou already have that enchant applied on this item."

@@ -3,7 +3,6 @@ package com.songoda.epicenchants.utils.single;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.songoda.epicenchants.EpicEnchants;
-import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 
@@ -128,7 +127,7 @@ public class ItemGroup {
         HELMETS,
         ARMOR(BOOTS, LEGGINGS, CHESTPLATES, HELMETS);
 
-        @Getter private final Set<Group> children;
+        private final Set<Group> children;
 
         Group(Group... child) {
             children = child == null ? new HashSet<>() : new HashSet<>(Arrays.asList(child));
@@ -140,6 +139,10 @@ public class ItemGroup {
 
         public String getName() {
             return StringUtils.capitalize(toString().toLowerCase());
+        }
+
+        public Set<Group> getChildren() {
+            return this.children;
         }
     }
 }

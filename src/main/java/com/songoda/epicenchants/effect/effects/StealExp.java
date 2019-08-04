@@ -8,7 +8,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.songoda.epicenchants.utils.single.Experience.*;
+import static com.songoda.epicenchants.utils.single.Experience.changeExp;
+import static com.songoda.epicenchants.utils.single.Experience.getExp;
 
 public class StealExp extends EffectExecutor {
     public StealExp(ConfigurationSection section) {

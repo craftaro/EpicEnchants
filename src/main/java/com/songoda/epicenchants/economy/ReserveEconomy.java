@@ -1,8 +1,9 @@
-package com.songoda.ultimateclaims.economy;
+package com.songoda.epicenchants.economy;
 
 import net.tnemc.core.Reserve;
 import net.tnemc.core.economy.EconomyAPI;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 
@@ -18,6 +19,11 @@ public class ReserveEconomy implements Economy {
     @Override
     public boolean hasBalance(OfflinePlayer player, double cost) {
         return economyAPI.hasHoldings(player.getUniqueId(), new BigDecimal(cost));
+    }
+
+    @Override
+    public double getBalance(Player player) {
+        return economyAPI.getHoldings(player.getUniqueId()).doubleValue();
     }
 
     @Override

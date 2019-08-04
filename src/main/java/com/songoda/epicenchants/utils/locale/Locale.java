@@ -1,4 +1,4 @@
-package com.songoda.ultimateclaims.utils.locale;
+package com.songoda.epicenchants.utils.locale;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

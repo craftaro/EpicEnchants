@@ -1,7 +1,7 @@
-package com.songoda.epicbuckets.utils.itemnbtapi;
+package com.songoda.epicenchants.utils.itemnbtapi;
 
-import com.songoda.epicbuckets.utils.itemnbtapi.utils.GsonWrapper;
-import com.songoda.epicbuckets.utils.itemnbtapi.utils.MinecraftVersion;
+import com.songoda.epicenchants.utils.itemnbtapi.utils.GsonWrapper;
+import com.songoda.epicenchants.utils.itemnbtapi.utils.MinecraftVersion;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 

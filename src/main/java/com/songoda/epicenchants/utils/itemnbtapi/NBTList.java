@@ -1,6 +1,6 @@
-package com.songoda.epicbuckets.utils.itemnbtapi;
+package com.songoda.epicenchants.utils.itemnbtapi;
 
-import com.songoda.epicbuckets.utils.itemnbtapi.utils.MinecraftVersion;
+import com.songoda.epicenchants.utils.itemnbtapi.utils.MinecraftVersion;
 
 public class NBTList {
 

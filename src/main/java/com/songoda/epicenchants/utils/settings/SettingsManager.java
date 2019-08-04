@@ -1,8 +1,8 @@
-package com.songoda.ultimateclaims.utils.settings;
+package com.songoda.epicenchants.utils.settings;
 
-import com.songoda.ultimateclaims.UltimateClaims;
-import com.songoda.ultimateclaims.utils.Methods;
-import com.songoda.ultimateclaims.utils.ServerVersion;
+import com.songoda.epicenchants.EpicEnchants;
+import com.songoda.epicenchants.utils.Methods;
+import com.songoda.epicenchants.utils.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,11 +25,11 @@ import java.util.*;
  */
 public class SettingsManager implements Listener {
 
-    private final UltimateClaims plugin;
+    private final EpicEnchants plugin;
     private Map<Player, String> cat = new HashMap<>();
     private Map<Player, String> current = new HashMap<>();
 
-    public SettingsManager(UltimateClaims plugin) {
+    public SettingsManager(EpicEnchants plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -86,7 +86,7 @@ public class SettingsManager implements Listener {
             config.set(value, event.getMessage());
         }
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(UltimateClaims.getInstance(), () ->
+        Bukkit.getScheduler().scheduleSyncDelayedTask(EpicEnchants.getInstance(), () ->
                 this.finishEditing(player), 0L);
 
         event.setCancelled(true);

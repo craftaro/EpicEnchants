@@ -5,9 +5,9 @@ import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.events.EnchantApplyEvent;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
+import com.songoda.epicenchants.utils.Tuple;
+import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
-import de.tr7zw.itemnbtapi.NBTItem;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Optional;
 
 import static com.songoda.epicenchants.enums.EnchantResult.*;
-import static com.songoda.epicenchants.objects.Placeholder.of;
 
 public class BookListener extends ItemListener {
     public BookListener(EpicEnchants instance) {
@@ -49,10 +48,11 @@ public class BookListener extends ItemListener {
             return;
         }
 
-        Pair<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(toApply, enchant, enchantEvent.getLevel(), enchantEvent.getSuccessRate(), enchantEvent.getDestroyRate());
+        Tuple<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(toApply, enchant, enchantEvent.getLevel(), enchantEvent.getSuccessRate(), enchantEvent.getDestroyRate());
 
-        instance.getAction().perform(event.getWhoClicked(), GeneralUtils.getMessageFromResult(result.getRight()),
-                of("enchant", enchant.getIdentifier()));
+        instance.getLocale().getMessage(GeneralUtils.getMessageFromResult(result.getRight()))
+                .processPlaceholder("enchant", enchant.getIdentifier())
+                .sendPrefixedMessage(event.getWhoClicked());
 
         if (result.getRight() == BROKEN_FAILURE) {
             event.getClickedInventory().clear(event.getSlot());
@@ -88,10 +88,10 @@ public class BookListener extends ItemListener {
         useItem(event);
         event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get()));
 
-        instance.getAction().perform(event.getPlayer(), "book.discover",
-                of("group_name", group.getName()),
-                of("group_color", group.getColor()),
-                of("enchant_format", enchant.get().getFormat())
-        );
+        instance.getLocale().getMessage("book.discover")
+                .processPlaceholder("group_name", group.getName())
+                .processPlaceholder("group_color", group.getColor())
+                .processPlaceholder("enchant_format", enchant.get().getFormat())
+                .sendPrefixedMessage(event.getPlayer());
     }
 }

@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
 import com.songoda.epicenchants.EpicEnchants;
-import de.tr7zw.itemnbtapi.NBTItem;
+import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

@@ -10,7 +10,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
-import static com.songoda.epicenchants.enums.EventType.*;
+import static com.songoda.epicenchants.enums.EventType.NONE;
+import static com.songoda.epicenchants.enums.EventType.ON;
 
 public class PlayerCommand extends EffectExecutor {
     public PlayerCommand(ConfigurationSection section) {

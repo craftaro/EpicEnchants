@@ -1,8 +1,9 @@
-package com.songoda.ultimateclaims.economy;
+package com.songoda.epicenchants.economy;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class PlayerPointsEconomy implements Economy {
 
@@ -21,6 +22,11 @@ public class PlayerPointsEconomy implements Economy {
         int amount = convertAmount(cost);
         return playerPoints.getAPI().look(player.getUniqueId()) >= amount;
 
+    }
+
+    @Override
+    public double getBalance(Player player) {
+        return playerPoints.getAPI().look(player.getUniqueId());
     }
 
     @Override

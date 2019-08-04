@@ -3,7 +3,7 @@ package com.songoda.epicenchants.listeners.item;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
-import de.tr7zw.itemnbtapi.NBTItem;
+import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 

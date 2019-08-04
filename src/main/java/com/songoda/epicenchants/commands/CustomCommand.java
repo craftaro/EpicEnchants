@@ -1,7 +1,10 @@
 package com.songoda.epicenchants.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Description;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.menus.AlchemistMenu;
 import com.songoda.epicenchants.menus.EnchanterMenu;

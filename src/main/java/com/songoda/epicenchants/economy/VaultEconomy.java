@@ -1,7 +1,8 @@
-package com.songoda.ultimateclaims.economy;
+package com.songoda.epicenchants.economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class VaultEconomy implements Economy {
     private final net.milkbowl.vault.economy.Economy vault;
@@ -14,6 +15,11 @@ public class VaultEconomy implements Economy {
     @Override
     public boolean hasBalance(OfflinePlayer player, double cost) {
         return vault.has(player, cost);
+    }
+
+    @Override
+    public double getBalance(Player player) {
+        return vault.getBalance(player);
     }
 
     @Override

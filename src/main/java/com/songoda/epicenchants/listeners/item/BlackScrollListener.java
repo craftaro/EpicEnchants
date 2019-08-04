@@ -2,13 +2,12 @@ package com.songoda.epicenchants.listeners.item;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
+import com.songoda.epicenchants.utils.itemnbtapi.NBTCompound;
+import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.single.RomanNumber;
-import de.tr7zw.itemnbtapi.NBTCompound;
-import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import static com.songoda.epicenchants.objects.Placeholder.of;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getRandomElement;
 
 public class BlackScrollListener extends ItemListener {
@@ -23,10 +22,11 @@ public class BlackScrollListener extends ItemListener {
         }
 
         event.setCancelled(true);
-        NBTCompound compound = current.getCompound("enchants");
+        NBTCompound compound = current.getCompound("src/main/resources/enchants");
 
         if (compound == null || compound.getKeys().isEmpty()) {
-            instance.getAction().perform(event.getWhoClicked(), "black-scroll.no-enchants");
+            instance.getLocale().getMessage("blackscroll.noenchants")
+                    .sendPrefixedMessage(event.getWhoClicked());
             return;
         }
 
@@ -38,11 +38,12 @@ public class BlackScrollListener extends ItemListener {
         event.getWhoClicked().getInventory().addItem(enchant.getBook().get(enchant, level, cursor.getInteger("success-rate"), 100));
         event.setCurrentItem(toSet);
 
-        instance.getAction().perform(event.getWhoClicked(), "black-scroll.success",
-                of("enchant", enchant.getIdentifier()),
-                of("group_color", enchant.getGroup().getColor()),
-                of("group_name", enchant.getGroup().getName()),
-                of("level", RomanNumber.toRoman(level)));
+        instance.getLocale().getMessage("black-scroll.success")
+                .processPlaceholder("enchant", enchant.getIdentifier())
+                .processPlaceholder("group_color", enchant.getGroup().getColor())
+                .processPlaceholder("group_name", enchant.getGroup().getName())
+                .processPlaceholder("level", RomanNumber.toRoman(level))
+                .sendPrefixedMessage(event.getWhoClicked());
 
         useItem(event);
     }

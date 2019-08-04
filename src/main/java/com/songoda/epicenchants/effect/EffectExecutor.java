@@ -5,7 +5,6 @@ import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.objects.Condition;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
-import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -19,11 +18,12 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.effect.EffectExecutor.Who.*;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.OPPONENT;
+import static com.songoda.epicenchants.effect.EffectExecutor.Who.USER;
 
 public abstract class EffectExecutor {
-    @Getter private final ConfigurationSection section;
-    @Getter private final Set<TriggerType> triggerTypes;
+    private final ConfigurationSection section;
+    private final Set<TriggerType> triggerTypes;
     private final Set<EffectExecutor> simultaneous;
     private final Condition condition;
 
@@ -94,6 +94,14 @@ public abstract class EffectExecutor {
                 if (opponent != null)
                     playerConsumer.accept(opponent);
         }
+    }
+
+    public ConfigurationSection getSection() {
+        return this.section;
+    }
+
+    public Set<TriggerType> getTriggerTypes() {
+        return this.triggerTypes;
     }
 
     public enum Who {

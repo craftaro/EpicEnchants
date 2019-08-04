@@ -1,4 +1,4 @@
-package com.songoda.ultimateclaims.utils.locale;
+package com.songoda.epicenchants.utils.locale;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

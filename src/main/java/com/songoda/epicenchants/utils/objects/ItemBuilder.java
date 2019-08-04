@@ -1,10 +1,10 @@
 package com.songoda.epicenchants.utils.objects;
 
 import com.songoda.epicenchants.objects.Placeholder;
+import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.single.ConfigParser;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
-import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;

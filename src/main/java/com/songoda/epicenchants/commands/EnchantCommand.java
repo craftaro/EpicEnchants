@@ -7,13 +7,12 @@ import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
-import org.apache.commons.lang3.tuple.Pair;
+import com.songoda.epicenchants.utils.Tuple;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import static com.songoda.epicenchants.enums.EnchantResult.BROKEN_FAILURE;
-import static com.songoda.epicenchants.objects.Placeholder.of;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getMessageFromResult;
 
 @CommandAlias("epicenchants|ee")
@@ -29,15 +28,21 @@ public class EnchantCommand extends BaseCommand {
     @CommandPermission("epicenchants.give.book")
     public void onGiveBook(CommandSender sender, @Flags("other") Player target, Enchant enchant, @Optional Integer level, @Optional Integer successRate, @Optional Integer destroyRate) {
         if (level != null && (level > enchant.getMaxLevel() || level < 1)) {
-            instance.getAction().perform(sender, "command.book." + (level > enchant.getMaxLevel() ? "max-level" : "min-level"),
-                    of("enchant", enchant.getIdentifier()),
-                    of("max-level", enchant.getMaxLevel()));
+            instance.getLocale().getMessage("command.book." + (level > enchant.getMaxLevel() ? "maxlevel" : "minlevel"))
+                    .processPlaceholder("enchant", enchant.getIdentifier())
+                    .processPlaceholder("maxlevel", enchant.getMaxLevel())
+                    .sendPrefixedMessage(sender);
             return;
         }
 
         target.getInventory().addItem(enchant.getBook().get(enchant, level, successRate, destroyRate));
-        instance.getAction().perform(target, "command.book.received", of("enchant", enchant.getIdentifier()));
-        instance.getAction().perform(sender, "command.book.gave", of("player", target.getName()), of("enchant", enchant.getIdentifier()));
+        instance.getLocale().getMessage("command.book.received")
+                .processPlaceholder("enchant", enchant.getIdentifier())
+                .sendPrefixedMessage(target);
+        instance.getLocale().getMessage("command.book.gave")
+                .processPlaceholder("player", target.getName())
+                .processPlaceholder("enchant", enchant.getIdentifier())
+                .sendPrefixedMessage(sender);
     }
 
     //ee give item dust [player] [group] <type> <percentage>
@@ -46,8 +51,13 @@ public class EnchantCommand extends BaseCommand {
     @CommandPermission("epicenchants.give.item.dust")
     public void onGiveDust(CommandSender sender, @Flags("other") Player target, Group group, @Optional String dustType, @Optional Integer percentage) {
         target.getInventory().addItem(instance.getSpecialItems().getDust(group, dustType, percentage, true));
-        instance.getAction().perform(target, "command.dust.received", of("group", group.getIdentifier()));
-        instance.getAction().perform(sender, "command.dust.gave", of("player", target.getName()), of("group", group.getIdentifier()));
+        instance.getLocale().getMessage("command.dust.received")
+                .processPlaceholder("group", group.getIdentifier())
+                .sendPrefixedMessage(target);
+        instance.getLocale().getMessage("command.dust.gave")
+                .processPlaceholder("player", target.getName())
+                .processPlaceholder("group", group.getIdentifier())
+                .sendPrefixedMessage(sender);
     }
 
     //ee give item [giveType] [player] <amount> <success-rate>
@@ -67,12 +77,17 @@ public class EnchantCommand extends BaseCommand {
                 target.getInventory().addItem(instance.getSpecialItems().getBlackScroll(amount, successRate));
                 break;
             default:
-                instance.getAction().perform(target, "command.give-unknown", of("unknown", giveType));
+                instance.getLocale().getMessage("command.giveunknown")
+                        .processPlaceholder("unknown", giveType)
+                        .sendPrefixedMessage(target);
                 return;
         }
 
-        instance.getAction().perform(target, "command." + messageKey + ".received");
-        instance.getAction().perform(sender, "command." + messageKey + ".gave", of("player", target.getName()));
+        instance.getLocale().getMessage("command." + messageKey + ".received")
+                .sendPrefixedMessage(target);
+        instance.getLocale().getMessage("command." + messageKey + ".gave")
+                .processPlaceholder("player", target.getName())
+                .sendPrefixedMessage(target);
     }
 
 
@@ -82,18 +97,22 @@ public class EnchantCommand extends BaseCommand {
     @Description("Apply enchant to item in hand")
     @CommandPermission("epicenchants.apply")
     public void onApply(Player player, Enchant enchant, int level, @Optional Integer successRate, @Optional Integer destroyRate) {
-        if (player.getItemInHand() == null || !enchant.getItemWhitelist().contains(player.getItemInHand().getType())) {
+        if (!enchant.getItemWhitelist().contains(player.getItemInHand().getType())) {
             System.out.println("List = " + enchant.getItemWhitelist());
-            instance.getAction().perform(player, "command.apply.invalid-item", of("enchant", enchant.getIdentifier()));
+            instance.getLocale().getMessage("command.apply.invaliditem")
+                    .processPlaceholder("enchant", enchant.getIdentifier())
+                    .sendPrefixedMessage(player);
             return;
         }
 
         int slot = player.getInventory().getHeldItemSlot();
         ItemStack before = player.getItemInHand();
-        Pair<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(before, enchant, level,
+        Tuple<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(before, enchant, level,
                 successRate == null ? 100 : successRate, destroyRate == null ? 0 : destroyRate);
 
-        instance.getAction().perform(player, getMessageFromResult(result.getRight()), of("enchant", enchant.getIdentifier()));
+        instance.getLocale().getMessage(getMessageFromResult(result.getRight()))
+                .processPlaceholder("enchant", enchant.getIdentifier())
+                .sendPrefixedMessage(player);
 
         if (result.getRight() == BROKEN_FAILURE) {
             player.getInventory().clear(slot);
@@ -117,7 +136,7 @@ public class EnchantCommand extends BaseCommand {
     @CommandPermission("epicenchants.reload")
     public void onReload(CommandSender sender) {
         instance.reload();
-        instance.getAction().perform(sender, "command.reload");
+        instance.getLocale().getMessage("command.reload").sendPrefixedMessage(sender);
     }
 
     @HelpCommand

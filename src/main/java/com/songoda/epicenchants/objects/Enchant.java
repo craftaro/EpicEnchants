@@ -1,9 +1,11 @@
 package com.songoda.epicenchants.objects;
 
+import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.utils.single.RomanNumber;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +24,6 @@ public class Enchant {
     private Group group;
     private int maxLevel;
     private Set<String> conflict;
-    //TODO: ISSUES
     private Set<Material> itemWhitelist;
     private Set<EffectExecutor> effectExecutors;
     private List<String> description;
@@ -80,11 +82,11 @@ public class Enchant {
     }
 
     public Set<Material> getItemWhitelist() {
-        return this.itemWhitelist;
+        return new HashSet<>(this.itemWhitelist);
     }
 
     public Set<EffectExecutor> getEffectExecutors() {
-        return this.effectExecutors;
+        return new HashSet<>(this.effectExecutors);
     }
 
     public List<String> getDescription() {

@@ -8,7 +8,10 @@ import com.songoda.epicenchants.objects.Group;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,6 +71,23 @@ public class CommandGiveItemDust extends AbstractCommand {
 
     @Override
     protected List<String> onTab(EpicEnchants instance, CommandSender sender, String... args) {
+        if (args.length == 2) {
+            return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+        } else if (args.length == 3) {
+            return instance.getGroupManager().getValues().stream()
+                    .map(Group::getIdentifier).collect(Collectors.toList());
+        } else if (args.length == 4) {
+            List<String> dusts = new ArrayList<>();
+
+            FileConfiguration dustConfig = instance.getFileManager().getConfiguration("items/dusts");
+            dusts.addAll(dustConfig.getConfigurationSection("dusts").getKeys(false));
+            return dusts;
+        } else if (args.length == 5) {
+            List<String> rates = new ArrayList<>();
+            for (int i = 1; i <= 100; i ++)
+                rates.add(String.valueOf(i));
+            return rates;
+        }
         return null;
     }
 

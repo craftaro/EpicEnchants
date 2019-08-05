@@ -3,11 +3,16 @@ package com.songoda.epicenchants.command.commands;
 import com.songoda.epicenchants.CommandCommons;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.command.AbstractCommand;
+import com.songoda.epicenchants.objects.Enchant;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandGiveScroll extends AbstractCommand {
 
@@ -72,6 +77,16 @@ public class CommandGiveScroll extends AbstractCommand {
 
     @Override
     protected List<String> onTab(EpicEnchants instance, CommandSender sender, String... args) {
+        if (args.length == 2) {
+            return Arrays.asList("whitescroll", "blackscroll");
+        } else if (args.length == 3) {
+            return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+        } else if (args.length == 4 || args.length == 5) {
+            List<String> rates = new ArrayList<>();
+            for (int i = 1; i <= (args.length == 4 ? 10 : 100); i ++)
+                rates.add(String.valueOf(i));
+            return rates;
+        }
         return null;
     }
 

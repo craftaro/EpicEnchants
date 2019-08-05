@@ -20,6 +20,8 @@ effects:
   POTION:
     # The trigger that will fire this effect.
     trigger: ATTACK_PLAYER_MELEE
+    # What player should the effect be ran on: WEARER/OPPONENT.
+    who: OPPONENT
     # The potion type.
     potion-type: POISON
     # The amplifier of the potion effect.
@@ -28,4 +30,3 @@ effects:
     duration: "{level} * 2"
     # Chance of the effect firing.
     chance: "3 * {level}"
-    

@@ -20,6 +20,8 @@ effects:
   THROW:
     # The trigger that will fire this effect.
     trigger: "DEFENSE_PLAYER_MELEE, DEFENSE_PLAYER_RANGE"
+    # In which
+    relative-to: USER
     # The direction of the throw.
     direction: UP
     # Magnitude of the throw.

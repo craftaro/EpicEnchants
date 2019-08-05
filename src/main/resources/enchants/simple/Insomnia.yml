@@ -16,7 +16,7 @@ description:
 item-whitelist:
   - "SWORDS"
 
-# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
 effects:
   POTION-1:
     # Chance that this will happen

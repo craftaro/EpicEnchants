@@ -3,15 +3,15 @@
 general.nametag.prefix = "&8[&6EpicEnchants&8]"
 
 #Command Messages
-command.book.received = "&7You have been given a &6{enchant} &7book."
-command.book.gave = "&7You gave &6{player} &7an &6{enchant} &7book."
-command.book.maxlevel = "&cThe max level for &4{enchant} &cis &4{max_level}&c."
-command.book.minlevel = "&cThe min level for &4{enchant} &cis &41&c."
+command.book.received = "&7You have been given a &6{enchant}&r &7book."
+command.book.gave = "&7You gave &6{player} &7an &6{enchant}&r &7book."
+command.book.maxlevel = "&cThe max level for &4{enchant}&r &cis &4{max_level}&c."
+command.book.minlevel = "&cThe min level for &4{enchant}&r &cis &41&c."
 
 command.whitescroll.received = "&7You have been given a whitescroll."
 command.whitescroll.gave = "&7You gave &6{player} &7a whitescroll."
 
-command.apply.invaliditem = "&cYou cannot apply &4{enchant} &cto this item."
+command.apply.invaliditem = "&cYou cannot apply &4{enchant}&r &cto this item."
 
 command.reload = "&7Configuration files reloaded."
 
@@ -22,7 +22,7 @@ command.dust.received = "&7You have received &6{amount} {group}&7."
 
 #Event Messages
 
-blackscroll.success = "&7Successfully blackscrolled &6{group_color}{enchant} {level}&7."
+blackscroll.success = "&7Successfully blackscrolled &6{group_color}{enchant}&r&6 {level}&7."
 blackscroll.noenchants = "&cNo enchants to blackscroll."
 
 whitescroll.alreadyapplied = "&cThis item is already protected!"
@@ -48,13 +48,13 @@ alchemist.differentgroups = "&cThe alchemist can only combine dust of the same g
 alchemist.cannotafford = "&cYou cannot afford this exchange..."
 alchemist.success = "&7Exchanged for &6{exp_cost} &7experience."
 
-enchants.invalidmaterial = "&cYou can not apply &4{enchant} &cto that item..."
-enchants.failure = "&4{enchant} &cfailed to apply..."
-enchants.brokenfailure = "&4{enchant} &cfailed to apply and broke your item..."
+enchants.invalidmaterial = "&cYou can not apply &4{enchant}&r &cto that item..."
+enchants.failure = "&4{enchant}&r &cfailed to apply..."
+enchants.brokenfailure = "&4{enchant}&r &cfailed to apply and broke your item..."
 enchants.conflict = "&cYou cannot apply this enchant as it conflicts with another enchant..."
 enchants.maxedout = "&cYou already have that enchant maxed out on this item..."
 enchants.alreadyapplied = "&cYou already have that enchant applied on this item."
 enchants.protected = "&7This book would have broken your item, luckily it was protected!"
-enchants.success = "&7You have successfully applied &6{enchant}&7."
+enchants.success = "&7You have successfully applied &6{enchant}&r&7."
 
 book.discover = "&7You examine the &6{group_color}{group_name} &7Enchantment Book, and discover &6{enchant_format}&7!"

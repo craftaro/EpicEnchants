@@ -1,5 +1,5 @@
 # The enchant identifier must be unique.
-identifier: "Plague Carrier"
+identifier: "PlagueCarrier"
 
 # The max level for this enchant.
 max-level: 8

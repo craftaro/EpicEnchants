@@ -1,0 +1,34 @@
+# The enchant identifier must be unique.
+identifier: Wither
+
+# The max level for this enchant.
+max-level: 5
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ELITE
+
+#Description
+description:
+  - "Infect your enemies with a wither"
+  - "effect when you are attacked."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "ARMOR"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  POTION:
+    # The trigger that will fire this effect.
+    trigger: "DEFENSE_PLAYER_MELEE, DEFENSE_PLAYER_RANGE"
+    # The potion type.
+    potion-type: WITHER
+    # The amplifier of the potion effect.
+    amplifier: "{level}"
+    # Duration of the potion effect.
+    duration: "{level} * 2"
+    # Chance of the effect firing.
+    chance: "5 * {level}"
+    # Who should this effect be ran on.
+    who: OPPONENT
+    

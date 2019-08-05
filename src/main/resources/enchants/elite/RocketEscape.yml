@@ -1,0 +1,31 @@
+# The enchant identifier must be unique.
+identifier: Rocket Escape
+
+# The max level for this enchant.
+max-level: 3
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ELITE
+
+#Description
+description:
+  - "Blast off into the air at low HP."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "BOOTS"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  THROW:
+    # The trigger that will fire this effect.
+    trigger: "DEFENSE_PLAYER_MELEE, DEFENSE_PLAYER_RANGE"
+    # The direction of the throw.
+    direction: UP
+    # Magnitude of the throw.
+    magnitude: 3
+    # Chance of the effect firing.
+    chance: "{level} * 10"
+    # Only fire at low HP
+    condition: "{user_health} < 5"
+    

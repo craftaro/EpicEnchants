@@ -30,7 +30,7 @@ public class EnchantManager extends Manager<String, Enchant> {
     }
 
     public void loadEnchants() {
-        instance.getFileManager().getYmlFiles("src/main/resources/enchants").forEach(file -> {
+        instance.getFileManager().getYmlFiles("enchants").forEach(file -> {
             try {
                 loadEnchant(file);
             } catch (Exception e) {

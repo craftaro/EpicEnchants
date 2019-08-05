@@ -45,10 +45,10 @@ public class BookItem {
                 current().nextInt(enchant.getGroup().getDestroyRateMin(), enchant.getGroup().getDestroyRateMax()));
     }
 
-    public ItemStack get(Enchant enchant, @Nullable Integer level, @Nullable Integer successRate, @Nullable Integer destroyRate) {
-        successRate = successRate == null ? current().nextInt(101) : successRate;
-        destroyRate = destroyRate == null ? current().nextInt(101) : destroyRate;
-        level = level == null ? current().nextInt(1, enchant.getMaxLevel() + 1) : level;
+    public ItemStack get(Enchant enchant, int level, int successRate, int destroyRate) {
+        successRate = successRate == -1 ? current().nextInt(101) : successRate;
+        destroyRate = destroyRate == -1 ? current().nextInt(101) : destroyRate;
+        level = level == -1 ? current().nextInt(1, enchant.getMaxLevel() + 1) : level;
 
         int finalSuccessRate = successRate;
         int finalDestroyRate = destroyRate;

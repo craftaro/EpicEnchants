@@ -178,7 +178,7 @@ public class TinkererMenu extends FastInv {
             return NONE;
         }
 
-        if (!itemStack.getEnchantments().isEmpty() || (nbtItem.getCompound("src/main/resources/enchants") != null && !nbtItem.getCompound("src/main/resources/enchants").getKeys().isEmpty())) {
+        if (!itemStack.getEnchantments().isEmpty() || (nbtItem.getCompound("enchants") != null && !nbtItem.getCompound("enchants").getKeys().isEmpty())) {
             if (getExpAmount(itemStack) == 0) {
                 return NONE;
             }
@@ -237,11 +237,11 @@ public class TinkererMenu extends FastInv {
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.hasKey("src/main/resources/enchants")) {
+        if (!nbtItem.hasKey("enchants")) {
             return total.get();
         }
 
-        NBTCompound enchantments = nbtItem.getCompound("src/main/resources/enchants");
+        NBTCompound enchantments = nbtItem.getCompound("enchants");
 
         if (enchantments == null) {
             return total.get();

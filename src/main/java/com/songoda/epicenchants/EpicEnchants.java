@@ -1,6 +1,6 @@
 package com.songoda.epicenchants;
 
-import co.aikar.commands.BukkitCommandManager;
+import com.songoda.epicenchants.command.CommandManager;
 import com.songoda.epicenchants.economy.Economy;
 import com.songoda.epicenchants.economy.PlayerPointsEconomy;
 import com.songoda.epicenchants.economy.ReserveEconomy;
@@ -46,7 +46,7 @@ public class EpicEnchants extends JavaPlugin {
     private FileManager fileManager;
     private HookManager hookManager;
     private SettingsManager settingsManager;
-    private BukkitCommandManager commandManager;
+    private CommandManager commandManager;
 
     private Locale locale;
 
@@ -220,5 +220,13 @@ public class EpicEnchants extends JavaPlugin {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
     }
 }

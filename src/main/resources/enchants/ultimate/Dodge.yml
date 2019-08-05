@@ -1,0 +1,26 @@
+﻿# The enchant identifier must be unique.
+identifier: Dodge
+
+# The max level for this enchant.
+max-level: 5
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ULTIMATE
+
+#Description
+description:
+  - "Chance to dodge melee attacks,"
+  - "increased chance when sneaking."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "ARMOR"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  CANCEL_EVENT:
+    # The trigger that will fire this effect
+    trigger: "DEFENSE_PLAYER_MELEE,DEFENSE_MOB_MELEE"
+    # Chance that this effect wil fire.
+    chance: "user_is_sneaking ? (8 * {level)) : (4 * {level})"
+    

@@ -1,0 +1,26 @@
+﻿# The enchant identifier must be unique.
+identifier: Skill Swipe
+
+# The max level for this enchant.
+max-level: 5
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: LEGENDARY
+
+#Description
+description:
+  - "Chance to steal EXP from your opponent."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "SWORDS"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  STEAL_EXP:
+    # The trigger that will fire this effect
+    trigger: ATTACK_PLAYER_MELEE
+    # Chance that this effect wil fire.
+    chance: "5 * {level}"
+    # Amount of EXP to be stolen.
+    amount: 100

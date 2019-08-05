@@ -1,8 +1,12 @@
 name: EpicEnchants
-version: ${project.version}
+version: maven-version-number
 main: com.songoda.epicenchants.EpicEnchants
 authors: [GB6]
 website: https://songoda.com/
 depend: [Vault]
 softdepend: [UltimateBottles, PlaceholderAPI]
 api-version: 1.13
+commands:
+  epicenchants:
+    aliases: [ee]
+    ussage: /ee reload

@@ -22,30 +22,26 @@ public class SpecialItems {
         this.instance = instance;
     }
 
-    public ItemStack getWhiteScroll(Integer amount) {
+    public ItemStack getWhiteScroll(int amount) {
         NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("white-scroll")).nbt();
         nbtItem.setBoolean("white-scroll", true);
         ItemStack itemStack = nbtItem.getItem();
 
-        if (amount != null) {
-            itemStack.setAmount(amount);
-        }
+        itemStack.setAmount(amount);
 
         return itemStack;
     }
 
-    public ItemStack getBlackScroll(Integer amount, Integer chance) {
-        int successRate = chance == null ? ThreadLocalRandom.current().nextInt(Setting.BLACK_MIN.getInt(), Setting.BLACK_MAX.getInt() + 1) : chance;
-        NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt  ();
+    public ItemStack getBlackScroll(int amount, int chance) {
+        int successRate = chance == -1 ? ThreadLocalRandom.current().nextInt(Setting.BLACK_MIN.getInt(), Setting.BLACK_MAX.getInt() + 1) : chance;
+        NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt();
 
         nbtItem.setBoolean("black-scroll", true);
         nbtItem.setInteger("success-rate", successRate);
 
         ItemStack itemStack = nbtItem.getItem();
 
-        if (amount != null) {
-            itemStack.setAmount(amount);
-        }
+        itemStack.setAmount(amount);
 
         return itemStack;
     }
@@ -80,7 +76,7 @@ public class SpecialItems {
         return nbtItem.getItem();
     }
 
-    public ItemStack getDust(Group group, @Nullable String type, @Nullable Integer percentage, boolean command) {
+    public ItemStack getDust(Group group, @Nullable String type, int percentage, boolean command) {
         FileConfiguration dustConfig = instance.getFileManager().getConfiguration("items/dusts");
         int random = ThreadLocalRandom.current().nextInt(101);
         int counter = 0;
@@ -103,7 +99,7 @@ public class SpecialItems {
             int minRate = config.getInt("min-rate");
             int maxRate = config.getInt("max-rate");
             percentage = ThreadLocalRandom.current().nextInt(minRate, maxRate + 1);
-        } else if (percentage == null) {
+        } else if (percentage == -1) {
             percentage = ThreadLocalRandom.current().nextInt(0, 10);
         }
 

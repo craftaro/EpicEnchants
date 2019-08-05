@@ -1,0 +1,26 @@
+﻿# The enchant identifier must be unique.
+identifier: Enlightened
+
+# The max level for this enchant.
+max-level: 3
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: LEGENDARY
+
+#Description
+description:
+  - "Chance to heal while damaged."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "ARMOR"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  MODIFY_HEALTH:
+    # The trigger that will fire this effect
+    trigger: "DEFENSE_PLAYER_MELEE, DEFENSE_MOB_MELEE"
+    # How much life does it should add
+    amount: "+1"
+    # Chances for the event to proceed
+    chance: "10*{level}"

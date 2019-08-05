@@ -1,0 +1,28 @@
+# The enchant identifier must be unique.
+identifier: Berserk
+
+# The max level for this enchant.
+max-level: 5
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: UNIQUE
+
+#Description
+description:
+  - "A chance to receive strength."
+  - "and mining fatique."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "AXES"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  POTION:
+    # Chance that this will happen
+    chance: "5 * {level}"
+    # The trigger that will fire this effect
+    trigger: ATTACK_PLAYER_MELEE
+    # What player should the effect be ran on: USER/OPPONENT.
+    who: USER
+    

@@ -1,0 +1,29 @@
+# The enchant identifier must be unique.
+identifier: ObsidianDestroyer
+
+# The max level for this enchant.
+max-level: 5
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: SIMPLE
+
+#Description
+description:
+  - "A chance to instantly break obsidian."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "PICKAXES"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  MODIFY_BLOCK:
+    # The trigger that will fire this effect
+    trigger: LEFT_CLICK
+    # Chance that this will happen
+    chance: "10 * {level}"
+    # Check if clicked block is obsidian
+    condition: "{clicked_block} === 'OBSIDIAN'"
+    # Set the block to air
+    material: AIR
+    

@@ -1,0 +1,27 @@
+﻿# The enchant identifier must be unique.
+identifier: IceAspect
+
+# The max level for this enchant.
+max-level: 2
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ULTIMATE
+
+#Description
+description:
+  - "Chance to slow your opponent."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "SWORDS"
+  - "AXES"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  POTION:
+    trigger: 'ATTACK_PLAYER_MELEE,ATTACK_PLAYER_RANGE,ATTACK_MOB_MELEE,ATTACK_MOB_RANGE'
+    potion-type: SLOWNESS
+    duration: '10*{level}'
+    amplifier: '{level}'
+    who: OPPONENT
+    chance: '15*{level}'

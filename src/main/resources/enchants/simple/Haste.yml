@@ -1,0 +1,28 @@
+# The enchant identifier must be unique.
+identifier: Haste
+
+# The max level for this enchant.
+max-level: 3
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: SIMPLE
+
+#Description
+description:
+  - "Permanent haste effect when"
+  - "holding a tool with this enchant."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "TOOLS"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  POTION:
+    # The trigger that will fire this effect
+    trigger: HELD_ITEM
+    # Potion Effect that should be applied.
+    potion-type: FAST_DIGGING
+    # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
+    amplifier: "{level}"
+    

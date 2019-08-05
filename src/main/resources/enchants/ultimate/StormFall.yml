@@ -1,0 +1,45 @@
+﻿# The enchant identifier must be unique.
+identifier: StormFall
+
+# The max level for this enchant.
+max-level: 3
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ULTIMATE
+
+#Description
+description:
+  - "Summon Lightnings at your Opponnent."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "BOWS"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  effects:
+  LIGHTNING-1:
+    trigger: ATTACK_PLAYER_RANGE
+    who: OPPONENT
+    chance: '100*{level}'
+  LIGHTNING-2:
+    trigger: ATTACK_PLAYER_RANGE
+    who: OPPONENT
+    chance: '100*{level}-100'
+  LIGHTNING-3:
+    trigger: ATTACK_PLAYER_RANGE
+    who: OPPONENT
+    chance: '100*{level}-200'
+#---------------------------------------
+  LIGHTNING-4:
+    trigger: ATTACK_MOB_RANGE
+    who: OPPONENT
+    chance: '100*{level}'
+  LIGHTNING-5:
+    trigger: ATTACK_MOB_RANGE
+    who: OPPONENT
+    chance: '100*{level}-100'
+  LIGHTNING-6:
+    trigger: ATTACK_MOB_RANGE
+    who: OPPONENT
+    chance: '100*{level}-200'

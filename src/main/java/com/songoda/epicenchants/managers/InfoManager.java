@@ -24,7 +24,7 @@ public class InfoManager extends Manager<Group, InfoMenu> {
 
     public void loadMenus() {
         mainInfoMenu = new MainInfoMenu(instance, instance.getFileManager().getConfiguration("menus/main-info-menu"));
-        instance.getFileManager().getYmlFiles("src/main/resources/menus/groups").forEach(file -> {
+        instance.getFileManager().getYmlFiles("menus/groups").forEach(file -> {
             try {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 add(instance.getGroupManager().getValue(config.getString("group"))

@@ -22,7 +22,7 @@ public class BlackScrollListener extends ItemListener {
         }
 
         event.setCancelled(true);
-        NBTCompound compound = current.getCompound("src/main/resources/enchants");
+        NBTCompound compound = current.getCompound("enchants");
 
         if (compound == null || compound.getKeys().isEmpty()) {
             instance.getLocale().getMessage("blackscroll.noenchants")

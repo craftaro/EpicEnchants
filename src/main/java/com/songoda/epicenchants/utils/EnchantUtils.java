@@ -78,9 +78,9 @@ public class EnchantUtils {
 
         NBTItem nbtItem = itemBuilder.nbt();
 
-        nbtItem.addCompound("src/main/resources/enchants");
+        nbtItem.addCompound("enchants");
 
-        NBTCompound compound = nbtItem.getCompound("src/main/resources/enchants");
+        NBTCompound compound = nbtItem.getCompound("enchants");
         compound.setInteger(enchant.getIdentifier(), level);
 
         return Tuple.of(nbtItem.getItem(), SUCCESS);
@@ -93,11 +93,11 @@ public class EnchantUtils {
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.hasNBTData() || !nbtItem.hasKey("src/main/resources/enchants")) {
+        if (!nbtItem.hasNBTData() || !nbtItem.hasKey("enchants")) {
             return Collections.emptyMap();
         }
 
-        NBTCompound compound = nbtItem.getCompound("src/main/resources/enchants");
+        NBTCompound compound = nbtItem.getCompound("enchants");
 
         if (compound == null) {
             return Collections.emptyMap();
@@ -128,11 +128,11 @@ public class EnchantUtils {
 
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (nbtItem.getCompound("src/main/resources/enchants") == null || nbtItem.getCompound("src/main/resources/enchants").getInteger(enchant.getIdentifier()) == null) {
+        if (nbtItem.getCompound("enchants") == null || nbtItem.getCompound("enchants").getInteger(enchant.getIdentifier()) == null) {
             return itemStack;
         }
 
-        nbtItem.getCompound("src/main/resources/enchants").removeKey(enchant.getIdentifier());
+        nbtItem.getCompound("enchants").removeKey(enchant.getIdentifier());
         ItemBuilder output = new ItemBuilder(nbtItem.getItem());
         output.removeLore(enchant.getFormat().replace("{level}", "").trim());
         return output.build();

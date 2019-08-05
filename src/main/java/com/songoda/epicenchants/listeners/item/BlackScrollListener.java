@@ -38,7 +38,7 @@ public class BlackScrollListener extends ItemListener {
         event.getWhoClicked().getInventory().addItem(enchant.getBook().get(enchant, level, cursor.getInteger("success-rate"), 100));
         event.setCurrentItem(toSet);
 
-        instance.getLocale().getMessage("black-scroll.success")
+        instance.getLocale().getMessage("blackscroll.success")
                 .processPlaceholder("enchant", enchant.getIdentifier())
                 .processPlaceholder("group_color", enchant.getGroup().getColor())
                 .processPlaceholder("group_name", enchant.getGroup().getName())

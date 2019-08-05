@@ -25,4 +25,18 @@ effects:
     trigger: ATTACK_PLAYER_MELEE
     # What player should the effect be ran on: USER/OPPONENT.
     who: USER
-    
+    # Potion Effect that should be applied.
+    potion-type: INCREASE_DAMAGE
+    # Simultaneous
+    simultaneous:
+      POTION:
+        # What player should the effect be ran on: USER/OPPONENT.
+        who: USER
+        # Amount of EXP to add
+        potion-type: SLOW_DIGGING
+        # Duration of the Potion Effect in seconds.
+        duration: "3 * {level}"
+        # Chance that the Effect gets activated.
+        chance: "5 * {level}"
+        # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
+        amplifier: "{level}"

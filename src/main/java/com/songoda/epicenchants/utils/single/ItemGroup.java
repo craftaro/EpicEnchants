@@ -27,6 +27,10 @@ public class ItemGroup {
 
         groupMap.putAll(PICKAXES, Arrays.asList(DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE));
 
+        groupMap.putAll(HOES, Arrays.asList(DIAMOND_HOE, GOLDEN_HOE, IRON_HOE, STONE_HOE, WOODEN_HOE));
+
+        groupMap.putAll(SHOVELS, Arrays.asList(DIAMOND_SHOVEL, GOLDEN_SHOVEL, IRON_SHOVEL, STONE_SHOVEL, WOODEN_SHOVEL));
+
         groupMap.putAll(SWORDS, Arrays.asList(DIAMOND_SWORD, GOLDEN_SWORD, IRON_SWORD, STONE_SWORD, WOODEN_SWORD));
 
         groupMap.put(BOWS, BOW);
@@ -44,6 +48,10 @@ public class ItemGroup {
         groupMap.putAll(AXES, Arrays.asList(DIAMOND_AXE, Material.valueOf("GOLD_AXE"), IRON_AXE, STONE_AXE, Material.valueOf("WOOD_AXE")));
 
         groupMap.putAll(PICKAXES, Arrays.asList(DIAMOND_PICKAXE, Material.valueOf("GOLD_PICKAXE"), IRON_PICKAXE, STONE_PICKAXE, Material.valueOf("WOOD_PICKAXE")));
+
+        groupMap.putAll(HOES, Arrays.asList(DIAMOND_HOE, Material.valueOf("GOLD_HOE"), IRON_HOE, STONE_HOE, Material.valueOf("WOOD_HOE")));
+
+        groupMap.putAll(SHOVELS, Arrays.asList(DIAMOND_SHOVEL, Material.valueOf("GOLD_SHOVEL"), IRON_SHOVEL, STONE_SHOVEL, Material.valueOf("WOODEN_SHOVEL")));
 
         groupMap.putAll(SWORDS, Arrays.asList(DIAMOND_SWORD, Material.valueOf("GOLD_SWORD"), IRON_SWORD, STONE_SWORD, Material.valueOf("WOOD_SWORD")));
 
@@ -113,9 +121,10 @@ public class ItemGroup {
 
     public enum Group {
         AXES,
+        HOES,
         PICKAXES,
         SHOVELS,
-        TOOLS(AXES, PICKAXES, SHOVELS),
+        TOOLS(AXES, PICKAXES, HOES, SHOVELS),
 
         SWORDS,
         BOWS,

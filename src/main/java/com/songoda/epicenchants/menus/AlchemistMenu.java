@@ -180,7 +180,7 @@ public class AlchemistMenu extends FastInv {
                 return false;
             }
 
-            if (successRate == 100) {
+            if (successRate >= 100) {
                 instance.getLocale().getMessage("alchemist.maxpercentagedust").sendPrefixedMessage(player);
                 return false;
             }

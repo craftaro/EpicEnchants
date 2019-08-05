@@ -79,7 +79,7 @@ public class EpicEnchants extends JavaPlugin {
         this.locale = Locale.getLocale(getConfig().getString("System.Language Mode"));
 
         // Running Songoda Updater
-        Plugin plugin = new Plugin(this, -1);
+        Plugin plugin = new Plugin(this, 67);
         plugin.addModule(new LocaleModule());
         SongodaUpdate.load(plugin);
 

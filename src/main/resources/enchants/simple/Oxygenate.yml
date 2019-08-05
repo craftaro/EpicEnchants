@@ -27,3 +27,5 @@ effects:
     chance: "10 * {level}"
     # Amount of oxygen to refill
     amount: "{level}"
+    # What player should the effect be ran on: USER/OPPONENT.
+    who: USER

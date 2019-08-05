@@ -27,6 +27,7 @@ public class LeveledModifier {
 
         String toTest = Placeholders.setPlaceholders(string, user, opponent, level);
 
-        return (double) (int) GeneralUtils.parseJS(toTest, "LeveledModifier", def);
+        Object value = GeneralUtils.parseJS(toTest, "LeveledModifier", def);
+        return value instanceof Double ? (double)value : (int)value;
     }
 }

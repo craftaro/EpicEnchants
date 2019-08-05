@@ -57,10 +57,16 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (event.getAction() == Action.RIGHT_CLICK_AIR) {
             instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK);
-        } else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+        } else if (event.getAction() == Action.LEFT_CLICK_AIR) {
             instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK);
+        }
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK_BLOCK);
+        } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK_BLOCK);
+
         }
     }
 

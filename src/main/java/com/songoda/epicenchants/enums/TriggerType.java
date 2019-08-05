@@ -27,6 +27,9 @@ public enum TriggerType {
 
     BLOCK_BREAK,
     EXPERIENCE_BLOCK_BREAK,
+
+    RIGHT_CLICK_BLOCK,
+    LEFT_CLICK_BLOCK,
     REPEATING, //TODO: Figure out what this is.
     RIGHT_CLICK,
     LEFT_CLICK

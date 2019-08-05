@@ -19,11 +19,11 @@ item-whitelist:
 effects:
   MODIFY_BLOCK:
     # The trigger that will fire this effect
-    trigger: LEFT_CLICK
+    trigger: LEFT_CLICK_BLOCK
     # Chance that this will happen
     chance: "10 * {level}"
     # Check if clicked block is obsidian
-    condition: "{clicked_block} === 'OBSIDIAN'"
+    condition: "{block_type} === 'OBSIDIAN'"
     # Set the block to air
     material: AIR
     

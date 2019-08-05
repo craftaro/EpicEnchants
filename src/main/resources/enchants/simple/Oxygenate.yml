@@ -7,7 +7,7 @@ max-level: 1
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-#Description
+# Description
 description:
   - "A chance to refill your oxygen"
   - "levels when breaking blocks."
@@ -18,7 +18,7 @@ item-whitelist:
 
 # For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
 effects:
-  MODIFY_OXYGEN:
+  POTION:
     # The trigger that will fire this effect
     trigger: BLOCK_BREAK
     # Potion Effect that should be applied.

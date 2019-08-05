@@ -15,7 +15,11 @@ public abstract class Manager<K, V> {
     }
 
     public Optional<V> getValue(K key) {
-        return Optional.ofNullable(map.get(key));
+        for (Object k : map.keySet()) {
+            if (k.toString().equalsIgnoreCase(key.toString()))
+                return Optional.ofNullable(map.get(k));
+        }
+        return Optional.empty();
     }
 
     public void add(K key, V value) {

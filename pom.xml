@@ -5,7 +5,7 @@
     <version>maven-version-number</version>
     <build>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>EpicHeads-${project.version}</finalName>
+        <finalName>EpicEnchants-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

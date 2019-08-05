@@ -26,7 +26,8 @@ public enum TriggerType {
     STATIC_EFFECT,
 
     BLOCK_BREAK,
-    REPEATING,
+    EXPERIENCE_BLOCK_BREAK,
+    REPEATING, //TODO: Figure out what this is.
     RIGHT_CLICK,
     LEFT_CLICK
 }

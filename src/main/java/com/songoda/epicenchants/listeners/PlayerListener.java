@@ -67,6 +67,8 @@ public class PlayerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
         instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, BLOCK_BREAK);
+        if (event.getExpToDrop() != 0)
+            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, EXPERIENCE_BLOCK_BREAK);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)

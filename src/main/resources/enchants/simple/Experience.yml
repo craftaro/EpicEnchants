@@ -20,9 +20,9 @@ item-whitelist:
 effects:
   MODIFY_EXP:
     # Chance that this will happen
-    chance: "5 * {level}"
+    chance: "20 * {level}"
     # The trigger that will fire this effect
-    trigger: BLOCK_BREAK
+    trigger: EXPERIENCE_BLOCK_BREAK
     # What player should the effect be ran on: USER/OPPONENT.
     who: USER
     # Amount of EXP to add

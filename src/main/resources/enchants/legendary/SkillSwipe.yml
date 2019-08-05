@@ -1,5 +1,5 @@
 ﻿# The enchant identifier must be unique.
-identifier: Skill Swipe
+identifier: SkillSwipe
 
 # The max level for this enchant.
 max-level: 5

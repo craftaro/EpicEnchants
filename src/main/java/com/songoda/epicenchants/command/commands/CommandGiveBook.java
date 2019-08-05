@@ -70,7 +70,7 @@ public class CommandGiveBook extends AbstractCommand {
         if (level != -1 && (level > enchant.getMaxLevel() || level < 1)) {
             instance.getLocale().getMessage("command.book." + (level > enchant.getMaxLevel() ? "maxlevel" : "minlevel"))
                     .processPlaceholder("enchant", enchant.getIdentifier())
-                    .processPlaceholder("maxlevel", enchant.getMaxLevel())
+                    .processPlaceholder("max_level", enchant.getMaxLevel())
                     .sendPrefixedMessage(sender);
             return ReturnType.SUCCESS;
         }

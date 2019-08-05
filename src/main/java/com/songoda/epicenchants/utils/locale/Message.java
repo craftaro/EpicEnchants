@@ -112,7 +112,7 @@ public class Message {
      * @return the modified Message
      */
     public Message processPlaceholder(String placeholder, Object replacement) {
-        this.message = message.replace("%" + placeholder + "%", replacement.toString());
+        this.message = message.replace("{" + placeholder + "}", replacement.toString());
         return this;
     }
 

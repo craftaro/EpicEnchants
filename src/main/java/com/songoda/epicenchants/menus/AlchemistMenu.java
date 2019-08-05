@@ -273,8 +273,8 @@ public class AlchemistMenu extends FastInv {
             instance.getEconomy().withdrawBalance(event.getPlayer(), ecoCost);
             changeExp(event.getPlayer(), -expCost);
             instance.getLocale().getMessage("alchemist.success")
-                    .processPlaceholder("ecocost", ecoCost)
-                    .processPlaceholder("expcost", expCost)
+                    .processPlaceholder("eco_cost", ecoCost)
+                    .processPlaceholder("exp_cost", expCost)
                     .sendPrefixedMessage(event.getPlayer());
 
             event.getPlayer().getInventory().addItem(getInventory().getItem(PREVIEW_SLOT));

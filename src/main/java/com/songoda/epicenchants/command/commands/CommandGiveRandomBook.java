@@ -42,9 +42,9 @@ public class CommandGiveRandomBook extends AbstractCommand {
         Group group = groups.get(0);
 
         target.getPlayer().getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));
-        instance.getLocale().getMessage("command.book.received")
+        instance.getLocale().getMessage("command.randombook.received")
                 .sendPrefixedMessage(target.getPlayer());
-        instance.getLocale().getMessage("command.book.gave")
+        instance.getLocale().getMessage("command.randombook.gave")
                 .processPlaceholder("player", target.getPlayer().getName())
                 .sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;

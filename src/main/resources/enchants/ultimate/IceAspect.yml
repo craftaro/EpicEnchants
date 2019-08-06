@@ -1,4 +1,7 @@
-﻿# The enchant identifier must be unique.
+﻿# The person who made this enchant.
+Author: Songoda
+
+# The enchant identifier must be unique.
 identifier: IceAspect
 
 # The max level for this enchant.

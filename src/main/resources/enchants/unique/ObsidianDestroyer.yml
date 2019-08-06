@@ -1,3 +1,6 @@
+# The person who made this enchant.
+Author: Songoda
+
 # The enchant identifier must be unique.
 identifier: ObsidianDestroyer
 
@@ -26,4 +29,3 @@ effects:
     condition: "{block_type} === 'OBSIDIAN'"
     # Set the block to air
     material: AIR
-    

@@ -1,8 +1,8 @@
 # The person who made this enchant.
-Author: Songoda
+Author: SuchLow
 
 # The enchant identifier must be unique.
-identifier: Gears
+identifier: Resist
 
 # The max level for this enchant.
 max-level: 3
@@ -10,20 +10,29 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&bResist {level}"
+
 # Description
 description:
-  - "Gain speed when equipped."
+  - "A chance of giving the resist effect."
 
 # What items this enchant can be applied to.
 item-whitelist:
-  - "BOOTS"
+  - "ARMOR"
 
 # For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
 effects:
   POTION:
     # The trigger that will fire this effect.
     trigger: STATIC_EFFECT
+    # What player should the effect be ran on: WEARER/OPPONENT.
+    who: USER
     # The potion type.
-    potion-type: SPEED
+    potion-type: RESISTANCE
     # The amplifier of the potion effect.
     amplifier: "{level}"
+    # Duration of the potion effect.
+    duration: "{level} * 10"
+    # Chance of the effect firing.
+    chance: "100"

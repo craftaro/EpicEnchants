@@ -51,7 +51,7 @@ public class ItemGroup {
 
         groupMap.putAll(HOES, Arrays.asList(DIAMOND_HOE, Material.valueOf("GOLD_HOE"), IRON_HOE, STONE_HOE, Material.valueOf("WOOD_HOE")));
 
-        groupMap.putAll(SHOVELS, Arrays.asList(DIAMOND_SHOVEL, Material.valueOf("GOLD_SHOVEL"), IRON_SHOVEL, STONE_SHOVEL, Material.valueOf("WOODEN_SHOVEL")));
+        groupMap.putAll(SHOVELS, Arrays.asList(Material.valueOf("DIAMOND_SPADE"), Material.valueOf("GOLD_SPADE"), Material.valueOf("IRON_SPADE"), Material.valueOf("STONE_SPADE"), Material.valueOf("WOOD_SPADE")));
 
         groupMap.putAll(SWORDS, Arrays.asList(DIAMOND_SWORD, Material.valueOf("GOLD_SWORD"), IRON_SWORD, STONE_SWORD, Material.valueOf("WOOD_SWORD")));
 

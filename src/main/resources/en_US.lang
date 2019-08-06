@@ -8,6 +8,9 @@ command.book.gave = "&7You gave &6{player} &7an &6{enchant}&r &7book."
 command.book.maxlevel = "&cThe max level for &4{enchant}&r &cis &4{max_level}&c."
 command.book.minlevel = "&cThe min level for &4{enchant}&r &cis &41&c."
 
+command.randombook.received = "&7You have been given a random book."
+command.randombook.gave = "&7You gave &6{player} &7an random &7book."
+
 command.whitescroll.received = "&7You have been given a whitescroll."
 command.whitescroll.gave = "&7You gave &6{player} &7a whitescroll."
 

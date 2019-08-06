@@ -30,6 +30,7 @@ public class CommandManager implements CommandExecutor {
         addCommand(new CommandApply(commandEpicEnchants));
         addCommand(new CommandList(commandEpicEnchants));
         addCommand(new CommandGiveBook(commandEpicEnchants));
+        addCommand(new CommandGiveRandomBook(commandEpicEnchants));
         addCommand(new CommandGiveItemDust(commandEpicEnchants));
         addCommand(new CommandGiveScroll(commandEpicEnchants));
         addCommand(new CommandAlchemist(commandEpicEnchants));

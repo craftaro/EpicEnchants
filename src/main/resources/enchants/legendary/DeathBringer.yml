@@ -7,9 +7,9 @@ max-level: 1
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
 
-#Description
+# Description
 description:
-  - "Chance to gain Strengh for a short time."
+  - "Chance to gain Strength for a short time."
 
 # What items this enchant can be applied to.
 item-whitelist:

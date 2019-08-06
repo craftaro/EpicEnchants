@@ -7,7 +7,7 @@ max-level: 5
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: ULTIMATE
 
-#Description
+# Description
 description:
   - "Chance to dodge melee attacks,"
   - "increased chance when sneaking."
@@ -22,5 +22,5 @@ effects:
     # The trigger that will fire this effect
     trigger: "DEFENSE_PLAYER_MELEE,DEFENSE_MOB_MELEE"
     # Chance that this effect wil fire.
-    chance: "user_is_sneaking ? (8 * {level}) : (4 * {level})"
+    chance: "{user_is_sneaking} ? (8 * {level}) : (4 * {level})"
     

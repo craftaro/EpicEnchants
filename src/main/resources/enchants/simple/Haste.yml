@@ -7,7 +7,7 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-#Description
+# Description
 description:
   - "Permanent haste effect when"
   - "holding a tool with this enchant."

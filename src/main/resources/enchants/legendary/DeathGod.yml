@@ -7,7 +7,7 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
 
-#Description
+# Description
 description:
   - "Chance of regain a lot of hearts"
   - "when under 2 hearts."

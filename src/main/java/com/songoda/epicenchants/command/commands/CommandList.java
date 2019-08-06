@@ -16,13 +16,12 @@ import java.util.Optional;
 import static com.songoda.epicenchants.enums.EnchantResult.BROKEN_FAILURE;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getMessageFromResult;
 
-public class CommandInfo extends AbstractCommand {
+public class CommandList extends AbstractCommand {
 
-    public CommandInfo(AbstractCommand parent) {
-        super(parent, true, "info");
+    public CommandList(AbstractCommand parent) {
+        super(parent, true, "list");
     }
 
-    //ee apply [enchant] [level] <success-rate> <destroy-rate>
     @Override
     protected ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
         instance.getInfoManager().getMainInfoMenu().open((Player)sender);
@@ -36,12 +35,12 @@ public class CommandInfo extends AbstractCommand {
 
     @Override
     public String getPermissionNode() {
-        return "epicenchants.info";
+        return "epicenchants.list";
     }
 
     @Override
     public String getSyntax() {
-        return "/ee info";
+        return "/ee list";
     }
 
     @Override

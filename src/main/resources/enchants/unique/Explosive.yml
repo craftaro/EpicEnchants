@@ -7,7 +7,7 @@ max-level: 5
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: UNIQUE
 
-#Description
+# Description
 description:
   - "A chance for your arrows to"
   - "blow up on impact."

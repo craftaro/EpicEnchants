@@ -7,7 +7,7 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
 
-#Description
+# Description
 description:
   - "Gain speed when equipped."
 

@@ -7,7 +7,7 @@ max-level: 5
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
 
-#Description
+# Description
 description:
   - "Chance to steal EXP from your opponent."
 

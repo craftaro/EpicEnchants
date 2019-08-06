@@ -7,7 +7,7 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: ELITE
 
-#Description
+# Description
 description:
   - "Slow your enemies down when"
   - "you are attacked."

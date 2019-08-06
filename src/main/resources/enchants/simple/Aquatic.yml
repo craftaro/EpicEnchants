@@ -7,7 +7,7 @@ max-level: 1
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-#Description
+# Description
 description:
   - "Gives permanent water breathing."
 

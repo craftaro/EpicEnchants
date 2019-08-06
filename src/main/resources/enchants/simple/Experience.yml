@@ -7,7 +7,7 @@ max-level: 5
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-#Description
+# Description
 description:
   - "A chance to receive"
   - "more EXP when mining blocks."

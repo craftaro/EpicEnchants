@@ -7,7 +7,7 @@ max-level: 7
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 
-#Description
+# Description
 description:
   - "A chance to give your opponent"
   - "slowness, slow swinging and confusion."

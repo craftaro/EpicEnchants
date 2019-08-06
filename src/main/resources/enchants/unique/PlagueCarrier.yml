@@ -7,7 +7,7 @@ max-level: 8
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: UNIQUE
 
-#Description
+# Description
 description:
   - "When near death summon creepers"
   - "to avenge you."

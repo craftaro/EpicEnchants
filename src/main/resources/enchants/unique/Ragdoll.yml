@@ -7,7 +7,7 @@ max-level: 4
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: UNIQUE
 
-#Description
+# Description
 description:
   - "A chance to be pushed back when."
   -  "you take damage."

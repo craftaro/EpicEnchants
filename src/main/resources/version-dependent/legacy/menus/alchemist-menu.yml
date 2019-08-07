@@ -1,15 +1,15 @@
 title: "Alchemist"
-rows: 3
+rows: 5
 
 fill:
   material: STAINED_GLASS_PANE
-  data: 7
+  data: 0
   display-name: "&r"
 
-left-slot: 3
-right-slot: 5
-preview-slot: 13
-accept-slot: 22
+left-slot: 11
+right-slot: 15
+preview-slot: 22
+accept-slot: 31
 
 book:
   success-rate-formula: "({left_success_rate} + {right_success_rate}) / 4"
@@ -25,14 +25,15 @@ dust:
 contents:
   preview:
     material: STAINED_GLASS_PANE
+    data: 7
     display-name: "&eITEM PREVIEW"
     lore:
       - "&7A preview of the item that you"
       - "&7will receive from the alchemist"
       - "&7will be displayed here."
   accept-before:
-    material: STAINED_GLASS_PANE
-    data: 14
+    material: INK_SACK
+    data: 1
     display-name: "&8[&eThe Alchemist&8]"
     lore:
       - "&7The alchemist will exchange:"
@@ -47,8 +48,8 @@ contents:
       - "&fthe same dust"
       - "&7(of a higher percentage)"
   accept-after:
-    material: STAINED_GLASS_PANE
-    data: 5
+    material: INK_SACK
+    data: 1
     display-name: "&eClick to confirm"
     lore:
       - "&cCost: {exp_cost} EXP"
@@ -56,3 +57,16 @@ contents:
       - "&7Click to confirm the exchange"
       - "&7after which you will receive"
       - "&7the item displayed above."
+  explanation:
+    material: PAINTING
+    slot: 4
+  corners:
+    material: STAINED_GLASS_PANE
+    data: 11
+    display-name: "&r"
+    slot: "0,1,7,8,9,17,27,35,36,37,43,44"
+  edge:
+    material: STAINED_GLASS_PANE
+    data: 3
+    display-name: "&r"
+    slot: "2,3,5,6,18,26,38,39,40,41,42"

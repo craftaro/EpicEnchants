@@ -13,10 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.single.Experience.changeExp;
-import static com.songoda.epicenchants.utils.single.Experience.getExp;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
+import static com.songoda.epicenchants.utils.single.Experience.*;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
 
 public class EnchanterMenu extends FastInv {
     private final Map<UUID, Long> DELAY = new HashMap<>();
@@ -32,6 +30,7 @@ public class EnchanterMenu extends FastInv {
                 .stream()
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
+                .filter(s -> s.get("group") != null)
                 .forEach(section -> {
                     int expCost = section.getInt("exp-cost");
                     int ecoCost = section.getInt("eco-cost");
@@ -69,6 +68,13 @@ public class EnchanterMenu extends FastInv {
                         DELAY.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + 120);
                     });
                 });
+
+        config.getConfigurationSection("contents").getKeys(false)
+                .stream()
+                .map(s -> "contents." + s)
+                .map(config::getConfigurationSection)
+                .filter(s -> s.get("group") == null)
+                .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
     }
 }
 

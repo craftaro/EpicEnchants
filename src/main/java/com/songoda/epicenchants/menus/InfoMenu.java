@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
 import static java.util.Arrays.stream;
 
 public class InfoMenu extends FastInv {
@@ -31,6 +31,18 @@ public class InfoMenu extends FastInv {
             String[] split = config.getString("slots").split(",");
             slots = stream(split, 0, split.length).filter(StringUtils::isNumeric).map(Integer::parseInt).collect(Collectors.toSet());
         }
+
+        if (config.isConfigurationSection("contents"))
+            config.getConfigurationSection("contents").getKeys(false)
+                    .stream()
+                    .map(s -> "contents." + s)
+                    .map(config::getConfigurationSection)
+                    .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
+                        if (section.getName().contains("back")) {
+                            instance.getInfoManager().getMainInfoMenu().open(event.getPlayer());
+                        }
+                    }));
+
 
         Iterator<Enchant> enchantIterator = instance.getEnchantManager().getEnchants(group).iterator();
         slots.stream().filter(slot -> enchantIterator.hasNext()).forEach(slot -> {
@@ -49,12 +61,5 @@ public class InfoMenu extends FastInv {
                     of("enchant", enchant.getIdentifier()),
                     of("description", enchant.getDescription().stream().map(s -> config.getString("enchant-item.description-color") + s).collect(Collectors.toList()))).build());
         });
-
-        if (config.isConfigurationSection("contents"))
-            config.getConfigurationSection("contents").getKeys(false)
-                    .stream()
-                    .map(s -> "contents." + s)
-                    .map(config::getConfigurationSection)
-                    .forEach(section -> addItem(section.getInt("slot"), new ItemBuilder(section).build()));
     }
 }

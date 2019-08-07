@@ -29,7 +29,7 @@ effects:
     # What player should the effect be ran on: WEARER/OPPONENT.
     who: USER
     # The potion type.
-    potion-type: RESISTANCE
+    potion-type: DAMAGE_RESISTANCE
     # The amplifier of the potion effect.
     amplifier: "{level}"
     # Duration of the potion effect.

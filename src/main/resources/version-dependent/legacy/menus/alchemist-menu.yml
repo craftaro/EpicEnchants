@@ -34,6 +34,22 @@ contents:
   accept-before:
     material: INK_SACK
     data: 1
+    display-name: "&cWaiting for you..."
+    lore:
+      - "&7The alchemist is waiting"
+      - "&7for your enchange..."
+  accept-after:
+    material: INK_SACK
+    data: 10
+    display-name: "&eClick to confirm"
+    lore:
+      - "&cCost: {exp_cost} EXP"
+      - ""
+      - "&7Click to confirm the exchange"
+      - "&7after which you will receive"
+      - "&7the item displayed above."
+  explanation:
+    material: PAINTING
     display-name: "&8[&eThe Alchemist&8]"
     lore:
       - "&7The alchemist will exchange:"
@@ -47,18 +63,6 @@ contents:
       - "&7(of the same rarity) &ffor"
       - "&fthe same dust"
       - "&7(of a higher percentage)"
-  accept-after:
-    material: INK_SACK
-    data: 1
-    display-name: "&eClick to confirm"
-    lore:
-      - "&cCost: {exp_cost} EXP"
-      - ""
-      - "&7Click to confirm the exchange"
-      - "&7after which you will receive"
-      - "&7the item displayed above."
-  explanation:
-    material: PAINTING
     slot: 4
   corners:
     material: STAINED_GLASS_PANE

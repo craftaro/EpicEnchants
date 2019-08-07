@@ -9,8 +9,7 @@ group: ULTIMATE
 
 enchant-item:
   description-color: "&f"
-  material: "PURPLE_DYE"
-  data: 11
+  material: "YELLOW_DYE"
   display-name: "{group_color}{enchant}"
   lore:
     - "&7Max level: &f{max_level}"
@@ -21,6 +20,10 @@ enchant-item:
 contents:
   explanation:
     material: PAINTING
+    display-name: "&e&lUltimate Enchants"
+    lore:
+      - "&7Hover over each item to see"
+      - "&7information about each enchant."
     slot: 4
   corners:
     material: BLUE_STAINED_GLASS_PANE
@@ -36,11 +39,3 @@ contents:
     material: OAK_FENCE_GATE
     display-name: "&cBack to main"
     slot: "0,8"
-  next-page:
-    material: MAP
-    display-name: "&cNext page"
-    slot: 43
-  previous-page:
-    material: MAP
-    display-name: "&cPrevious page"
-    slot: 37

@@ -1,10 +1,10 @@
 title: "Enchanter"
 rows: 3
 
-#You can choose to fill the entire inventory with this material
-#fill:
-#  material: "MATERIAL_HERE"
-#  display-name: "&r"
+  #You can choose to fill the entire inventory with this material
+  #fill:
+  #  material: "MATERIAL_HERE"
+  #  display-name: "&r"
 
 contents:
   1:
@@ -89,6 +89,12 @@ contents:
     slot: 15
   explanation:
     material: PAINTING
+    display-name: "&6&lEnchanter"
+    lore:
+      - "&7Click to &6buy &7a tiered enchantment book."
+      - ""
+      - "&6Right Click &7the book for a &6random &7enchant"
+      - "&7of that tier."
     slot: 4
   corners:
     material: STAINED_GLASS_PANE

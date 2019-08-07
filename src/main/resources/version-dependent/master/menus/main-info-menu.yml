@@ -18,7 +18,7 @@ contents:
     group: ELITE
     slot: 13
   4:
-    material: "PURPLE_DYE"
+    material: "YELLOW_DYE"
     display-name: "&e&lUltimate Enchantments"
     group: ULTIMATE
     slot: 14

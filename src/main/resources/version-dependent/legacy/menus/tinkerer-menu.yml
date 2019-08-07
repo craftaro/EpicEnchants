@@ -29,6 +29,13 @@ contents:
     slot: 49
   explanation:
     material: PAINTING
+    display-name: "&6&lTinkerer"
+    lore:
+      - "&6Click &7to insert the books you would"
+      - "&7like to &6deposit&7."
+      - ""
+      - "&7The &6left &7is the items you are &6depositing&7."
+      - "&7The &6right &7is the items you are &6receiving&7."
     slot: 4
   corners:
     material: STAINED_GLASS_PANE

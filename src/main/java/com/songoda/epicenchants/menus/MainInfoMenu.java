@@ -7,6 +7,8 @@ import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 
+import java.util.Optional;
+
 import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
 
 public class MainInfoMenu extends FastInv implements Listener {
@@ -18,6 +20,7 @@ public class MainInfoMenu extends FastInv implements Listener {
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
                 .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
+                    if (section.getString("group") == null) return;
                     Group group = instance.getGroupManager().getValue(section.getString("group"))
                             .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + section.getString("group")));
                     instance.getInfoManager().getMenu(group).ifPresent(menu -> menu.open(event.getPlayer()));

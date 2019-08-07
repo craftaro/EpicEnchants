@@ -21,7 +21,7 @@ description:
 item-whitelist:
   - "SWORDS"
 
-MODIFY_FOOD:
+STEAL_FOOD:
   # The trigger that will fire this effect
   trigger: ATTACK_PLAYER_MELEE
   # How much food does it should steal

@@ -103,6 +103,9 @@ public class EntityListener implements Listener {
             case FIRE_TICK:
                 instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, FIRE_DAMAGE);
                 break;
+            case LAVA:
+                instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, LAVA_DAMAGE);
+                break;
             case BLOCK_EXPLOSION:
             case ENTITY_EXPLOSION:
                 instance.getEnchantUtils().handlePlayer(((Player) event.getEntity()), null, event, EXPLOSION_DAMAGE);

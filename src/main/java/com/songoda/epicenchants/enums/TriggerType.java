@@ -20,6 +20,7 @@ public enum TriggerType {
     EXPLOSION_DAMAGE,
     FALL_DAMAGE,
     FIRE_DAMAGE,
+    LAVA_DAMAGE,
     POISON_DAMAGE,
 
     HELD_ITEM,

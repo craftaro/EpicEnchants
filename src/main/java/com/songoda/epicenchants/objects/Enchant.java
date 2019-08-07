@@ -20,6 +20,7 @@ import java.util.Set;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class Enchant {
+    private String author;
     private String identifier;
     private Group group;
     private int maxLevel;
@@ -30,7 +31,8 @@ public class Enchant {
     private String format;
     @Nullable private BookItem bookItem;
 
-    Enchant(String identifier, Group group, int maxLevel, Set<String> conflict, Set<Material> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
+    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<Material> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
+        this.author = author;
         this.identifier = identifier;
         this.group = group;
         this.maxLevel = maxLevel;
@@ -63,6 +65,10 @@ public class Enchant {
                 .replace("{group_color}", "" + group.getColor());
 
         return color(output);
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     public String getIdentifier() {
@@ -103,6 +109,7 @@ public class Enchant {
     }
 
     public static class EnchantBuilder {
+        private String author;
         private String identifier;
         private Group group;
         private int maxLevel;
@@ -114,6 +121,11 @@ public class Enchant {
         private BookItem bookItem;
 
         EnchantBuilder() {
+        }
+
+        public Enchant.EnchantBuilder author(String author) {
+            this.author = author;
+            return this;
         }
 
         public Enchant.EnchantBuilder identifier(String identifier) {
@@ -162,7 +174,7 @@ public class Enchant {
         }
 
         public Enchant build() {
-            return new Enchant(identifier, group, maxLevel, conflict, itemWhitelist, effectExecutors, description, format, bookItem);
+            return new Enchant(author, identifier, group, maxLevel, conflict, itemWhitelist, effectExecutors, description, format, bookItem);
         }
 
         public String toString() {

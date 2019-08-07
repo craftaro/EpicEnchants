@@ -21,10 +21,7 @@ applied-format: "&cInquistive {level}"
 # What items this enchant can be applied too.
 item-whitelist:
   - "SWORDS"
- 
-# This enchantment can not be applied if then enchantment below is already on the item.
-conflicting-enchants:
- 
+
 # For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
 effects:
   MODIFY_EXP:

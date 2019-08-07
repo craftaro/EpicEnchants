@@ -46,6 +46,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
             of("enchants/legendary/Gears.yml", false),
             of("enchants/legendary/LifeSteal.yml", false),
             of("enchants/legendary/Overload.yml", false),
+            of("enchants/legendary/Resist.yml", false),
             of("enchants/legendary/SkillSwipe.yml", false),
 
             of("enchants/simple/Aquatic.yml", false),
@@ -60,12 +61,16 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
             of("enchants/ultimate/Blind.yml", false),
             of("enchants/ultimate/Dodge.yml", false),
+            of("enchants/ultimate/Fly.yml", false),
+            of("enchants/ultimate/FoodSteal.yml", false),
             of("enchants/ultimate/IceAspect.yml", false),
             of("enchants/ultimate/StormFall.yml", false),
 
             of("enchants/unique/Berserk.yml", false),
+            of("enchants/unique/Decapitation.yml", false),
             of("enchants/unique/Explosive.yml", false),
             of("enchants/unique/FeatherWeight.yml", false),
+            of("enchants/unique/Inquisitive.yml", false),
             of("enchants/unique/ObsidianDestroyer.yml", false),
             of("enchants/unique/PlagueCarrier.yml", false),
             of("enchants/unique/Ragdoll.yml", false),
@@ -110,6 +115,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
         });
 
         instance.getConfig().set("System.First Load", false);
+        instance.saveConfig();
         instance.getSettingsManager().reloadConfig();
     }
 

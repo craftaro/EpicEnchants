@@ -1,8 +1,8 @@
 # The person who made this enchant.
-Author: Tin
+author: Tin
 
 # The enchant identifier must be unique.
-identifier: Inquistive
+identifier: Inquisitive
  
 # The max level for this enchant.
 max-level: 5

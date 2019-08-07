@@ -1,7 +1,8 @@
 # The person who made this enchant.
-Author: Songoda
+author: Songoda
 
-
+# The enchant identifier must be unique.
+identifier: Overload
 
 # The max level for this enchant.
 max-level: 3

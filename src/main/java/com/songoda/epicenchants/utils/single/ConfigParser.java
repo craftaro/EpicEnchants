@@ -23,6 +23,7 @@ import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 public class ConfigParser {
     public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) throws Exception {
         return Enchant.builder()
+                .author("author")
                 .identifier(config.getString("identifier"))
                 .group(instance.getGroupManager().getValue(config.getString("group").toUpperCase()).orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))))
                 .maxLevel(config.getInt("max-level"))

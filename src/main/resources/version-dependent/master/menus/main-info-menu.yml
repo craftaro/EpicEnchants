@@ -1,0 +1,41 @@
+title: "Main info menu"
+rows: 3
+
+contents:
+  1:
+    material: "BONE_MEAL"
+    display-name: "&f&lSimple Enchantments"
+    group: SIMPLE
+    slot: 11
+  2:
+    material: "LIME_DYE"
+    display-name: "&a&lUnique Enchantments"
+    group: UNIQUE
+    slot: 12
+  3:
+    material: "LIGHT_BLUE_DYE"
+    display-name: "&b&lElite Enchantments"
+    group: ELITE
+    slot: 13
+  4:
+    material: "PURPLE_DYE"
+    display-name: "&e&lUltimate Enchantments"
+    group: ULTIMATE
+    slot: 14
+  5:
+    material: "ORANGE_DYE"
+    display-name: "&6&lLegendary Enchantments"
+    group: LEGENDARY
+    slot: 15
+  corners:
+    material: BLUE_STAINED_GLASS_PANE
+    display-name: "&r"
+    slot: "0,1,7,8,9,17,18,19,25,26"
+  edge:
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
+    display-name: "&r"
+    slot: "2,3,4,5,6,20,21,22,23,24"
+  whites:
+    material: WHITE_STAINED_GLASS_PANE
+    display-name: "&r"
+    slot: "10,16"

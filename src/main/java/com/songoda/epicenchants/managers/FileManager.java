@@ -8,10 +8,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -23,15 +20,15 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
     private final String directory;
     private final LinkedHashSet<FileLocation> files = new LinkedHashSet<>(asList(
-            of("menus/main-info-menu.yml", true),
+            of("menus/main-info-menu.yml", true, true),
             of("menus/enchanter-menu.yml", true, true),
             of("menus/tinkerer-menu.yml", true, true),
             of("menus/alchemist-menu.yml", true, true),
-            of("menus/groups/simple-menu.yml", false),
-            of("menus/groups/unique-menu.yml", false),
-            of("menus/groups/elite-menu.yml", false),
-            of("menus/groups/ultimate-menu.yml", false),
-            of("menus/groups/legendary-menu.yml", false),
+            of("menus/groups/simple-menu.yml", true, true),
+            of("menus/groups/unique-menu.yml", true, true),
+            of("menus/groups/elite-menu.yml", true, true),
+            of("menus/groups/ultimate-menu.yml", true, true),
+            of("menus/groups/legendary-menu.yml", true, true),
 
             of("enchants/elite/AntiGravity.yml", false),
             of("enchants/elite/Frozen.yml", false),
@@ -96,7 +93,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
                 Bukkit.getConsoleSender().sendMessage("Creating file: " + fileLocation.getPath());
 
                 try {
-                    System.out.println(fileLocation.getResourcePath(directory) + " : " + file.toPath());
+//                    System.out.println(fileLocation.getResourcePath(directory) + " : " + file.toPath());
                     copy(instance.getResource(fileLocation.getResourcePath(directory)), Files.newOutputStream(file.toPath()));
                 } catch (IOException e) {
                     e.printStackTrace();

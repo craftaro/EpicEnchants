@@ -1,0 +1,46 @@
+title: "Unique enchants"
+rows: 6
+
+#Slots that you want enchants to be displayed on
+slots: "10,11,12,13,14,15,16,19,20,21,22,23,24,25,28,29,30,31,32,33,34,38,39,40,41,42"
+
+#The group of the enchants to be displayed
+group: UNIQUE
+
+enchant-item:
+  description-color: "&f"
+  material: "INK_SACK"
+  data: 10
+  display-name: "{group_color}{enchant}"
+  lore:
+    - "&7Max level: &f{max_level}"
+    - "&7Applicable to: &f{applicable_to}"
+    - "&7Description:"
+    - "{description}"
+
+contents:
+  explanation:
+    material: PAINTING
+    slot: 4
+  corners:
+    material: STAINED_GLASS_PANE
+    data: 11
+    display-name: "&r"
+    slot: "1,7,9,17,36,44,45,46,52,53"
+  edge:
+    material: STAINED_GLASS_PANE
+    data: 3
+    display-name: "&r"
+    slot: "2,3,5,6,18,26,27,35,47,48,49,50,51"
+  back:
+    material: FENCE_GATE
+    display-name: "&cBack to main"
+    slot: "0,8"
+  next-page:
+    material: MAP
+    display-name: "&cNext page"
+    slot: 43
+  previous-page:
+    material: MAP
+    display-name: "&cPrevious page"
+    slot: 37

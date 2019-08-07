@@ -18,10 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.single.Experience.changeExp;
-import static com.songoda.epicenchants.utils.single.Experience.getExp;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
+import static com.songoda.epicenchants.utils.single.Experience.*;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
 
 public class AlchemistMenu extends FastInv {
     private final EpicEnchants instance;
@@ -58,7 +56,7 @@ public class AlchemistMenu extends FastInv {
                 .filter(s -> !filter.contains(s))
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
-                .forEach(section -> addItem(getSlots(config.getString("slot")), new ItemBuilder(section).build()));
+                .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
 
         clear(RIGHT_SLOT);
         clear(LEFT_SLOT);

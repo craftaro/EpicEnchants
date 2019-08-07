@@ -1,11 +1,9 @@
 package com.songoda.epicenchants.objects;
 
-import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
 import com.songoda.epicenchants.utils.single.RomanNumber;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -29,7 +27,8 @@ public class Enchant {
     private Set<EffectExecutor> effectExecutors;
     private List<String> description;
     private String format;
-    @Nullable private BookItem bookItem;
+    @Nullable
+    private BookItem bookItem;
 
     Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<Material> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
         this.author = author;
@@ -73,6 +72,16 @@ public class Enchant {
 
     public String getIdentifier() {
         return this.identifier;
+    }
+
+    public String getColoredIdentifier(boolean dulled) {
+        String colored = this.group.getColor() + this.identifier;
+        if (dulled) {
+            colored = colored.replace("&l", "")
+                    .replace("&n", "")
+                    .replace("&o", "");
+        }
+        return colored;
     }
 
     public Group getGroup() {

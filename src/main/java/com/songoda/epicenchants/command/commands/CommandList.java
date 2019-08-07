@@ -10,8 +10,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.enums.EnchantResult.BROKEN_FAILURE;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getMessageFromResult;
@@ -24,6 +26,13 @@ public class CommandList extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
+        if (args.length > 1 && args[1].equalsIgnoreCase("chat")) {
+            instance.getLocale().newMessage(instance.getEnchantManager().getValues().stream()
+                    .sorted(Comparator.comparing(enchant -> enchant.getGroup().getOrder()))
+                    .map(enchant -> enchant.getColoredIdentifier(true)).collect(Collectors.joining("&7, ")))
+                    .sendPrefixedMessage(sender);
+            return ReturnType.SUCCESS;
+        }
         instance.getInfoManager().getMainInfoMenu().open((Player)sender);
         return ReturnType.SUCCESS;
     }
@@ -40,7 +49,7 @@ public class CommandList extends AbstractCommand {
 
     @Override
     public String getSyntax() {
-        return "/ee list";
+        return "/ee list [chat]";
     }
 
     @Override

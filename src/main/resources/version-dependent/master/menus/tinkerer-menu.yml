@@ -12,17 +12,16 @@ slots: "(9,14) (10,15) (11,16) (12,17)
 
 contents:
   accept-left:
-    material: "INK_SACK"
-    data: 10
+    material: "LIME_DYE"
     display-name: "&eClick to accept trade"
     slot: 45
   accept-right:
-    material: "INK_SACK"
+    material: "LIME_DYE"
     data: 10
     display-name: "&eClick to accept trade"
     slot: 53
   deposit-all:
-    material: "DOUBLE_PLANT"
+    material: "SUNFLOWER"
     display-name: "&l&eDeposit All"
     lore:
       - "&7Click to deposit all tinkerable items."
@@ -36,18 +35,17 @@ contents:
       - ""
       - "&7The &6left &7is the items you are &6depositing&7."
       - "&7The &6right &7is the items you are &6receiving&7."
+    slot: 4
   corners:
-    material: STAINED_GLASS_PANE
-    data: 11
+    material: BLUE_STAINED_GLASS_PANE
     display-name: "&r"
     slot: "0,1,7,8,46,52"
   edge:
-    material: STAINED_GLASS_PANE
-    data: 3
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
     display-name: "&r"
     slot: "2,3,5,6,47,48,50,51"
   line:
-    material: STAINED_GLASS_PANE
+    material: WHITE_STAINED_GLASS_PANE
     display-name: "&r"
     slot: "13,22,31,40"
 

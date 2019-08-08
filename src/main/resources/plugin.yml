@@ -1,10 +1,9 @@
 name: EpicEnchants
 version: maven-version-number
 main: com.songoda.epicenchants.EpicEnchants
-authors: [GB6]
+authors: [Songoda]
 website: https://songoda.com/
-depend: [Vault]
-softdepend: [UltimateBottles, PlaceholderAPI]
+softdepend: [Vault, PlayerPoints, UltimateBottles, PlaceholderAPI]
 api-version: 1.13
 commands:
   epicenchants:

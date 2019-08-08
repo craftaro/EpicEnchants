@@ -20,8 +20,8 @@ command.reload = "&7Configuration files reloaded."
 
 command.giveunknown = "&cUnknown item to give &4{unknown}&c."
 
-command.dust.gave = "&7Gave &6{amount} {group} &7to &6{player}&7."
-command.dust.received = "&7You have received &6{amount} {group}&7."
+command.dust.gave = "&7Gave &6{group} DUST &7to &6{player}&7."
+command.dust.received = "&7You have received &6{group} DUST&7."
 
 #Event Messages
 

@@ -56,7 +56,6 @@ public class EpicEnchants extends JavaPlugin {
     private Economy economy;
     private EnchantUtils enchantUtils;
     private ItemGroup itemGroup;
-    private int version;
 
     public static EpicEnchants getInstance() {
         return INSTANCE;
@@ -130,7 +129,6 @@ public class EpicEnchants extends JavaPlugin {
 
     private void preload() {
         FastInv.init(this);
-        this.version = Integer.parseInt(Bukkit.getServer().getBukkitVersion().split("\\.")[1]);
         this.fileManager = new FileManager(this);
         fileManager.loadFiles();
     }
@@ -212,10 +210,6 @@ public class EpicEnchants extends JavaPlugin {
 
     public ItemGroup getItemGroup() {
         return this.itemGroup;
-    }
-
-    public int getVersion() {
-        return this.version;
     }
 
     public Locale getLocale() {

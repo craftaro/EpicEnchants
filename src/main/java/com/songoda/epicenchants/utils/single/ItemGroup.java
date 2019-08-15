@@ -3,6 +3,7 @@ package com.songoda.epicenchants.utils.single;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.songoda.epicenchants.EpicEnchants;
+import com.songoda.epicenchants.utils.ServerVersion;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 
@@ -18,7 +19,7 @@ public class ItemGroup {
 
     public ItemGroup(EpicEnchants instance) {
         groupMap = HashMultimap.create();
-        if (instance.getVersion() > 12) setupMaster();
+        if (instance.isServerVersionAtLeast(ServerVersion.V1_12)) setupMaster();
         else setupLegacy();
     }
 

@@ -19,7 +19,7 @@ public class ItemGroup {
 
     public ItemGroup(EpicEnchants instance) {
         groupMap = HashMultimap.create();
-        if (instance.isServerVersionAtLeast(ServerVersion.V1_12)) setupMaster();
+        if (instance.isServerVersionAtLeast(ServerVersion.V1_13)) setupMaster();
         else setupLegacy();
     }
 

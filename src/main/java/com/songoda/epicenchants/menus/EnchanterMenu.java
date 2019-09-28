@@ -35,7 +35,9 @@ public class EnchanterMenu extends FastInv {
                     int expCost = section.getInt("exp-cost");
                     int ecoCost = section.getInt("eco-cost");
                     int xpLeft = Math.max(expCost - player.getLevel(), 0);
-                    double ecoLeft = ecoCost - instance.getEconomy().getBalance(player) < 0 ? 0 : ecoCost - instance.getEconomy().getBalance(player);
+                    double ecoLeft = 0.0d;
+                    if (instance.getEconomy() != null)
+                        ecoLeft = ecoCost - instance.getEconomy().getBalance(player) < 0 ? 0 : ecoCost - instance.getEconomy().getBalance(player);
                     Group group = instance.getGroupManager().getValue(section.getString("group").toUpperCase())
                             .orElseThrow(() -> new IllegalArgumentException("Invalid group set in enchanter: " + section.getString("group")));
                     ItemStack itemStack = new ItemBuilder(section,
@@ -50,18 +52,20 @@ public class EnchanterMenu extends FastInv {
                             return;
                         }
 
-                        if (!instance.getEconomy().hasBalance((player), ecoCost) || getExp(player) < expCost) {
+                        if (instance.getEconomy() != null && !instance.getEconomy().hasBalance((player), ecoCost) || getExp(player) < expCost) {
                             instance.getLocale().getMessage("enchanter.cannotafford").sendPrefixedMessage(player);
                             return;
                         }
 
-                        instance.getEconomy().withdrawBalance(player, ecoCost);
-                        instance.getLocale().getMessage("enchanter.success")
-                                .processPlaceholder("group_name", group.getName())
-                                .processPlaceholder("group_color", group.getColor())
-                                .processPlaceholder("eco_cost", ecoCost)
-                                .processPlaceholder("exp_cost", expCost)
-                                .sendPrefixedMessage(player);
+                        if (instance.getEconomy() != null) {
+                            instance.getEconomy().withdrawBalance(player, ecoCost);
+                            instance.getLocale().getMessage("enchanter.success")
+                                    .processPlaceholder("group_name", group.getName())
+                                    .processPlaceholder("group_color", group.getColor())
+                                    .processPlaceholder("eco_cost", ecoCost)
+                                    .processPlaceholder("exp_cost", expCost)
+                                    .sendPrefixedMessage(player);
+                        }
 
                         changeExp(player, -expCost);
                         player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));

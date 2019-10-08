@@ -1,0 +1,31 @@
+﻿author: "Songoda"
+
+# The enchant identifier must be unique.
+identifier: DeathGod
+
+# The max level for this enchant.
+max-level: 3
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: LEGENDARY
+
+# Description
+description:
+  - "Chance of regain a lot of hearts"
+  - "when under 2 hearts."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "HELMETS"
+
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+effects:
+  MODIFY_HEALTH:
+    # The trigger that will fire this effect
+    trigger: "DEFENSE_PLAYER_MELEE,DEFENSE_PLAYER_RANGE"
+    # Amount of half hearts to give to the user when fired.
+    amount: 10
+    # Only trigger this effect when the user has less than 2 hearts.
+    condition: "{user_health} < 4"
+    # Chance that this effect wil fire.
+    chance: "100*{level}"

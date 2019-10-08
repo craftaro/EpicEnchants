@@ -1,0 +1,35 @@
+author: "Songoda"
+
+# The enchant identifier must be unique.
+identifier: "PlagueCarrier"
+
+# The max level for this enchant.
+max-level: 8
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: UNIQUE
+
+# Description
+description:
+  - "When near death summon creepers"
+  - "to avenge you."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "LEGGINGS"
+  
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+effects:
+  SPAWN_MOB:
+    # The mob type.
+    mob-type: CREEPER
+    # Trigger event that spawns the mob.
+    trigger: "DEFENSE_PLAYER_MELEE, DEFENSE_MOB_MELEE"
+    # Max amount mobs that will be spawned.
+    amount: "{random(low=0, up={level})}"
+    # Chance of the mob spawning.
+    chance: "5 * {level}"
+    # Condition
+    condition: "{user_health} < 4"
+    # Display name of the spawned mob
+    display-name: "&cPlague carrier"

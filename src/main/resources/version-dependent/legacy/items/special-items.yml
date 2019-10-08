@@ -1,0 +1,24 @@
+white-scroll:
+  material: MAP
+  display-name: "&eWhite Scroll"
+  format: "&7&lPROTECTED"
+  lore:
+    - "&7Prevents an item from being destroyed"
+    - "&7due to a failed Enchantment Book."
+    - "&ePlace scroll on item to apply."
+
+black-scroll:
+  material: INC_SACK
+  display-name: "&f&lBlack Scroll"
+  lore:
+    - "&7Removes a random enchantment"
+    - "&7from an item and converts"
+    - "&7it into a {success-rate} success book."
+    - "&fPlace scroll on item to extract."
+
+mystery-book:
+  material: BOOK
+  display-name: "{group-color}{group-name} Enchantment Book &7(Right click)"
+  lore:
+    - "&7Examine to receive a random"
+    - "{group-color}{group-name} &7enchantment book."

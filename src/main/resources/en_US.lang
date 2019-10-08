@@ -1,0 +1,63 @@
+#General Messages
+
+general.nametag.prefix = "&8[&6EpicEnchants&8]"
+
+#Command Messages
+command.book.received = "&7You have been given a &6{enchant}&r &7book."
+command.book.gave = "&7You gave &6{player} &7a &6{enchant}&r &7book."
+command.book.maxlevel = "&cThe max level for &4{enchant}&r &cis &4{max_level}&c."
+command.book.minlevel = "&cThe min level for &4{enchant}&r &cis &41&c."
+
+command.randombook.received = "&7You have been given a random book."
+command.randombook.gave = "&7You gave &6{player} &7a random book."
+
+command.whitescroll.received = "&7You have been given a whitescroll."
+command.whitescroll.gave = "&7You gave &6{player} &7a whitescroll."
+
+command.apply.invaliditem = "&cYou cannot apply &4{enchant}&r &cto this item."
+
+command.reload = "&7Configuration files reloaded."
+
+command.giveunknown = "&cUnknown item to give &4{unknown}&c."
+
+command.dust.gave = "&7Gave &6{group} DUST &7to &6{player}&7."
+command.dust.received = "&7You have received &6{group} DUST&7."
+
+#Event Messages
+
+blackscroll.success = "&7Successfully blackscrolled &6{group_color}{enchant}&r&6 {level}&7."
+blackscroll.noenchants = "&cNo enchants to blackscroll."
+
+whitescroll.alreadyapplied = "&cThis item is already protected!"
+whitescroll.applied = "&7This item is now protected!"
+
+enchanter.cannotafford = "&cYou cannot afford this purchase."
+enchanter.success = "&7Purchased &6{group_color}{group_name} &7book for &6{exp_cost} experience&7."
+
+tinkerer.open = "&7Trading with the tinkerer."
+tinkerer.cancelled = "&cCancelled."
+tinkerer.accepted = "&7Accepted."
+tinkerer.noitems = "&cThe tinkerer is not interested in any of your items..."
+tinkerer.depositedall = "&7Deposited {amount} items."
+
+alchemist.maxtwoitems = "&cYou may only combine &42 &citems at once..."
+alchemist.notinterested = "&cThe alchemist is not interested in any of your items..."
+alchemist.maxlevelbook = "&cThe alchemist cannot combine max leveled books..."
+alchemist.maxpercentagedust = "&cThe alchemist cannot combine 100% success rate dust..."
+alchemist.highestgroupdust = "&cThe alchemist cannot accept dust of the highest tier."
+alchemist.differentenchantment = "&cThe alchemist can only combine books with the same enchantments..."
+alchemist.differentlevels = "&cThe alchemist can only combine books of the same level..."
+alchemist.differentgroups = "&cThe alchemist can only combine dust of the same group..."
+alchemist.cannotafford = "&cYou cannot afford this exchange..."
+alchemist.success = "&7Exchanged for &6{exp_cost} &7experience."
+
+enchants.invalidmaterial = "&cYou can not apply &4{enchant}&r &cto that item..."
+enchants.failure = "&4{enchant}&r &cfailed to apply..."
+enchants.brokenfailure = "&4{enchant}&r &cfailed to apply and broke your item..."
+enchants.conflict = "&cYou cannot apply this enchant as it conflicts with another enchant..."
+enchants.maxedout = "&cYou already have that enchant maxed out on this item..."
+enchants.alreadyapplied = "&cYou already have that enchant applied on this item."
+enchants.protected = "&7This book would have broken your item, luckily it was protected!"
+enchants.success = "&7You have successfully applied &6{enchant}&r&7."
+
+book.discover = "&7You examine the &6{group_color}{group_name} &7Enchantment Book, and discover &6{enchant_format}&7!"

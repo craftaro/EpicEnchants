@@ -1,0 +1,31 @@
+author: "Songoda"
+
+# The enchant identifier must be unique.
+identifier: Explosive
+
+# The max level for this enchant.
+max-level: 5
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: UNIQUE
+
+# Description
+description:
+  - "A chance for your arrows to"
+  - "blow up on impact."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "BOWS"
+
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+effects:
+  EXPLODE:
+    # Chance that this will happen
+    chance: "10 * {level}"
+    # The trigger that will fire this effect
+    trigger: "ATTACK_PLAYER_RANGE, ATTACK_MOB_RANGE"
+    # What player should the effect be ran on: USER/OPPONENT.
+    who: OPPONENT
+    # Magnitude of the throw
+    magnitude: "1 * {level}"

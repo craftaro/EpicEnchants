@@ -1,0 +1,34 @@
+author: Tin
+
+# The enchant identifier must be unique.
+identifier: Inquisitive
+ 
+# The max level for this enchant.
+max-level: 5
+ 
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: UNIQUE
+ 
+# The item that the enchantment book is.
+description:
+  - "A chance to receive"
+  - "more EXP when killing mobs."
+ 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&cInquistive {level}"
+ 
+# What items this enchant can be applied too.
+item-whitelist:
+  - "SWORDS"
+
+# For a full list of effects, please visit: https://wiki.songoda.com/display/SON/EpicEnchants
+effects:
+  MODIFY_EXP:
+    # The trigger that will fire this effect
+    trigger: KILLED_MOB
+    # What player should the effect be ran on: USER/OPPONENT.
+    who: USER
+    # Chance that this will happen
+    chance: "20 * {level}"
+    # Amount of EXP to add
+    amount: "3 * {level}"

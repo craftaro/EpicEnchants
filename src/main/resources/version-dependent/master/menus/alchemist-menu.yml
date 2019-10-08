@@ -1,0 +1,70 @@
+title: "Alchemist"
+rows: 5
+
+fill:
+  material: WHITE_STAINED_GLASS_PANE
+  display-name: "&r"
+
+left-slot: 11
+right-slot: 15
+preview-slot: 22
+accept-slot: 31
+
+book:
+  success-rate-formula: "({left_success_rate} + {right_success_rate}) / 4"
+  destroy-rate-formula: "({left_destroy_rate} + {right_destroy_rate}) / 4 + {max_destroy_rate}"
+  eco-cost-formula: "0"
+  exp-cost-formula: "({group_order_index} + 1) * {final_success_rate}"
+
+dust:
+  percentage-formula: "({left_percentage} + {right_percentage}) / 2"
+  eco-cost-formula: "0"
+  exp-cost-formula: "({group_order_index} + 1) * {final_success_rate}"
+
+contents:
+  preview:
+    material: GRAY_STAINED_GLASS_PANE
+    display-name: "&eITEM PREVIEW"
+    lore:
+      - "&7A preview of the item that you"
+      - "&7will receive from the alchemist"
+      - "&7will be displayed here."
+  accept-before:
+    material: RED_DYE
+    display-name: "&cWaiting for you..."
+    lore:
+      - "&7The alchemist is waiting"
+      - "&7for your enchange..."
+  accept-after:
+    material: LIME_DYE
+    display-name: "&eClick to confirm"
+    lore:
+      - "&cCost: {exp_cost} EXP"
+      - ""
+      - "&7Click to confirm the exchange"
+      - "&7after which you will receive"
+      - "&7the item displayed above."
+  explanation:
+    material: PAINTING
+    display-name: "&8[&eThe Alchemist&8]"
+    lore:
+      - "&7The alchemist will exchange:"
+      - ""
+      - "&8- &f2x enchantment books"
+      - "&7(of the same type and level) &ffor"
+      - "&fthe same enchantment book"
+      - "&7(of a higher level)"
+      - ""
+      - "&8- &f2x magic dust"
+      - "&7(of the same rarity) &ffor"
+      - "&fthe same dust"
+      - "&7(of a higher percentage)"
+    slot: 4
+  corners:
+    material: BLUE_STAINED_GLASS_PANE
+    display-name: "&r"
+    slot: "0,1,7,8,9,17,27,35,36,37,43,44"
+  edge:
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
+    display-name: "&r"
+    slot: "2,3,5,6,18,26,38,39,40,41,42"

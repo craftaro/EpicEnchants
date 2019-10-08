@@ -1,0 +1,26 @@
+author: Hipopotofobia
+
+# The enchant identifier must be unique.
+identifier: Fly
+
+# The max level for this enchant.
+max-level: 1
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ULTIMATE
+
+# Description
+description:
+  - "Gives you fly when you equip the"
+  - "armor piece or hold the tool."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "ARMOR"
+  - "TOOLS"
+
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+effects:
+  FLY:
+    # The trigger that will fire this effect
+    trigger: STATIC_EFFECT, HELD_ITEM

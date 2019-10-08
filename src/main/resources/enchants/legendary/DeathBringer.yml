@@ -1,0 +1,30 @@
+author: "Songoda"
+
+# The enchant identifier must be unique.
+identifier: DeathBringer
+
+# The max level for this enchant.
+max-level: 1
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: LEGENDARY
+
+# Description
+description:
+  - "Chance to gain Strength for a short time."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "AXES"
+
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+effects:
+  POTION:
+    # The trigger that will fire this effect
+    trigger: ATTACK_PLAYER_MELEE
+    # The potion type.
+    potion-type: INCREASE_DAMAGE
+    # The duration of the effect.
+    duration: "{level} * 2"
+    # Chance that this effect will fire.
+    chance: "{level} * 5"

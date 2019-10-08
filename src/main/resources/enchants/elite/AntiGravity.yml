@@ -1,0 +1,29 @@
+author: "Songoda"
+
+# The enchant identifier must be unique.
+identifier: AntiGravity
+
+# The max level for this enchant.
+max-level: 3
+
+# The group of this enchant. Configure the groups in the groups.yml file.
+group: ELITE
+
+# Description
+description:
+  - "Permanent jump boost."
+
+# What items this enchant can be applied to.
+item-whitelist:
+  - "BOOTS"
+
+# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+effects:
+  POTION:
+    # The trigger that will fire this effect.
+    trigger: STATIC_EFFECT
+    # The potion type.
+    potion-type: JUMP
+    # The amplifier of the potion effect.
+    amplifier: "{level}"
+    

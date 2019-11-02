@@ -89,8 +89,9 @@ public class Placeholders {
         return setPlaceholders(input, user, opponent, level, null);
     }
 
-    public static String setPlaceholders(String input, Player user, LivingEntity opponent, int level, Event event) {
-        AtomicReference<String> output = new AtomicReference<>(input.replace("{level}", "" + level));
+    public static String setPlaceholders(String in, Player user, LivingEntity opponent, int level, Event event) {
+        String input = in.replace("{level}", String.valueOf(level));
+        AtomicReference<String> output = new AtomicReference<>(input);
 
         PLAYER_FUNCTIONS.forEach((toReplace, function) -> output.updateAndGet(string -> string.replace(toReplace, function.apply(user, opponent).toString())));
         REGEX_CONSUMERS.forEach(consumer -> consumer.accept(output));
@@ -99,9 +100,8 @@ public class Placeholders {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             output.updateAndGet(string -> PlaceholderAPI.setPlaceholders(user, string));
 
-            if (opponent instanceof Player) {
+            if (opponent instanceof Player)
                 output.updateAndGet(string -> PlaceholderAPI.setRelationalPlaceholders(user, (Player) opponent, input));
-            }
         }
 
         return output.get();

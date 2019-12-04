@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.effect.effects;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import org.bukkit.Material;
@@ -24,7 +25,7 @@ public class DropHead extends EffectExecutor {
     }
 
     private Optional<ItemStack> getHead(Entity entity) {
-        short data = 3;
+        ItemStack out = CompatibleMaterial.PLAYER_HEAD.getItem();
         String skin = "";
 
         switch (entity.getType()) {
@@ -50,10 +51,10 @@ public class DropHead extends EffectExecutor {
                 skin = "MHF_Spider";
                 break;
             case ZOMBIE:
-                data = 2;
+                out = CompatibleMaterial.ZOMBIE_HEAD.getItem();
                 break;
             case SKELETON:
-                data = 0;
+                out = CompatibleMaterial.SKELETON_SKULL.getItem();
                 break;
             case VILLAGER:
                 skin = "MHF_Villager";
@@ -65,7 +66,7 @@ public class DropHead extends EffectExecutor {
                 skin = "MHF_Blaze";
                 break;
             case CREEPER:
-                data = 4;
+                out = CompatibleMaterial.CREEPER_HEAD.getItem();
             case ENDERMAN:
                 skin = "MHF_Enderman";
                 break;
@@ -80,7 +81,6 @@ public class DropHead extends EffectExecutor {
                 return Optional.empty();
         }
 
-        ItemStack out = new ItemStack(Material.LEGACY_SKULL_ITEM, 1, data);
         SkullMeta skullMeta = (SkullMeta) out.getItemMeta();
 
         skullMeta.setOwner(entity instanceof Player ? entity.getName() : skin);

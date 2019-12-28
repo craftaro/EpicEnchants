@@ -15,7 +15,7 @@ description:
   - "more EXP when killing mobs."
  
 # How the enchant should be formatted on the enchanted item.
-applied-format: "&cInquistive {level}"
+applied-format: "&cInquisitive {level}"
  
 # What items this enchant can be applied too.
 item-whitelist:

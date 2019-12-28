@@ -1,35 +1,60 @@
 package com.songoda.epicenchants.utils.itemnbtapi;
 
+import com.songoda.epicenchants.utils.itemnbtapi.utils.nmsmappings.ObjectCreator;
+import com.songoda.epicenchants.utils.itemnbtapi.utils.nmsmappings.ReflectionMethod;
+
+/**
+ * A Standalone {@link NBTCompound} implementation. All data is just kept inside
+ * this Object.
+ * 
+ * @author tr7zw
+ *
+ */
 public class NBTContainer extends NBTCompound {
 
-    private Object nbt;
+	private Object nbt;
 
-    public NBTContainer() {
-        super(null, null);
-        nbt = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
-    }
+	/**
+	 * Creates an empty, standalone NBTCompound
+	 */
+	public NBTContainer() {
+		super(null, null);
+		nbt = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
+	}
 
-    protected NBTContainer(Object nbt) {
-        super(null, null);
-        this.nbt = nbt;
-    }
+	/**
+	 * Takes in any NMS Compound to wrap it
+	 * 
+	 * @param nbt
+	 */
+	public NBTContainer(Object nbt) {
+		super(null, null);
+		this.nbt = nbt;
+	}
 
-    public NBTContainer(String nbtString) throws IllegalArgumentException {
-        super(null, null);
-        try {
-            nbt = ReflectionMethod.PARSE_NBT.run(null, nbtString);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new IllegalArgumentException("Malformed Json: " + ex.getMessage());
-        }
-    }
+	/**
+	 * Parses in a NBT String to a standalone {@link NBTCompound}. Can throw a
+	 * {@link NbtApiException} in case something goes wrong.
+	 * 
+	 * @param nbtString
+	 */
+	public NBTContainer(String nbtString) {
+		super(null, null);
+		try {
+			nbt = ReflectionMethod.PARSE_NBT.run(null, nbtString);
+		} catch (Exception ex) {
+			throw new NbtApiException("Unable to parse Malformed Json!", ex);
+		}
+	}
 
-    protected Object getCompound() {
-        return nbt;
-    }
+	@Override
+	public Object getCompound() {
+		return nbt;
+	}
 
-    protected void setCompound(Object tag) {
-        nbt = tag;
-    }
+	@Override
+	public void setCompound(Object tag) {
+		nbt = tag;
+	}
 
 }

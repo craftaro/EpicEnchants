@@ -254,7 +254,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder unbreakable(boolean unbreakable) {
-        meta.spigot().setUnbreakable(unbreakable);
+        meta.setUnbreakable(unbreakable);
         return this;
     }
 
@@ -304,6 +304,6 @@ public class ItemBuilder {
      * Unbreakability:
      */
     public boolean isUnbreakable() {
-        return meta.spigot().isUnbreakable();
+        return meta.isUnbreakable();
     }
 }

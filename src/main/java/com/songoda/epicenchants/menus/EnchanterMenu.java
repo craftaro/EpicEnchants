@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.menus;
 
+import com.songoda.core.hooks.EconomyManager;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.utils.objects.FastInv;
@@ -36,8 +37,8 @@ public class EnchanterMenu extends FastInv {
                     int ecoCost = section.getInt("eco-cost");
                     int xpLeft = Math.max(expCost - player.getLevel(), 0);
                     double ecoLeft = 0.0d;
-                    if (instance.getEconomy() != null)
-                        ecoLeft = ecoCost - instance.getEconomy().getBalance(player) < 0 ? 0 : ecoCost - instance.getEconomy().getBalance(player);
+                    if (EconomyManager.isEnabled())
+                        ecoLeft = ecoCost - EconomyManager.getBalance(player) < 0 ? 0 : ecoCost - EconomyManager.getBalance(player);
                     Group group = instance.getGroupManager().getValue(section.getString("group").toUpperCase())
                             .orElseThrow(() -> new IllegalArgumentException("Invalid group set in enchanter: " + section.getString("group")));
                     ItemStack itemStack = new ItemBuilder(section,
@@ -52,13 +53,13 @@ public class EnchanterMenu extends FastInv {
                             return;
                         }
 
-                        if (instance.getEconomy() != null && !instance.getEconomy().hasBalance((player), ecoCost) || getExp(player) < expCost) {
+                        if (EconomyManager.isEnabled() && !EconomyManager.hasBalance((player), ecoCost) || getExp(player) < expCost) {
                             instance.getLocale().getMessage("enchanter.cannotafford").sendPrefixedMessage(player);
                             return;
                         }
 
-                        if (instance.getEconomy() != null) {
-                            instance.getEconomy().withdrawBalance(player, ecoCost);
+                        if (EconomyManager.isEnabled()) {
+                            EconomyManager.withdrawBalance(player, ecoCost);
                             instance.getLocale().getMessage("enchanter.success")
                                     .processPlaceholder("group_name", group.getName())
                                     .processPlaceholder("group_color", group.getColor())

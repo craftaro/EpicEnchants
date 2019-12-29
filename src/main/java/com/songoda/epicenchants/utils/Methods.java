@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.utils;
 
+import com.songoda.core.compatibility.ServerVersion;
 import com.songoda.epicenchants.EpicEnchants;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,10 +26,10 @@ public class Methods {
         int randomNum = 1 + (int) (Math.random() * 6);
         ItemStack glass;
         if (rainbow) {
-            glass = new ItemStack(EpicEnchants.getInstance().isServerVersionAtLeast(ServerVersion.V1_13) ?
+            glass = new ItemStack(ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13) ?
                     Material.LEGACY_STAINED_GLASS_PANE : Material.valueOf("STAINED_GLASS_PANE"), 1, (short) randomNum);
         } else {
-            glass = new ItemStack(EpicEnchants.getInstance().isServerVersionAtLeast(ServerVersion.V1_13) ?
+            glass = new ItemStack(ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13) ?
                     Material.LEGACY_STAINED_GLASS_PANE : Material.valueOf("STAINED_GLASS_PANE"), 1, (short) type);
         }
         ItemMeta glassmeta = glass.getItemMeta();

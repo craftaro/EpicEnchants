@@ -3,10 +3,7 @@ package com.songoda.epicenchants.effect.effects;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTEntity;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTList;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTListCompound;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTType;
+import com.songoda.epicenchants.utils.itemnbtapi.*;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -92,17 +89,17 @@ public class SpawnMob extends EffectExecutor {
 
             nbtEntity.setBoolean(user.getUniqueId().toString(), true);
 
-            NBTList list = nbtEntity.getList("Attributes", NBTType.NBTTagCompound);
+            NBTCompoundList list = nbtEntity.getCompoundList("Attributes");
 
             for (int j = 0; j < list.size(); j++) {
-                NBTListCompound lc = list.getCompound(j);
+                NBTListCompound lc = list.get(j);
                 if (lc.getString("Name").equals("generic.attackDamage")) {
-                    lc.setDouble("Base", attackDamage.get(level, (int) lc.getDouble("Base"), user, opponent));
+                    lc.setDouble("Base", attackDamage.get(level, (int) Math.round(lc.getDouble("Base")), user, opponent));
                     continue;
                 }
 
                 if (lc.getString("Name").equals("generic.maxHealth")) {
-                    lc.setDouble("Base", health.get(level, (int) lc.getDouble("Base"), user, opponent));
+                    lc.setDouble("Base", health.get(level, (int) Math.round(lc.getDouble("Base")), user, opponent));
                 }
             }
         }

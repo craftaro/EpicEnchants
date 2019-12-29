@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.managers;
 
+import com.songoda.core.compatibility.ServerVersion;
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.utils.ServerVersion;
 import com.songoda.epicenchants.utils.objects.FileLocation;
 import com.songoda.epicenchants.utils.settings.Setting;
 import org.bukkit.Bukkit;
@@ -81,8 +81,8 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
     public FileManager(EpicEnchants instance) {
         super(instance);
-        directory = instance.isServerVersionAtLeast(ServerVersion.V1_13) ? "master" : "legacy";
-        Bukkit.getConsoleSender().sendMessage("Using the " + directory + " configurations because version is " + instance.getServerVersion().name());
+        directory = ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13) ? "master" : "legacy";
+        Bukkit.getConsoleSender().sendMessage("Using the " + directory + " configurations because version is " + ServerVersion.getServerVersion().name());
     }
 
     public void loadFiles() {

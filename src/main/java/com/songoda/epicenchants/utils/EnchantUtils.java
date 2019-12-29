@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.utils;
 
+import com.songoda.core.utils.TextUtils;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.enums.EventType;
@@ -132,9 +133,12 @@ public class EnchantUtils {
             return itemStack;
         }
 
+        String format = enchant.getFormat().replace("{level}", "").trim();
+        String text = format.isEmpty() ? enchant.getColoredIdentifier(false) : format;
+
         nbtItem.getCompound("enchants").removeKey(enchant.getIdentifier());
         ItemBuilder output = new ItemBuilder(nbtItem.getItem());
-        output.removeLore(enchant.getFormat().replace("{level}", "").trim());
+        output.removeLore(TextUtils.formatText(text));
         return output.build();
     }
 }

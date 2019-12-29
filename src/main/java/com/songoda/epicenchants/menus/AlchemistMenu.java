@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.menus;
 
+import com.songoda.core.hooks.EconomyManager;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
@@ -263,12 +264,12 @@ public class AlchemistMenu extends FastInv {
                 of("eco_cost", ecoCost),
                 of("exp_cost", expCost)
         ).build(), event -> {
-            if (!instance.getEconomy().hasBalance(event.getPlayer(), ecoCost) || getExp(event.getPlayer()) < expCost) {
+            if (!EconomyManager.hasBalance(event.getPlayer(), ecoCost) || getExp(event.getPlayer()) < expCost) {
                 instance.getLocale().getMessage("alchemist.cannotafford").sendPrefixedMessage(event.getPlayer());
                 return;
             }
 
-            instance.getEconomy().withdrawBalance(event.getPlayer(), ecoCost);
+            EconomyManager.withdrawBalance(event.getPlayer(), ecoCost);
             changeExp(event.getPlayer(), -expCost);
             instance.getLocale().getMessage("alchemist.success")
                     .processPlaceholder("eco_cost", ecoCost)

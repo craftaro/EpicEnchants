@@ -1,10 +1,11 @@
 package com.songoda.epicenchants;
 
+import com.songoda.core.SongodaCore;
+import com.songoda.core.SongodaPlugin;
+import com.songoda.core.compatibility.CompatibleMaterial;
+import com.songoda.core.configuration.Config;
+import com.songoda.core.hooks.EconomyManager;
 import com.songoda.epicenchants.command.CommandManager;
-import com.songoda.epicenchants.economy.Economy;
-import com.songoda.epicenchants.economy.PlayerPointsEconomy;
-import com.songoda.epicenchants.economy.ReserveEconomy;
-import com.songoda.epicenchants.economy.VaultEconomy;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.EntityListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
@@ -16,27 +17,21 @@ import com.songoda.epicenchants.managers.*;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
 import com.songoda.epicenchants.utils.Metrics;
-import com.songoda.epicenchants.utils.ServerVersion;
 import com.songoda.epicenchants.utils.SpecialItems;
-import com.songoda.epicenchants.utils.locale.Locale;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.settings.Setting;
 import com.songoda.epicenchants.utils.settings.SettingsManager;
 import com.songoda.epicenchants.utils.single.ItemGroup;
-import com.songoda.epicenchants.utils.updateModules.LocaleModule;
-import com.songoda.update.Plugin;
-import com.songoda.update.SongodaUpdate;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static org.bukkit.Bukkit.getConsoleSender;
 
-public class EpicEnchants extends JavaPlugin {
+public class EpicEnchants extends SongodaPlugin {
 
     private static EpicEnchants INSTANCE;
 
@@ -48,12 +43,7 @@ public class EpicEnchants extends JavaPlugin {
     private SettingsManager settingsManager;
     private CommandManager commandManager;
 
-    private Locale locale;
-
-    private ServerVersion serverVersion = ServerVersion.fromPackageName(Bukkit.getServer().getClass().getPackage().getName());
-
     private SpecialItems specialItems;
-    private Economy economy;
     private EnchantUtils enchantUtils;
     private ItemGroup itemGroup;
 
@@ -62,25 +52,21 @@ public class EpicEnchants extends JavaPlugin {
     }
 
     @Override
-    public void onEnable() {
+    public void onPluginLoad() {
         INSTANCE = this;
+    }
 
-        getConsoleSender().sendMessage(color("&a============================="));
-        getConsoleSender().sendMessage(color("&7" + getDescription().getName() + " " + getDescription().getVersion() + " by &5Songoda <3&7!"));
-        getConsoleSender().sendMessage(color("&7Action: &aEnabling&7..."));
+    @Override
+    public void onPluginEnable() {
+        // Run Songoda Updater
+        SongodaCore.registerPlugin(this, 67, CompatibleMaterial.DIAMOND_SWORD);
 
         // Setup Setting Manager
         this.settingsManager = new SettingsManager(this);
         this.settingsManager.setupConfig();
 
         // Setup Language
-        new Locale(this, "en_US");
-        this.locale = Locale.getLocale(getConfig().getString("System.Language Mode"));
-
-        // Running Songoda Updater
-        Plugin plugin = new Plugin(this, 67);
-        plugin.addModule(new LocaleModule());
-        SongodaUpdate.load(plugin);
+        this.setLocale(getConfig().getString("System.Language Mode"), false);
 
         preload();
 
@@ -109,13 +95,19 @@ public class EpicEnchants extends JavaPlugin {
         pluginManager.registerEvents(new BlackScrollListener(this), this);
         pluginManager.registerEvents(new DustListener(this), this);
 
+        String economyPlugin = null;
+
         // Setup Economy
         if (Setting.VAULT_ECONOMY.getBoolean() && pluginManager.isPluginEnabled("Vault"))
-            this.economy = new VaultEconomy();
+            economyPlugin = "Vault";
         else if (Setting.RESERVE_ECONOMY.getBoolean() && pluginManager.isPluginEnabled("Reserve"))
-            this.economy = new ReserveEconomy();
+            economyPlugin = "Reserve";
         else if (Setting.PLAYER_POINTS_ECONOMY.getBoolean() && pluginManager.isPluginEnabled("PlayerPoints"))
-            this.economy = new PlayerPointsEconomy();
+            economyPlugin = "PlayerPoints";
+
+        EconomyManager.load();
+        if (economyPlugin != null)
+            EconomyManager.getManager().setPreferredHook(economyPlugin);
 
         // Start Metrics
         new Metrics(this);
@@ -123,8 +115,6 @@ public class EpicEnchants extends JavaPlugin {
         if (!enchantManager.getValues().isEmpty()) {
             getLogger().info("Successfully loaded enchants: " + enchantManager.getValues().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
         }
-
-        getConsoleSender().sendMessage(color("&a============================="));
     }
 
     private void preload() {
@@ -134,11 +124,21 @@ public class EpicEnchants extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
+    public void onPluginDisable() {
         getConsoleSender().sendMessage(color("&a============================="));
         getConsoleSender().sendMessage(color("&7" + getDescription().getName() + " " + getDescription().getVersion() + " by &5Songoda <3&7!"));
         getConsoleSender().sendMessage(color("&7Action: &cDisabling&7..."));
         getConsoleSender().sendMessage(color("&a============================="));
+    }
+
+    @Override
+    public void onConfigReload() {
+
+    }
+
+    @Override
+    public List<Config> getExtraConfig() {
+        return null;
     }
 
     public void reload() {
@@ -156,24 +156,8 @@ public class EpicEnchants extends JavaPlugin {
         infoManager.clear();
         infoManager.loadMenus();
 
-        this.locale = Locale.getLocale(getConfig().getString("System.Language Mode"));
+        this.setLocale(getConfig().getString("System.Language Mode"), true);
         this.locale.reloadMessages();
-    }
-
-    public ServerVersion getServerVersion() {
-        return serverVersion;
-    }
-
-    public boolean isServerVersion(ServerVersion version) {
-        return serverVersion == version;
-    }
-
-    public boolean isServerVersion(ServerVersion... versions) {
-        return ArrayUtils.contains(versions, serverVersion);
-    }
-
-    public boolean isServerVersionAtLeast(ServerVersion version) {
-        return serverVersion.ordinal() >= version.ordinal();
     }
 
     public EnchantManager getEnchantManager() {
@@ -200,20 +184,12 @@ public class EpicEnchants extends JavaPlugin {
         return this.specialItems;
     }
 
-    public Economy getEconomy() {
-        return this.economy;
-    }
-
     public EnchantUtils getEnchantUtils() {
         return this.enchantUtils;
     }
 
     public ItemGroup getItemGroup() {
         return this.itemGroup;
-    }
-
-    public Locale getLocale() {
-        return locale;
     }
 
     public CommandManager getCommandManager() {

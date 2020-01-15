@@ -3,13 +3,12 @@ package com.songoda.epicenchants.objects;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
-import com.songoda.epicenchants.utils.settings.Setting;
+import com.songoda.epicenchants.utils.settings.Settings;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
 import com.songoda.epicenchants.utils.single.ItemGroup;
 import com.songoda.epicenchants.utils.single.RomanNumber;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +73,7 @@ public class BookItem {
 
         ItemBuilder itemBuilder = new ItemBuilder(material)
                 .name(color(displayName
-                        .replace("{level}", "" + (Setting.ROMAN.getBoolean() ? RomanNumber.toRoman(level) : level))
+                        .replace("{level}", "" + (Settings.ROMAN.getBoolean() ? RomanNumber.toRoman(level) : level))
                         .replace("{enchant}", "" + enchant.getIdentifier())
                         .replace("{group_color}", enchant.getGroup().getColor())
                         .replace("{group_name}", enchant.getGroup().getName())
@@ -128,4 +127,5 @@ public class BookItem {
             return "BookItem.BookItemBuilder(instance=" + this.instance + ", material=" + this.material + ", displayName=" + this.displayName + ", lore=" + this.lore + ")";
         }
     }
+
 }

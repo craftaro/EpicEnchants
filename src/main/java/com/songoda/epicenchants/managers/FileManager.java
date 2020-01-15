@@ -3,13 +3,16 @@ package com.songoda.epicenchants.managers;
 import com.songoda.core.compatibility.ServerVersion;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.FileLocation;
-import com.songoda.epicenchants.utils.settings.Setting;
+import com.songoda.epicenchants.utils.settings.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -89,8 +92,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
         files.forEach(fileLocation -> {
             File file = new File(instance.getDataFolder() + separator + fileLocation.getPath());
 
-            if (!file.exists() && (fileLocation.isRequired() || Setting.FIRST_LOAD.getBoolean())) {
-                file.getParentFile().mkdirs();
+            if (!file.exists() && (fileLocation.isRequired() || Settings.FIRST_LOAD.getBoolean())) {
                 Bukkit.getConsoleSender().sendMessage("Creating file: " + fileLocation.getPath());
 
                 try {
@@ -114,7 +116,6 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
         instance.getConfig().set("System.First Load", false);
         instance.saveConfig();
-        instance.getSettingsManager().reloadConfig();
     }
 
     public FileConfiguration getConfiguration(String key) {

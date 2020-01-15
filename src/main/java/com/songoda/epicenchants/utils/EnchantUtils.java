@@ -9,7 +9,7 @@ import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.itemnbtapi.NBTCompound;
 import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
-import com.songoda.epicenchants.utils.settings.Setting;
+import com.songoda.epicenchants.utils.settings.Settings;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
@@ -70,8 +70,8 @@ public class EnchantUtils {
             itemBuilder.removeLore(instance.getSpecialItems().getWhiteScrollLore());
         }
 
-        itemBuilder.removeLore(enchant.getFormat(-1, Setting.ROMAN.getBoolean()).replace("-1", "").trim());
-        itemBuilder.addLore(enchant.getFormat(level, Setting.ROMAN.getBoolean()));
+        itemBuilder.removeLore(enchant.getFormat(-1, Settings.ROMAN.getBoolean()).replace("-1", "").trim());
+        itemBuilder.addLore(enchant.getFormat(level, Settings.ROMAN.getBoolean()));
 
         if (hasProtection) {
             itemBuilder.addLore(instance.getSpecialItems().getWhiteScrollLore());

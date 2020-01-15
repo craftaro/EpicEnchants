@@ -14,7 +14,7 @@ public class CommandReload extends AbstractCommand {
 
     @Override
     protected AbstractCommand.ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
-        instance.reload();
+        instance.reloadConfig();
         instance.getLocale().getMessage("command.reload").sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;
     }

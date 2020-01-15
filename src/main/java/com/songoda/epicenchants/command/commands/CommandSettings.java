@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.command.commands;
 
+import com.songoda.core.configuration.editor.PluginConfigGui;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.command.AbstractCommand;
 import org.bukkit.command.CommandSender;
@@ -15,7 +16,7 @@ public class CommandSettings extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
-        instance.getSettingsManager().openSettingsManager((Player) sender);
+        instance.getGuiManager().showGUI((Player) sender, new PluginConfigGui(instance));
         return ReturnType.SUCCESS;
     }
 

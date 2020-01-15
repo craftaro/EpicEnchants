@@ -4,7 +4,7 @@ import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
-import com.songoda.epicenchants.utils.settings.Setting;
+import com.songoda.epicenchants.utils.settings.Settings;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +33,7 @@ public class SpecialItems {
     }
 
     public ItemStack getBlackScroll(int amount, int chance) {
-        int successRate = chance == -1 ? ThreadLocalRandom.current().nextInt(Setting.BLACK_MIN.getInt(), Setting.BLACK_MAX.getInt() + 1) : chance;
+        int successRate = chance == -1 ? ThreadLocalRandom.current().nextInt(Settings.BLACK_MIN.getInt(), Settings.BLACK_MAX.getInt() + 1) : chance;
         NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt();
 
         nbtItem.setBoolean("black-scroll", true);

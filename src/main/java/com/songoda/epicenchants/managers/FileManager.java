@@ -94,6 +94,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
             if (!file.exists() && (fileLocation.isRequired() || Settings.FIRST_LOAD.getBoolean())) {
                 Bukkit.getConsoleSender().sendMessage("Creating file: " + fileLocation.getPath());
+                file.getParentFile().mkdirs();
 
                 try {
 //                    System.out.println(fileLocation.getResourcePath(directory) + " : " + file.toPath());

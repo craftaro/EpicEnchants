@@ -91,17 +91,23 @@ public class Placeholders {
 
     public static String setPlaceholders(String in, Player user, LivingEntity opponent, int level, Event event) {
         String input = in.replace("{level}", String.valueOf(level));
+
+        for (Map.Entry<String, BiFunction<Player, LivingEntity, Object>> entry : PLAYER_FUNCTIONS.entrySet()) {
+            input = input.replace(entry.getKey(), entry.getValue().apply(user, opponent).toString());
+        }
+
         AtomicReference<String> output = new AtomicReference<>(input);
 
-        PLAYER_FUNCTIONS.forEach((toReplace, function) -> output.updateAndGet(string -> string.replace(toReplace, function.apply(user, opponent).toString())));
+
         REGEX_CONSUMERS.forEach(consumer -> consumer.accept(output));
         Optional.ofNullable(event).ifPresent(e -> EVENT_FUNCTIONS.forEach((toReplace, function) -> output.updateAndGet(string -> string.replace(toReplace, "'" + function.apply(e) + "'"))));
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             output.updateAndGet(string -> PlaceholderAPI.setPlaceholders(user, string));
 
+            final String inputFinal = input;
             if (opponent instanceof Player)
-                output.updateAndGet(string -> PlaceholderAPI.setRelationalPlaceholders(user, (Player) opponent, input));
+                output.updateAndGet(string -> PlaceholderAPI.setRelationalPlaceholders(user, (Player) opponent, inputFinal));
         }
 
         return output.get();

@@ -9,6 +9,9 @@ max-level: 5
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: ELITE
 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&9Wither {level}"
+
 # Description
 description:
   - "Infect your enemies with a wither"

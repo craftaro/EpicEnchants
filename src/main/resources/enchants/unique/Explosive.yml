@@ -6,6 +6,9 @@ identifier: Explosive
 # The max level for this enchant.
 max-level: 5
 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&eExplosive {level}"
+
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: UNIQUE
 

@@ -6,6 +6,9 @@ identifier: Glowing
 # The max level for this enchant.
 max-level: 1
 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&aGlowing {level}"
+
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: SIMPLE
 

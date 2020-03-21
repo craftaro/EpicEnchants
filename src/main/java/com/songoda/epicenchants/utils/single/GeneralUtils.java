@@ -5,7 +5,9 @@ import com.songoda.epicenchants.enums.TriggerType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -68,17 +70,31 @@ public class GeneralUtils {
         return triggers == null ? Collections.emptySet() : Arrays.stream(triggers.replaceAll("\\s+", "").split(",")).map(TriggerType::valueOf).collect(Collectors.toSet());
     }
 
-    public static ItemStack getHeldItem(Player player, Event event) {
-        int slot = player.getInventory().getHeldItemSlot();
+    public static ItemStack getHeldItem(LivingEntity entity, Event event) {
+        if (entity instanceof Player) {
+            Player player = (Player)entity;
+            int slot = player.getInventory().getHeldItemSlot();
 
-        try {
-            if (event instanceof PlayerInteractEvent && ((PlayerInteractEvent) event).getHand() == EquipmentSlot.OFF_HAND) {
-                slot = 40;
+            try {
+                if (event instanceof PlayerInteractEvent && ((PlayerInteractEvent) event).getHand() == EquipmentSlot.OFF_HAND) {
+                    slot = 40;
+                }
+            } catch (NoSuchMethodError ignore) {
             }
-        } catch (NoSuchMethodError ignore) {
-        }
 
-        return player.getInventory().getItem(slot);
+            return player.getInventory().getItem(slot);
+        } else if (entity.getEquipment() != null){
+            ItemStack item = entity.getEquipment().getItemInHand();
+
+            try {
+                if (item.getType() == Material.AIR) {
+                    return entity.getEquipment().getItemInOffHand();
+                }
+            } catch (NoSuchMethodError ignore) {
+            }
+            return item;
+        }
+        return null;
     }
 
     public static Object parseJS(String toParse, String type, Object def) {

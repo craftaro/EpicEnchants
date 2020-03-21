@@ -9,6 +9,9 @@ max-level: 3
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&bDeathGod {level}"
+
 # Description
 description:
   - "Chance of regain a lot of hearts"

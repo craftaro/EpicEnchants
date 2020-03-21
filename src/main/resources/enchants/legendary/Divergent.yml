@@ -1,4 +1,4 @@
-﻿#Who made this?
+#Who made this?
 
 Author: Auora
 
@@ -6,13 +6,9 @@ Author: Auora
 
 identifier: Divergent
 
- 
-
 # The max level for this enchant.
 
 max-level: 4
-
- 
 
 # The group of this enchant. Configure the groups in the groups.yml file.
 
@@ -22,47 +18,21 @@ group: LEGENDARY
 
 book-item:
 
- 
-
-  material: BOOKa
-
- 
+  material: BOOK
 
   display-name: "&c&lDivergent {level}"
 
- 
-
   # The lore on the enchantments books.
-
  
-
   lore:
 
- 
-
     - "&7Drag on to enchant"
-
- 
-
     - "&a{success_rate}% Success Rate"
-
- 
-
     - "&c{destroy_rate}% Destroy Rate"
-
- 
-
- 
-
- 
 
 # How the enchant should be formatted on the enchanted item.
 
- 
-
 applied-format: "&cDivergent {level}"
-
- 
 
 # Description
 
@@ -70,15 +40,11 @@ description:
 
   - "A chance of giving your opponent slowness and you speed!"
 
- 
-
 # What items this enchant can be applied to.
 
 item-whitelist:
 
   - "ARMOR"
-
- 
 
 # For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
 
@@ -98,11 +64,7 @@ effects:
 
     potion-type: SLOWNESS
 
- 
-
     amplifier: "{level}"
-
- 
 
     duration: "{level} * 3"
 
@@ -124,11 +86,7 @@ effects:
 
     potion-type: SPEED
 
- 
-
     amplifier: "{level}"
-
- 
 
     duration: "{level} * 3"
 

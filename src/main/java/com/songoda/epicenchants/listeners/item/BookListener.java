@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Optional;
 
 import static com.songoda.epicenchants.enums.EnchantResult.*;
+import static java.util.concurrent.ThreadLocalRandom.current;
 
 public class BookListener extends ItemListener {
     public BookListener(EpicEnchants instance) {
@@ -96,13 +97,16 @@ public class BookListener extends ItemListener {
             throw new IllegalStateException("The " + group.getName() + " group does not have any enchants.");
         }
 
+        int level = current().nextInt(enchant.get().getMaxLevel()) + 1;
+
         useItem(event);
-        event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get()));
+        event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get(), level));
 
         instance.getLocale().getMessage("book.discover")
                 .processPlaceholder("group_name", group.getName())
                 .processPlaceholder("group_color", group.getColor())
                 .processPlaceholder("enchant_format", enchant.get().getFormat())
+                .processPlaceholder("level", level)
                 .sendPrefixedMessage(event.getPlayer());
     }
 }

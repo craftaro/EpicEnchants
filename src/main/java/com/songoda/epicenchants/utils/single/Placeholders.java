@@ -58,7 +58,7 @@ public class Placeholders {
         put("{opponent_is_sneaking}", (user, opponent) -> opponent instanceof Player && ((Player) opponent).isSneaking());
 
         put("{user_holding}", (user, opponent) -> Optional.ofNullable(getHeldItem(user, null)).map(ItemStack::getType).orElse(Material.AIR));
-        put("{opponent_holding}", (user, opponent) -> opponent instanceof Player ? Optional.ofNullable(getHeldItem((Player) opponent, null)).map(ItemStack::getType).orElse(Material.AIR) : "N/A");
+        put("{opponent_holding}", (user, opponent) -> opponent != null ? Optional.ofNullable(getHeldItem(opponent, null)).map(ItemStack::getType).orElse(Material.AIR) : "N/A");
 
         put("{user_is_swimming}", (user, opponent) -> user.getLocation().getBlock().isLiquid());
         put("{opponent_is_swimming}", (user, opponent) -> opponent != null && opponent.getLocation().getBlock().isLiquid());

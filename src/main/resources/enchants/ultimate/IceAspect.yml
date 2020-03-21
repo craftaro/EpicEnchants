@@ -9,6 +9,9 @@ max-level: 2
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: ULTIMATE
 
+# How the enchant should be formatted on the enchanted item.
+applied-format: "&dIceAspect {level}"
+
 #Description
 description:
   - "Chance to slow your opponent."

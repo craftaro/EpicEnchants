@@ -1,40 +1,54 @@
-author: SuchLow
+
+#Who made this?
+Author: Auora
 
 # The enchant identifier must be unique.
-identifier: Resist
-
+identifier: Healy
+ 
 # The max level for this enchant.
-max-level: 3
-
+max-level: 4
+ 
 # The group of this enchant. Configure the groups in the groups.yml file.
-group: LEGENDARY
-
+group: ELITE
+ 
+book-item:
+ 
+  material: BOOK
+ 
+  display-name: "&a&lHealy {level}"
+ 
+  # The lore on the enchantments books.
+ 
+  lore:
+ 
+    - "&7Drag on to enchant"
+ 
+    - "&a{success_rate}% Success Rate"
+ 
+    - "&c{destroy_rate}% Destroy Rate"
+ 
+ 
+ 
 # How the enchant should be formatted on the enchanted item.
-applied-format: "&bResist {level}"
-
-# How the enchant should be formatted on the enchanted item.
-applied-format: "&bResist {level}"
-
+ 
+applied-format: "&aHealy {level}"
+ 
 # Description
 description:
-  - "A chance of giving the resist effect."
-
+  - "A chance of remove the players effects"
+ 
 # What items this enchant can be applied to.
 item-whitelist:
   - "ARMOR"
-
+ 
 # For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
 effects:
-  POTION:
+  REMOVE_EFFECT:
     # The trigger that will fire this effect.
-    trigger: STATIC_EFFECT
+    trigger: POISON_DAMAGE
     # What player should the effect be ran on: WEARER/OPPONENT.
     who: USER
     # The potion type.
-    potion-type: DAMAGE_RESISTANCE
-    # The amplifier of the potion effect.
-    amplifier: "{level}"
-    # Duration of the potion effect.
-    duration: "{level} * 10"
+    potion-type: POISON
     # Chance of the effect firing.
-    chance: "100"
+    chance: "3 * {level}"

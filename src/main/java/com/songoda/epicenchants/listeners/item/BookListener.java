@@ -9,6 +9,7 @@ import com.songoda.epicenchants.utils.Tuple;
 import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +35,16 @@ public class BookListener extends ItemListener {
         Enchant enchant = instance.getEnchantManager().getValue(cursor.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
         if (!enchant.getItemWhitelist().contains(current.getItem().getType())) {
+            return;
+        }
+
+        // get total amount of enchantments on item
+        int currentEnchantmentTotal = instance.getEnchantUtils().getEnchants(toApply).size();
+        int maxAllowedApply = instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
+
+        // item is at max enchantments
+        if (currentEnchantmentTotal >= maxAllowedApply) {
+            instance.getLocale().getMessage("enchants.maxallowed").processPlaceholder("max_enchants", maxAllowedApply).sendPrefixedMessage(event.getWhoClicked());
             return;
         }
 

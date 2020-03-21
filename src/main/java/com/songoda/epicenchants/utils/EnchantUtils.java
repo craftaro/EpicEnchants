@@ -11,11 +11,13 @@ import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.settings.Settings;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -140,5 +142,21 @@ public class EnchantUtils {
         ItemBuilder output = new ItemBuilder(nbtItem.getItem());
         output.removeLore(TextUtils.formatText(text));
         return output.build();
+    }
+
+    public int getMaximumEnchantsCanApply(Player p) {
+        int max = 0;
+        if (p.isOp()) return 100; // in theory no single item will have 100 enchantments at a time.
+        for (PermissionAttachmentInfo effectivePermission : p.getEffectivePermissions()) {
+            if (!effectivePermission.getPermission().startsWith("epicenchants.maxapply.")) continue;
+
+            String node[] = effectivePermission.getPermission().split("\\.");
+
+            if (Methods.isInt(node[node.length - 1])) {
+                int num = Integer.parseInt(node[node.length - 1]);
+                if (num > max) max = num;
+            }
+        }
+        return max;
     }
 }

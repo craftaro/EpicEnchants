@@ -63,5 +63,6 @@ enchants:
   alreadyapplied: '&cYou already have that enchant applied on this item.'
   protected: '&7This book would have broken your item, luckily it was protected!'
   success: '&7You have successfully applied &6{enchant}&r&7.'
+  maxallowed: '&cYou cannot apply more than &4{max_enchants} &cenchants!'
 book:
   discover: '&7You examine the &6{group_color}{group_name} &7Enchantment Book, and discover &6{enchant_format}&7!'

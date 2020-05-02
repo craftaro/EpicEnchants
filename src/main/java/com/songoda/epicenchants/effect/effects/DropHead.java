@@ -3,7 +3,6 @@ package com.songoda.epicenchants.effect.effects;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -26,7 +25,7 @@ public class DropHead extends EffectExecutor {
 
     private Optional<ItemStack> getHead(Entity entity) {
         ItemStack out = CompatibleMaterial.PLAYER_HEAD.getItem();
-        String skin = "";
+        String skin = null;
 
         switch (entity.getType()) {
             case CHICKEN:
@@ -75,6 +74,9 @@ public class DropHead extends EffectExecutor {
                 break;
             case IRON_GOLEM:
                 skin = "MHF_Golem";
+                break;
+            case WITHER_SKELETON:
+                out = CompatibleMaterial.WITHER_SKELETON_SKULL.getItem();
             case PLAYER:
                 break;
             default:
@@ -83,7 +85,9 @@ public class DropHead extends EffectExecutor {
 
         SkullMeta skullMeta = (SkullMeta) out.getItemMeta();
 
-        skullMeta.setOwner(entity instanceof Player ? entity.getName() : skin);
+        if (skin != null && CompatibleMaterial.getMaterial(out) == CompatibleMaterial.PLAYER_HEAD
+                || entity instanceof Player)
+            skullMeta.setOwner(entity instanceof Player ? entity.getName() : skin);
         out.setItemMeta(skullMeta);
 
         return Optional.of(out);

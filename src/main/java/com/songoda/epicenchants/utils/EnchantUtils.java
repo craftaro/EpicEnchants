@@ -144,6 +144,17 @@ public class EnchantUtils {
         return output.build();
     }
 
+    public int getMaximumEnchantsCanApplyItem(ItemStack itemStack ,Player p) {
+        int max;
+        if (p.isOp()) return 100; // in theory no single item will have 100 enchantments at a time.
+        if(instance.getFileManager().getConfiguration("items/item-limits").contains("limits." + itemStack.getType().toString())){
+            max = instance.getFileManager().getConfiguration("items/item-limits").getInt("limits." + itemStack.getType().toString());
+        }else{
+            max = instance.getFileManager().getConfiguration("items/item-limits").getInt("default");
+        }
+        return max;
+    }
+
     public int getMaximumEnchantsCanApply(Player p) {
         int max = 0;
         if (p.isOp()) return 100; // in theory no single item will have 100 enchantments at a time.

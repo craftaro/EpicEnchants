@@ -1,0 +1,9 @@
+# each item that's not specified in limits category will use default value
+default: 5
+
+# Example of some of the items
+limits:
+  DIAMOND_SWORD: 5
+  IRON_SWORD: 2
+  STONE_SWORD: 1
+

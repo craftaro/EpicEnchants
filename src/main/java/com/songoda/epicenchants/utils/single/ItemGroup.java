@@ -43,6 +43,8 @@ public class ItemGroup {
         groupMap.putAll(CHESTPLATES, Arrays.asList(DIAMOND_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, LEATHER_CHESTPLATE));
 
         groupMap.putAll(HELMETS, Arrays.asList(DIAMOND_HELMET, GOLDEN_HELMET, IRON_HELMET, LEATHER_HELMET));
+
+        groupMap.put(TRIDENTS, TRIDENT);
     }
 
     private void setupLegacy() {
@@ -129,7 +131,8 @@ public class ItemGroup {
 
         SWORDS,
         BOWS,
-        WEAPONS(SWORDS, BOWS, AXES),
+        TRIDENTS,
+        WEAPONS(SWORDS, BOWS, AXES, TRIDENTS),
 
         BOOTS,
         LEGGINGS,

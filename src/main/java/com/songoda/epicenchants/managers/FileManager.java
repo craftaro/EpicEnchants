@@ -79,7 +79,8 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
             of("groups.yml", true),
             of("items/special-items.yml", true, true),
-            of("items/dusts.yml", true, true)
+            of("items/dusts.yml", true, true),
+            of("items/item-limits.yml", true, true)
     ));
 
     public FileManager(EpicEnchants instance) {

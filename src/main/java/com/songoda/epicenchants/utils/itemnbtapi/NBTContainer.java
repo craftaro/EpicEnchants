@@ -1,5 +1,8 @@
 package com.songoda.epicenchants.utils.itemnbtapi;
 
+import java.io.InputStream;
+
+import com.songoda.epicenchants.utils.itemnbtapi.utils.nmsmappings.ClassWrapper;
 import com.songoda.epicenchants.utils.itemnbtapi.utils.nmsmappings.ObjectCreator;
 import com.songoda.epicenchants.utils.itemnbtapi.utils.nmsmappings.ReflectionMethod;
 
@@ -29,7 +32,23 @@ public class NBTContainer extends NBTCompound {
 	 */
 	public NBTContainer(Object nbt) {
 		super(null, null);
+		if (nbt == null) {
+			throw new NullPointerException("The NBT-Object can't be null!");
+		}
+		if (!ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz().isAssignableFrom(nbt.getClass())) {
+			throw new NbtApiException("The object '" + nbt.getClass() + "' is not a valid NBT-Object!");
+		}
 		this.nbt = nbt;
+	}
+
+	/**
+	 * Reads in a NBT InputStream
+	 * 
+	 * @param inputsteam
+	 */
+	public NBTContainer(InputStream inputsteam) {
+		super(null, null);
+		this.nbt = NBTReflectionUtil.readNBT(inputsteam);
 	}
 
 	/**
@@ -40,6 +59,9 @@ public class NBTContainer extends NBTCompound {
 	 */
 	public NBTContainer(String nbtString) {
 		super(null, null);
+		if (nbtString == null) {
+			throw new NullPointerException("The String can't be null!");
+		}
 		try {
 			nbt = ReflectionMethod.PARSE_NBT.run(null, nbtString);
 		} catch (Exception ex) {

@@ -2,71 +2,44 @@ package com.songoda.epicenchants.utils.single;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.songoda.core.compatibility.ServerVersion;
-import com.songoda.epicenchants.EpicEnchants;
+import com.songoda.core.compatibility.CompatibleMaterial;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.songoda.core.compatibility.CompatibleMaterial.*;
 import static com.songoda.epicenchants.utils.single.ItemGroup.Group.*;
-import static org.bukkit.Material.*;
 
 public class ItemGroup {
 
-    private Multimap<Group, Material> groupMap;
+    private final Multimap<Group, CompatibleMaterial> groupMap;
 
-    public ItemGroup(EpicEnchants instance) {
+    public ItemGroup() {
         groupMap = HashMultimap.create();
-        if (com.songoda.core.compatibility.ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13)) setupMaster();
-        else setupLegacy();
-    }
 
-    private void setupMaster() {
-        groupMap.putAll(AXES, Arrays.asList(DIAMOND_AXE, GOLDEN_AXE, IRON_AXE, STONE_AXE, WOODEN_AXE));
+        groupMap.putAll(AXES, Arrays.asList(NETHERITE_AXE, DIAMOND_AXE, GOLDEN_AXE, IRON_AXE, STONE_AXE, WOODEN_AXE));
 
-        groupMap.putAll(PICKAXES, Arrays.asList(DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE));
+        groupMap.putAll(PICKAXES, Arrays.asList(NETHERITE_PICKAXE, DIAMOND_PICKAXE, GOLDEN_PICKAXE, IRON_PICKAXE, STONE_PICKAXE, WOODEN_PICKAXE));
 
-        groupMap.putAll(HOES, Arrays.asList(DIAMOND_HOE, GOLDEN_HOE, IRON_HOE, STONE_HOE, WOODEN_HOE));
+        groupMap.putAll(HOES, Arrays.asList(NETHERITE_HOE, DIAMOND_HOE, GOLDEN_HOE, IRON_HOE, STONE_HOE, WOODEN_HOE));
 
-        groupMap.putAll(SHOVELS, Arrays.asList(DIAMOND_SHOVEL, GOLDEN_SHOVEL, IRON_SHOVEL, STONE_SHOVEL, WOODEN_SHOVEL));
+        groupMap.putAll(SHOVELS, Arrays.asList(NETHERITE_SHOVEL, DIAMOND_SHOVEL, GOLDEN_SHOVEL, IRON_SHOVEL, STONE_SHOVEL, WOODEN_SHOVEL));
 
-        groupMap.putAll(SWORDS, Arrays.asList(DIAMOND_SWORD, GOLDEN_SWORD, IRON_SWORD, STONE_SWORD, WOODEN_SWORD));
+        groupMap.putAll(SWORDS, Arrays.asList(NETHERITE_SWORD, DIAMOND_SWORD, GOLDEN_SWORD, IRON_SWORD, STONE_SWORD, WOODEN_SWORD));
 
         groupMap.put(BOWS, BOW);
 
-        groupMap.putAll(BOOTS, Arrays.asList(DIAMOND_BOOTS, GOLDEN_BOOTS, IRON_BOOTS, LEATHER_BOOTS));
+        groupMap.putAll(BOOTS, Arrays.asList(NETHERITE_BOOTS, DIAMOND_BOOTS, GOLDEN_BOOTS, IRON_BOOTS, LEATHER_BOOTS));
 
-        groupMap.putAll(LEGGINGS, Arrays.asList(DIAMOND_LEGGINGS, GOLDEN_LEGGINGS, IRON_LEGGINGS, LEATHER_LEGGINGS));
+        groupMap.putAll(LEGGINGS, Arrays.asList(NETHERITE_LEGGINGS, DIAMOND_LEGGINGS, GOLDEN_LEGGINGS, IRON_LEGGINGS, LEATHER_LEGGINGS));
 
-        groupMap.putAll(CHESTPLATES, Arrays.asList(DIAMOND_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, LEATHER_CHESTPLATE));
+        groupMap.putAll(CHESTPLATES, Arrays.asList(NETHERITE_CHESTPLATE, DIAMOND_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, LEATHER_CHESTPLATE));
 
-        groupMap.putAll(HELMETS, Arrays.asList(DIAMOND_HELMET, GOLDEN_HELMET, IRON_HELMET, LEATHER_HELMET));
+        groupMap.putAll(HELMETS, Arrays.asList(NETHERITE_HELMET, DIAMOND_HELMET, GOLDEN_HELMET, IRON_HELMET, LEATHER_HELMET));
 
         groupMap.put(TRIDENTS, TRIDENT);
-    }
-
-    private void setupLegacy() {
-        groupMap.putAll(AXES, Arrays.asList(DIAMOND_AXE, Material.valueOf("GOLD_AXE"), IRON_AXE, STONE_AXE, Material.valueOf("WOOD_AXE")));
-
-        groupMap.putAll(PICKAXES, Arrays.asList(DIAMOND_PICKAXE, Material.valueOf("GOLD_PICKAXE"), IRON_PICKAXE, STONE_PICKAXE, Material.valueOf("WOOD_PICKAXE")));
-
-        groupMap.putAll(HOES, Arrays.asList(DIAMOND_HOE, Material.valueOf("GOLD_HOE"), IRON_HOE, STONE_HOE, Material.valueOf("WOOD_HOE")));
-
-        groupMap.putAll(SHOVELS, Arrays.asList(Material.valueOf("DIAMOND_SPADE"), Material.valueOf("GOLD_SPADE"), Material.valueOf("IRON_SPADE"), Material.valueOf("STONE_SPADE"), Material.valueOf("WOOD_SPADE")));
-
-        groupMap.putAll(SWORDS, Arrays.asList(DIAMOND_SWORD, Material.valueOf("GOLD_SWORD"), IRON_SWORD, STONE_SWORD, Material.valueOf("WOOD_SWORD")));
-
-        groupMap.put(BOWS, BOW);
-
-        groupMap.putAll(BOOTS, Arrays.asList(DIAMOND_BOOTS, Material.valueOf("GOLD_BOOTS"), IRON_BOOTS, LEATHER_BOOTS));
-
-        groupMap.putAll(LEGGINGS, Arrays.asList(DIAMOND_LEGGINGS, Material.valueOf("GOLD_LEGGINGS"), IRON_LEGGINGS, LEATHER_LEGGINGS));
-
-        groupMap.putAll(CHESTPLATES, Arrays.asList(DIAMOND_CHESTPLATE, Material.valueOf("GOLD_CHESTPLATE"), IRON_CHESTPLATE, LEATHER_CHESTPLATE));
-
-        groupMap.putAll(HELMETS, Arrays.asList(DIAMOND_HELMET, Material.valueOf("GOLD_HELMET"), IRON_HELMET, LEATHER_HELMET));
     }
 
     public Set<Material> get(String key) {
@@ -75,14 +48,14 @@ public class ItemGroup {
 
         optionalGroup.ifPresent(group -> output.addAll(getMaterials(group)));
 
-        if (Material.matchMaterial(key) != null) {
-            output.add(Material.matchMaterial(key));
+        if (CompatibleMaterial.getMaterial(key) != null) {
+            output.add(CompatibleMaterial.getMaterial(key).getMaterial());
         }
 
         return output;
     }
 
-    public Set<String> getGroups(Set<Material> materials) {
+    public Set<String> getGroups(Set<CompatibleMaterial> materials) {
         Set<String> groups = new HashSet<>();
 
         for (int i = 0; i < 5; i++) {
@@ -92,11 +65,11 @@ public class ItemGroup {
             });
         }
 
-        groups.addAll(materials.stream().map(Material::toString).collect(Collectors.toSet()));
+        groups.addAll(materials.stream().map(CompatibleMaterial::toString).collect(Collectors.toSet()));
         return groups;
     }
 
-    public Optional<Group> getGroup(Set<Material> materials) {
+    public Optional<Group> getGroup(Set<CompatibleMaterial> materials) {
         Optional<Group> group = Arrays.stream(Group.values())
                 .filter(s -> !s.getChildren().isEmpty() && s.getChildren().stream().allMatch(child -> materials.containsAll(groupMap.get(child))))
                 .findFirst();
@@ -113,7 +86,7 @@ public class ItemGroup {
 
         for (int i = 0; i < 5; i++) {
             if (group.getChildren().isEmpty())
-                out.addAll(groupMap.get(group));
+                out.addAll(groupMap.get(group).stream().map(CompatibleMaterial::getMaterial).collect(Collectors.toList()));
             else
                 out.addAll(group.getChildren().stream().map(this::getMaterials).flatMap(Collection::stream).collect(Collectors.toSet()));
         }

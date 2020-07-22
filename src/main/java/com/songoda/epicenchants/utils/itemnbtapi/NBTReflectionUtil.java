@@ -1,14 +1,17 @@
 package com.songoda.epicenchants.utils.itemnbtapi;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.songoda.epicenchants.utils.itemnbtapi.utils.GsonWrapper;
 import com.songoda.epicenchants.utils.itemnbtapi.utils.MinecraftVersion;
@@ -24,6 +27,17 @@ import com.songoda.epicenchants.utils.itemnbtapi.utils.nmsmappings.ReflectionMet
  *
  */
 public class NBTReflectionUtil {
+
+	private static Field field_unhandledTags = null;
+
+	static {
+		try {
+			field_unhandledTags = ClassWrapper.CRAFT_METAITEM.getClazz().getDeclaredField("unhandledTags");
+			field_unhandledTags.setAccessible(true);
+		} catch (NoSuchFieldException e) {
+			
+		}
+	}
 
 	/**
 	 * Hidden constructor
@@ -47,12 +61,12 @@ public class NBTReflectionUtil {
 	}
 
 	/**
-	 * Reads in a FileInputStream as NMS Compound
+	 * Reads in a InputStream as NMS Compound
 	 * 
 	 * @param stream InputStream of any NBT file
 	 * @return NMS Compound
 	 */
-	public static Object readNBTFile(FileInputStream stream) {
+	public static Object readNBT(InputStream stream) {
 		try {
 			return ReflectionMethod.NBTFILE_READ.run(null, stream);
 		} catch (Exception e) {
@@ -61,17 +75,38 @@ public class NBTReflectionUtil {
 	}
 
 	/**
-	 * Writes a NMS Compound to a FileOutputStream
+	 * Writes a NMS Compound to an OutputStream
 	 * 
 	 * @param nbt    NMS Compound
 	 * @param stream Stream to write to
 	 * @return ???
 	 */
-	public static Object saveNBTFile(Object nbt, FileOutputStream stream) {
+	public static Object writeNBT(Object nbt, OutputStream stream) {
 		try {
 			return ReflectionMethod.NBTFILE_WRITE.run(null, nbt, stream);
 		} catch (Exception e) {
-			throw new NbtApiException("Exception while saving a NBT File!", e);
+			throw new NbtApiException("Exception while writing NBT!", e);
+		}
+	}
+	
+	/**
+	 * Writes a Compound to an OutputStream
+	 * 
+	 * @param comp Compound
+	 * @param stream Stream to write to
+	 */
+	public static void writeApiNBT(NBTCompound comp, OutputStream stream) {
+		try {
+			Object nbttag = comp.getCompound();
+			if (nbttag == null) {
+				nbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
+			}
+			if (!valideCompound(comp))
+				return;
+			Object workingtag = gettoCompount(nbttag, comp);
+			ReflectionMethod.NBTFILE_WRITE.run(null, workingtag, stream);
+		} catch (Exception e) {
+			throw new NbtApiException("Exception while writing NBT!", e);
 		}
 	}
 
@@ -99,10 +134,11 @@ public class NBTReflectionUtil {
 	 */
 	public static Object convertNBTCompoundtoNMSItem(NBTCompound nbtcompound) {
 		try {
+			Object nmsComp = gettoCompount(nbtcompound.getCompound(), nbtcompound);
 			if (MinecraftVersion.getVersion().getVersionId() >= MinecraftVersion.MC1_11_R1.getVersionId()) {
-				return ObjectCreator.NMS_COMPOUNDFROMITEM.getInstance(nbtcompound.getCompound());
+				return ObjectCreator.NMS_COMPOUNDFROMITEM.getInstance(nmsComp);
 			} else {
-				return ReflectionMethod.NMSITEM_CREATESTACK.run(null, nbtcompound.getCompound());
+				return ReflectionMethod.NMSITEM_CREATESTACK.run(null, nmsComp);
 			}
 		} catch (Exception e) {
 			throw new NbtApiException("Exception while converting NBTCompound to NMS ItemStack!", e);
@@ -121,6 +157,21 @@ public class NBTReflectionUtil {
 			return new NBTContainer(answer);
 		} catch (Exception e) {
 			throw new NbtApiException("Exception while converting NMS ItemStack to NBTCompound!", e);
+		}
+	}
+
+	/**
+	 * Gets a live copy of non-vanilla NBT tags.
+	 *
+	 * @param meta ItemMeta from which tags should be retrieved
+	 * @return Map containing unhandled (custom) NBT tags
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String, Object> getUnhandledNBTTags(ItemMeta meta) {
+		try {
+			return (Map<String, Object>) field_unhandledTags.get(meta);
+		} catch (Exception e) {
+			throw new NbtApiException("Exception while getting unhandled tags from ItemMeta!", e);
 		}
 	}
 
@@ -166,10 +217,15 @@ public class NBTReflectionUtil {
 	 */
 	public static Object getTileEntityNBTTagCompound(BlockState tile) {
 		try {
-			Object pos = ObjectCreator.NMS_BLOCKPOSITION.getInstance(tile.getX(), tile.getY(), tile.getZ());
 			Object cworld = ClassWrapper.CRAFT_WORLD.getClazz().cast(tile.getWorld());
 			Object nmsworld = ReflectionMethod.CRAFT_WORLD_GET_HANDLE.run(cworld);
-			Object o = ReflectionMethod.NMS_WORLD_GET_TILEENTITY.run(nmsworld, pos);
+			Object o = null;
+			if(MinecraftVersion.getVersion() == MinecraftVersion.MC1_7_R4) {
+				o = ReflectionMethod.NMS_WORLD_GET_TILEENTITY_1_7_10.run(nmsworld, tile.getX(), tile.getY(), tile.getZ());
+			}else {
+				Object pos = ObjectCreator.NMS_BLOCKPOSITION.getInstance(tile.getX(), tile.getY(), tile.getZ());
+				o = ReflectionMethod.NMS_WORLD_GET_TILEENTITY.run(nmsworld, pos);
+			}
 			Object tag = ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz().newInstance();
 			Object answer = ReflectionMethod.TILEENTITY_GET_NBT.run(o, tag);
 			if (answer == null)
@@ -188,11 +244,21 @@ public class NBTReflectionUtil {
 	 */
 	public static void setTileEntityNBTTagCompound(BlockState tile, Object comp) {
 		try {
-			Object pos = ObjectCreator.NMS_BLOCKPOSITION.getInstance(tile.getX(), tile.getY(), tile.getZ());
 			Object cworld = ClassWrapper.CRAFT_WORLD.getClazz().cast(tile.getWorld());
 			Object nmsworld = ReflectionMethod.CRAFT_WORLD_GET_HANDLE.run(cworld);
-			Object o = ReflectionMethod.NMS_WORLD_GET_TILEENTITY.run(nmsworld, pos);
-			ReflectionMethod.TILEENTITY_SET_NBT.run(o, comp);
+			Object o = null;
+			if(MinecraftVersion.getVersion() == MinecraftVersion.MC1_7_R4) {
+				o = ReflectionMethod.NMS_WORLD_GET_TILEENTITY_1_7_10.run(nmsworld, tile.getX(), tile.getY(), tile.getZ());
+			}else {
+				Object pos = ObjectCreator.NMS_BLOCKPOSITION.getInstance(tile.getX(), tile.getY(), tile.getZ());
+				o = ReflectionMethod.NMS_WORLD_GET_TILEENTITY.run(nmsworld, pos);
+			}
+			if(MinecraftVersion.getVersion().getVersionId() >= MinecraftVersion.MC1_16_R1.getVersionId()) {
+				Object blockData = ReflectionMethod.TILEENTITY_GET_BLOCKDATA.run(o);
+				ReflectionMethod.TILEENTITY_SET_NBT.run(o, blockData, comp);
+			}else {
+				ReflectionMethod.TILEENTITY_SET_NBT_LEGACY1151.run(o, comp);
+			}
 		} catch (Exception e) {
 			throw new NbtApiException("Exception while setting NBTData for a TileEntity!", e);
 		}
@@ -232,8 +298,9 @@ public class NBTReflectionUtil {
 		if (nbttag == null) {
 			nbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 		}
-		if (!valideCompound(comp))
+		if (!valideCompound(comp)) {
 			return;
+		}
 		Object workingtag = gettoCompount(nbttag, comp);
 		try {
 			ReflectionMethod.COMPOUND_SET.run(workingtag, name,
@@ -277,10 +344,10 @@ public class NBTReflectionUtil {
 	/**
 	 * Merges the second {@link NBTCompound} into the first one
 	 * 
-	 * @param comp        Target for the merge
-	 * @param nbtcompound Data to merge
+	 * @param comp           Target for the merge
+	 * @param nbtcompoundSrc Data to merge
 	 */
-	public static void mergeOtherNBTCompound(NBTCompound comp, NBTCompound nbtcompound) {
+	public static void mergeOtherNBTCompound(NBTCompound comp, NBTCompound nbtcompoundSrc) {
 		Object rootnbttag = comp.getCompound();
 		if (rootnbttag == null) {
 			rootnbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
@@ -288,8 +355,15 @@ public class NBTReflectionUtil {
 		if (!valideCompound(comp))
 			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
 		Object workingtag = gettoCompount(rootnbttag, comp);
+		Object rootnbttagSrc = nbtcompoundSrc.getCompound();
+		if (rootnbttagSrc == null) {
+			rootnbttagSrc = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
+		}
+		if (!valideCompound(nbtcompoundSrc))
+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
+		Object workingtagSrc = gettoCompount(rootnbttagSrc, nbtcompoundSrc);
 		try {
-			ReflectionMethod.COMPOUND_MERGE.run(workingtag, nbtcompound.getCompound());
+			ReflectionMethod.COMPOUND_MERGE.run(workingtag, workingtagSrc);
 			comp.setCompound(rootnbttag);
 		} catch (Exception e) {
 			throw new NbtApiException("Exception while merging two NBTCompounds!", e);
@@ -372,6 +446,12 @@ public class NBTReflectionUtil {
 				return (NBTList<T>) new NBTCompoundList(comp, key, type, nbt);
 			} else if (clazz == Integer.class) {
 				return (NBTList<T>) new NBTIntegerList(comp, key, type, nbt);
+			} else if (clazz == Float.class) {
+				return (NBTList<T>) new NBTFloatList(comp, key, type, nbt);
+			} else if (clazz == Double.class) {
+				return (NBTList<T>) new NBTDoubleList(comp, key, type, nbt);
+			} else if (clazz == Long.class) {
+				return (NBTList<T>) new NBTLongList(comp, key, type, nbt);
 			} else {
 				return null;
 			}

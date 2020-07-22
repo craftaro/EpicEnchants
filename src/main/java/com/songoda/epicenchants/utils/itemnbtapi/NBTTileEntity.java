@@ -2,6 +2,10 @@ package com.songoda.epicenchants.utils.itemnbtapi;
 
 import org.bukkit.block.BlockState;
 
+import com.songoda.epicenchants.utils.itemnbtapi.utils.MinecraftVersion;
+import com.songoda.epicenchants.utils.itemnbtapi.utils.annotations.AvaliableSince;
+import com.songoda.epicenchants.utils.itemnbtapi.utils.annotations.CheckUtil;
+
 /**
  * NBT class to access vanilla tags from TileEntities. TileEntities don't
  * support custom tags. Use the NBTInjector for custom tags. Changes will be
@@ -20,6 +24,9 @@ public class NBTTileEntity extends NBTCompound {
 	 */
 	public NBTTileEntity(BlockState tile) {
 		super(null, null);
+		if (tile == null || (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_8_R3) && !tile.isPlaced())) {
+			throw new NullPointerException("Tile can't be null/not placed!");
+		}
 		this.tile = tile;
 	}
 
@@ -31,6 +38,25 @@ public class NBTTileEntity extends NBTCompound {
 	@Override
 	protected void setCompound(Object compound) {
 		NBTReflectionUtil.setTileEntityNBTTagCompound(tile, compound);
+	}
+
+	/**
+	 * Gets the NBTCompound used by spigots PersistentDataAPI. This method is only
+	 * available for 1.14+!
+	 * 
+	 * @return NBTCompound containing the data of the PersistentDataAPI
+	 */
+	@AvaliableSince(version = MinecraftVersion.MC1_14_R1)
+	public NBTCompound getPersistentDataContainer() {
+		if (hasKey("PublicBukkitValues")) {
+			return getCompound("PublicBukkitValues");
+		} else {
+			NBTContainer container = new NBTContainer();
+			container.addCompound("PublicBukkitValues").setString("__nbtapi",
+					"Marker to make the PersistentDataContainer have content");
+			mergeCompound(container);
+			return getCompound("PublicBukkitValues");
+		}
 	}
 
 }

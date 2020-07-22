@@ -1,26 +1,29 @@
 package com.songoda.epicenchants.command.commands;
 
+import com.songoda.core.commands.AbstractCommand;
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.command.AbstractCommand;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
 public class CommandReload extends AbstractCommand {
 
-    public CommandReload(AbstractCommand parent) {
-        super(parent, false, "reload");
+    private final EpicEnchants plugin;
+
+    public CommandReload(EpicEnchants plugin) {
+        super(false, "reload");
+        this.plugin = plugin;
     }
 
     @Override
-    protected AbstractCommand.ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
-        instance.reloadConfig();
-        instance.getLocale().getMessage("command.reload").sendPrefixedMessage(sender);
+    protected ReturnType runCommand(CommandSender sender, String... args) {
+        plugin.reloadConfig();
+        plugin.getLocale().getMessage("command.reload").sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;
     }
 
     @Override
-    protected List<String> onTab(EpicEnchants instance, CommandSender sender, String... args) {
+    protected List<String> onTab(CommandSender sender, String... args) {
         return null;
     }
 
@@ -31,7 +34,7 @@ public class CommandReload extends AbstractCommand {
 
     @Override
     public String getSyntax() {
-        return "/ee reload";
+        return "reload";
     }
 
     @Override

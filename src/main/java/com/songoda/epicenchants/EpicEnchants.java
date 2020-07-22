@@ -2,11 +2,12 @@ package com.songoda.epicenchants;
 
 import com.songoda.core.SongodaCore;
 import com.songoda.core.SongodaPlugin;
+import com.songoda.core.commands.CommandManager;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.configuration.Config;
 import com.songoda.core.gui.GuiManager;
 import com.songoda.core.hooks.EconomyManager;
-import com.songoda.epicenchants.command.CommandManager;
+import com.songoda.epicenchants.command.commands.*;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.EntityListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
@@ -58,6 +59,21 @@ public class EpicEnchants extends SongodaPlugin {
         // Run Songoda Updater
         SongodaCore.registerPlugin(this, 67, CompatibleMaterial.DIAMOND_SWORD);
 
+        // setup commands
+        this.commandManager = new com.songoda.core.commands.CommandManager(this);
+        this.commandManager.addMainCommand("ee")
+                .addSubCommand(new CommandReload(this))
+                .addSubCommand(new CommandAlchemist(this))
+                .addSubCommand(new CommandApply(this))
+                .addSubCommand(new CommandEnchanter(this))
+                .addSubCommand(new CommandGiveBook(this))
+                .addSubCommand(new CommandGiveItemDust(this))
+                .addSubCommand(new CommandGiveRandomBook(this))
+                .addSubCommand(new CommandGiveScroll(this))
+                .addSubCommand(new CommandList(this))
+                .addSubCommand(new CommandSettings(this))
+                .addSubCommand(new CommandTinkerer(this));
+
         EconomyManager.load();
 
         // Setup Config
@@ -75,7 +91,7 @@ public class EpicEnchants extends SongodaPlugin {
         this.specialItems = new SpecialItems(this);
         this.commandManager = new CommandManager(this);
         this.hookManager = new HookManager();
-        this.itemGroup = new ItemGroup(this);
+        this.itemGroup = new ItemGroup();
 
         groupManager.loadGroups();
         enchantManager.loadEnchants();

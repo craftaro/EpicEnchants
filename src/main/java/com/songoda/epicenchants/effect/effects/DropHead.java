@@ -31,9 +31,6 @@ public class DropHead extends EffectExecutor {
             case CHICKEN:
                 skin = "MHF_Chicken";
                 break;
-            case PIG_ZOMBIE:
-                skin = "MHF_PigZombie";
-                break;
             case PIG:
                 skin = "MHF_Pig";
                 break;

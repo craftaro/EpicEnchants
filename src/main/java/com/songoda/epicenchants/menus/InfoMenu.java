@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.menus;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
@@ -48,7 +49,7 @@ public class InfoMenu extends FastInv {
         slots.stream().filter(slot -> enchantIterator.hasNext()).forEach(slot -> {
             Enchant enchant = enchantIterator.next();
 
-            String whitelist = instance.getItemGroup().getGroups(enchant.getItemWhitelist())
+            String whitelist = instance.getItemGroup().getGroups(enchant.getItemWhitelist().stream().map(CompatibleMaterial::getMaterial).collect(Collectors.toSet()))
                     .stream()
                     .map(s -> StringUtils.capitalize(s.toLowerCase()))
                     .collect(Collectors.joining(", "));

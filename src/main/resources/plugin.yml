@@ -6,6 +6,6 @@ website: https://songoda.com/
 softdepend: [Vault, PlayerPoints, UltimateBottles, PlaceholderAPI]
 api-version: 1.13
 commands:
-  epicenchants:
-    aliases: [ee]
-    ussage: /ee reload
+  ee:
+    aliases: [epicenchants]
+    ussage: reload

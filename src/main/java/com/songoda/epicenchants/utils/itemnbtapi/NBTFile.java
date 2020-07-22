@@ -27,10 +27,13 @@ public class NBTFile extends NBTCompound {
 	 */
 	public NBTFile(File file) throws IOException {
 		super(null, null);
+		if (file == null) {
+			throw new NullPointerException("File can't be null!");
+		}
 		this.file = file;
 		if (file.exists()) {
 			FileInputStream inputsteam = new FileInputStream(file);
-			nbt = NBTReflectionUtil.readNBTFile(inputsteam);
+			nbt = NBTReflectionUtil.readNBT(inputsteam);
 		} else {
 			nbt = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 			save();
@@ -43,13 +46,18 @@ public class NBTFile extends NBTCompound {
 	 * @throws IOException
 	 */
 	public void save() throws IOException {
-		if (!file.exists()) {
-			file.getParentFile().mkdirs();
-			if (!file.createNewFile())
-				throw new IOException("Unable to create file at " + file.getAbsolutePath());
+		try {
+			getWriteLock().lock();
+			if (!file.exists()) {
+				file.getParentFile().mkdirs();
+				if (!file.createNewFile())
+					throw new IOException("Unable to create file at " + file.getAbsolutePath());
+			}
+			FileOutputStream outStream = new FileOutputStream(file);
+			NBTReflectionUtil.writeNBT(nbt, outStream);
+		} finally {
+			getWriteLock().unlock();
 		}
-		FileOutputStream outStream = new FileOutputStream(file);
-		NBTReflectionUtil.saveNBTFile(nbt, outStream);
 	}
 
 	/**

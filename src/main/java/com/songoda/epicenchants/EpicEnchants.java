@@ -58,6 +58,21 @@ public class EpicEnchants extends SongodaPlugin {
         // Run Songoda Updater
         SongodaCore.registerPlugin(this, 67, CompatibleMaterial.DIAMOND_SWORD);
 
+        // setup commands
+        this.commandManager = new com.songoda.core.commands.CommandManager(this);
+        this.commandManager.addMainCommand("ee")
+                .addSubCommand(new CommandReload(this))
+                .addSubCommand(new CommandAlchemist(this))
+                .addSubCommand(new CommandApply(this))
+                .addSubCommand(new CommandEnchanter(this))
+                .addSubCommand(new CommandGiveBook(this))
+                .addSubCommand(new CommandGiveItemDust(this))
+                .addSubCommand(new CommandGiveRandomBook(this))
+                .addSubCommand(new CommandGiveScroll(this))
+                .addSubCommand(new CommandList(this))
+                .addSubCommand(new CommandSettings(this))
+                .addSubCommand(new CommandTinkerer(this));
+
         EconomyManager.load();
 
         // Setup Config

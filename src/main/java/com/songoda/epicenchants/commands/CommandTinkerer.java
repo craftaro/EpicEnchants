@@ -1,8 +1,7 @@
 package com.songoda.epicenchants.command.commands;
 
+import com.songoda.core.commands.AbstractCommand;
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.command.AbstractCommand;
-import com.songoda.epicenchants.menus.EnchanterMenu;
 import com.songoda.epicenchants.menus.TinkererMenu;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,20 +9,23 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CommandTinkerer extends AbstractCommand {
+    
+    private final EpicEnchants plugin;
 
-    public CommandTinkerer(AbstractCommand parent) {
-        super(parent, true, "tinkerer");
+    public CommandTinkerer(EpicEnchants plugin) {
+        super(true, "tinkerer");
+        this.plugin = plugin;
     }
 
     @Override
-    protected ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
+    protected ReturnType runCommand(CommandSender sender, String... args) {
         Player player = (Player)sender;
-        new TinkererMenu(instance, instance.getFileManager().getConfiguration("menus/tinkerer-menu")).open(player);
+        new TinkererMenu(plugin, plugin.getFileManager().getConfiguration("menus/tinkerer-menu")).open(player);
         return ReturnType.SUCCESS;
     }
 
     @Override
-    protected List<String> onTab(EpicEnchants instance, CommandSender sender, String... args) {
+    protected List<String> onTab(CommandSender sender, String... args) {
         return null;
     }
 
@@ -34,7 +36,7 @@ public class CommandTinkerer extends AbstractCommand {
 
     @Override
     public String getSyntax() {
-        return "/ee tinkerer";
+        return "tinkerer";
     }
 
     @Override

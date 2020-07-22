@@ -1,27 +1,30 @@
 package com.songoda.epicenchants.command.commands;
 
+import com.songoda.core.commands.AbstractCommand;
 import com.songoda.core.configuration.editor.PluginConfigGui;
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.command.AbstractCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class CommandSettings extends AbstractCommand {
+    
+    private final EpicEnchants plugin;
 
-    public CommandSettings(AbstractCommand parent) {
-        super(parent, true, "Settings");
+    public CommandSettings(EpicEnchants plugin) {
+        super(true, "Settings");
+        this.plugin = plugin;
     }
 
     @Override
-    protected ReturnType runCommand(EpicEnchants instance, CommandSender sender, String... args) {
-        instance.getGuiManager().showGUI((Player) sender, new PluginConfigGui(instance));
+    protected ReturnType runCommand(CommandSender sender, String... args) {
+        plugin.getGuiManager().showGUI((Player) sender, new PluginConfigGui(plugin));
         return ReturnType.SUCCESS;
     }
 
     @Override
-    protected List<String> onTab(EpicEnchants instance, CommandSender sender, String... args) {
+    protected List<String> onTab(CommandSender sender, String... args) {
         return null;
     }
 
@@ -32,7 +35,7 @@ public class CommandSettings extends AbstractCommand {
 
     @Override
     public String getSyntax() {
-        return "/ee settings";
+        return "settings";
     }
 
     @Override

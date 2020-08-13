@@ -61,7 +61,7 @@ public class ItemGroup {
         for (int i = 0; i < 5; i++) {
             getGroup(materials).ifPresent(group -> {
                 groups.add(group.getName());
-                materials.removeAll(getMaterials(group));
+                materials.removeAll(getMaterials(group).stream().map(e -> CompatibleMaterial.getMaterial(e)).collect(Collectors.toList()));
             });
         }
 

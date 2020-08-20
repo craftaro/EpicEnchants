@@ -10,6 +10,7 @@ import com.songoda.core.hooks.EconomyManager;
 import com.songoda.epicenchants.command.commands.*;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.EntityListener;
+import com.songoda.epicenchants.listeners.HeldItemListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
 import com.songoda.epicenchants.listeners.item.BlackScrollListener;
 import com.songoda.epicenchants.listeners.item.BookListener;
@@ -103,6 +104,7 @@ public class EpicEnchants extends SongodaPlugin {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new BookListener(this), this);
         pluginManager.registerEvents(new ArmorListener(), this);
+        pluginManager.registerEvents(new HeldItemListener(), this);
         pluginManager.registerEvents(new PlayerListener(this), this);
         pluginManager.registerEvents(new EntityListener(this), this);
         pluginManager.registerEvents(new WhiteScrollListener(this), this);

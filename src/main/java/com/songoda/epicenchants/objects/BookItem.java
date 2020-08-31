@@ -65,8 +65,7 @@ public class BookItem {
             }
 
             string = string
-                    .replace("{item_group}", "" + instance.getItemGroup().getGroup(enchant.getItemWhitelist()
-                            .stream().map(CompatibleMaterial::getMaterial).collect(Collectors.toSet())).map(ItemGroup.Group::getName).orElse("N/A"))
+                    .replace("{item_group}", "" + instance.getItemGroup().getGroup(enchant.getItemWhitelist()).map(ItemGroup.Group::getName).orElse("N/A"))
                     .replace("{success_rate}", "" + finalSuccessRate)
                     .replace("{destroy_rate}", "" + finalDestroyRate);
 

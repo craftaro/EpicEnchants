@@ -49,7 +49,7 @@ public class InfoMenu extends FastInv {
         slots.stream().filter(slot -> enchantIterator.hasNext()).forEach(slot -> {
             Enchant enchant = enchantIterator.next();
 
-            String whitelist = instance.getItemGroup().getGroups(enchant.getItemWhitelist().stream().map(CompatibleMaterial::getMaterial).collect(Collectors.toSet()))
+            String whitelist = instance.getItemGroup().getGroups(enchant.getItemWhitelist())
                     .stream()
                     .map(s -> StringUtils.capitalize(s.toLowerCase()))
                     .collect(Collectors.joining(", "));

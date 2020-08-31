@@ -1,5 +1,6 @@
 package com.songoda.epicenchants.objects;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
@@ -23,14 +24,14 @@ public class Enchant {
     private Group group;
     private int maxLevel;
     private Set<String> conflict;
-    private Set<Material> itemWhitelist;
+    private Set<CompatibleMaterial> itemWhitelist;
     private Set<EffectExecutor> effectExecutors;
     private List<String> description;
     private String format;
     @Nullable
     private BookItem bookItem;
 
-    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<Material> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
+    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<CompatibleMaterial> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
         this.author = author;
         this.identifier = identifier;
         this.group = group;
@@ -96,7 +97,7 @@ public class Enchant {
         return this.conflict;
     }
 
-    public Set<Material> getItemWhitelist() {
+    public Set<CompatibleMaterial> getItemWhitelist() {
         return new HashSet<>(this.itemWhitelist);
     }
 
@@ -123,7 +124,7 @@ public class Enchant {
         private Group group;
         private int maxLevel;
         private Set<String> conflict;
-        private Set<Material> itemWhitelist;
+        private Set<CompatibleMaterial> itemWhitelist;
         private Set<EffectExecutor> effectExecutors;
         private List<String> description;
         private String format;
@@ -157,7 +158,7 @@ public class Enchant {
             return this;
         }
 
-        public Enchant.EnchantBuilder itemWhitelist(Set<Material> itemWhitelist) {
+        public Enchant.EnchantBuilder itemWhitelist(Set<CompatibleMaterial> itemWhitelist) {
             this.itemWhitelist = itemWhitelist;
             return this;
         }

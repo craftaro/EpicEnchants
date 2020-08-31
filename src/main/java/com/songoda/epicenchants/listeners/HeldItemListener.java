@@ -78,7 +78,7 @@ public class HeldItemListener implements Listener {
                         }
                         //shift click and no free space in inv -> moving to hotbar left most free slot
                         OptionalInt freehotbarslot = IntStream.range(0, 9).filter(i -> isAirOrNull(e.getClickedInventory().getItem(i))).findFirst();
-                        if (freehotbarslot.isEmpty()) //no free slot in hotbar -> no move, no event
+                        if (!freehotbarslot.isPresent()) //no free slot in hotbar -> no move, no event
                             return;
                         targetslot = freehotbarslot.getAsInt();
                     } else {
@@ -98,7 +98,7 @@ public class HeldItemListener implements Listener {
                 } else { //shift click in upper inv
                     //item will be moved to hotbar if possible, starting from right most hotbar slot
                     OptionalInt freehotbarslot = IntStream.range(0, 9).map(i -> 8 - i).filter(i -> isAirOrNull(e.getView().getBottomInventory().getItem(i))).findFirst();
-                    if (freehotbarslot.isEmpty()) {
+                    if (!freehotbarslot.isPresent()) {
                         return; //will not be placed in hotbar
                     }
                     if (freehotbarslot.getAsInt() != heldslot)

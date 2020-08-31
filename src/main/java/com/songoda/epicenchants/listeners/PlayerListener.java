@@ -20,18 +20,7 @@ import static com.songoda.epicenchants.enums.EventType.OFF;
 import static com.songoda.epicenchants.enums.EventType.ON;
 import static com.songoda.epicenchants.enums.TriggerType.*;
 import com.songoda.epicenchants.events.HeldItemChangedEvent;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.OptionalInt;
-import java.util.Set;
-import java.util.stream.IntStream;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {

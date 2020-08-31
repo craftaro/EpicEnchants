@@ -152,6 +152,9 @@ public class EpicEnchants extends SongodaPlugin {
         return null;
     }
 
+    @Override
+    public void onDataLoad() {
+    }
 
     public EnchantManager getEnchantManager() {
         return this.enchantManager;

@@ -19,7 +19,6 @@ import com.songoda.epicenchants.listeners.item.WhiteScrollListener;
 import com.songoda.epicenchants.managers.*;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
-import com.songoda.epicenchants.utils.Metrics;
 import com.songoda.epicenchants.utils.SpecialItems;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.settings.Settings;
@@ -111,9 +110,6 @@ public class EpicEnchants extends SongodaPlugin {
         pluginManager.registerEvents(new BlackScrollListener(this), this);
         pluginManager.registerEvents(new DustListener(this), this);
 
-        // Start Metrics
-        new Metrics(this);
-
         if (!enchantManager.getValues().isEmpty()) {
             getLogger().info("Successfully loaded enchants: " + enchantManager.getValues().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
         }
@@ -123,6 +119,11 @@ public class EpicEnchants extends SongodaPlugin {
         FastInv.init(this);
         this.fileManager = new FileManager(this);
         fileManager.loadFiles();
+    }
+
+    @Override
+    public void onDataLoad() {
+
     }
 
     @Override
@@ -150,10 +151,6 @@ public class EpicEnchants extends SongodaPlugin {
     @Override
     public List<Config> getExtraConfig() {
         return null;
-    }
-
-    @Override
-    public void onDataLoad() {
     }
 
     public EnchantManager getEnchantManager() {

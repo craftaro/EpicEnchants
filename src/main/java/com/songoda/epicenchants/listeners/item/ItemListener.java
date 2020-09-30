@@ -1,7 +1,8 @@
 package com.songoda.epicenchants.listeners.item;
 
+import com.songoda.core.nms.NmsManager;
+import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +32,7 @@ public abstract class ItemListener implements Listener {
             return;
         }
 
-        onApply(event, new NBTItem(event.getCursor()), new NBTItem(event.getCurrentItem()));
+        onApply(event, NmsManager.getNbt().of(event.getCursor()), NmsManager.getNbt().of(event.getCurrentItem()));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -44,7 +45,7 @@ public abstract class ItemListener implements Listener {
             return;
         }
 
-        onClick(event, new NBTItem(event.getItem()));
+        onClick(event, NmsManager.getNbt().of(event.getItem()));
     }
 
     void useItem(InventoryClickEvent event) {

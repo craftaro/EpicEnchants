@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.utils;
 
+import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Group;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.settings.Settings;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,8 +24,8 @@ public class SpecialItems {
 
     public ItemStack getWhiteScroll(int amount) {
         NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("white-scroll")).nbt();
-        nbtItem.setBoolean("white-scroll", true);
-        ItemStack itemStack = nbtItem.getItem();
+        nbtItem.set("white-scroll", true);
+        ItemStack itemStack = nbtItem.finish();
 
         itemStack.setAmount(amount);
 
@@ -36,10 +36,10 @@ public class SpecialItems {
         int successRate = chance == -1 ? ThreadLocalRandom.current().nextInt(Settings.BLACK_MIN.getInt(), Settings.BLACK_MAX.getInt() + 1) : chance;
         NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt();
 
-        nbtItem.setBoolean("black-scroll", true);
-        nbtItem.setInteger("success-rate", successRate);
+        nbtItem.set("black-scroll", true);
+        nbtItem.set("success-rate", successRate);
 
-        ItemStack itemStack = nbtItem.getItem();
+        ItemStack itemStack = nbtItem.finish();
 
         itemStack.setAmount(amount);
 
@@ -51,15 +51,15 @@ public class SpecialItems {
                 of("group-color", group.getColor()),
                 of("group-name", group.getName())).nbt();
 
-        nbtItem.setBoolean("mystery-book", true);
-        nbtItem.setString("group", group.getIdentifier());
-        return nbtItem.getItem();
+        nbtItem.set("mystery-book", true);
+        nbtItem.set("group", group.getIdentifier());
+        return nbtItem.finish();
     }
 
 
     public ItemStack getSecretDust(NBTItem book) {
-        Group group = instance.getEnchantManager().getValueUnsafe(book.getString("enchant")).getGroup();
-        return getSecretDust(group, (int) Math.floor(book.getInteger("success-rate") / 10.0));
+        Group group = instance.getEnchantManager().getValueUnsafe(book.getNBTObject("enchant").asString()).getGroup();
+        return getSecretDust(group, (int) Math.floor(book.getNBTObject("success-rate").asInt() / 10.0));
     }
 
     public ItemStack getSecretDust(Group group, int max) {
@@ -69,11 +69,11 @@ public class SpecialItems {
                 of("max-rate", max),
                 of("min-rate", 0)).nbt();
 
-        nbtItem.setBoolean("secret-dust", true);
-        nbtItem.setString("group", group.getIdentifier());
-        nbtItem.setInteger("max-rate", max + 1);
-        nbtItem.setInteger("min-rate", 1);
-        return nbtItem.getItem();
+        nbtItem.set("secret-dust", true);
+        nbtItem.set("group", group.getIdentifier());
+        nbtItem.set("max-rate", max + 1);
+        nbtItem.set("min-rate", 1);
+        return nbtItem.finish();
     }
 
     public ItemStack getDust(Group group, @Nullable String type, int percentage, boolean command) {
@@ -109,14 +109,14 @@ public class SpecialItems {
                 of("percentage", percentage)).nbt();
 
         if (type.equalsIgnoreCase("mystery")) {
-            return nbtItem.getItem();
+            return nbtItem.finish();
         }
 
-        nbtItem.setBoolean("dust", true);
-        nbtItem.setInteger("percentage", percentage);
-        nbtItem.setString("group", group.getIdentifier());
+        nbtItem.set("dust", true);
+        nbtItem.set("percentage", percentage);
+        nbtItem.set("group", group.getIdentifier());
 
-        return nbtItem.getItem();
+        return nbtItem.finish();
     }
 
     public String getWhiteScrollLore() {

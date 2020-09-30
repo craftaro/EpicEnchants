@@ -1,7 +1,8 @@
 package com.songoda.epicenchants.utils.objects;
 
+import com.songoda.core.nms.NmsManager;
+import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.objects.Placeholder;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.single.ConfigParser;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
 import com.songoda.epicenchants.wrappers.EnchantmentWrapper;
@@ -15,7 +16,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
@@ -259,7 +265,7 @@ public class ItemBuilder {
     }
 
     public NBTItem nbt() {
-        return new NBTItem(build());
+        return NmsManager.getNbt().of(build());
     }
 
     /*

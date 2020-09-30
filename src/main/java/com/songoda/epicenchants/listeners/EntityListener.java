@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.listeners;
 
+import com.songoda.core.nms.NmsManager;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.TriggerType;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -10,7 +10,11 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import static com.songoda.epicenchants.enums.TriggerType.*;
@@ -118,11 +122,10 @@ public class EntityListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityTargetLivingEntity(EntityTargetLivingEntityEvent event) {
-        if (event.getEntity() == null || event.getTarget() == null) {
+        if (event.getTarget() == null)
             return;
-        }
 
-        if (new NBTEntity(event.getEntity()).hasKey(event.getTarget().getUniqueId().toString())) {
+        if (NmsManager.getNbt().of(event.getEntity()).has(event.getTarget().getUniqueId().toString())) {
             //TODO: Add team support.
             event.setCancelled(true);
         }

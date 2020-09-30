@@ -19,6 +19,9 @@ import java.util.Map;
 import static com.songoda.epicenchants.enums.EventType.OFF;
 import static com.songoda.epicenchants.enums.EventType.ON;
 import static com.songoda.epicenchants.enums.TriggerType.*;
+import com.songoda.epicenchants.events.HeldItemChangedEvent;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
     private final EpicEnchants instance;
@@ -35,15 +38,23 @@ public class PlayerListener implements Listener {
         oldArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, OFF));
         newArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
     }
+    
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onHeldItemChanged(HeldItemChangedEvent event) {
+        Map<Enchant, Integer> oldItemMap = instance.getEnchantUtils().getEnchants(event.getOldItem());
+        Map<Enchant, Integer> newItemMap = instance.getEnchantUtils().getEnchants(event.getNewItem());
+
+        oldItemMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, OFF));
+        newItemMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
+    }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
-        instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getNewSlot()))
-                .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
-
         instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getPreviousSlot()))
                 .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, OFF));
 
+        instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getNewSlot()))
+                .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -66,7 +77,6 @@ public class PlayerListener implements Listener {
             instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK_BLOCK);
         } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
             instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK_BLOCK);
-
         }
     }
 
@@ -83,8 +93,16 @@ public class PlayerListener implements Listener {
                 .forEach(potionEffect -> event.getPlayer().removePotionEffect(potionEffect.getType()));
 
         Arrays.stream(event.getPlayer().getInventory().getArmorContents()).forEach(itemStack -> {
-            instance.getEnchantUtils().getEnchants(itemStack).forEach((enchant, level) ->
-                    enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
+            instance.getEnchantUtils().getEnchants(itemStack).forEach((enchant, level)
+                    -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
         });
+        ItemStack mainhand = event.getPlayer().getInventory().getItem(event.getPlayer().getInventory().getHeldItemSlot());
+        if (isItem(mainhand))
+            instance.getEnchantUtils().getEnchants(mainhand).forEach((enchant, level)
+                    -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
+    }
+
+    private boolean isItem(ItemStack is) {
+        return is != null && is.getType() != Material.AIR && is.getAmount() > 0;
     }
 }

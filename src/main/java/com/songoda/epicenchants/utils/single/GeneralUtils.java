@@ -73,15 +73,7 @@ public class GeneralUtils {
     public static ItemStack getHeldItem(LivingEntity entity, Event event) {
         if (entity instanceof Player) {
             Player player = (Player)entity;
-            int slot = player.getInventory().getHeldItemSlot();
-
-            try {
-                if (event instanceof PlayerInteractEvent && ((PlayerInteractEvent) event).getHand() == EquipmentSlot.OFF_HAND) {
-                    slot = 40;
-                }
-            } catch (NoSuchMethodError ignore) {
-            }
-
+            int slot = getHeldItemSlot(player, event);
             return player.getInventory().getItem(slot);
         } else if (entity.getEquipment() != null){
             ItemStack item = entity.getEquipment().getItemInHand();
@@ -95,6 +87,20 @@ public class GeneralUtils {
             return item;
         }
         return null;
+    }
+
+    public static int getHeldItemSlot(Player entity, Event event) {
+        Player player = (Player)entity;
+        int slot = player.getInventory().getHeldItemSlot();
+
+        try {
+            if (event instanceof PlayerInteractEvent && ((PlayerInteractEvent) event).getHand() == EquipmentSlot.OFF_HAND) {
+                slot = 40;
+            }
+        } catch (NoSuchMethodError ignore) {
+        }
+
+        return slot;
     }
 
     public static Object parseJS(String toParse, String type, Object def) {

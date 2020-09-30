@@ -1,9 +1,9 @@
 package com.songoda.epicenchants.listeners.item;
 
+import com.songoda.core.nms.nbt.NBTCompound;
+import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTCompound;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.single.RomanNumber;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +17,7 @@ public class BlackScrollListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.hasKey("black-scroll") || !cursor.getBoolean("black-scroll")) {
+        if (!cursor.has("black-scroll") || !cursor.getNBTObject("black-scroll").asBoolean()) {
             return;
         }
 
@@ -31,11 +31,11 @@ public class BlackScrollListener extends ItemListener {
         }
 
         String id = getRandomElement(compound.getKeys());
-        int level = compound.getInteger(id);
+        int level = compound.getInt(id);
         Enchant enchant = instance.getEnchantManager().getValueUnsafe(id);
         ItemStack toSet = instance.getEnchantUtils().removeEnchant(event.getCurrentItem(), enchant);
 
-        event.getWhoClicked().getInventory().addItem(enchant.getBook().get(enchant, level, cursor.getInteger("success-rate"), 100));
+        event.getWhoClicked().getInventory().addItem(enchant.getBook().get(enchant, level, cursor.getInt("success-rate"), 100));
         event.setCurrentItem(toSet);
 
         instance.getLocale().getMessage("blackscroll.success")

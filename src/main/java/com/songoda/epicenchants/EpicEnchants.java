@@ -10,6 +10,7 @@ import com.songoda.core.hooks.EconomyManager;
 import com.songoda.epicenchants.command.commands.*;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.EntityListener;
+import com.songoda.epicenchants.listeners.HeldItemListener;
 import com.songoda.epicenchants.listeners.PlayerListener;
 import com.songoda.epicenchants.listeners.item.BlackScrollListener;
 import com.songoda.epicenchants.listeners.item.BookListener;
@@ -18,7 +19,6 @@ import com.songoda.epicenchants.listeners.item.WhiteScrollListener;
 import com.songoda.epicenchants.managers.*;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
-import com.songoda.epicenchants.utils.Metrics;
 import com.songoda.epicenchants.utils.SpecialItems;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.settings.Settings;
@@ -103,14 +103,12 @@ public class EpicEnchants extends SongodaPlugin {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new BookListener(this), this);
         pluginManager.registerEvents(new ArmorListener(), this);
+        pluginManager.registerEvents(new HeldItemListener(), this);
         pluginManager.registerEvents(new PlayerListener(this), this);
         pluginManager.registerEvents(new EntityListener(this), this);
         pluginManager.registerEvents(new WhiteScrollListener(this), this);
         pluginManager.registerEvents(new BlackScrollListener(this), this);
         pluginManager.registerEvents(new DustListener(this), this);
-
-        // Start Metrics
-        new Metrics(this);
 
         if (!enchantManager.getValues().isEmpty()) {
             getLogger().info("Successfully loaded enchants: " + enchantManager.getValues().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
@@ -121,6 +119,11 @@ public class EpicEnchants extends SongodaPlugin {
         FastInv.init(this);
         this.fileManager = new FileManager(this);
         fileManager.loadFiles();
+    }
+
+    @Override
+    public void onDataLoad() {
+
     }
 
     @Override
@@ -149,7 +152,6 @@ public class EpicEnchants extends SongodaPlugin {
     public List<Config> getExtraConfig() {
         return null;
     }
-
 
     public EnchantManager getEnchantManager() {
         return this.enchantManager;

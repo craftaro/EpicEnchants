@@ -1,10 +1,11 @@
 package com.songoda.epicenchants.menus;
 
+import com.songoda.core.nms.NmsManager;
+import com.songoda.core.nms.nbt.NBTCompound;
+import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.ItemType;
 import com.songoda.epicenchants.objects.Enchant;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTCompound;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.Material;
@@ -22,8 +23,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static com.songoda.epicenchants.enums.ItemType.*;
-import static com.songoda.epicenchants.objects.Placeholder.of;
+import static com.songoda.epicenchants.enums.ItemType.BOOK;
+import static com.songoda.epicenchants.enums.ItemType.ENCHANTED;
+import static com.songoda.epicenchants.enums.ItemType.NONE;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 import static java.util.Arrays.stream;
@@ -168,9 +170,9 @@ public class TinkererMenu extends FastInv {
             return NONE;
         }
 
-        NBTItem nbtItem = new NBTItem(itemStack);
+        NBTItem nbtItem = NmsManager.getNbt().of(itemStack);
 
-        if (nbtItem.hasKey("book-item")) {
+        if (nbtItem.has("book-item")) {
             return BOOK;
         }
 
@@ -205,7 +207,7 @@ public class TinkererMenu extends FastInv {
 
         switch (itemType) {
             case BOOK:
-                getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(new NBTItem(finalItemStack)));
+                getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(NmsManager.getNbt().of(finalItemStack)));
                 break;
             case ENCHANTED:
                 getInventory().setItem(emptySlot.get().getValue(), instance.getHookManager().getUltimateBottles().get().createBottle("Tinkerer", getExpAmount(finalItemStack)));
@@ -235,9 +237,9 @@ public class TinkererMenu extends FastInv {
             total.addAndGet(section.getInt(enchantment.getName(), section.getInt("DEFAULT")) * level);
         });
 
-        NBTItem nbtItem = new NBTItem(itemStack);
+        NBTItem nbtItem = NmsManager.getNbt().of(itemStack);
 
-        if (!nbtItem.hasKey("enchants")) {
+        if (!nbtItem.has("enchants")) {
             return total.get();
         }
 
@@ -249,7 +251,7 @@ public class TinkererMenu extends FastInv {
 
         enchantments.getKeys().forEach(key -> {
             Enchant enchant = instance.getEnchantManager().getValueUnsafe(key);
-            total.addAndGet(section.getInt(enchant.getIdentifier(), enchant.getGroup().getTinkererExp()) * enchantments.getInteger(key));
+            total.addAndGet(section.getInt(enchant.getIdentifier(), enchant.getGroup().getTinkererExp()) * enchantments.getInt(key));
         });
 
         return total.get();

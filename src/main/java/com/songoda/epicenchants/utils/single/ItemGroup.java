@@ -42,14 +42,14 @@ public class ItemGroup {
         groupMap.put(TRIDENTS, TRIDENT);
     }
 
-    public Set<Material> get(String key) {
+    public Set<CompatibleMaterial> get(String key) {
         Optional<Group> optionalGroup = Group.from(key);
-        Set<Material> output = new HashSet<>();
+        Set<CompatibleMaterial> output = new HashSet<>();
 
         optionalGroup.ifPresent(group -> output.addAll(getMaterials(group)));
 
         if (CompatibleMaterial.getMaterial(key) != null) {
-            output.add(CompatibleMaterial.getMaterial(key).getMaterial());
+            output.add(CompatibleMaterial.getMaterial(key));
         }
 
         return output;
@@ -61,7 +61,7 @@ public class ItemGroup {
         for (int i = 0; i < 5; i++) {
             getGroup(materials).ifPresent(group -> {
                 groups.add(group.getName());
-                materials.removeAll(getMaterials(group).stream().map(e -> CompatibleMaterial.getMaterial(e)).collect(Collectors.toList()));
+                materials.removeAll(getMaterials(group).stream().collect(Collectors.toList()));
             });
         }
 
@@ -81,12 +81,12 @@ public class ItemGroup {
         return groupMap.asMap().entrySet().stream().filter(s -> materials.containsAll(s.getValue())).map(Map.Entry::getKey).findFirst();
     }
 
-    public Set<Material> getMaterials(Group group) {
-        Set<Material> out = new HashSet<>();
+    public Set<CompatibleMaterial> getMaterials(Group group) {
+        Set<CompatibleMaterial> out = new HashSet<>();
 
         for (int i = 0; i < 5; i++) {
             if (group.getChildren().isEmpty())
-                out.addAll(groupMap.get(group).stream().map(CompatibleMaterial::getMaterial).collect(Collectors.toList()));
+                out.addAll(groupMap.get(group));
             else
                 out.addAll(group.getChildren().stream().map(this::getMaterials).flatMap(Collection::stream).collect(Collectors.toSet()));
         }

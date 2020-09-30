@@ -1,11 +1,12 @@
 package com.songoda.epicenchants.menus;
 
 import com.songoda.core.hooks.EconomyManager;
+import com.songoda.core.nms.NmsManager;
+import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.objects.Placeholder;
-import com.songoda.epicenchants.utils.itemnbtapi.NBTItem;
 import com.songoda.epicenchants.utils.objects.FastInv;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
@@ -19,8 +20,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.single.Experience.*;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
+import static com.songoda.epicenchants.utils.single.Experience.changeExp;
+import static com.songoda.epicenchants.utils.single.Experience.getExp;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 
 public class AlchemistMenu extends FastInv {
     private final EpicEnchants instance;
@@ -120,9 +123,9 @@ public class AlchemistMenu extends FastInv {
         ItemStack toHandle = itemStack.clone();
         toHandle.setAmount(1);
 
-        NBTItem nbtItem = new NBTItem(toHandle);
+        NBTItem nbtItem = NmsManager.getNbt().of(toHandle);
 
-        if (!nbtItem.hasKey("book-item") && !nbtItem.hasKey("dust")) {
+        if (!nbtItem.has("book-item") && !nbtItem.has("dust")) {
             instance.getLocale().getMessage("alchemist.notinterested").sendPrefixedMessage(player);
             return false;
         }
@@ -133,13 +136,13 @@ public class AlchemistMenu extends FastInv {
             return false;
         }
 
-        int successRate = nbtItem.getInteger("success-rate");
+        int successRate = nbtItem.getNBTObject("success-rate").asInt();
 
         // Both slots empty
         if (getInventory().getItem(LEFT_SLOT) == null && getInventory().getItem(RIGHT_SLOT) == null) {
-            if (nbtItem.hasKey("book-item")) {
-                Enchant enchant = instance.getEnchantManager().getValue(nbtItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
-                int level = nbtItem.getInteger("level");
+            if (nbtItem.has("book-item")) {
+                Enchant enchant = instance.getEnchantManager().getValue(nbtItem.getNBTObject("enchant").asString()).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+                int level = nbtItem.getNBTObject("level").asInt();
 
                 if (enchant.getMaxLevel() == level) {
                     instance.getLocale().getMessage("alchemist.maxlevelbook")
@@ -147,7 +150,7 @@ public class AlchemistMenu extends FastInv {
                     return false;
                 }
             } else {
-                Group group = instance.getGroupManager().getValue(nbtItem.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!"));
+                Group group = instance.getGroupManager().getValue(nbtItem.getNBTObject("group").asString()).orElseThrow(() -> new IllegalStateException("Dust without group!"));
 
                 if (group.getOrder() == instance.getGroupManager().getValues().stream().mapToInt(Group::getOrder).max().orElse(0) || successRate == 100) {
                     instance.getLocale().getMessage("alchemist." + (successRate == 100 ? "maxpercentagedust" : "highestgroupdust"))
@@ -160,21 +163,21 @@ public class AlchemistMenu extends FastInv {
             return true;
         }
 
-        NBTItem other = new NBTItem(getInventory().getItem(getInventory().getItem(LEFT_SLOT) == null ? RIGHT_SLOT : LEFT_SLOT));
+        NBTItem other = NmsManager.getNbt().of(getInventory().getItem(getInventory().getItem(LEFT_SLOT) == null ? RIGHT_SLOT : LEFT_SLOT));
         int emptySlot = getInventory().getItem(LEFT_SLOT) == null ? LEFT_SLOT : RIGHT_SLOT;
 
-        if (other.hasKey("book-item")) {
-            if (!nbtItem.getString("enchant").equals(other.getString("enchant"))) {
+        if (other.has("book-item")) {
+            if (!nbtItem.getNBTObject("enchant").asString().equals(other.getNBTObject("enchant").asString())) {
                 instance.getLocale().getMessage("alchemist.differentenchantment").sendPrefixedMessage(player);
                 return false;
             }
 
-            if (!nbtItem.getInteger("level").equals(other.getInteger("level"))) {
+            if (nbtItem.getNBTObject("level").asInt() != other.getNBTObject("level").asInt()) {
                 instance.getLocale().getMessage("alchemist.differentlevels").sendPrefixedMessage(player);
                 return false;
             }
         } else {
-            if (!nbtItem.getString("group").equals(other.getString("group"))) {
+            if (!nbtItem.getNBTObject("group").asString().equals(other.getNBTObject("group").asString())) {
                 instance.getLocale().getMessage("alchemist.differentgroups").sendPrefixedMessage(player);
                 return false;
             }
@@ -197,18 +200,18 @@ public class AlchemistMenu extends FastInv {
             return;
         }
 
-        NBTItem leftItem = new NBTItem(getInventory().getItem(LEFT_SLOT));
-        NBTItem rightItem = new NBTItem(getInventory().getItem(RIGHT_SLOT));
+        NBTItem leftItem = NmsManager.getNbt().of(getInventory().getItem(LEFT_SLOT));
+        NBTItem rightItem = NmsManager.getNbt().of(getInventory().getItem(RIGHT_SLOT));
         int ecoCost;
         int expCost;
 
-        if (leftItem.hasKey("book-item")) {
-            int level = leftItem.getInteger("level");
-            Enchant enchant = instance.getEnchantManager().getValue(leftItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
-            int leftSuccess = leftItem.getInteger("success-rate");
-            int rightSuccess = rightItem.getInteger("success-rate");
-            int leftDestroy = leftItem.getInteger("destroy-rate");
-            int rightDestroy = rightItem.getInteger("destroy-rate");
+        if (leftItem.has("book-item")) {
+            int level = leftItem.getNBTObject("level").asInt();
+            Enchant enchant = instance.getEnchantManager().getValue(leftItem.getNBTObject("enchant").asString()).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+            int leftSuccess = leftItem.getNBTObject("success-rate").asInt();
+            int rightSuccess = rightItem.getNBTObject("success-rate").asInt();
+            int leftDestroy = leftItem.getNBTObject("destroy-rate").asInt();
+            int rightDestroy = rightItem.getNBTObject("destroy-rate").asInt();
 
             Placeholder[] placeholders = new Placeholder[]{
                     of("left_success_rate", leftSuccess),
@@ -235,11 +238,11 @@ public class AlchemistMenu extends FastInv {
 
             getInventory().setItem(PREVIEW_SLOT, enchant.getBook().get(enchant, level + 1, successRate, destroyRate));
         } else {
-            Group group = instance.getGroupManager().getValue(leftItem.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!"));
+            Group group = instance.getGroupManager().getValue(leftItem.getNBTObject("group").asString()).orElseThrow(() -> new IllegalStateException("Dust without group!"));
 
             Placeholder[] placeholders = new Placeholder[]{
-                    of("left_percentage", leftItem.getInteger("percentage")),
-                    of("right_percentage", rightItem.getInteger("percentage"))
+                    of("left_percentage", leftItem.getNBTObject("percentage").asInt()),
+                    of("right_percentage", rightItem.getNBTObject("percentage").asInt())
             };
 
             int successRate = getFromFormula("dust.percentage-formula", placeholders);

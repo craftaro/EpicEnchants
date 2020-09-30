@@ -1,13 +1,20 @@
 package com.songoda.epicenchants.effect.effects;
 
+import com.songoda.core.nms.NmsManager;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.epicenchants.utils.itemnbtapi.*;
+import com.songoda.core.nms.nbt.NBTEntity;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,22 +92,12 @@ public class SpawnMob extends EffectExecutor {
                 ((Monster) entity).setTarget(opponent);
             }
 
-            NBTEntity nbtEntity = new NBTEntity(entity);
+            if (entity instanceof LivingEntity) {
+                AttributeInstance attack = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+                attack.setBaseValue(attackDamage.get(level, (int) Math.round(attack.getBaseValue()), user, opponent));
 
-            nbtEntity.setBoolean(user.getUniqueId().toString(), true);
-
-            NBTCompoundList list = nbtEntity.getCompoundList("Attributes");
-
-            for (int j = 0; j < list.size(); j++) {
-                NBTListCompound lc = list.get(j);
-                if (lc.getString("Name").equals("generic.attackDamage")) {
-                    lc.setDouble("Base", attackDamage.get(level, (int) Math.round(lc.getDouble("Base")), user, opponent));
-                    continue;
-                }
-
-                if (lc.getString("Name").equals("generic.maxHealth")) {
-                    lc.setDouble("Base", health.get(level, (int) Math.round(lc.getDouble("Base")), user, opponent));
-                }
+                AttributeInstance heal = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+                heal.setBaseValue(health.get(level, (int) Math.round(heal.getBaseValue()), user, opponent));
             }
         }
     }

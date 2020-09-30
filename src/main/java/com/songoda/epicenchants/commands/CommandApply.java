@@ -1,6 +1,7 @@
 package com.songoda.epicenchants.command.commands;
 
 import com.songoda.core.commands.AbstractCommand;
+import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.epicenchants.CommandCommons;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
@@ -61,7 +62,7 @@ public class CommandApply extends AbstractCommand {
         int level = Integer.parseInt(args[1]);
         Player player = (Player) sender;
 
-        if (!enchant.getItemWhitelist().contains(player.getItemInHand().getType())) {
+        if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(player.getItemInHand()))) {
             System.out.println("List = " + enchant.getItemWhitelist());
             plugin.getLocale().getMessage("command.apply.invaliditem")
                     .processPlaceholder("enchant", enchant.getIdentifier())

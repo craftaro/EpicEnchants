@@ -2,7 +2,7 @@
     <groupId>com.songoda</groupId>
     <artifactId>EpicEnchants</artifactId>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.1.9</version>
+    <version>1.1.9b</version>
     <build>
         <defaultGoal>clean install</defaultGoal>
         <finalName>EpicEnchants-${project.version}</finalName>
@@ -77,10 +77,6 @@
 
     <repositories>
         <repository>
-            <id>private</id>
-            <url>http://repo.songoda.com/repository/private/</url>
-        </repository>
-        <repository>
             <id>public</id>
             <url>http://repo.songoda.com/repository/public/</url>
         </repository>
@@ -94,7 +90,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.1</version>
+            <version>1.16.4</version>
         </dependency>
         <dependency>
             <groupId>fr.mrmicky</groupId>

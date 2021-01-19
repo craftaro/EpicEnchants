@@ -44,8 +44,9 @@ public class BookListener extends ItemListener {
         }
         // get total amount of enchantments on item
         int currentEnchantmentTotal = instance.getEnchantUtils().getEnchants(toApply).size();
-        //int maxAllowedApply = instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
+        int maxAllowedOverride = instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
         int maxAllowedApply = instance.getEnchantUtils().getMaximumEnchantsCanApplyItem(toApply, (Player) event.getWhoClicked());
+        maxAllowedApply = Math.min(maxAllowedApply, maxAllowedOverride);
         // item is at max enchantments
         if (currentEnchantmentTotal >= maxAllowedApply) {
             instance.getLocale().getMessage("enchants.maxallowed").processPlaceholder("max_enchants", maxAllowedApply).sendPrefixedMessage(event.getWhoClicked());

@@ -44,8 +44,9 @@ public class BookListener extends ItemListener {
         }
         // get total amount of enchantments on item
         int currentEnchantmentTotal = instance.getEnchantUtils().getEnchants(toApply).size();
-        //int maxAllowedApply = instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
+        int maxAllowedOverride = instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
         int maxAllowedApply = instance.getEnchantUtils().getMaximumEnchantsCanApplyItem(toApply, (Player) event.getWhoClicked());
+        maxAllowedApply = Math.min(maxAllowedApply, maxAllowedOverride);
         // item is at max enchantments
         if (currentEnchantmentTotal >= maxAllowedApply) {
             instance.getLocale().getMessage("enchants.maxallowed").processPlaceholder("max_enchants", maxAllowedApply).sendPrefixedMessage(event.getWhoClicked());
@@ -105,11 +106,11 @@ public class BookListener extends ItemListener {
         useItem(event);
         event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get(), level));
 
-        instance.getLocale().getMessage("book.discover")
+        event.getPlayer().sendMessage(instance.getLocale().getMessage("book.discover")
                 .processPlaceholder("group_name", group.getName())
                 .processPlaceholder("group_color", group.getColor())
                 .processPlaceholder("enchant_format", enchant.get().getFormat())
                 .processPlaceholder("level", level)
-                .sendPrefixedMessage(event.getPlayer());
+                .getPrefixedMessage());
     }
 }

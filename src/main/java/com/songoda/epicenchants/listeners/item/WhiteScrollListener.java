@@ -1,5 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
+import com.songoda.core.compatibility.CompatibleMaterial;
+import com.songoda.core.nms.nbt.NBTCompound;
 import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
@@ -25,6 +27,9 @@ public class WhiteScrollListener extends ItemListener {
                     .sendPrefixedMessage(event.getWhoClicked());
             return;
         }
+
+        if (!instance.getItemGroup().isValid(CompatibleMaterial.getMaterial(event.getCurrentItem())))
+            return;
 
         current.set("protected", true);
         instance.getLocale().getMessage("whitescrollapplied").sendPrefixedMessage(event.getWhoClicked());

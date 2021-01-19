@@ -4,9 +4,13 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.songoda.core.compatibility.CompatibleMaterial;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Material;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.songoda.core.compatibility.CompatibleMaterial.*;
@@ -53,6 +57,13 @@ public class ItemGroup {
         }
 
         return output;
+    }
+
+    public boolean isValid(CompatibleMaterial material) {
+        for (Group group : groupMap.keys())
+            if (getMaterials(group).contains(material))
+                return true;
+        return false;
     }
 
     public Set<String> getGroups(Set<CompatibleMaterial> materials) {

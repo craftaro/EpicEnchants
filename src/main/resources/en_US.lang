@@ -18,6 +18,9 @@ command:
   whitescroll:
     received: '&7You have been given a whitescroll.'
     gave: '&7You gave &6{player} &7a whitescroll.'
+  blackscroll:
+    received: '&7You have been given a blackscroll.'
+    gave: '&7You gave &6{player} &7a blackscroll.'
   apply:
     invaliditem: '&cYou cannot apply &4{enchant}&r &cto this item.'
   reload: '&7Configuration files reloaded.'

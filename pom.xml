@@ -91,6 +91,7 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.16.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>fr.mrmicky</groupId>
@@ -108,6 +109,7 @@
             <groupId>com.songoda</groupId>
             <artifactId>UltimateBottles</artifactId>
             <version>1_0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>

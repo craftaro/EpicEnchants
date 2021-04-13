@@ -7,7 +7,7 @@ import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.configuration.Config;
 import com.songoda.core.gui.GuiManager;
 import com.songoda.core.hooks.EconomyManager;
-import com.songoda.epicenchants.command.commands.*;
+import com.songoda.epicenchants.commands.*;
 import com.songoda.epicenchants.listeners.ArmorListener;
 import com.songoda.epicenchants.listeners.EntityListener;
 import com.songoda.epicenchants.listeners.HeldItemListener;

@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.command.commands;
+package com.songoda.epicenchants.commands;
 
 import com.songoda.core.commands.AbstractCommand;
 import com.songoda.epicenchants.EpicEnchants;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class CommandGiveRandomBook extends AbstractCommand {
 
     private final EpicEnchants plugin;
-    
+
     public CommandGiveRandomBook(EpicEnchants plugin) {
         super(false, "giverandombook");
         this.plugin = plugin;

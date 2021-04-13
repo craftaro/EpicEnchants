@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.command.commands;
+package com.songoda.epicenchants.commands;
 
 import com.songoda.core.commands.AbstractCommand;
 import com.songoda.core.configuration.editor.PluginConfigGui;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CommandSettings extends AbstractCommand {
-    
+
     private final EpicEnchants plugin;
 
     public CommandSettings(EpicEnchants plugin) {

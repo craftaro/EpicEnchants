@@ -78,7 +78,7 @@
     <repositories>
         <repository>
             <id>public</id>
-            <url>http://repo.songoda.com/repository/public/</url>
+            <url>https://repo.songoda.com/repository/public/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>

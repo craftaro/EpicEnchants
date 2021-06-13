@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.command.commands;
+package com.songoda.epicenchants.commands;
 
 import com.songoda.core.commands.AbstractCommand;
 import com.songoda.epicenchants.EpicEnchants;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandList extends AbstractCommand {
-    
+
     private final EpicEnchants plugin;
 
     public CommandList(EpicEnchants plugin) {

@@ -1,9 +1,9 @@
 package com.songoda.epicenchants.utils.single;
 
+import com.songoda.core.math.MathUtils;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.enums.TriggerType;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,9 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +22,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class GeneralUtils {
-    private static final ScriptEngine SCRIPT_ENGINE = new ScriptEngineManager().getEngineByName("JavaScript");
 
     public static boolean chance(int chance) {
         return chance((double) chance);
@@ -72,10 +68,10 @@ public class GeneralUtils {
 
     public static ItemStack getHeldItem(LivingEntity entity, Event event) {
         if (entity instanceof Player) {
-            Player player = (Player)entity;
+            Player player = (Player) entity;
             int slot = getHeldItemSlot(player, event);
             return player.getInventory().getItem(slot);
-        } else if (entity.getEquipment() != null){
+        } else if (entity.getEquipment() != null) {
             ItemStack item = entity.getEquipment().getItemInHand();
 
             try {
@@ -90,7 +86,7 @@ public class GeneralUtils {
     }
 
     public static int getHeldItemSlot(Player entity, Event event) {
-        Player player = (Player)entity;
+        Player player = (Player) entity;
         int slot = player.getInventory().getHeldItemSlot();
 
         try {
@@ -104,12 +100,7 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
-        try {
-            return SCRIPT_ENGINE.eval(toParse);
-        } catch (ScriptException e) {
-            Bukkit.getLogger().warning("[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
-            Bukkit.getLogger().warning(toParse);
-            return def;
-        }
+        return MathUtils.eval("[EpicEnchants] One of your " + type + " expressions is not properly formatted.", toParse);
+
     }
 }

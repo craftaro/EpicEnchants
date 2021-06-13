@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.command.commands;
+package com.songoda.epicenchants.commands;
 
 import com.songoda.core.commands.AbstractCommand;
 import com.songoda.core.compatibility.CompatibleMaterial;
@@ -22,7 +22,7 @@ import static com.songoda.epicenchants.utils.single.GeneralUtils.getMessageFromR
 public class CommandApply extends AbstractCommand {
 
     private final EpicEnchants plugin;
-    
+
     public CommandApply(EpicEnchants plugin) {
         super(true, "apply");
         this.plugin = plugin;

@@ -1,4 +1,4 @@
-package com.songoda.epicenchants.command.commands;
+package com.songoda.epicenchants.commands;
 
 import com.songoda.core.commands.AbstractCommand;
 import com.songoda.epicenchants.CommandCommons;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandGiveScroll extends AbstractCommand {
-    
+
     private final EpicEnchants plugin;
 
     public CommandGiveScroll(EpicEnchants plugin) {

@@ -12,9 +12,6 @@ group: LEGENDARY
 # How the enchant should be formatted on the enchanted item.
 applied-format: "&bResist {level}"
 
-# How the enchant should be formatted on the enchanted item.
-applied-format: "&bResist {level}"
-
 # Description
 description:
   - "A chance of giving the resist effect."
@@ -28,13 +25,18 @@ effects:
   POTION:
     # The trigger that will fire this effect.
     trigger: STATIC_EFFECT
+
     # What player should the effect be ran on: WEARER/OPPONENT.
     who: USER
+
     # The potion type.
     potion-type: DAMAGE_RESISTANCE
+
     # The amplifier of the potion effect.
     amplifier: "{level}"
+
     # Duration of the potion effect.
     duration: "{level} * 10"
+
     # Chance of the effect firing.
     chance: "100"

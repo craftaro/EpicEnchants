@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Lightning
@@ -26,7 +26,9 @@ effects:
   LIGHTNING:
     # Chance that this will happen
     chance: "5 * {level}"
+
     # The trigger that will fire this effect
     trigger: ATTACK_PLAYER_RANGE
+
     # What player should the effect be ran on: USER/OPPONENT.
     who: OPPONENT

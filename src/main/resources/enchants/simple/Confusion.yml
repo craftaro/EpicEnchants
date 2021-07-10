@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Confusion
@@ -26,13 +26,18 @@ effects:
   POTION:
     # The trigger that will fire this effect
     trigger: ATTACK_PLAYER_MELEE
+
     # What player should the effect be ran on: WEARER/OPPONENT.
     who: OPPONENT
+
     # Potion Effect that should be applied.
     potion-type: CONFUSION
+
     # Duration of the Potion Effect in seconds.
     duration: "3 * {level}"
+
     # Chance that the Effect gets activated.
     chance: "5 * {level}"
+
     # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
     amplifier: "{level}"

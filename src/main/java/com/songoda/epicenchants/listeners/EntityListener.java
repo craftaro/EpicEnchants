@@ -57,7 +57,6 @@ public class EntityListener implements Listener {
             }
         }
 
-
         //Player got hit
         if (event.getEntity() instanceof Player) {
             Player defender = (Player) event.getEntity();

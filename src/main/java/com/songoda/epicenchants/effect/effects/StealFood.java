@@ -2,7 +2,6 @@ package com.songoda.epicenchants.effect.effects;
 
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,7 +14,7 @@ public class StealFood extends EffectExecutor {
 
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
-        int amount = (int)Math.floor(getAmount().get(level, 0, user, opponent));
+        int amount = (int) Math.floor(getAmount().get(level, 0, user, opponent));
 
         if (!(opponent instanceof Player)) {
             return;

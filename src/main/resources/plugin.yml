@@ -1,11 +1,20 @@
-name: EpicEnchants
-version: maven-version-number
-main: com.songoda.epicenchants.EpicEnchants
-authors: [Songoda]
-website: https://songoda.com/
-softdepend: [Vault, PlayerPoints, UltimateBottles, PlaceholderAPI]
+name: ${project.name}
+description: ${project.description}
+version: ${project.version}
 api-version: 1.13
+
+main: com.songoda.epicenchants.EpicEnchants
+softdepend:
+  - PlaceholderAPI
+  - PlayerPoints
+  - UltimateBottles
+  - Vault
+
+author: Songoda
+website: ${project.url}
+
 commands:
   ee:
-    aliases: [epicenchants]
+    aliases:
+      - epicenchants
     ussage: reload

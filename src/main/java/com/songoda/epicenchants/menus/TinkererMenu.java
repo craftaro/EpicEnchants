@@ -153,7 +153,6 @@ public class TinkererMenu extends FastInv {
             }
         });
 
-
         // Player closed inventory
         onClose(event -> {
             slotMap.keySet().stream().filter(s -> getInventory().getItem(s) != null).forEach(s -> {

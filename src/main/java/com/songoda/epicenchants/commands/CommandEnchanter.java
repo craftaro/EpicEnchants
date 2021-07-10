@@ -19,7 +19,7 @@ public class CommandEnchanter extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         new EnchanterMenu(plugin, plugin.getFileManager().getConfiguration("menus/enchanter-menu"), player).open(player);
         return ReturnType.SUCCESS;
     }

@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Experience
@@ -26,9 +26,12 @@ effects:
   MODIFY_EXP:
     # Chance that this will happen
     chance: "20 * {level}"
+
     # The trigger that will fire this effect
     trigger: EXPERIENCE_BLOCK_BREAK
+
     # What player should the effect be ran on: USER/OPPONENT.
     who: USER
+
     # Amount of EXP to add
     amount: "10 * {level}"

@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Aquatic
@@ -25,5 +25,6 @@ effects:
   POTION:
     # The trigger that will fire this effect
     trigger: STATIC_EFFECT
+
     # Potion Effect that should be applied.
     potion-type: WATER_BREATHING

@@ -33,7 +33,6 @@ public class CommandGiveRandomBook extends AbstractCommand {
             return ReturnType.FAILURE;
         }
 
-
         List<Group> groups = plugin.getGroupManager().getValues().stream()
                 .filter(group -> group.getIdentifier().equalsIgnoreCase(args[1])).collect(Collectors.toList());
 

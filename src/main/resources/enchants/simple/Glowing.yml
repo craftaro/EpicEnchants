@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Glowing
@@ -25,5 +25,6 @@ effects:
   POTION-1:
     # The trigger that will fire this effect
     trigger: STATIC_EFFECT
+
     # Potion effect type
     potion-type: NIGHT_VISION

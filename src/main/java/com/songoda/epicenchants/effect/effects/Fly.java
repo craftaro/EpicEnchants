@@ -19,5 +19,4 @@ public class Fly extends EffectExecutor {
         user.setAllowFlight(eventType == ON);
         user.setFlying(eventType == ON);
     }
-
 }

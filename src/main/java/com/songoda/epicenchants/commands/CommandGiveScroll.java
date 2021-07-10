@@ -39,11 +39,10 @@ public class CommandGiveScroll extends AbstractCommand {
         int amount = 1;
         int successRate = -1;
 
-
         if (args.length > 2) {
             if (!CommandCommons.isInt(args[2], sender))
                 return ReturnType.FAILURE;
-            amount =  Integer.parseInt(args[2]);
+            amount = Integer.parseInt(args[2]);
         }
 
         if (args.length > 3) {
@@ -85,7 +84,7 @@ public class CommandGiveScroll extends AbstractCommand {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         } else if (args.length == 3 || args.length == 4) {
             List<String> rates = new ArrayList<>();
-            for (int i = 1; i <= (args.length == 3 ? 10 : 100); i ++)
+            for (int i = 1; i <= (args.length == 3 ? 10 : 100); i++)
                 rates.add(String.valueOf(i));
             return rates;
         }

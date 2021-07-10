@@ -28,4 +28,3 @@ effects:
     trigger: "DEFENSE_PLAYER_MELEE,DEFENSE_MOB_MELEE"
     # Chance that this effect wil fire.
     chance: "{user_is_sneaking} ? (8 * {level}) : (4 * {level})"
-    

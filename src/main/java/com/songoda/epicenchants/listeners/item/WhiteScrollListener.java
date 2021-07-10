@@ -1,7 +1,6 @@
 package com.songoda.epicenchants.listeners.item;
 
 import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.nms.nbt.NBTCompound;
 import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;

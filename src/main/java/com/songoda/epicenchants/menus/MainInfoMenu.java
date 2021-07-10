@@ -7,9 +7,8 @@ import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 
-import java.util.Optional;
-
-import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 
 public class MainInfoMenu extends FastInv implements Listener {
 
@@ -26,6 +25,4 @@ public class MainInfoMenu extends FastInv implements Listener {
                     instance.getInfoManager().getMenu(group).ifPresent(menu -> menu.open(event.getPlayer()));
                 }));
     }
-
-
 }

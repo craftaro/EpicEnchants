@@ -2,7 +2,11 @@ package com.songoda.epicenchants.managers;
 
 import com.songoda.epicenchants.EpicEnchants;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public abstract class Manager<K, V> {
 
@@ -41,5 +45,4 @@ public abstract class Manager<K, V> {
     public void clear() {
         map.clear();
     }
-
 }

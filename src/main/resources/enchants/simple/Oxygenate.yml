@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Oxygenate
@@ -26,11 +26,15 @@ effects:
   POTION:
     # The trigger that will fire this effect
     trigger: BLOCK_BREAK
+
     # Potion Effect that should be applied.
     potion-type: WATER_BREATHING
+
     # Chance that this will happen
     chance: "10 * {level}"
+
     # Amount of oxygen to refill
     amount: "{level}"
+
     # What player should the effect be ran on: USER/OPPONENT.
     who: USER

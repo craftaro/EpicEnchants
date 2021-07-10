@@ -150,6 +150,7 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
          * Attempts to match the ArmorType for the specified ItemStack.
          *
          * @param itemStack The ItemStack to parse the type of.
+         *
          * @return The parsed ArmorType. (null if none were found.)
          */
         public static ArmorType matchType(final ItemStack itemStack) {

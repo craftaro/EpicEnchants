@@ -2,21 +2,21 @@ author: Tin
 
 # The enchant identifier must be unique.
 identifier: Inquisitive
- 
+
 # The max level for this enchant.
 max-level: 5
- 
+
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: UNIQUE
- 
+
 # The item that the enchantment book is.
 description:
   - "A chance to receive"
   - "more EXP when killing mobs."
- 
+
 # How the enchant should be formatted on the enchanted item.
 applied-format: "&cInquisitive {level}"
- 
+
 # What items this enchant can be applied too.
 item-whitelist:
   - "SWORDS"

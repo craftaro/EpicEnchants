@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Gears
@@ -25,7 +25,9 @@ effects:
   POTION:
     # The trigger that will fire this effect.
     trigger: STATIC_EFFECT
+
     # The potion type.
     potion-type: SPEED
+
     # The amplifier of the potion effect.
     amplifier: "{level}"

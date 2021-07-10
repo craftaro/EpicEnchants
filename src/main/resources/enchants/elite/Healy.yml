@@ -1,46 +1,35 @@
-
-#Who made this?
-Author: Auora
+author: Auora
 
 # The enchant identifier must be unique.
 identifier: Healy
- 
+
 # The max level for this enchant.
 max-level: 4
- 
+
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: ELITE
- 
+
 book-item:
- 
   material: BOOK
- 
   display-name: "&a&lHealy {level}"
- 
+
   # The lore on the enchantments books.
- 
   lore:
- 
     - "&7Drag on to enchant"
- 
     - "&a{success_rate}% Success Rate"
- 
     - "&c{destroy_rate}% Destroy Rate"
- 
- 
- 
+
 # How the enchant should be formatted on the enchanted item.
- 
 applied-format: "&aHealy {level}"
- 
+
 # Description
 description:
   - "A chance of remove the players effects"
- 
+
 # What items this enchant can be applied to.
 item-whitelist:
   - "ARMOR"
- 
+
 # For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
 effects:
   REMOVE_EFFECT:

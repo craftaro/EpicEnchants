@@ -20,7 +20,7 @@ description:
 # What items this enchant can be applied to.
 item-whitelist:
   - "LEGGINGS"
-  
+
 # For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
 effects:
   SPAWN_MOB:

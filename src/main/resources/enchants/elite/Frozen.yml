@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Frozen
@@ -36,4 +36,3 @@ effects:
     chance: "5 * {level}"
     # Who should this effect be ran on.
     who: OPPONENT
-    

@@ -12,7 +12,12 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
@@ -98,7 +103,6 @@ public class Placeholders {
 
         AtomicReference<String> output = new AtomicReference<>(input);
 
-
         REGEX_CONSUMERS.forEach(consumer -> consumer.accept(output));
         Optional.ofNullable(event).ifPresent(e -> EVENT_FUNCTIONS.forEach((toReplace, function) -> output.updateAndGet(string -> string.replace(toReplace, "'" + function.apply(e) + "'"))));
 
@@ -112,6 +116,4 @@ public class Placeholders {
 
         return output.get();
     }
-
-
 }

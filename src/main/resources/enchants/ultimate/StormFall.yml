@@ -1,4 +1,4 @@
-﻿author: "Songoda"
+author: "Songoda"
 
 # The enchant identifier must be unique.
 identifier: StormFall
@@ -35,7 +35,7 @@ effects:
     trigger: ATTACK_PLAYER_RANGE
     who: OPPONENT
     chance: '100*{level}-200'
-#---------------------------------------
+  # ---------------------------------------
   LIGHTNING-4:
     trigger: ATTACK_MOB_RANGE
     who: OPPONENT

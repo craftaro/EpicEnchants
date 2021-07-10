@@ -1,4 +1,4 @@
-﻿author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Enlightened
@@ -25,7 +25,9 @@ effects:
   MODIFY_HEALTH:
     # The trigger that will fire this effect
     trigger: "DEFENSE_PLAYER_MELEE, DEFENSE_MOB_MELEE"
+
     # How much life does it should add
     amount: "+1"
+
     # Chances for the event to proceed
     chance: "10*{level}"

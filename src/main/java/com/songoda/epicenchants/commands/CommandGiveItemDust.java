@@ -85,7 +85,7 @@ public class CommandGiveItemDust extends AbstractCommand {
             return dusts;
         } else if (args.length == 4) {
             List<String> rates = new ArrayList<>();
-            for (int i = 1; i <= 100; i ++)
+            for (int i = 1; i <= 100; i++)
                 rates.add(String.valueOf(i));
             return rates;
         }

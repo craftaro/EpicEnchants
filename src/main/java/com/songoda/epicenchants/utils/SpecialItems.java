@@ -56,7 +56,6 @@ public class SpecialItems {
         return nbtItem.finish();
     }
 
-
     public ItemStack getSecretDust(NBTItem book) {
         Group group = instance.getEnchantManager().getValueUnsafe(book.getNBTObject("enchant").asString()).getGroup();
         return getSecretDust(group, (int) Math.floor(book.getNBTObject("success-rate").asInt() / 10.0));

@@ -44,5 +44,4 @@ public class Potion extends EffectExecutor {
         consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, (int) duration.get(level, 60, user, opponent) * 20,
                 (int) amplifier.get(level - 1, 0, user, opponent), false, false)), user, opponent);
     }
-
 }

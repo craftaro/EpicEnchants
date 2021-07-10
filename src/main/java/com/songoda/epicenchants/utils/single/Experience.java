@@ -13,6 +13,7 @@ public class Experience {
      * Calculates a player's total exp based on level and progress to next.
      *
      * @param player the Player
+     *
      * @return the amount of exp the Player has
      */
     public static int getExp(Player player) {
@@ -30,6 +31,7 @@ public class Experience {
      * 4.5[Level]2 - 162.5[Level] + 2220 (at level 31+)"
      *
      * @param level the level
+     *
      * @return the total experience calculated
      */
     public static int getExpFromLevel(int level) {
@@ -46,6 +48,7 @@ public class Experience {
      * Calculates level based on total experience.
      *
      * @param exp the total experience
+     *
      * @return the level calculated
      */
     public static double getLevelFromExp(long exp) {
@@ -99,5 +102,4 @@ public class Experience {
         player.setLevel(level);
         player.setExp((float) (levelAndExp - level));
     }
-
 }

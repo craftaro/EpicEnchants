@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Haste
@@ -26,8 +26,9 @@ effects:
   POTION:
     # The trigger that will fire this effect
     trigger: HELD_ITEM
+
     # Potion Effect that should be applied.
     potion-type: FAST_DIGGING
+
     # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
     amplifier: "{level}"
-    

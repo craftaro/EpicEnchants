@@ -1,4 +1,4 @@
-﻿author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: SkillSwipe
@@ -25,7 +25,9 @@ effects:
   STEAL_EXP:
     # The trigger that will fire this effect
     trigger: ATTACK_PLAYER_MELEE
+
     # Chance that this effect wil fire.
     chance: "5 * {level}"
+
     # Amount of EXP to be stolen.
     amount: 100

@@ -2,7 +2,9 @@ package com.songoda.epicenchants.listeners;
 
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.events.ArmorEquipEvent;
+import com.songoda.epicenchants.events.HeldItemChangedEvent;
 import com.songoda.epicenchants.objects.Enchant;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,6 +14,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -19,9 +22,6 @@ import java.util.Map;
 import static com.songoda.epicenchants.enums.EventType.OFF;
 import static com.songoda.epicenchants.enums.EventType.ON;
 import static com.songoda.epicenchants.enums.TriggerType.*;
-import com.songoda.epicenchants.events.HeldItemChangedEvent;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
     private final EpicEnchants instance;
@@ -38,7 +38,7 @@ public class PlayerListener implements Listener {
         oldArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, OFF));
         newArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
     }
-    
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onHeldItemChanged(HeldItemChangedEvent event) {
         Map<Enchant, Integer> oldItemMap = instance.getEnchantUtils().getEnchants(event.getOldItem());

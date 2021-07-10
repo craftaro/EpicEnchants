@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: RocketEscape
@@ -35,4 +35,3 @@ effects:
     chance: "{level} * 10"
     # Only fire at low HP
     condition: "{user_health} < 5"
-    

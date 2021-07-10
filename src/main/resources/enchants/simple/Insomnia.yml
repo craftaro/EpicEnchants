@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Insomnia
@@ -21,44 +21,57 @@ description:
 item-whitelist:
   - "SWORDS"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   POTION-1:
     # Chance that this will happen
     chance: "5 * {level}"
+
     # The trigger that will fire this effect
     trigger: ATTACK_PLAYER_MELEE
+
     # What player should the effect be ran on: USER/OPPONENT.
     who: OPPONENT
+
     # Amount of EXP to add
     potion-type: CONFUSION
+
     # Duration of the Potion Effect in seconds.
     duration: "3 * {level}"
-    # Chance that the Effect gets activated.
-    chance: "5 * {level}"
+
     # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
     amplifier: "{level}"
+
     # Simultaneous
     simultaneous:
-        POTION:
-            # What player should the effect be ran on: USER/OPPONENT.
-            who: OPPONENT
-            # Amount of EXP to add
-            potion-type: SLOW_DIGGING
-            # Duration of the Potion Effect in seconds.
-            duration: "3 * {level}"
-            # Chance that the Effect gets activated.
-            chance: "5 * {level}"
-            # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
-            amplifier: "{level}"
-        POTION-1:
-            # What player should the effect be ran on: USER/OPPONENT.
-            who: OPPONENT
-            # Amount of EXP to add
-            potion-type: SLOW
-            # Duration of the Potion Effect in seconds.
-            duration: "3 * {level}"
-            # Chance that the Effect gets activated.
-            chance: "5 * {level}"
-            # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
-            amplifier: "{level}"
+      POTION:
+        # What player should the effect be ran on: USER/OPPONENT.
+        who: OPPONENT
+
+        # Amount of EXP to add
+        potion-type: SLOW_DIGGING
+
+        # Duration of the Potion Effect in seconds.
+        duration: "3 * {level}"
+
+        # Chance that the Effect gets activated.
+        chance: "5 * {level}"
+
+        # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
+        amplifier: "{level}"
+
+      POTION-1:
+        # What player should the effect be ran on: USER/OPPONENT.
+        who: OPPONENT
+
+        # Amount of EXP to add
+        potion-type: SLOW
+
+        # Duration of the Potion Effect in seconds.
+        duration: "3 * {level}"
+
+        # Chance that the Effect gets activated.
+        chance: "5 * {level}"
+
+        # Amplifier of 0 = SPEED 1 a Amplifier of 1 = SPEED 2, etc.
+        amplifier: "{level}"

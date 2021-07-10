@@ -22,12 +22,12 @@ public class CommandList extends AbstractCommand {
     protected ReturnType runCommand(CommandSender sender, String... args) {
         if (args.length > 1 && args[1].equalsIgnoreCase("chat")) {
             plugin.getLocale().newMessage(plugin.getEnchantManager().getValues().stream()
-                    .sorted(Comparator.comparing(enchant -> enchant.getGroup().getOrder()))
-                    .map(enchant -> enchant.getColoredIdentifier(true)).collect(Collectors.joining("&7, ")))
+                            .sorted(Comparator.comparing(enchant -> enchant.getGroup().getOrder()))
+                            .map(enchant -> enchant.getColoredIdentifier(true)).collect(Collectors.joining("&7, ")))
                     .sendPrefixedMessage(sender);
             return ReturnType.SUCCESS;
         }
-        plugin.getInfoManager().getMainInfoMenu().open((Player)sender);
+        plugin.getInfoManager().getMainInfoMenu().open((Player) sender);
         return ReturnType.SUCCESS;
     }
 

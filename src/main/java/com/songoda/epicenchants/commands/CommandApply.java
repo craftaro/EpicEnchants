@@ -98,13 +98,13 @@ public class CommandApply extends AbstractCommand {
                     .stream().findFirst().orElse(null);
             List<String> levels = new ArrayList<>();
             if (enchant != null) {
-                for (int i = 1; i <= enchant.getMaxLevel(); i ++)
+                for (int i = 1; i <= enchant.getMaxLevel(); i++)
                     levels.add(String.valueOf(i));
             }
             return levels;
         } else if (args.length == 3 || args.length == 4) {
             List<String> rates = new ArrayList<>();
-            for (int i = 1; i <= 100; i ++)
+            for (int i = 1; i <= 100; i++)
                 rates.add(String.valueOf(i));
             return rates;
         }

@@ -1,14 +1,8 @@
 package com.songoda.epicenchants.listeners;
 
-import static com.songoda.epicenchants.enums.EventType.OFF;
-import static com.songoda.epicenchants.enums.EventType.ON;
-import static com.songoda.epicenchants.enums.TriggerType.HELD_ITEM;
 import com.songoda.epicenchants.events.ArmorEquipEvent;
-import com.songoda.epicenchants.events.HeldItemChangedEvent.EquipMethod;
 import com.songoda.epicenchants.events.HeldItemChangedEvent;
-import java.util.Arrays;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
+import com.songoda.epicenchants.events.HeldItemChangedEvent.EquipMethod;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,13 +11,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import java.util.Arrays;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 public class HeldItemListener implements Listener {
 
@@ -117,21 +119,21 @@ public class HeldItemListener implements Listener {
             EquipMethod method;
             if (numberKey) {
                 if (!(e.getClickedInventory() instanceof PlayerInventory)
-                    || e.getHotbarButton() != heldslot) //we only care about heldslot
+                        || e.getHotbarButton() != heldslot) //we only care about heldslot
                     return;
                 method = EquipMethod.HOTBAR_SWAP;
                 newItem = e.getCurrentItem();
                 oldItem = e.getClickedInventory().getItem(e.getHotbarButton());
             } else if (swapoffhand) {
                 if (!(e.getClickedInventory() instanceof PlayerInventory)
-                    || e.getSlot() != heldslot) //we only care about heldslot
+                        || e.getSlot() != heldslot) //we only care about heldslot
                     return;
                 method = EquipMethod.OFFHAND_SWAP;
                 newItem = e.getClickedInventory().getItem(40);
                 oldItem = e.getCurrentItem();
             } else {
                 if (!(e.getClickedInventory() instanceof PlayerInventory)
-                    || e.getSlot() != heldslot) //we only care about heldslot
+                        || e.getSlot() != heldslot) //we only care about heldslot
                     return;
                 method = EquipMethod.PICK_DROP;
             }
@@ -147,7 +149,7 @@ public class HeldItemListener implements Listener {
     public void inventoryDrag(InventoryDragEvent event) {
         if (event.getRawSlots().isEmpty())
             return;
-        
+
         int rawslot = event.getRawSlots().stream().findFirst().orElse(0);
         int invslot = event.getView().convertSlot(rawslot);
         boolean bottominventory = rawslot != invslot;
@@ -208,7 +210,7 @@ public class HeldItemListener implements Listener {
         if (event.getItem().getItemStack().getMaxStackSize() == 1) { //tools maxStackSize is 1, ignore other items
             int firstEmpty = event.getPlayer().getInventory().firstEmpty();
             if (0 <= firstEmpty && firstEmpty <= 8
-                && event.getPlayer().getInventory().getHeldItemSlot() == firstEmpty)
+                    && event.getPlayer().getInventory().getHeldItemSlot() == firstEmpty)
                 Bukkit.getServer().getPluginManager().callEvent(new HeldItemChangedEvent(event.getPlayer(), EquipMethod.PICKUP_ITEM, null, event.getItem().getItemStack()));
         }
     }

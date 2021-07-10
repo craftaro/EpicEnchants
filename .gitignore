@@ -1,5 +1,6 @@
-out/
-.idea/
-*.iml
-META-INF/
-target/
+# JetBrains IDEs
+/.idea/
+/*.iml
+
+# Maven
+/target/

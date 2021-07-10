@@ -1,6 +1,5 @@
 package com.songoda.epicenchants.objects;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.core.nms.nbt.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
@@ -128,5 +127,4 @@ public class BookItem {
             return "BookItem.BookItemBuilder(instance=" + this.instance + ", material=" + this.material + ", displayName=" + this.displayName + ", lore=" + this.lore + ")";
         }
     }
-
 }

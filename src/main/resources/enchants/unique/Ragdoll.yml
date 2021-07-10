@@ -15,13 +15,13 @@ applied-format: "&Ragdoll {level}"
 # Description
 description:
   - "A chance to be pushed back when."
-  -  "you take damage."
+  - "you take damage."
 
 # What items this enchant can be applied to.
 item-whitelist:
   - "ARMOR"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   THROW:
     # Chance that this will happen

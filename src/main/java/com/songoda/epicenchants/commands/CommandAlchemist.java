@@ -17,10 +17,9 @@ public class CommandAlchemist extends AbstractCommand {
         this.plugin = plugin;
     }
 
-
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         new AlchemistMenu(plugin, plugin.getFileManager().getConfiguration("menus/alchemist-menu")).open(player);
         return ReturnType.SUCCESS;
     }

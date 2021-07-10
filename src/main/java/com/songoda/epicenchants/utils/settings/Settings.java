@@ -27,8 +27,8 @@ public class Settings {
     public static final ConfigSetting FIRST_LOAD = new ConfigSetting(config, "System.First Load", true);
 
     public static final ConfigSetting LANGUGE_MODE = new ConfigSetting(config, "System.Language Mode", "en_US",
-                         "The enabled language file.",
-                         "More language files (if available) can be found in the plugins data folder.");
+            "The enabled language file.",
+            "More language files (if available) can be found in the plugins data folder.");
 
     /**
      * In order to set dynamic economy comment correctly, this needs to be

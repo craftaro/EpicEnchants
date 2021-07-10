@@ -1,4 +1,4 @@
-﻿author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: LifeSteal
@@ -20,12 +20,14 @@ description:
 item-whitelist:
   - "SWORDS"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   STEAL_HEALTH:
     # The trigger that will fire this effect
     trigger: ATTACK_PLAYER_MELEE
+
     # How much life does it should steal
     amount: 1
+
     # Chance that this effect wil fire.
     chance: "5*{level}"

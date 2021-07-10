@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Aquatic
@@ -20,10 +20,11 @@ description:
 item-whitelist:
   - "HELMETS"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   POTION:
     # The trigger that will fire this effect
     trigger: STATIC_EFFECT
+
     # Potion Effect that should be applied.
     potion-type: WATER_BREATHING

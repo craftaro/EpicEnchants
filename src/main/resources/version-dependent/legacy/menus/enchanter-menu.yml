@@ -1,10 +1,10 @@
 title: "Enchanter"
 rows: 3
 
-  #You can choose to fill the entire inventory with this material
-  #fill:
-  #  material: "MATERIAL_HERE"
-  #  display-name: "&r"
+# You can choose to fill the entire inventory with this material
+#  fill:
+#    material: "MATERIAL_HERE"
+#    display-name: "&r"
 
 contents:
   1:

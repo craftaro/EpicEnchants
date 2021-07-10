@@ -1,6 +1,5 @@
 package com.songoda.epicenchants.menus;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
@@ -15,7 +14,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 import static java.util.Arrays.stream;
 
 public class InfoMenu extends FastInv {
@@ -43,7 +43,6 @@ public class InfoMenu extends FastInv {
                             instance.getInfoManager().getMainInfoMenu().open(event.getPlayer());
                         }
                     }));
-
 
         Iterator<Enchant> enchantIterator = instance.getEnchantManager().getEnchants(group).iterator();
         slots.stream().filter(slot -> enchantIterator.hasNext()).forEach(slot -> {

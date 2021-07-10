@@ -2,26 +2,26 @@ author: Hipopotofobia
 
 # The enchant identifier must be unique.
 identifier: Decapitation
- 
+
 # The max level for this enchant.
 max-level: 3
- 
+
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: UNIQUE
- 
+
 # How the enchant should be formatted on the enchanted item.
 applied-format: "&eDecapitation {level}"
- 
+
 # Description
 description:
   - "Decapitate your victim and"
   - "keep their head as a trophy!"
- 
+
 # What items this enchant can be applied to.
 item-whitelist:
   - "AXES"
- 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   DROP_HEAD:
     # Chance that this will happen

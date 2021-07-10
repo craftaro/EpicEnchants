@@ -14,8 +14,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.songoda.epicenchants.objects.Placeholder.of;
-import static com.songoda.epicenchants.utils.single.Experience.*;
-import static com.songoda.epicenchants.utils.single.GeneralUtils.*;
+import static com.songoda.epicenchants.utils.single.Experience.changeExp;
+import static com.songoda.epicenchants.utils.single.Experience.getExp;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
+import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 
 public class EnchanterMenu extends FastInv {
     private final Map<UUID, Long> DELAY = new HashMap<>();

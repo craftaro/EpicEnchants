@@ -1,48 +1,36 @@
-#Who made this?
-
-Author: Auora
-
+author: Auora
 
 # The enchant identifier must be unique.
 identifier: Drunk
- 
+
 # The max level for this enchant.
 max-level: 4
- 
+
 # The group of this enchant. Configure the groups in the groups.yml file.
 group: LEGENDARY
- 
+
 book-item:
- 
   material: BOOK
- 
   display-name: "&2&lDrunk {level}"
- 
+
   # The lore on the enchantments books.
- 
   lore:
- 
     - "&7Drag on to enchant"
- 
     - "&a{success_rate}% Success Rate"
- 
     - "&c{destroy_rate}% Destroy Rate"
- 
- 
- 
+
 # How the enchant should be formatted on the enchanted item.
- 
 applied-format: "&2Drunk {level}"
- 
+
 # Description
 description:
   - "A chance of making your opponent drunk!"
- 
+
 # What items this enchant can be applied to.
 item-whitelist:
   - "ARMOR"
- 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   POTION:
     # The trigger that will fire this effect.
@@ -51,9 +39,9 @@ effects:
     who: OPPONENT
     # What player should the effect be ran on: WEARER/OPPONENT.
     potion-type: NAUSEA
- 
+
     amplifier: "{level}"
- 
     duration: "{level} * 3"
+
     # Chance of the effect firing.
     chance: "4 * {level}"

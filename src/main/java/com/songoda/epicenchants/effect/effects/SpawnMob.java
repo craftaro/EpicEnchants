@@ -1,10 +1,8 @@
 package com.songoda.epicenchants.effect.effects;
 
-import com.songoda.core.nms.NmsManager;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
-import com.songoda.core.nms.nbt.NBTEntity;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;

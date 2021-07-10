@@ -95,16 +95,16 @@ public class CommandGiveBook extends AbstractCommand {
         } else if (args.length == 3) {
             Enchant enchant = plugin.getEnchantManager().getValues()
                     .stream().findFirst().orElse(null);
-                List<String> levels = new ArrayList<>();
+            List<String> levels = new ArrayList<>();
             if (enchant != null) {
-                for (int i = 1; i <= enchant.getMaxLevel(); i ++)
+                for (int i = 1; i <= enchant.getMaxLevel(); i++)
                     levels.add(String.valueOf(i));
             }
             return levels;
         } else if (args.length == 4 || args.length == 5) {
             List<String> rates = new ArrayList<>();
-                for (int i = 1; i <= 100; i ++)
-                    rates.add(String.valueOf(i));
+            for (int i = 1; i <= 100; i++)
+                rates.add(String.valueOf(i));
             return rates;
         }
         return null;

@@ -19,7 +19,7 @@ public class CommandTinkerer extends AbstractCommand {
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        Player player = (Player)sender;
+        Player player = (Player) sender;
         new TinkererMenu(plugin, plugin.getFileManager().getConfiguration("menus/tinkerer-menu")).open(player);
         return ReturnType.SUCCESS;
     }

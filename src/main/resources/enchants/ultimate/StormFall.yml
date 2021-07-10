@@ -1,4 +1,4 @@
-﻿author: "Songoda"
+author: "Songoda"
 
 # The enchant identifier must be unique.
 identifier: StormFall
@@ -20,7 +20,7 @@ description:
 item-whitelist:
   - "BOWS"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   effects:
   LIGHTNING-1:
@@ -35,7 +35,7 @@ effects:
     trigger: ATTACK_PLAYER_RANGE
     who: OPPONENT
     chance: '100*{level}-200'
-#---------------------------------------
+  # ---------------------------------------
   LIGHTNING-4:
     trigger: ATTACK_MOB_RANGE
     who: OPPONENT

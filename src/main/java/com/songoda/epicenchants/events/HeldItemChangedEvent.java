@@ -17,7 +17,7 @@ public final class HeldItemChangedEvent extends PlayerEvent implements Cancellab
     /**
      * Constructor for the HeldItemChangedEvent.
      *
-     * @param player        The player who put (un)equipped an item.
+     * @param player  The player who put (un)equipped an item.
      * @param oldItem The ItemStack removed.
      * @param newItem The ItemStack added.
      */
@@ -116,11 +116,11 @@ public final class HeldItemChangedEvent extends PlayerEvent implements Cancellab
          */
         DEATH,
         /**
-         * When an item is picked up into the selected hotbar slot by the player 
+         * When an item is picked up into the selected hotbar slot by the player
          */
         DROP_ITEM,
         /**
-         * When an item is dropped from the selected hotbar slot by the player 
+         * When an item is dropped from the selected hotbar slot by the player
          */
         PICKUP_ITEM,
         ;

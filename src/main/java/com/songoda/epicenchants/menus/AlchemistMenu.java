@@ -213,7 +213,7 @@ public class AlchemistMenu extends FastInv {
             int leftDestroy = leftItem.getNBTObject("destroy-rate").asInt();
             int rightDestroy = rightItem.getNBTObject("destroy-rate").asInt();
 
-            Placeholder[] placeholders = new Placeholder[]{
+            Placeholder[] placeholders = new Placeholder[] {
                     of("left_success_rate", leftSuccess),
                     of("right_success_rate", rightSuccess),
                     of("left_destroy_rate", leftDestroy),
@@ -227,7 +227,7 @@ public class AlchemistMenu extends FastInv {
             int successRate = getFromFormula("book.success-rate-formula", placeholders);
             int destroyRate = getFromFormula("book.destroy-rate-formula", placeholders);
 
-            Placeholder[] costPlaceholders = new Placeholder[]{
+            Placeholder[] costPlaceholders = new Placeholder[] {
                     of("group_order_index", enchant.getGroup().getOrder()),
                     of("final_success_rate", successRate),
                     of("final_destroy_rate", destroyRate),
@@ -240,14 +240,14 @@ public class AlchemistMenu extends FastInv {
         } else {
             Group group = instance.getGroupManager().getValue(leftItem.getNBTObject("group").asString()).orElseThrow(() -> new IllegalStateException("Dust without group!"));
 
-            Placeholder[] placeholders = new Placeholder[]{
+            Placeholder[] placeholders = new Placeholder[] {
                     of("left_percentage", leftItem.getNBTObject("percentage").asInt()),
                     of("right_percentage", rightItem.getNBTObject("percentage").asInt())
             };
 
             int successRate = getFromFormula("dust.percentage-formula", placeholders);
 
-            Placeholder[] costPlaceholders = new Placeholder[]{
+            Placeholder[] costPlaceholders = new Placeholder[] {
                     of("group_order_index", group.getOrder()),
                     of("final_success_rate", successRate),
             };

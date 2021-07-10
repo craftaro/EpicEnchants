@@ -15,5 +15,4 @@ public class HookManager {
     public Optional<UltimateBottles> getUltimateBottles() {
         return Optional.ofNullable(ultimateBottles);
     }
-
 }

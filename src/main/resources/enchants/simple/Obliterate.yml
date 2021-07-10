@@ -1,4 +1,4 @@
-author: "Songoda"
+author: Songoda
 
 # The enchant identifier must be unique.
 identifier: Obliterate
@@ -20,18 +20,23 @@ description:
 item-whitelist:
   - "WEAPONS"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   THROW:
     # Chance that this will happen
     chance: "5 * {level}"
+
     # The trigger that will fire this effect
     trigger: ATTACK_PLAYER_MELEE
+
     # What player should the effect be ran on: USER/OPPONENT.
     who: OPPONENT
+
     # What direction the player should be moved in: UP/DOWN/BACKWARD/FORWARD
     direction: FORWARD
+
     # Magnitude of the throw
     magnitude: "0.2 * {level}"
+
     # What the direction should relative to
     relative-to: USER

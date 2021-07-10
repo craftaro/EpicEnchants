@@ -21,7 +21,7 @@ description:
 item-whitelist:
   - "HELMETS"
 
-# For a full list of effects, please visit: https://docs.songoda.com/epic-series/epicenchants/tutorials
+# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
 effects:
   POTION:
     # The trigger that will fire this effect

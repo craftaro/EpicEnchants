@@ -123,7 +123,6 @@ public class EpicEnchants extends SongodaPlugin {
 
     @Override
     public void onDataLoad() {
-
     }
 
     @Override

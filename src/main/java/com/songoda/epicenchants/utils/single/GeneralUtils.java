@@ -85,8 +85,7 @@ public class GeneralUtils {
         return null;
     }
 
-    public static int getHeldItemSlot(Player entity, Event event) {
-        Player player = (Player) entity;
+    public static int getHeldItemSlot(Player player, Event event) {
         int slot = player.getInventory().getHeldItemSlot();
 
         try {
@@ -100,7 +99,6 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
-        return MathUtils.eval("[EpicEnchants] One of your " + type + " expressions is not properly formatted.", toParse);
-
+        return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
     }
 }

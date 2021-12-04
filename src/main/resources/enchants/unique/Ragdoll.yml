@@ -10,7 +10,7 @@ max-level: 4
 group: UNIQUE
 
 # How the enchant should be formatted on the enchanted item.
-applied-format: "&Ragdoll {level}"
+applied-format: "&eRagdoll {level}"
 
 # Description
 description:

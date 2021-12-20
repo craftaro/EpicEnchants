@@ -33,8 +33,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
 
-                    <!-- TODO: Requires jdk9+, prepare CI/CD before enabling this -->
-                    <!-- <release>${java.release}</release> -->
+                     <release>${java.release}</release>
                 </configuration>
             </plugin>
 

@@ -6,7 +6,7 @@
 
     <groupId>com.songoda</groupId>
     <artifactId>EpicEnchants</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 
     <name>EpicEnchants</name>
     <description>Unlock the potential of your weapons, tools and armor by making your own custom enchants.</description>
@@ -33,8 +33,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
 
-                    <!-- TODO: Requires jdk9+, prepare CI/CD before enabling this -->
-                    <!-- <release>${java.release}</release> -->
+                     <release>${java.release}</release>
                 </configuration>
             </plugin>
 
@@ -109,15 +108,15 @@
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.17</version>
+            <artifactId>spigot-api</artifactId>
+            <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.songoda</groupId>
             <artifactId>SongodaCore</artifactId>
-            <version>LATEST</version>
+            <version>2.6.10</version>
             <scope>compile</scope>
         </dependency>
 

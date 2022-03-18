@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
 import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.events.EnchantApplyEvent;
@@ -30,16 +30,16 @@ public class BookListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.has("book-item") || !cursor.getNBTObject("book-item").asBoolean()) {
+        if (!cursor.hasKey("book-item") || !cursor.getBoolean("book-item")) {
             return;
         }
 
         event.setCancelled(true);
 
         ItemStack toApply = event.getCurrentItem();
-        Enchant enchant = instance.getEnchantManager().getValue(cursor.getNBTObject("enchant").asString()).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+        Enchant enchant = instance.getEnchantManager().getValue(cursor.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
-        if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(current.finish()))) {
+        if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(current.getItem()))) {
             return;
         }
         // get total amount of enchantments on item
@@ -53,9 +53,9 @@ public class BookListener extends ItemListener {
             return;
         }
 
-        int level = cursor.getNBTObject("level").asInt();
-        int successRate = cursor.getNBTObject("success-rate").asInt();
-        int destroyRate = cursor.getNBTObject("destroy-rate").asInt();
+        int level = cursor.getInteger("level");
+        int successRate = cursor.getInteger("success-rate");
+        int destroyRate = cursor.getInteger("destroy-rate");
 
         EnchantApplyEvent enchantEvent = new EnchantApplyEvent(toApply, enchant, level, successRate, destroyRate);
         Bukkit.getPluginManager().callEvent(enchantEvent);
@@ -83,7 +83,7 @@ public class BookListener extends ItemListener {
 
     @Override
     void onClick(PlayerInteractEvent event, NBTItem clicked) {
-        if (!clicked.has("mystery-book") || !clicked.getNBTObject("mystery-book").asBoolean()) {
+        if (!clicked.hasKey("mystery-book") || !clicked.getBoolean("mystery-book")) {
             return;
         }
 
@@ -93,7 +93,7 @@ public class BookListener extends ItemListener {
             return;
         }
 
-        Group group = instance.getGroupManager().getValue(clicked.getNBTObject("group").asString()).orElseThrow(() -> new IllegalStateException("Book without group!"));
+        Group group = instance.getGroupManager().getValue(clicked.getString("group")).orElseThrow(() -> new IllegalStateException("Book without group!"));
 
         Optional<Enchant> enchant = instance.getEnchantManager().getRandomEnchant(group);
 

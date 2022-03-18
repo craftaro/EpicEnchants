@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.listeners.item;
 
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;
@@ -16,28 +16,28 @@ public class DustListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.has("dust") || !cursor.getNBTObject("dust").asBoolean()) {
+        if (!cursor.hasKey("dust") || !cursor.getBoolean("dust")) {
             return;
         }
 
-        if (!current.has("book-item") || !current.getNBTObject("book-item").asBoolean()) {
+        if (!current.hasKey("book-item") || !current.getBoolean("book-item")) {
             return;
         }
 
-        Enchant enchant = instance.getEnchantManager().getValue(current.getNBTObject("enchant").asString()).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+        Enchant enchant = instance.getEnchantManager().getValue(current.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
-        if (!enchant.getGroup().equals(instance.getGroupManager().getValue(cursor.getNBTObject("group").asString()).orElseThrow(() -> new IllegalStateException("Dust without group!")))) {
+        if (!enchant.getGroup().equals(instance.getGroupManager().getValue(cursor.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!")))) {
             return;
         }
 
-        int successRate = current.getNBTObject("success-rate").asInt();
+        int successRate = current.getInteger("success-rate");
 
         if (successRate == 100) {
             return;
         }
 
-        successRate = Math.min(successRate + cursor.getNBTObject("percentage").asInt(), 100);
-        event.setCurrentItem(enchant.getBook().get(enchant, current.getNBTObject("level").asInt(), successRate, current.getNBTObject("destroy-rate").asInt()));
+        successRate = Math.min(successRate + cursor.getInteger("percentage"), 100);
+        event.setCurrentItem(enchant.getBook().get(enchant, current.getInteger("level"), successRate, current.getInteger("destroy-rate")));
 
         event.setCancelled(true);
         useItem(event);
@@ -45,7 +45,7 @@ public class DustListener extends ItemListener {
 
     @Override
     void onClick(PlayerInteractEvent event, NBTItem clicked) {
-        if (!clicked.has("secret-dust") || !clicked.getNBTObject("secret-dust").asBoolean()) {
+        if (!clicked.hasKey("secret-dust") || !clicked.getBoolean("secret-dust")) {
             return;
         }
 
@@ -55,8 +55,8 @@ public class DustListener extends ItemListener {
             return;
         }
 
-        Group group = instance.getGroupManager().getValueUnsafe(clicked.getNBTObject("group").asString());
-        int rate = ThreadLocalRandom.current().nextInt(clicked.getNBTObject("min-rate").asInt(), clicked.getNBTObject("max-rate").asInt());
+        Group group = instance.getGroupManager().getValueUnsafe(clicked.getString("group"));
+        int rate = ThreadLocalRandom.current().nextInt(clicked.getInteger("min-rate"), clicked.getInteger("max-rate"));
 
         useItem(event);
         event.getPlayer().getInventory().addItem(instance.getSpecialItems().getDust(group, null, rate, false));

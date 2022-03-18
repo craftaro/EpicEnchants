@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
 import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -15,13 +15,13 @@ public class WhiteScrollListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.has("white-scroll") || !cursor.getNBTObject("white-scroll").asBoolean()) {
+        if (!cursor.hasKey("white-scroll") || !cursor.getBoolean("white-scroll")) {
             return;
         }
 
         event.setCancelled(true);
 
-        if (current.has("protected")) {
+        if (current.hasKey("protected")) {
             instance.getLocale().getMessage("whitescroll.alreadyapplied")
                     .sendPrefixedMessage(event.getWhoClicked());
             return;
@@ -30,10 +30,10 @@ public class WhiteScrollListener extends ItemListener {
         if (!instance.getItemGroup().isValid(CompatibleMaterial.getMaterial(event.getCurrentItem())))
             return;
 
-        current.set("protected", true);
+        current.setBoolean("protected", true);
         instance.getLocale().getMessage("whitescrollapplied").sendPrefixedMessage(event.getWhoClicked());
 
-        ItemStack toSet = new ItemBuilder(current.finish()).addLore(instance.getSpecialItems().getWhiteScrollLore()).build();
+        ItemStack toSet = new ItemBuilder(current.getItem()).addLore(instance.getSpecialItems().getWhiteScrollLore()).build();
 
         event.getClickedInventory().setItem(event.getSlot(), toSet);
         useItem(event);

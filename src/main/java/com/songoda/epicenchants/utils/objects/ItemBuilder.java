@@ -1,7 +1,6 @@
 package com.songoda.epicenchants.utils.objects;
 
-import com.songoda.core.nms.NmsManager;
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.objects.Placeholder;
 import com.songoda.epicenchants.utils.single.ConfigParser;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
@@ -265,7 +264,7 @@ public class ItemBuilder {
     }
 
     public NBTItem nbt() {
-        return NmsManager.getNbt().of(build());
+        return new NBTItem(build());
     }
 
     /*

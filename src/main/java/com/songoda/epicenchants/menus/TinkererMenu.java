@@ -1,8 +1,7 @@
 package com.songoda.epicenchants.menus;
 
-import com.songoda.core.nms.NmsManager;
-import com.songoda.core.nms.nbt.NBTCompound;
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTCompound;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.ItemType;
 import com.songoda.epicenchants.objects.Enchant;
@@ -169,9 +168,9 @@ public class TinkererMenu extends FastInv {
             return NONE;
         }
 
-        NBTItem nbtItem = NmsManager.getNbt().of(itemStack);
+        NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (nbtItem.has("book-item")) {
+        if (nbtItem.hasKey("book-item")) {
             return BOOK;
         }
 
@@ -206,7 +205,7 @@ public class TinkererMenu extends FastInv {
 
         switch (itemType) {
             case BOOK:
-                getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(NmsManager.getNbt().of(finalItemStack)));
+                getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(new NBTItem(finalItemStack)));
                 break;
             case ENCHANTED:
                 getInventory().setItem(emptySlot.get().getValue(), instance.getHookManager().getUltimateBottles().get().createBottle("Tinkerer", getExpAmount(finalItemStack)));
@@ -236,9 +235,9 @@ public class TinkererMenu extends FastInv {
             total.addAndGet(section.getInt(enchantment.getName(), section.getInt("DEFAULT")) * level);
         });
 
-        NBTItem nbtItem = NmsManager.getNbt().of(itemStack);
+        NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.has("enchants")) {
+        if (!nbtItem.hasKey("enchants")) {
             return total.get();
         }
 
@@ -250,7 +249,7 @@ public class TinkererMenu extends FastInv {
 
         enchantments.getKeys().forEach(key -> {
             Enchant enchant = instance.getEnchantManager().getValueUnsafe(key);
-            total.addAndGet(section.getInt(enchant.getIdentifier(), enchant.getGroup().getTinkererExp()) * enchantments.getInt(key));
+            total.addAndGet(section.getInt(enchant.getIdentifier(), enchant.getGroup().getTinkererExp()) * enchantments.getInteger(key));
         });
 
         return total.get();

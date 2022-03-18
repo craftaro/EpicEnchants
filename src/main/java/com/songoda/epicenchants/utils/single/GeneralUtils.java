@@ -99,6 +99,8 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
+        // FIXME: JavaScript != Math...
+        //        Input "false ? (8 * 3) : (4 * 3)" fails for obvious reasons
         return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");
     }
 }

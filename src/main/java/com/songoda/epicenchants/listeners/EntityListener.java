@@ -17,7 +17,20 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import static com.songoda.epicenchants.enums.TriggerType.*;
+import static com.songoda.epicenchants.enums.TriggerType.ATTACK_MOB_MELEE;
+import static com.songoda.epicenchants.enums.TriggerType.ATTACK_MOB_RANGE;
+import static com.songoda.epicenchants.enums.TriggerType.ATTACK_PLAYER_MELEE;
+import static com.songoda.epicenchants.enums.TriggerType.ATTACK_PLAYER_RANGE;
+import static com.songoda.epicenchants.enums.TriggerType.DEFENSE_MOB_MELEE;
+import static com.songoda.epicenchants.enums.TriggerType.DEFENSE_MOB_RANGE;
+import static com.songoda.epicenchants.enums.TriggerType.DEFENSE_PLAYER_MELEE;
+import static com.songoda.epicenchants.enums.TriggerType.DEFENSE_PLAYER_RANGE;
+import static com.songoda.epicenchants.enums.TriggerType.EXPLOSION_DAMAGE;
+import static com.songoda.epicenchants.enums.TriggerType.FALL_DAMAGE;
+import static com.songoda.epicenchants.enums.TriggerType.FIRE_DAMAGE;
+import static com.songoda.epicenchants.enums.TriggerType.KILLED_MOB;
+import static com.songoda.epicenchants.enums.TriggerType.LAVA_DAMAGE;
+import static com.songoda.epicenchants.enums.TriggerType.POISON_DAMAGE;
 
 public class EntityListener implements Listener {
     private final EpicEnchants instance;

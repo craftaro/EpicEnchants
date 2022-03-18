@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.objects;
 
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.settings.Settings;
@@ -81,13 +81,13 @@ public class BookItem {
                 .lore(toSet);
 
         NBTItem nbtItem = itemBuilder.nbt();
-        nbtItem.set("book-item", true);
-        nbtItem.set("success-rate", successRate);
-        nbtItem.set("destroy-rate", destroyRate);
-        nbtItem.set("level", level);
-        nbtItem.set("enchant", enchant.getIdentifier());
+        nbtItem.setBoolean("book-item", true);
+        nbtItem.setInteger("success-rate", successRate);
+        nbtItem.setInteger("destroy-rate", destroyRate);
+        nbtItem.setInteger("level", level);
+        nbtItem.setString("enchant", enchant.getIdentifier());
 
-        return nbtItem.finish();
+        return nbtItem.getItem();
     }
 
     public static class BookItemBuilder {

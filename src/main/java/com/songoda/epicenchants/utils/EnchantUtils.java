@@ -1,8 +1,7 @@
 package com.songoda.epicenchants.utils;
 
-import com.songoda.core.nms.NmsManager;
-import com.songoda.core.nms.nbt.NBTCompound;
-import com.songoda.core.nms.nbt.NBTItem;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTCompound;
+import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.core.utils.TextUtils;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
@@ -49,7 +48,7 @@ public class EnchantUtils {
     }
 
     public Tuple<ItemStack, EnchantResult> apply(ItemStack itemStack, Enchant enchant, int level, int successRate, int destroyRate) {
-        boolean hasProtection = NmsManager.getNbt().of(itemStack).has("protected");
+        boolean hasProtection = new NBTItem(itemStack).hasKey("protected");
 
         Map<Enchant, Integer> currentEnchantMap = getEnchants(itemStack);
         Set<String> currentIds = currentEnchantMap.keySet().stream().map(Enchant::getIdentifier).collect(Collectors.toSet());
@@ -71,8 +70,8 @@ public class EnchantUtils {
             if (GeneralUtils.chance(destroyRate)) {
                 if (hasProtection) {
                     NBTItem nbtItem = new ItemBuilder(itemStack).removeLore(instance.getSpecialItems().getWhiteScrollLore()).nbt();
-                    nbtItem.remove("protected");
-                    return Tuple.of(nbtItem.finish(), PROTECTED);
+                    nbtItem.removeKey("protected");
+                    return Tuple.of(nbtItem.getItem(), PROTECTED);
                 }
                 return Tuple.of(new ItemStack(Material.AIR), BROKEN_FAILURE);
             }
@@ -94,19 +93,19 @@ public class EnchantUtils {
 
         NBTItem nbtItem = itemBuilder.nbt();
 
-        NBTCompound compound = nbtItem.getCompound("enchants");
-        compound.set(enchant.getIdentifier(), level);
+        NBTCompound compound = nbtItem.getOrCreateCompound("enchants");
+        compound.setInteger(enchant.getIdentifier(), level);
 
-        return Tuple.of(nbtItem.finish(), SUCCESS);
+        return Tuple.of(nbtItem.getItem(), SUCCESS);
     }
 
     public Map<Enchant, Integer> getEnchants(ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             return Collections.emptyMap();
         }
-        NBTItem nbtItem = NmsManager.getNbt().of(itemStack);
+        NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.has("enchants")) {
+        if (!nbtItem.hasKey("enchants")) {
             return Collections.emptyMap();
         }
 
@@ -117,7 +116,7 @@ public class EnchantUtils {
         }
 
         return compound.getKeys().stream().filter(key -> instance.getEnchantManager().getValueUnsafe(key) != null)
-                .collect(Collectors.toMap(key -> instance.getEnchantManager().getValueUnsafe(key), compound::getInt));
+                .collect(Collectors.toMap(key -> instance.getEnchantManager().getValueUnsafe(key), compound::getInteger));
     }
 
     public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, TriggerType triggerType) {
@@ -139,7 +138,7 @@ public class EnchantUtils {
             return null;
         }
 
-        NBTItem nbtItem = NmsManager.getNbt().of(itemStack);
+        NBTItem nbtItem = new NBTItem(itemStack);
 
         if (nbtItem.getCompound("enchants") == null) {
             return itemStack;
@@ -148,8 +147,8 @@ public class EnchantUtils {
         String format = enchant.getFormat().replace("{level}", "").trim();
         String text = format.isEmpty() ? enchant.getColoredIdentifier(false) : format;
 
-        nbtItem.getCompound("enchants").remove(enchant.getIdentifier());
-        ItemBuilder output = new ItemBuilder(nbtItem.finish());
+        nbtItem.getCompound("enchants").removeKey(enchant.getIdentifier());
+        ItemBuilder output = new ItemBuilder(nbtItem.getItem());
         output.removeLore(TextUtils.formatText(text));
         return output.build();
     }

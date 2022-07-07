@@ -99,6 +99,20 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
+        if (toParse.trim().matches("^\\d+\\s+(<|>)\\s*\\d+$")) {   // e.g. "1 < 2"
+            toParse = toParse.trim();
+
+            double firstNumber = Double.parseDouble(toParse.substring(0, toParse.indexOf(" ")));
+            String symbol = toParse.substring(toParse.indexOf(" ") + 1, toParse.indexOf(" ") + 2);
+            double secondNumber = Double.parseDouble(toParse.substring(toParse.indexOf(" ") + 2));
+
+            if (symbol.equals(">")) {
+                return firstNumber > secondNumber;
+            }
+
+            return firstNumber < secondNumber;
+        }
+
         // FIXME: JavaScript != Math...
         //        Input "false ? (8 * 3) : (4 * 3)" fails for obvious reasons
         return MathUtils.eval(toParse, "[EpicEnchants] One of your " + type + " expressions is not properly formatted.");

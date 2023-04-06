@@ -99,7 +99,7 @@ public class GeneralUtils {
     }
 
     public static Object parseJS(String toParse, String type, Object def) {
-        if (toParse.trim().matches("^\\d+\\s+(<|>)\\s*\\d+$")) {   // e.g. "1 < 2"
+        if (toParse.trim().matches("^\\d+(?>\\.\\d+)?\\s+([<>])\\s*\\d+(?>\\.\\d+)?$")) {   // e.g. "1 < 2"
             toParse = toParse.trim();
 
             double firstNumber = Double.parseDouble(toParse.substring(0, toParse.indexOf(" ")));

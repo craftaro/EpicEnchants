@@ -10,66 +10,71 @@
 
     <name>EpicEnchants</name>
     <description>Unlock the potential of your weapons, tools and armor by making your own custom enchants.</description>
-    <url>https://songoda.com/marketplace/product/67</url>
+    <url>https://craftaro.com/marketplace/product/67</url>
 
     <properties>
-        <java.version>1.8</java.version>
-        <java.release>8</java.release>
+        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <build>
-        <defaultGoal>clean install</defaultGoal>
-        <finalName>EpicEnchants-${project.version}</finalName>
+    <issueManagement>
+        <url>https://discord.gg/craftaro</url>
+        <system>Discord server</system>
+    </issueManagement>
 
+    <scm>
+        <url>https://github.com/craftaro/EpicEnchants</url>
+        <connection>scm:git:git://github.com/craftaro/EpicEnchants.git</connection>
+    </scm>
+
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-
-                    <release>${java.release}</release>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0-SNAPSHOT</version>
+                <version>3.4.1</version>
 
                 <executions>
                     <execution>
-                        <id>shaded</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
 
                         <configuration>
-                            <minimizeJar>true</minimizeJar>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <finalName>${project.name}-${project.version}</finalName>
 
-                            <artifactSet>
-                                <includes>
-                                    <include>com.songoda:SongodaCore</include>
-                                </includes>
-                            </artifactSet>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <useDependencyReducedPomInJar>true</useDependencyReducedPomInJar>
+                            <minimizeJar>true</minimizeJar>
+
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.craftaro.core</pattern>
+                                    <shadedPattern>com.songoda.epicenchants.core</shadedPattern>
+                                </relocation>
+                            </relocations>
 
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>
 
                                     <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/**</exclude>
+                                        <exclude>LICENSE</exclude>
+                                        <exclude>LICENSE.**</exclude>
                                     </excludes>
+                                </filter>
+
+                                <filter>
+                                    <artifact>com.craftaro:CraftaroCore</artifact>
+                                    <excludeDefaults>false</excludeDefaults>
+                                    <includes>
+                                        <include>**/nms/v*/**</include>
+                                    </includes>
                                 </filter>
                             </filters>
                         </configuration>
@@ -86,13 +91,6 @@
         </resources>
     </build>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <repositories>
         <repository>
             <id>craftaro-minecraft-plugins</id>
@@ -100,13 +98,13 @@
         </repository>
 
         <repository>
-            <id>songoda-public</id>
-            <url>https://repo.songoda.com/repository/public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io/</url>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
     </repositories>
 
@@ -121,7 +119,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <version>1.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

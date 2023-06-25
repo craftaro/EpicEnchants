@@ -30,7 +30,6 @@ import com.songoda.epicenchants.listeners.item.WhiteScrollListener;
 import com.songoda.epicenchants.managers.EnchantManager;
 import com.songoda.epicenchants.managers.FileManager;
 import com.songoda.epicenchants.managers.GroupManager;
-import com.songoda.epicenchants.managers.HookManager;
 import com.songoda.epicenchants.managers.InfoManager;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.EnchantUtils;
@@ -53,7 +52,6 @@ public class EpicEnchants extends SongodaPlugin {
     private InfoManager infoManager;
     private GroupManager groupManager;
     private FileManager fileManager;
-    private HookManager hookManager;
     private CommandManager commandManager;
 
     private SpecialItems specialItems;
@@ -105,13 +103,11 @@ public class EpicEnchants extends SongodaPlugin {
         this.infoManager = new InfoManager(this);
         this.specialItems = new SpecialItems(this);
         this.commandManager = new CommandManager(this);
-        this.hookManager = new HookManager();
         this.itemGroup = new ItemGroup();
 
         groupManager.loadGroups();
         enchantManager.loadEnchants();
         infoManager.loadMenus();
-        hookManager.setup();
 
         // Listeners
         guiManager.init();
@@ -181,10 +177,6 @@ public class EpicEnchants extends SongodaPlugin {
 
     public FileManager getFileManager() {
         return this.fileManager;
-    }
-
-    public HookManager getHookManager() {
-        return this.hookManager;
     }
 
     public SpecialItems getSpecialItems() {

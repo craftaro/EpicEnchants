@@ -174,10 +174,6 @@ public class TinkererMenu extends FastInv {
             return BOOK;
         }
 
-        if (!instance.getHookManager().getUltimateBottles().isPresent()) {
-            return NONE;
-        }
-
         if (!itemStack.getEnchantments().isEmpty() || (nbtItem.getCompound("enchants") != null && !nbtItem.getCompound("enchants").getKeys().isEmpty())) {
             if (getExpAmount(itemStack) == 0) {
                 return NONE;
@@ -203,13 +199,8 @@ public class TinkererMenu extends FastInv {
 
         addItem(emptySlot.get().getKey(), finalItemStack);
 
-        switch (itemType) {
-            case BOOK:
-                getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(new NBTItem(finalItemStack)));
-                break;
-            case ENCHANTED:
-                getInventory().setItem(emptySlot.get().getValue(), instance.getHookManager().getUltimateBottles().get().createBottle("Tinkerer", getExpAmount(finalItemStack)));
-                break;
+        if (itemType == BOOK) {
+            getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(new NBTItem(finalItemStack)));
         }
 
         return true;

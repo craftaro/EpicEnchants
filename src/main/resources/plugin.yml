@@ -7,7 +7,6 @@ main: com.songoda.epicenchants.EpicEnchants
 softdepend:
   - PlaceholderAPI
   - PlayerPoints
-  - UltimateBottles
   - Vault
 
 author: Craftaro

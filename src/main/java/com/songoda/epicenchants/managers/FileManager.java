@@ -25,7 +25,6 @@ import static java.io.File.separator;
 import static java.util.Arrays.asList;
 
 public class FileManager extends Manager<String, FileConfiguration> {
-
     private final String directory;
     private final LinkedHashSet<FileLocation> files = new LinkedHashSet<>(asList(
             of("menus/main-info-menu.yml", true, true),
@@ -89,13 +88,13 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
     public FileManager(EpicEnchants instance) {
         super(instance);
-        directory = ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13) ? "master" : "legacy";
-        Bukkit.getConsoleSender().sendMessage("Using the " + directory + " configurations because version is " + ServerVersion.getServerVersion().name());
+        this.directory = ServerVersion.isServerVersionAtLeast(ServerVersion.V1_13) ? "master" : "legacy";
+        Bukkit.getConsoleSender().sendMessage("Using the " + this.directory + " configurations because version is " + ServerVersion.getServerVersion().name());
     }
 
     public void loadFiles() {
-        files.forEach(fileLocation -> {
-            File file = new File(instance.getDataFolder() + separator + fileLocation.getPath());
+        this.files.forEach(fileLocation -> {
+            File file = new File(this.instance.getDataFolder() + separator + fileLocation.getPath());
 
             if (!file.exists() && (fileLocation.isRequired() || Settings.FIRST_LOAD.getBoolean())) {
                 Bukkit.getConsoleSender().sendMessage("Creating file: " + fileLocation.getPath());
@@ -103,7 +102,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
                 try {
 //                    System.out.println(fileLocation.getResourcePath(directory) + " : " + file.toPath());
-                    copy(instance.getResource(fileLocation.getResourcePath(directory)), Files.newOutputStream(file.toPath()));
+                    copy(this.instance.getResource(fileLocation.getResourcePath(this.directory)), Files.newOutputStream(file.toPath()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -120,8 +119,8 @@ public class FileManager extends Manager<String, FileConfiguration> {
             }
         });
 
-        instance.getConfig().set("System.First Load", false);
-        instance.saveConfig();
+        this.instance.getConfig().set("System.First Load", false);
+        this.instance.saveConfig();
     }
 
     public FileConfiguration getConfiguration(String key) {
@@ -129,7 +128,7 @@ public class FileManager extends Manager<String, FileConfiguration> {
     }
 
     public List<File> getYmlFiles(String directory) {
-        File dir = new File(instance.getDataFolder() + separator + directory + separator);
+        File dir = new File(this.instance.getDataFolder() + separator + directory + separator);
         File[] allFiles = dir.listFiles();
         List<File> output = new ArrayList<>();
 
@@ -143,8 +142,8 @@ public class FileManager extends Manager<String, FileConfiguration> {
 
         Arrays.stream(allFiles)
                 .filter(File::isDirectory)
-                .filter(s -> !s.getName().equalsIgnoreCase("old"))
-                .forEach(f -> output.addAll(getYmlFiles(directory + separator + f.getName())));
+                .filter(file -> !file.getName().equalsIgnoreCase("old"))
+                .forEach(file -> output.addAll(getYmlFiles(directory + separator + file.getName())));
 
         return output;
     }

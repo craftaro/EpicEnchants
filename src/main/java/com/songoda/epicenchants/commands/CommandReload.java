@@ -7,18 +7,17 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class CommandReload extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandReload(EpicEnchants plugin) {
-        super(false, "reload");
+        super(CommandType.CONSOLE_OK, "reload");
         this.plugin = plugin;
     }
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        plugin.reloadConfig();
-        plugin.getLocale().getMessage("command.reload").sendPrefixedMessage(sender);
+        this.plugin.reloadConfig();
+        this.plugin.getLocale().getMessage("command.reload").sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;
     }
 

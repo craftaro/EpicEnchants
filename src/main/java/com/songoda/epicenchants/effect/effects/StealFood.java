@@ -27,10 +27,14 @@ public class StealFood extends EffectExecutor {
 
         if (opponentFood <= 0) {
             opponentPlayer.setFoodLevel(0);
-        } else opponentPlayer.setFoodLevel(Math.min(opponentFood, 20));
+        } else {
+            opponentPlayer.setFoodLevel(Math.min(opponentFood, 20));
+        }
 
         if (userFood <= 0) {
             user.setFoodLevel(0);
-        } else user.setFoodLevel(Math.min(userFood, 20));
+        } else {
+            user.setFoodLevel(Math.min(userFood, 20));
+        }
     }
 }

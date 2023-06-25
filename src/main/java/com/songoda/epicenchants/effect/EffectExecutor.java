@@ -45,15 +45,15 @@ public abstract class EffectExecutor {
     }
 
     public void testAndRun(@NotNull Player user, @Nullable LivingEntity opponent, int level, TriggerType type, Event event, EventType eventType, boolean simul) {
-        if (!simul && !triggerTypes.contains(type)) {
+        if (!simul && !this.triggerTypes.contains(type)) {
             return;
         }
 
-        if (section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(section.getString("chance")).get(level, 100, user, opponent))) {
+        if (this.section.isString("chance") && !GeneralUtils.chance(LeveledModifier.of(this.section.getString("chance")).get(level, 100, user, opponent))) {
             return;
         }
 
-        if (!condition.get(user, opponent, level, event, false)) {
+        if (!this.condition.get(user, opponent, level, event, false)) {
             return;
         }
 
@@ -63,25 +63,31 @@ public abstract class EffectExecutor {
             execute(user, opponent, level, eventType);
         }
 
-        simultaneous.forEach(e -> e.testAndRun(user, opponent, level, type, event, eventType, true));
+        this.simultaneous.forEach(e -> e.testAndRun(user, opponent, level, type, event, eventType, true));
     }
 
     public abstract void execute(@NotNull Player user, @Nullable LivingEntity opponent, int level, EventType eventType);
 
     protected Who who() {
-        if (section.isString("who")) {
-            if (section.getString("who").equalsIgnoreCase("user")) return USER;
-            else if (section.getString("who").equalsIgnoreCase("opponent")) return OPPONENT;
+        if (this.section.isString("who")) {
+            if (this.section.getString("who").equalsIgnoreCase("user")) {
+                return USER;
+            }
+
+            if (this.section.getString("who").equalsIgnoreCase("opponent")) {
+                return OPPONENT;
+            }
         }
+
         return USER;
     }
 
     public LeveledModifier getAmount() {
-        return LeveledModifier.of(section.getString("amount"));
+        return LeveledModifier.of(this.section.getString("amount"));
     }
 
     public void consume(Consumer<LivingEntity> playerConsumer, Player user, @Nullable LivingEntity opponent) {
-        if (triggerTypes.contains(TriggerType.HELD_ITEM) || triggerTypes.contains(TriggerType.STATIC_EFFECT)) {
+        if (this.triggerTypes.contains(TriggerType.HELD_ITEM) || this.triggerTypes.contains(TriggerType.STATIC_EFFECT)) {
             playerConsumer.accept(user);
             return;
         }
@@ -91,8 +97,9 @@ public abstract class EffectExecutor {
                 playerConsumer.accept(user);
                 break;
             case OPPONENT:
-                if (opponent != null)
+                if (opponent != null) {
                     playerConsumer.accept(opponent);
+                }
         }
     }
 

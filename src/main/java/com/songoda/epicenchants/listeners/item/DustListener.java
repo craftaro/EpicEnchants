@@ -16,17 +16,17 @@ public class DustListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.hasKey("dust") || !cursor.getBoolean("dust")) {
+        if (!cursor.hasTag("dust") || !cursor.getBoolean("dust")) {
             return;
         }
 
-        if (!current.hasKey("book-item") || !current.getBoolean("book-item")) {
+        if (!current.hasTag("book-item") || !current.getBoolean("book-item")) {
             return;
         }
 
-        Enchant enchant = instance.getEnchantManager().getValue(current.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+        Enchant enchant = this.instance.getEnchantManager().getValue(current.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
-        if (!enchant.getGroup().equals(instance.getGroupManager().getValue(cursor.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!")))) {
+        if (!enchant.getGroup().equals(this.instance.getGroupManager().getValue(cursor.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!")))) {
             return;
         }
 
@@ -45,7 +45,7 @@ public class DustListener extends ItemListener {
 
     @Override
     void onClick(PlayerInteractEvent event, NBTItem clicked) {
-        if (!clicked.hasKey("secret-dust") || !clicked.getBoolean("secret-dust")) {
+        if (!clicked.hasTag("secret-dust") || !clicked.getBoolean("secret-dust")) {
             return;
         }
 
@@ -55,10 +55,10 @@ public class DustListener extends ItemListener {
             return;
         }
 
-        Group group = instance.getGroupManager().getValueUnsafe(clicked.getString("group"));
+        Group group = this.instance.getGroupManager().getValueUnsafe(clicked.getString("group"));
         int rate = ThreadLocalRandom.current().nextInt(clicked.getInteger("min-rate"), clicked.getInteger("max-rate"));
 
         useItem(event);
-        event.getPlayer().getInventory().addItem(instance.getSpecialItems().getDust(group, null, rate, false));
+        event.getPlayer().getInventory().addItem(this.instance.getSpecialItems().getDust(group, null, rate, false));
     }
 }

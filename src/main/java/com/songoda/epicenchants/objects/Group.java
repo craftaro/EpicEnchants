@@ -1,16 +1,19 @@
 package com.songoda.epicenchants.objects;
 
 public class Group {
-    private String identifier;
-    private String name;
-    private String format;
-    private String color;
-    private String descriptionColor;
-    private int slotsUsed;
-    private BookItem bookItem;
-    private int destroyRateMin, destroyRateMax, successRateMin, successRateMax;
-    private int tinkererExp;
-    private int order;
+    private final String identifier;
+    private final String name;
+    private final String format;
+    private final String color;
+    private final String descriptionColor;
+    private final int slotsUsed;
+    private final BookItem bookItem;
+    private final int destroyRateMin;
+    private final int destroyRateMax;
+    private final int successRateMin;
+    private final int successRateMax;
+    private final int tinkererExp;
+    private final int order;
 
     Group(String identifier, String name, String format, String color, String descriptionColor, int slotsUsed, BookItem bookItem, int destroyRateMin, int destroyRateMax, int successRateMin, int successRateMax, int tinkererExp, int order) {
         this.identifier = identifier;
@@ -168,7 +171,7 @@ public class Group {
         }
 
         public Group build() {
-            return new Group(identifier, name, format, color, descriptionColor, slotsUsed, bookItem, destroyRateMin, destroyRateMax, successRateMin, successRateMax, tinkererExp, order);
+            return new Group(this.identifier, this.name, this.format, this.color, this.descriptionColor, this.slotsUsed, this.bookItem, this.destroyRateMin, this.destroyRateMax, this.successRateMin, this.successRateMax, this.tinkererExp, this.order);
         }
 
         public String toString() {

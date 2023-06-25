@@ -15,8 +15,9 @@ public class Repair extends EffectExecutor {
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         consume(livingEntity -> {
-            if (livingEntity instanceof Player)
+            if (livingEntity instanceof Player) {
                 ((Player) livingEntity).getItemInHand().setDurability((short) 0);
+            }
         }, user, opponent);
     }
 }

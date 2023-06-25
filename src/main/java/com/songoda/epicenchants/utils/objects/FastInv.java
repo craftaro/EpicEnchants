@@ -55,9 +55,9 @@ public class FastInv implements InventoryHolder {
 
         runSync(() -> {
             if (type == InventoryType.CHEST && size > 0) {
-                inventory = Bukkit.createInventory(this, size, title);
+                this.inventory = Bukkit.createInventory(this, size, title);
             } else {
-                inventory = Bukkit.createInventory(this, type, title);
+                this.inventory = Bukkit.createInventory(this, type, title);
             }
         });
     }
@@ -124,7 +124,7 @@ public class FastInv implements InventoryHolder {
         }
 
         public InventoryClickEvent getEvent() {
-            return event;
+            return this.event;
         }
     }
 
@@ -149,7 +149,7 @@ public class FastInv implements InventoryHolder {
      */
     public FastInv addItem(ItemStack item, FastInvClickListener listener) {
         runSync(() -> {
-            int slot = inventory.firstEmpty();
+            int slot = this.inventory.firstEmpty();
             if (slot >= 0) {
                 addItem(slot, item, listener);
             }
@@ -180,12 +180,12 @@ public class FastInv implements InventoryHolder {
      */
     public FastInv addItem(int slot, ItemStack item, FastInvClickListener listener) {
         runSync(() -> {
-            inventory.setItem(slot, item);
+            this.inventory.setItem(slot, item);
 
             if (listener != null) {
-                itemListeners.put(slot, listener);
+                this.itemListeners.put(slot, listener);
             } else {
-                itemListeners.remove(slot);
+                this.itemListeners.remove(slot);
             }
         });
 
@@ -253,10 +253,10 @@ public class FastInv implements InventoryHolder {
      * @return This FastInv instance, for chaining.
      */
     public FastInv edge(ItemStack item) {
-        int height = inventory.getSize() / 9;
+        int height = this.inventory.getSize() / 9;
 
         addItem(0, 9, item);
-        addItem(inventory.getSize() - 9, inventory.getSize() - 1, item);
+        addItem(this.inventory.getSize() - 9, this.inventory.getSize() - 1, item);
 
         for (int i = 0; i < height; i++) {
             addItem(i * 9, item);
@@ -284,8 +284,8 @@ public class FastInv implements InventoryHolder {
 
     public FastInv fill(ItemStack itemStack) {
         runSync(() -> {
-            for (int i = 0; i < inventory.getSize(); i++) {
-                if (inventory.getItem(i) == null) {
+            for (int i = 0; i < this.inventory.getSize(); i++) {
+                if (this.inventory.getItem(i) == null) {
                     addItem(i, itemStack);
                 }
             }
@@ -301,7 +301,7 @@ public class FastInv implements InventoryHolder {
      * @return This FastInv instance, for chaining.
      */
     public FastInv onClose(FastInvCloseListener listener) {
-        closeListeners.add(listener);
+        this.closeListeners.add(listener);
         return this;
     }
 
@@ -313,7 +313,7 @@ public class FastInv implements InventoryHolder {
      * @return This FastInv instance, for chaining.
      */
     public FastInv onClick(FastInvClickListener listener) {
-        clickListeners.add(listener);
+        this.clickListeners.add(listener);
         return this;
     }
 
@@ -339,7 +339,7 @@ public class FastInv implements InventoryHolder {
      * @return This FastInv instance, for chaining
      */
     public FastInv onUpdate(long delay, long period, Runnable runnable) {
-        tasks.add(Bukkit.getScheduler().runTaskTimer(plugin, runnable, delay, period));
+        this.tasks.add(Bukkit.getScheduler().runTaskTimer(plugin, runnable, delay, period));
         return this;
     }
 
@@ -349,15 +349,15 @@ public class FastInv implements InventoryHolder {
      * @param player The player to open the menu.
      */
     public void open(Player player) {
-        Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inventory));
+        Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(this.inventory));
     }
 
     /**
      * Cancel all tasks.
      */
     public void cancelTasks() {
-        tasks.forEach(BukkitTask::cancel);
-        tasks.clear();
+        this.tasks.forEach(BukkitTask::cancel);
+        this.tasks.clear();
     }
 
     /**
@@ -380,13 +380,13 @@ public class FastInv implements InventoryHolder {
      */
     @Override
     public Inventory getInventory() {
-        return inventory;
+        return this.inventory;
     }
 
     /**
-     * Set if the tasks will be cancel on menus close.
+     * Set if the tasks will be canceled on menus close.
      *
-     * @param cancelTasksOnClose Set if the tasks will be cancel
+     * @param cancelTasksOnClose Set if the tasks will be canceled
      *
      * @return This FastInv instance, for chaining.
      */
@@ -420,7 +420,7 @@ public class FastInv implements InventoryHolder {
          * @return This associated FastInv instance.
          */
         public FastInv getInventory() {
-            return inventory;
+            return this.inventory;
         }
 
         /**
@@ -429,7 +429,7 @@ public class FastInv implements InventoryHolder {
          * @return the player who clicked.
          */
         public Player getPlayer() {
-            return player;
+            return this.player;
         }
 
         /**
@@ -438,11 +438,11 @@ public class FastInv implements InventoryHolder {
          * @return Whether the event was cancelled.
          */
         public boolean isCancelled() {
-            return cancelled;
+            return this.cancelled;
         }
 
         /**
-         * Set if the event will be cancel or not.
+         * Set if the event will be canceled or not.
          *
          * @param cancel Whether the event should be cancelled.
          */

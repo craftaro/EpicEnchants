@@ -18,10 +18,10 @@ import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static java.util.concurrent.ThreadLocalRandom.current;
 
 public class BookItem {
-    private EpicEnchants instance;
-    private Material material;
-    private String displayName;
-    private List<String> lore;
+    private final EpicEnchants instance;
+    private final Material material;
+    private final String displayName;
+    private final List<String> lore;
 
     BookItem(EpicEnchants instance, Material material, String displayName, List<String> lore) {
         this.instance = instance;
@@ -52,7 +52,7 @@ public class BookItem {
         int finalSuccessRate = successRate;
         int finalDestroyRate = destroyRate;
 
-        List<String> toSet = new ArrayList<>(lore);
+        List<String> toSet = new ArrayList<>(this.lore);
 
         for (int i = toSet.size() - 1; i >= 0; i--) {
             String string = toSet.get(i);
@@ -64,17 +64,17 @@ public class BookItem {
             }
 
             string = string
-                    .replace("{item_group}", "" + instance.getItemGroup().getGroup(enchant.getItemWhitelist()).map(ItemGroup.Group::getName).orElse("N/A"))
-                    .replace("{success_rate}", "" + finalSuccessRate)
-                    .replace("{destroy_rate}", "" + finalDestroyRate);
+                    .replace("{item_group}", this.instance.getItemGroup().getGroup(enchant.getItemWhitelist()).map(ItemGroup.Group::getName).orElse("N/A"))
+                    .replace("{success_rate}", String.valueOf(finalSuccessRate))
+                    .replace("{destroy_rate}", String.valueOf(finalDestroyRate));
 
             toSet.set(i, string);
         }
 
-        ItemBuilder itemBuilder = new ItemBuilder(material)
-                .name(color(displayName
-                        .replace("{level}", "" + (Settings.ROMAN.getBoolean() ? RomanNumber.toRoman(level) : level))
-                        .replace("{enchant}", "" + enchant.getIdentifier())
+        ItemBuilder itemBuilder = new ItemBuilder(this.material)
+                .name(color(this.displayName
+                        .replace("{level}", String.valueOf(Settings.ROMAN.getBoolean() ? RomanNumber.toRoman(level) : level))
+                        .replace("{enchant}", enchant.getIdentifier())
                         .replace("{group_color}", enchant.getGroup().getColor())
                         .replace("{group_name}", enchant.getGroup().getName())
                 ))
@@ -120,7 +120,7 @@ public class BookItem {
         }
 
         public BookItem build() {
-            return new BookItem(instance, material, displayName, lore);
+            return new BookItem(this.instance, this.material, this.displayName, this.lore);
         }
 
         public String toString() {

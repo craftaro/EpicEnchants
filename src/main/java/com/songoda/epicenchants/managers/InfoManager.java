@@ -23,12 +23,15 @@ public class InfoManager extends Manager<Group, InfoMenu> {
     }
 
     public void loadMenus() {
-        mainInfoMenu = new MainInfoMenu(instance, instance.getFileManager().getConfiguration("menus/main-info-menu"));
-        instance.getFileManager().getYmlFiles("menus/groups").forEach(file -> {
+        this.mainInfoMenu = new MainInfoMenu(this.instance, this.instance.getFileManager().getConfiguration("menus/main-info-menu"));
+        this.instance.getFileManager().getYmlFiles("menus/groups").forEach(file -> {
             try {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                add(instance.getGroupManager().getValue(config.getString("group"))
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))), new InfoMenu(instance, config));
+                add(this.instance
+                                .getGroupManager()
+                                .getValue(config.getString("group"))
+                                .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + config.getString("group"))),
+                        new InfoMenu(this.instance, config));
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("Something went wrong loading the menu from file " + file.getName());
                 Bukkit.getConsoleSender().sendMessage("Please check to make sure there are no errors in the file.");

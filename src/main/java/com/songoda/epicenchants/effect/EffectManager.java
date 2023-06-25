@@ -4,14 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
 public class EffectManager {
-
     public static Optional<EffectExecutor> getEffect(ConfigurationSection section) {
         if (section == null) {
             return Optional.empty();
@@ -23,8 +21,8 @@ public class EffectManager {
             Constructor<?> constructor = clazz.getConstructor(ConfigurationSection.class);
             Object object = constructor.newInstance(section);
             return Optional.of((EffectExecutor) object);
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException | ClassCastException e) {
-            e.printStackTrace();
+        } catch (ReflectiveOperationException | ClassCastException ex) {
+            ex.printStackTrace();
             Bukkit.getLogger().severe("Invalid effect: " + section.getName());
         }
 

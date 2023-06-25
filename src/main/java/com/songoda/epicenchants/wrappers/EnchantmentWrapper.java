@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class EnchantmentWrapper {
-    private LeveledModifier amplifier;
-    private Enchantment enchantment;
+    private final LeveledModifier amplifier;
+    private final Enchantment enchantment;
 
     EnchantmentWrapper(LeveledModifier amplifier, Enchantment enchantment) {
         this.amplifier = amplifier;
@@ -21,11 +21,11 @@ public class EnchantmentWrapper {
     }
 
     public int getAmplifier(int level, @NotNull Player user, @Nullable LivingEntity opponent) {
-        return (int) amplifier.get(level, 0, user, opponent);
+        return (int) this.amplifier.get(level, 0, user, opponent);
     }
 
     public Enchantment getEnchantment() {
-        return enchantment;
+        return this.enchantment;
     }
 
     public static class EnchantmentWrapperBuilder {
@@ -46,7 +46,7 @@ public class EnchantmentWrapper {
         }
 
         public EnchantmentWrapper build() {
-            return new EnchantmentWrapper(amplifier, enchantment);
+            return new EnchantmentWrapper(this.amplifier, this.enchantment);
         }
 
         public String toString() {

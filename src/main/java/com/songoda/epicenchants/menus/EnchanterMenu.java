@@ -20,7 +20,7 @@ import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 
 public class EnchanterMenu extends FastInv {
-    private final Map<UUID, Long> DELAY = new HashMap<>();
+    private final Map<UUID, Long> delay = new HashMap<>();
 
     public EnchanterMenu(EpicEnchants instance, FileConfiguration config, Player player) {
         super(config.getInt("rows") * 9, color(config.getString("title")));
@@ -33,7 +33,7 @@ public class EnchanterMenu extends FastInv {
                 .stream()
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
-                .filter(s -> s.get("group") != null)
+                .filter(section -> section.get("group") != null)
                 .forEach(section -> {
                     int expCost = section.getInt("exp-cost");
                     int ecoCost = section.getInt("eco-cost");
@@ -51,7 +51,7 @@ public class EnchanterMenu extends FastInv {
 
                     addItem(getSlots(section.getString("slot")), itemStack, event -> {
                         // Todo: wanna change this
-                        if (DELAY.getOrDefault(player.getUniqueId(), 0L) > System.currentTimeMillis()) {
+                        if (this.delay.getOrDefault(player.getUniqueId(), 0L) > System.currentTimeMillis()) {
                             return;
                         }
 
@@ -72,7 +72,7 @@ public class EnchanterMenu extends FastInv {
 
                         changeExp(player, -expCost);
                         player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));
-                        DELAY.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + 120);
+                        this.delay.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + 120);
                     });
                 });
 
@@ -80,7 +80,7 @@ public class EnchanterMenu extends FastInv {
                 .stream()
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
-                .filter(s -> s.get("group") == null)
+                .filter(section -> section.get("group") == null)
                 .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
     }
 }

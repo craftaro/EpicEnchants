@@ -7,7 +7,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
 public class EnchantApplyEvent extends Event implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList HANDLERS = new HandlerList();
+
     private final ItemStack toEnchant;
     private final Enchant enchant;
     private final int level;
@@ -23,23 +24,19 @@ public class EnchantApplyEvent extends Event implements Cancellable {
         this.destroyRate = destroyRate;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     @Override
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setCancelled(boolean cancel) {
+        this.cancelled = cancel;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return handlers;
+        return HANDLERS;
     }
 
     public ItemStack getToEnchant() {
@@ -60,5 +57,9 @@ public class EnchantApplyEvent extends Event implements Cancellable {
 
     public int getDestroyRate() {
         return this.destroyRate;
+    }
+
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
     }
 }

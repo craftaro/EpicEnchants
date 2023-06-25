@@ -8,32 +8,32 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class WhiteScrollListener extends ItemListener {
-
     public WhiteScrollListener(EpicEnchants instance) {
         super(instance);
     }
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.hasKey("white-scroll") || !cursor.getBoolean("white-scroll")) {
+        if (!cursor.hasTag("white-scroll") || !cursor.getBoolean("white-scroll")) {
             return;
         }
 
         event.setCancelled(true);
 
-        if (current.hasKey("protected")) {
-            instance.getLocale().getMessage("whitescroll.alreadyapplied")
+        if (current.hasTag("protected")) {
+            this.instance.getLocale().getMessage("whitescroll.alreadyapplied")
                     .sendPrefixedMessage(event.getWhoClicked());
             return;
         }
 
-        if (!instance.getItemGroup().isValid(CompatibleMaterial.getMaterial(event.getCurrentItem().getType()).get()))
+        if (!this.instance.getItemGroup().isValid(CompatibleMaterial.getMaterial(event.getCurrentItem().getType()).get())) {
             return;
+        }
 
         current.setBoolean("protected", true);
-        instance.getLocale().getMessage("whitescrollapplied").sendPrefixedMessage(event.getWhoClicked());
+        this.instance.getLocale().getMessage("whitescrollapplied").sendPrefixedMessage(event.getWhoClicked());
 
-        ItemStack toSet = new ItemBuilder(current.getItem()).addLore(instance.getSpecialItems().getWhiteScrollLore()).build();
+        ItemStack toSet = new ItemBuilder(current.getItem()).addLore(this.instance.getSpecialItems().getWhiteScrollLore()).build();
 
         event.getClickedInventory().setItem(event.getSlot(), toSet);
         useItem(event);

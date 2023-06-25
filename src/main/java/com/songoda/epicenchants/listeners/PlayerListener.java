@@ -32,8 +32,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onArmorEquip(ArmorEquipEvent event) {
-        Map<Enchant, Integer> oldArmorMap = instance.getEnchantUtils().getEnchants(event.getOldArmorPiece());
-        Map<Enchant, Integer> newArmorMap = instance.getEnchantUtils().getEnchants(event.getNewArmorPiece());
+        Map<Enchant, Integer> oldArmorMap = this.instance.getEnchantUtils().getEnchants(event.getOldArmorPiece());
+        Map<Enchant, Integer> newArmorMap = this.instance.getEnchantUtils().getEnchants(event.getNewArmorPiece());
 
         oldArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, OFF));
         newArmorMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
@@ -41,8 +41,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onHeldItemChanged(HeldItemChangedEvent event) {
-        Map<Enchant, Integer> oldItemMap = instance.getEnchantUtils().getEnchants(event.getOldItem());
-        Map<Enchant, Integer> newItemMap = instance.getEnchantUtils().getEnchants(event.getNewItem());
+        Map<Enchant, Integer> oldItemMap = this.instance.getEnchantUtils().getEnchants(event.getOldItem());
+        Map<Enchant, Integer> newItemMap = this.instance.getEnchantUtils().getEnchants(event.getNewItem());
 
         oldItemMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, OFF));
         newItemMap.forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
@@ -50,56 +50,64 @@ public class PlayerListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerItemHeld(PlayerItemHeldEvent event) {
-        instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getPreviousSlot()))
+        this.instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getPreviousSlot()))
                 .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, OFF));
 
-        instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getNewSlot()))
+        this.instance.getEnchantUtils().getEnchants(event.getPlayer().getInventory().getItem(event.getNewSlot()))
                 .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        instance.getEnchantUtils().handlePlayer(event.getEntity(), event.getEntity().getKiller(), event, DEATH);
+        this.instance.getEnchantUtils().handlePlayer(event.getEntity(), event.getEntity().getKiller(), event, DEATH);
 
         if (event.getEntity().getKiller() != null) {
-            instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event.getEntity(), event, KILLED_PLAYER);
+            this.instance.getEnchantUtils().handlePlayer(event.getEntity().getKiller(), event.getEntity(), event, KILLED_PLAYER);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK);
+            this.instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK);
         } else if (event.getAction() == Action.LEFT_CLICK_AIR) {
-            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK);
+            this.instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK);
         }
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK_BLOCK);
+            this.instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, RIGHT_CLICK_BLOCK);
         } else if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
-            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK_BLOCK);
+            this.instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, LEFT_CLICK_BLOCK);
         }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
-        instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, BLOCK_BREAK);
-        if (event.getExpToDrop() != 0)
-            instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, EXPERIENCE_BLOCK_BREAK);
+        this.instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, BLOCK_BREAK);
+        if (event.getExpToDrop() != 0) {
+            this.instance.getEnchantUtils().handlePlayer(event.getPlayer(), null, event, EXPERIENCE_BLOCK_BREAK);
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().getActivePotionEffects().stream().filter(potion -> potion.getDuration() >= 32760)
+        event.getPlayer()
+                .getActivePotionEffects()
+                .stream()
+                .filter(potion -> potion.getDuration() >= 32760)
                 .forEach(potionEffect -> event.getPlayer().removePotionEffect(potionEffect.getType()));
 
-        Arrays.stream(event.getPlayer().getInventory().getArmorContents()).forEach(itemStack -> {
-            instance.getEnchantUtils().getEnchants(itemStack).forEach((enchant, level)
-                    -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON));
-        });
-        ItemStack mainhand = event.getPlayer().getInventory().getItem(event.getPlayer().getInventory().getHeldItemSlot());
-        if (isItem(mainhand))
-            instance.getEnchantUtils().getEnchants(mainhand).forEach((enchant, level)
-                    -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
+        Arrays.stream(event.getPlayer().getInventory().getArmorContents())
+                .forEach(itemStack -> this.instance
+                        .getEnchantUtils()
+                        .getEnchants(itemStack)
+                        .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, STATIC_EFFECT, ON)));
+        ItemStack mainHand = event.getPlayer().getInventory().getItem(event.getPlayer().getInventory().getHeldItemSlot());
+        if (isItem(mainHand)) {
+            this.instance
+                    .getEnchantUtils()
+                    .getEnchants(mainHand)
+                    .forEach((enchant, level) -> enchant.onAction(event.getPlayer(), null, event, level, HELD_ITEM, ON));
+        }
     }
 
     private boolean isItem(ItemStack is) {

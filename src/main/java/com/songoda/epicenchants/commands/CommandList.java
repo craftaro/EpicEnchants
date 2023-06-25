@@ -10,24 +10,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandList extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandList(EpicEnchants plugin) {
-        super(true, "list");
+        super(CommandType.PLAYER_ONLY, "list");
         this.plugin = plugin;
     }
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
         if (args.length > 1 && args[1].equalsIgnoreCase("chat")) {
-            plugin.getLocale().newMessage(plugin.getEnchantManager().getValues().stream()
+            this.plugin.getLocale().newMessage(this.plugin.getEnchantManager().getValues().stream()
                             .sorted(Comparator.comparing(enchant -> enchant.getGroup().getOrder()))
                             .map(enchant -> enchant.getColoredIdentifier(true)).collect(Collectors.joining("&7, ")))
                     .sendPrefixedMessage(sender);
             return ReturnType.SUCCESS;
         }
-        plugin.getInfoManager().getMainInfoMenu().open((Player) sender);
+        this.plugin.getInfoManager().getMainInfoMenu().open((Player) sender);
         return ReturnType.SUCCESS;
     }
 

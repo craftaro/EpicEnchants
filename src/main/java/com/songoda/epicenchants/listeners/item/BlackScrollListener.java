@@ -17,7 +17,7 @@ public class BlackScrollListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.hasKey("black-scroll") || !cursor.getBoolean("black-scroll")) {
+        if (!cursor.hasTag("black-scroll") || !cursor.getBoolean("black-scroll")) {
             return;
         }
 
@@ -25,20 +25,20 @@ public class BlackScrollListener extends ItemListener {
         NBTCompound compound = current.getCompound("enchants");
 
         if (compound == null || compound.getKeys().isEmpty()) {
-            instance.getLocale().getMessage("blackscroll.noenchants")
+            this.instance.getLocale().getMessage("blackscroll.noenchants")
                     .sendPrefixedMessage(event.getWhoClicked());
             return;
         }
 
         String id = getRandomElement(compound.getKeys());
         int level = compound.getInteger(id);
-        Enchant enchant = instance.getEnchantManager().getValueUnsafe(id);
-        ItemStack toSet = instance.getEnchantUtils().removeEnchant(event.getCurrentItem(), enchant);
+        Enchant enchant = this.instance.getEnchantManager().getValueUnsafe(id);
+        ItemStack toSet = this.instance.getEnchantUtils().removeEnchant(event.getCurrentItem(), enchant);
 
         event.getWhoClicked().getInventory().addItem(enchant.getBook().get(enchant, level, cursor.getInteger("success-rate"), 100));
         event.setCurrentItem(toSet);
 
-        instance.getLocale().getMessage("blackscroll.success")
+        this.instance.getLocale().getMessage("blackscroll.success")
                 .processPlaceholder("enchant", enchant.getIdentifier())
                 .processPlaceholder("group_color", enchant.getGroup().getColor())
                 .processPlaceholder("group_name", enchant.getGroup().getName())

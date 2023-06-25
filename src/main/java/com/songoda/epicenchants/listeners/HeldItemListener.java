@@ -28,7 +28,6 @@ import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 public class HeldItemListener implements Listener {
-
     private static final boolean SWAP_OFFHAND_SUPPORTED = Arrays.stream(ClickType.values()).anyMatch(e -> e.name().equals("SWAP_OFFHAND"));
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -190,8 +189,9 @@ public class HeldItemListener implements Listener {
     @EventHandler
     public void playerDeathEvent(PlayerDeathEvent event) {
         ItemStack i = event.getEntity().getInventory().getItem(event.getEntity().getInventory().getHeldItemSlot());
-        if (!isAirOrNull(i))
+        if (!isAirOrNull(i)) {
             Bukkit.getServer().getPluginManager().callEvent(new HeldItemChangedEvent(event.getEntity(), EquipMethod.DEATH, i, null));
+        }
         // No way to cancel a death event.
     }
 

@@ -1,6 +1,5 @@
 package com.songoda.epicenchants.objects;
 
-import com.craftaro.core.compatibility.CompatibleMaterial;
 import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
@@ -19,19 +18,18 @@ import java.util.Set;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class Enchant {
-    private String author;
-    private String identifier;
-    private Group group;
-    private int maxLevel;
-    private Set<String> conflict;
-    private Set<XMaterial> itemWhitelist;
-    private Set<EffectExecutor> effectExecutors;
-    private List<String> description;
-    private String format;
-    @Nullable
-    private BookItem bookItem;
+    private final String author;
+    private final String identifier;
+    private final Group group;
+    private final int maxLevel;
+    private final Set<String> conflict;
+    private final Set<XMaterial> itemWhitelist;
+    private final Set<EffectExecutor> effectExecutors;
+    private final List<String> description;
+    private final String format;
+    private final @Nullable BookItem bookItem;
 
-    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<XMaterial> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
+    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<XMaterial> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, @Nullable BookItem bookItem) {
         this.author = author;
         this.identifier = identifier;
         this.group = group;
@@ -49,26 +47,26 @@ public class Enchant {
     }
 
     public void onAction(@NotNull Player user, @Nullable LivingEntity opponent, Event event, int level, TriggerType triggerType, EventType eventType) {
-        effectExecutors.forEach(effect -> effect.testAndRun(user, opponent, level, triggerType, event, eventType));
+        this.effectExecutors.forEach(effect -> effect.testAndRun(user, opponent, level, triggerType, event, eventType));
     }
 
     public BookItem getBook() {
-        return bookItem != null ? bookItem : group.getBookItem();
+        return this.bookItem != null ? this.bookItem : this.group.getBookItem();
     }
 
     public String getFormat(int level, boolean roman) {
-        String output = format.isEmpty() ? group.getFormat() : format;
+        String output = this.format.isEmpty() ? this.group.getFormat() : this.format;
 
         output = output
-                .replace("{level}", "" + (roman ? RomanNumber.toRoman(level) : level))
-                .replace("{enchant}", "" + identifier)
-                .replace("{group_color}", "" + group.getColor());
+                .replace("{level}", String.valueOf(roman ? RomanNumber.toRoman(level) : level))
+                .replace("{enchant}", this.identifier)
+                .replace("{group_color}", this.group.getColor());
 
         return color(output);
     }
 
     public String getAuthor() {
-        return author;
+        return this.author;
     }
 
     public String getIdentifier() {
@@ -184,7 +182,7 @@ public class Enchant {
         }
 
         public Enchant build() {
-            return new Enchant(author, identifier, group, maxLevel, conflict, itemWhitelist, effectExecutors, description, format, bookItem);
+            return new Enchant(this.author, this.identifier, this.group, this.maxLevel, this.conflict, this.itemWhitelist, this.effectExecutors, this.description, this.format, this.bookItem);
         }
 
         public String toString() {

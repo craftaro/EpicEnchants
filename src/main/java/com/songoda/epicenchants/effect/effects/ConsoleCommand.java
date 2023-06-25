@@ -17,7 +17,8 @@ public class ConsoleCommand extends EffectExecutor {
 
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
-        GeneralUtils.getString(getSection(), "command").stream()
+        GeneralUtils.getString(getSection(), "command")
+                .stream()
                 .map(s -> Placeholders.setPlaceholders(s, user, opponent, level))
                 .forEach(s -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s));
     }

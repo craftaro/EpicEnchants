@@ -23,7 +23,7 @@ public class SpecialItems {
     }
 
     public ItemStack getWhiteScroll(int amount) {
-        NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("white-scroll")).nbt();
+        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("white-scroll")).nbt();
         nbtItem.setBoolean("white-scroll", true);
         ItemStack itemStack = nbtItem.getItem();
 
@@ -34,7 +34,7 @@ public class SpecialItems {
 
     public ItemStack getBlackScroll(int amount, int chance) {
         int successRate = chance == -1 ? ThreadLocalRandom.current().nextInt(Settings.BLACK_MIN.getInt(), Settings.BLACK_MAX.getInt() + 1) : chance;
-        NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt();
+        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("black-scroll"), of("success-rate", successRate)).nbt();
 
         nbtItem.setBoolean("black-scroll", true);
         nbtItem.setInteger("success-rate", successRate);
@@ -47,7 +47,7 @@ public class SpecialItems {
     }
 
     public ItemStack getMysteryBook(Group group) {
-        NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("mystery-book"),
+        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/special-items").getConfigurationSection("mystery-book"),
                 of("group-color", group.getColor()),
                 of("group-name", group.getName())).nbt();
 
@@ -57,12 +57,12 @@ public class SpecialItems {
     }
 
     public ItemStack getSecretDust(NBTItem book) {
-        Group group = instance.getEnchantManager().getValueUnsafe(book.getString("enchant")).getGroup();
+        Group group = this.instance.getEnchantManager().getValueUnsafe(book.getString("enchant")).getGroup();
         return getSecretDust(group, (int) Math.floor(book.getInteger("success-rate") / 10.0));
     }
 
     public ItemStack getSecretDust(Group group, int max) {
-        NBTItem nbtItem = new ItemBuilder(instance.getFileManager().getConfiguration("items/dusts").getConfigurationSection("secret-dust"),
+        NBTItem nbtItem = new ItemBuilder(this.instance.getFileManager().getConfiguration("items/dusts").getConfigurationSection("secret-dust"),
                 of("group-color", group.getColor()),
                 of("group-name", group.getName()),
                 of("max-rate", max),
@@ -76,7 +76,7 @@ public class SpecialItems {
     }
 
     public ItemStack getDust(Group group, @Nullable String type, int percentage, boolean command) {
-        FileConfiguration dustConfig = instance.getFileManager().getConfiguration("items/dusts");
+        FileConfiguration dustConfig = this.instance.getFileManager().getConfiguration("items/dusts");
         int random = ThreadLocalRandom.current().nextInt(101);
         int counter = 0;
 
@@ -119,6 +119,6 @@ public class SpecialItems {
     }
 
     public String getWhiteScrollLore() {
-        return color(instance.getFileManager().getConfiguration("items/special-items").getString("white-scroll.format"));
+        return color(this.instance.getFileManager().getConfiguration("items/special-items").getString("white-scroll.format"));
     }
 }

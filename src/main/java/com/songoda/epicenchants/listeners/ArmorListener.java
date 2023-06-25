@@ -24,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import static org.bukkit.event.EventPriority.HIGHEST;
 
 public class ArmorListener implements Listener {
-
     @EventHandler(ignoreCancelled = true)
     public final void onInventoryClick(final InventoryClickEvent e) {
         boolean shift = false, numberKey = false;
@@ -194,9 +193,9 @@ public class ArmorListener implements Listener {
 
     @EventHandler
     public void playerDeathEvent(PlayerDeathEvent event) {
-        for (ItemStack i : event.getEntity().getInventory().getArmorContents()) {
-            if (!isAirOrNull(i)) {
-                Bukkit.getServer().getPluginManager().callEvent(new ArmorEquipEvent(event.getEntity(), EquipMethod.DEATH, ArmorType.matchType(i), i, null));
+        for (ItemStack item : event.getEntity().getInventory().getArmorContents()) {
+            if (!isAirOrNull(item)) {
+                Bukkit.getServer().getPluginManager().callEvent(new ArmorEquipEvent(event.getEntity(), EquipMethod.DEATH, ArmorType.matchType(item), item, null));
                 // No way to cancel a death event.
             }
         }

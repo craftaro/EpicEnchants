@@ -3,7 +3,6 @@ package com.songoda.epicenchants;
 import com.craftaro.core.SongodaCore;
 import com.craftaro.core.SongodaPlugin;
 import com.craftaro.core.commands.CommandManager;
-import com.craftaro.core.compatibility.CompatibleMaterial;
 import com.craftaro.core.configuration.Config;
 import com.craftaro.core.gui.GuiManager;
 import com.craftaro.core.hooks.EconomyManager;
@@ -44,9 +43,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EpicEnchants extends SongodaPlugin {
-
-    private static EpicEnchants INSTANCE;
-
     private final GuiManager guiManager = new GuiManager(this);
     private EnchantManager enchantManager;
     private InfoManager infoManager;
@@ -58,21 +54,14 @@ public class EpicEnchants extends SongodaPlugin {
     private EnchantUtils enchantUtils;
     private ItemGroup itemGroup;
 
-    public static EpicEnchants getInstance() {
-        return INSTANCE;
-    }
-
     @Override
     public void onPluginLoad() {
-        INSTANCE = this;
     }
 
     @Override
     public void onPluginEnable() {
-        // Run Songoda Updater
         SongodaCore.registerPlugin(this, 67, XMaterial.DIAMOND_SWORD);
 
-        // setup commands
         this.commandManager = new com.craftaro.core.commands.CommandManager(this);
         this.commandManager.addMainCommand("ee")
                 .addSubCommand(new CommandReload(this))
@@ -105,12 +94,12 @@ public class EpicEnchants extends SongodaPlugin {
         this.commandManager = new CommandManager(this);
         this.itemGroup = new ItemGroup();
 
-        groupManager.loadGroups();
-        enchantManager.loadEnchants();
-        infoManager.loadMenus();
+        this.groupManager.loadGroups();
+        this.enchantManager.loadEnchants();
+        this.infoManager.loadMenus();
 
         // Listeners
-        guiManager.init();
+        this.guiManager.init();
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new BookListener(this), this);
         pluginManager.registerEvents(new ArmorListener(), this);
@@ -121,15 +110,15 @@ public class EpicEnchants extends SongodaPlugin {
         pluginManager.registerEvents(new BlackScrollListener(this), this);
         pluginManager.registerEvents(new DustListener(this), this);
 
-        if (!enchantManager.getValues().isEmpty()) {
-            getLogger().info("Successfully loaded enchants: " + enchantManager.getValues().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
+        if (!this.enchantManager.getValues().isEmpty()) {
+            getLogger().info("Successfully loaded enchants: " + this.enchantManager.getValues().stream().map(Enchant::getIdentifier).collect(Collectors.joining(", ")));
         }
     }
 
     private void preload() {
         FastInv.init(this);
         this.fileManager = new FileManager(this);
-        fileManager.loadFiles();
+        this.fileManager.loadFiles();
     }
 
     @Override
@@ -142,17 +131,17 @@ public class EpicEnchants extends SongodaPlugin {
 
     @Override
     public void onConfigReload() {
-        fileManager.clear();
-        fileManager.loadFiles();
+        this.fileManager.clear();
+        this.fileManager.loadFiles();
 
-        groupManager.clear();
-        groupManager.loadGroups();
+        this.groupManager.clear();
+        this.groupManager.loadGroups();
 
-        enchantManager.clear();
-        enchantManager.loadEnchants();
+        this.enchantManager.clear();
+        this.enchantManager.loadEnchants();
 
-        infoManager.clear();
-        infoManager.loadMenus();
+        this.infoManager.clear();
+        this.infoManager.loadMenus();
 
         this.setLocale(getConfig().getString("System.Language Mode"), true);
         this.locale.reloadMessages();
@@ -192,10 +181,18 @@ public class EpicEnchants extends SongodaPlugin {
     }
 
     public CommandManager getCommandManager() {
-        return commandManager;
+        return this.commandManager;
     }
 
     public GuiManager getGuiManager() {
-        return guiManager;
+        return this.guiManager;
+    }
+
+    /**
+     * @deprecated Use {@link EpicEnchants#getPlugin(Class)} instead
+     */
+    @Deprecated
+    public static EpicEnchants getInstance() {
+        return EpicEnchants.getPlugin(EpicEnchants.class);
     }
 }

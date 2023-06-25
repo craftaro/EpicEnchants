@@ -16,37 +16,38 @@ public class CommandGiveRandomBook extends AbstractCommand {
     private final EpicEnchants plugin;
 
     public CommandGiveRandomBook(EpicEnchants plugin) {
-        super(false, "giverandombook");
+        super(CommandType.CONSOLE_OK, "giverandombook");
         this.plugin = plugin;
     }
 
     //giverandombook <player> <group>
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        if (args.length < 2 || args.length > 6)
+        if (args.length < 2 || args.length > 6) {
             return ReturnType.SYNTAX_ERROR;
+        }
 
         OfflinePlayer target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            plugin.getLocale().newMessage("&cThis player does not exist...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cThis player does not exist...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
-        List<Group> groups = plugin.getGroupManager().getValues().stream()
+        List<Group> groups = this.plugin.getGroupManager().getValues().stream()
                 .filter(group -> group.getIdentifier().equalsIgnoreCase(args[1])).collect(Collectors.toList());
 
         if (groups.isEmpty()) {
-            plugin.getLocale().newMessage("&cThe group you entered was no found...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cThe group you entered was no found...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
         Group group = groups.get(0);
 
-        target.getPlayer().getInventory().addItem(plugin.getSpecialItems().getMysteryBook(group));
-        plugin.getLocale().getMessage("command.randombook.received")
+        target.getPlayer().getInventory().addItem(this.plugin.getSpecialItems().getMysteryBook(group));
+        this.plugin.getLocale().getMessage("command.randombook.received")
                 .sendPrefixedMessage(target.getPlayer());
-        plugin.getLocale().getMessage("command.randombook.gave")
+        this.plugin.getLocale().getMessage("command.randombook.gave")
                 .processPlaceholder("player", target.getPlayer().getName())
                 .sendPrefixedMessage(sender);
         return ReturnType.SUCCESS;
@@ -55,10 +56,16 @@ public class CommandGiveRandomBook extends AbstractCommand {
     @Override
     protected List<String> onTab(CommandSender sender, String... args) {
         if (args.length == 1) {
-            return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+            return Bukkit.getOnlinePlayers()
+                    .stream()
+                    .map(Player::getName)
+                    .collect(Collectors.toList());
         } else if (args.length == 2) {
-            return plugin.getGroupManager().getValues().stream()
-                    .map(Group::getIdentifier).collect(Collectors.toList());
+            return this.plugin.getGroupManager()
+                    .getValues()
+                    .stream()
+                    .map(Group::getIdentifier)
+                    .collect(Collectors.toList());
         }
         return null;
     }

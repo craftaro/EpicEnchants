@@ -8,8 +8,8 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
 public final class HeldItemChangedEvent extends PlayerEvent implements Cancellable {
+    private static final HandlerList HANDLERS = new HandlerList();
 
-    private static final HandlerList handlers = new HandlerList();
     private boolean cancel = false;
     private final EquipMethod equipType;
     private final ItemStack oldItem, newItem;
@@ -17,47 +17,38 @@ public final class HeldItemChangedEvent extends PlayerEvent implements Cancellab
     /**
      * Constructor for the HeldItemChangedEvent.
      *
-     * @param player  The player who put (un)equipped an item.
+     * @param who     The player who put (un)equipped an item.
      * @param oldItem The ItemStack removed.
      * @param newItem The ItemStack added.
      */
-    public HeldItemChangedEvent(final Player player, final EquipMethod equipType, final ItemStack oldItem, final ItemStack newItem) {
-        super(player);
+    public HeldItemChangedEvent(final Player who, final EquipMethod equipType, final ItemStack oldItem, final ItemStack newItem) {
+        super(who);
         this.equipType = equipType;
         this.oldItem = oldItem;
         this.newItem = newItem;
     }
 
     /**
-     * Gets a list of handlers handling this event.
+     * Gets a list of handlers handling this event
      *
-     * @return A list of handlers handling this event.
-     */
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    /**
-     * Gets a list of handlers handling this event.
-     *
-     * @return A list of handlers handling this event.
+     * @return A list of handlers handling this event
      */
     @Override
     public final HandlerList getHandlers() {
-        return handlers;
+        return HANDLERS;
     }
 
     /**
-     * Sets if this event should be cancelled.
+     * Sets if this event should be cancelled
      *
-     * @param cancel If this event should be cancelled.
+     * @param cancel If this event should be cancelled
      */
     public final void setCancelled(final boolean cancel) {
         this.cancel = cancel;
     }
 
     /**
-     * Gets if this event is cancelled.
+     * Gets if this event is cancelled
      *
      * @return If this event is cancelled
      */
@@ -86,9 +77,18 @@ public final class HeldItemChangedEvent extends PlayerEvent implements Cancellab
         return equipType;
     }
 
+    /**
+     * Gets a list of handlers handling this event.
+     *
+     * @return A list of handlers handling this event.
+     */
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     public enum EquipMethod {// These have got to be the worst documentations ever.
         /**
-         * When you shift click an armor piece to equip or unequip
+         * When you shift-click an armor piece to equip or unequip
          */
         SHIFT_CLICK,
         /**
@@ -108,7 +108,7 @@ public final class HeldItemChangedEvent extends PlayerEvent implements Cancellab
          */
         OFFHAND_SWAP,
         /**
-         * When an item, e.g. tool, is removed due to it losing all durability.
+         * When an item, e.g., tool, is removed due to it losing all durability
          */
         BROKE,
         /**

@@ -17,7 +17,8 @@ public class Message extends EffectExecutor {
     @Override
     public void execute(@NotNull Player user, LivingEntity opponent, int level, EventType eventType) {
         if (eventType == EventType.ON || eventType == EventType.NONE) {
-            consume(entity -> GeneralUtils.getString(getSection(), "message").stream()
+            consume(entity -> GeneralUtils.getString(getSection(), "message")
+                    .stream()
                     .map(s -> Placeholders.setPlaceholders(s, user, opponent, level))
                     .forEach(entity::sendMessage), user, opponent);
         }

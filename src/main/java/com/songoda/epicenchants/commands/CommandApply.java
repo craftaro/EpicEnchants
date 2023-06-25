@@ -20,42 +20,45 @@ import static com.songoda.epicenchants.enums.EnchantResult.BROKEN_FAILURE;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getMessageFromResult;
 
 public class CommandApply extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandApply(EpicEnchants plugin) {
-        super(true, "apply");
+        super(CommandType.PLAYER_ONLY, "apply");
         this.plugin = plugin;
     }
 
     //apply [enchant] [level] <success-rate> <destroy-rate>
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        if (args.length < 2 || args.length > 4)
+        if (args.length < 2 || args.length > 4) {
             return ReturnType.SYNTAX_ERROR;
+        }
 
-        Optional<Enchant> optionalEnchant = plugin.getEnchantManager().getValue(args[0].replaceAll("_", " "));
+        Optional<Enchant> optionalEnchant = this.plugin.getEnchantManager().getValue(args[0].replaceAll("_", " "));
 
         if (!optionalEnchant.isPresent()) {
-            plugin.getLocale().newMessage("&cNo enchants exist with that name...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cNo enchants exist with that name...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
-        if (!CommandCommons.isInt(args[1], sender))
+        if (!CommandCommons.isInt(args[1], sender)) {
             return ReturnType.FAILURE;
+        }
 
         int successRate = 100;
         int destroyRate = 0;
 
         if (args.length > 2) {
-            if (!CommandCommons.isInt(args[2], sender))
+            if (!CommandCommons.isInt(args[2], sender)) {
                 return ReturnType.FAILURE;
+            }
             successRate = Integer.parseInt(args[2]);
         }
 
         if (args.length > 3) {
-            if (!CommandCommons.isInt(args[3], sender))
+            if (!CommandCommons.isInt(args[3], sender)) {
                 return ReturnType.FAILURE;
+            }
             destroyRate = Integer.parseInt(args[3]);
         }
         Enchant enchant = optionalEnchant.get();
@@ -64,7 +67,7 @@ public class CommandApply extends AbstractCommand {
 
         if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(player.getItemInHand().getType()).get())) {
             System.out.println("List = " + enchant.getItemWhitelist());
-            plugin.getLocale().getMessage("command.apply.invaliditem")
+            this.plugin.getLocale().getMessage("command.apply.invaliditem")
                     .processPlaceholder("enchant", enchant.getIdentifier())
                     .sendPrefixedMessage(player);
             return ReturnType.FAILURE;
@@ -72,10 +75,9 @@ public class CommandApply extends AbstractCommand {
 
         int slot = player.getInventory().getHeldItemSlot();
         ItemStack before = player.getItemInHand();
-        Tuple<ItemStack, EnchantResult> result = plugin.getEnchantUtils().apply(before, enchant, level,
-                successRate, destroyRate);
+        Tuple<ItemStack, EnchantResult> result = this.plugin.getEnchantUtils().apply(before, enchant, level, successRate, destroyRate);
 
-        plugin.getLocale().getMessage(getMessageFromResult(result.getRight()))
+        this.plugin.getLocale().getMessage(getMessageFromResult(result.getRight()))
                 .processPlaceholder("enchant", enchant.getIdentifier())
                 .sendPrefixedMessage(player);
 
@@ -91,21 +93,31 @@ public class CommandApply extends AbstractCommand {
     @Override
     protected List<String> onTab(CommandSender sender, String... args) {
         if (args.length == 1) {
-            return plugin.getEnchantManager().getValues()
-                    .stream().map(Enchant::getIdentifier).collect(Collectors.toList());
+            return this.plugin
+                    .getEnchantManager()
+                    .getValues()
+                    .stream()
+                    .map(Enchant::getIdentifier)
+                    .collect(Collectors.toList());
         } else if (args.length == 2) {
-            Enchant enchant = plugin.getEnchantManager().getValues()
-                    .stream().findFirst().orElse(null);
+            Enchant enchant = this.plugin
+                    .getEnchantManager()
+                    .getValues()
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
             List<String> levels = new ArrayList<>();
             if (enchant != null) {
-                for (int i = 1; i <= enchant.getMaxLevel(); i++)
+                for (int i = 1; i <= enchant.getMaxLevel(); i++) {
                     levels.add(String.valueOf(i));
+                }
             }
             return levels;
         } else if (args.length == 3 || args.length == 4) {
             List<String> rates = new ArrayList<>();
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= 100; i++) {
                 rates.add(String.valueOf(i));
+            }
             return rates;
         }
         return null;

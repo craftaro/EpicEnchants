@@ -20,11 +20,11 @@ public class Condition {
     }
 
     public boolean get(Player user, @Nullable LivingEntity attacker, int level, @Nullable Event event, boolean def) {
-        if (string == null || string.isEmpty()) {
+        if (this.string == null || this.string.isEmpty()) {
             return true;
         }
 
-        String toValidate = ChatColor.stripColor(Placeholders.setPlaceholders(string, user, attacker, level, event));
+        String toValidate = ChatColor.stripColor(Placeholders.setPlaceholders(this.string, user, attacker, level, event));
 
         return (boolean) GeneralUtils.parseJS(toValidate, "condition", def);
     }

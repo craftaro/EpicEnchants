@@ -36,13 +36,13 @@ public class AlchemistMenu extends FastInv {
         this.instance = instance;
         this.config = config;
 
-        LEFT_SLOT = config.getInt("left-slot");
-        RIGHT_SLOT = config.getInt("right-slot");
-        PREVIEW_SLOT = config.getInt("preview-slot");
-        ACCEPT_SLOT = config.getInt("accept-slot");
+        this.LEFT_SLOT = config.getInt("left-slot");
+        this.RIGHT_SLOT = config.getInt("right-slot");
+        this.PREVIEW_SLOT = config.getInt("preview-slot");
+        this.ACCEPT_SLOT = config.getInt("accept-slot");
 
-        PREVIEW_ITEM = new ItemBuilder(config.getConfigurationSection("contents.preview")).build();
-        ACCEPT_ITEM = new ItemBuilder(config.getConfigurationSection("contents.accept-before")).build();
+        this.PREVIEW_ITEM = new ItemBuilder(config.getConfigurationSection("contents.preview")).build();
+        this.ACCEPT_ITEM = new ItemBuilder(config.getConfigurationSection("contents.accept-before")).build();
 
         if (config.isConfigurationSection("fill")) {
             fill(new ItemBuilder(config.getConfigurationSection("fill")).build());
@@ -61,8 +61,8 @@ public class AlchemistMenu extends FastInv {
                 .map(config::getConfigurationSection)
                 .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
 
-        clear(RIGHT_SLOT);
-        clear(LEFT_SLOT);
+        clear(this.RIGHT_SLOT);
+        clear(this.LEFT_SLOT);
 
         updateSlots();
 
@@ -74,7 +74,7 @@ public class AlchemistMenu extends FastInv {
 
             int slot = event.getSlot();
 
-            if (slot != RIGHT_SLOT && slot != LEFT_SLOT) {
+            if (slot != this.RIGHT_SLOT && slot != this.LEFT_SLOT) {
                 return;
             }
 
@@ -107,10 +107,10 @@ public class AlchemistMenu extends FastInv {
 
         // Player closed inventory
         onClose(event -> {
-            if (getInventory().getItem(RIGHT_SLOT) != null)
-                event.getPlayer().getInventory().addItem(getInventory().getItem(RIGHT_SLOT));
-            if (getInventory().getItem(LEFT_SLOT) != null)
-                event.getPlayer().getInventory().addItem(getInventory().getItem(LEFT_SLOT));
+            if (getInventory().getItem(this.RIGHT_SLOT) != null)
+                event.getPlayer().getInventory().addItem(getInventory().getItem(this.RIGHT_SLOT));
+            if (getInventory().getItem(this.LEFT_SLOT) != null)
+                event.getPlayer().getInventory().addItem(getInventory().getItem(this.LEFT_SLOT));
         });
     }
 
@@ -124,65 +124,65 @@ public class AlchemistMenu extends FastInv {
 
         NBTItem nbtItem = new NBTItem(toHandle);
 
-        if (!nbtItem.hasKey("book-item") && !nbtItem.hasKey("dust")) {
-            instance.getLocale().getMessage("alchemist.notinterested").sendPrefixedMessage(player);
+        if (!nbtItem.hasTag("book-item") && !nbtItem.hasTag("dust")) {
+            this.instance.getLocale().getMessage("alchemist.notinterested").sendPrefixedMessage(player);
             return false;
         }
 
         // Both slots occupied
-        if (getInventory().getItem(LEFT_SLOT) != null && getInventory().getItem(RIGHT_SLOT) != null) {
-            instance.getLocale().getMessage("alchemist.maxtwoitems").sendPrefixedMessage(player);
+        if (getInventory().getItem(this.LEFT_SLOT) != null && getInventory().getItem(this.RIGHT_SLOT) != null) {
+            this.instance.getLocale().getMessage("alchemist.maxtwoitems").sendPrefixedMessage(player);
             return false;
         }
 
         int successRate = nbtItem.getInteger("success-rate");
 
         // Both slots empty
-        if (getInventory().getItem(LEFT_SLOT) == null && getInventory().getItem(RIGHT_SLOT) == null) {
-            if (nbtItem.hasKey("book-item")) {
-                Enchant enchant = instance.getEnchantManager().getValue(nbtItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+        if (getInventory().getItem(this.LEFT_SLOT) == null && getInventory().getItem(this.RIGHT_SLOT) == null) {
+            if (nbtItem.hasTag("book-item")) {
+                Enchant enchant = this.instance.getEnchantManager().getValue(nbtItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
                 int level = nbtItem.getInteger("level");
 
                 if (enchant.getMaxLevel() == level) {
-                    instance.getLocale().getMessage("alchemist.maxlevelbook")
+                    this.instance.getLocale().getMessage("alchemist.maxlevelbook")
                             .sendPrefixedMessage(player);
                     return false;
                 }
             } else {
-                Group group = instance.getGroupManager().getValue(nbtItem.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!"));
+                Group group = this.instance.getGroupManager().getValue(nbtItem.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!"));
 
-                if (group.getOrder() == instance.getGroupManager().getValues().stream().mapToInt(Group::getOrder).max().orElse(0) || successRate == 100) {
-                    instance.getLocale().getMessage("alchemist." + (successRate == 100 ? "maxpercentagedust" : "highestgroupdust"))
+                if (group.getOrder() == this.instance.getGroupManager().getValues().stream().mapToInt(Group::getOrder).max().orElse(0) || successRate == 100) {
+                    this.instance.getLocale().getMessage("alchemist." + (successRate == 100 ? "maxpercentagedust" : "highestgroupdust"))
                             .sendPrefixedMessage(player);
                     return false;
                 }
             }
 
-            getInventory().setItem(LEFT_SLOT, toHandle);
+            getInventory().setItem(this.LEFT_SLOT, toHandle);
             return true;
         }
 
-        NBTItem other = new NBTItem(getInventory().getItem(getInventory().getItem(LEFT_SLOT) == null ? RIGHT_SLOT : LEFT_SLOT));
-        int emptySlot = getInventory().getItem(LEFT_SLOT) == null ? LEFT_SLOT : RIGHT_SLOT;
+        NBTItem other = new NBTItem(getInventory().getItem(getInventory().getItem(this.LEFT_SLOT) == null ? this.RIGHT_SLOT : this.LEFT_SLOT));
+        int emptySlot = getInventory().getItem(this.LEFT_SLOT) == null ? this.LEFT_SLOT : this.RIGHT_SLOT;
 
-        if (other.hasKey("book-item")) {
+        if (other.hasTag("book-item")) {
             if (!nbtItem.getString("enchant").equals(other.getString("enchant"))) {
-                instance.getLocale().getMessage("alchemist.differentenchantment").sendPrefixedMessage(player);
+                this.instance.getLocale().getMessage("alchemist.differentenchantment").sendPrefixedMessage(player);
                 return false;
             }
 
             if (nbtItem.getInteger("level") != other.getInteger("level")) {
-                instance.getLocale().getMessage("alchemist.differentlevels").sendPrefixedMessage(player);
+                this.instance.getLocale().getMessage("alchemist.differentlevels").sendPrefixedMessage(player);
                 return false;
             }
         } else {
             if (!nbtItem.getString("group").equals(other.getString("group"))) {
-                instance.getLocale().getMessage("alchemist.differentgroups").sendPrefixedMessage(player);
+                this.instance.getLocale().getMessage("alchemist.differentgroups").sendPrefixedMessage(player);
                 return false;
             }
 
             if (successRate >= 100) {
-                instance.getLocale().getMessage("alchemist.maxpercentagedust").sendPrefixedMessage(player);
+                this.instance.getLocale().getMessage("alchemist.maxpercentagedust").sendPrefixedMessage(player);
                 return false;
             }
         }
@@ -193,20 +193,20 @@ public class AlchemistMenu extends FastInv {
     }
 
     private void updateSlots() {
-        if (getInventory().getItem(LEFT_SLOT) == null || getInventory().getItem(RIGHT_SLOT) == null) {
-            addItem(ACCEPT_SLOT, ACCEPT_ITEM);
-            addItem(PREVIEW_SLOT, PREVIEW_ITEM);
+        if (getInventory().getItem(this.LEFT_SLOT) == null || getInventory().getItem(this.RIGHT_SLOT) == null) {
+            addItem(this.ACCEPT_SLOT, this.ACCEPT_ITEM);
+            addItem(this.PREVIEW_SLOT, this.PREVIEW_ITEM);
             return;
         }
 
-        NBTItem leftItem = new NBTItem(getInventory().getItem(LEFT_SLOT));
-        NBTItem rightItem = new NBTItem(getInventory().getItem(RIGHT_SLOT));
+        NBTItem leftItem = new NBTItem(getInventory().getItem(this.LEFT_SLOT));
+        NBTItem rightItem = new NBTItem(getInventory().getItem(this.RIGHT_SLOT));
         int ecoCost;
         int expCost;
 
-        if (leftItem.hasKey("book-item")) {
+        if (leftItem.hasTag("book-item")) {
             int level = leftItem.getInteger("level");
-            Enchant enchant = instance.getEnchantManager().getValue(leftItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+            Enchant enchant = this.instance.getEnchantManager().getValue(leftItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
             int leftSuccess = leftItem.getInteger("success-rate");
             int rightSuccess = rightItem.getInteger("success-rate");
             int leftDestroy = leftItem.getInteger("destroy-rate");
@@ -235,9 +235,9 @@ public class AlchemistMenu extends FastInv {
             ecoCost = getFromFormula("book.eco-cost-formula", costPlaceholders);
             expCost = getFromFormula("book.exp-cost-formula", costPlaceholders);
 
-            getInventory().setItem(PREVIEW_SLOT, enchant.getBook().get(enchant, level + 1, successRate, destroyRate));
+            getInventory().setItem(this.PREVIEW_SLOT, enchant.getBook().get(enchant, level + 1, successRate, destroyRate));
         } else {
-            Group group = instance.getGroupManager().getValue(leftItem.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!"));
+            Group group = this.instance.getGroupManager().getValue(leftItem.getString("group")).orElseThrow(() -> new IllegalStateException("Dust without group!"));
 
             Placeholder[] placeholders = new Placeholder[] {
                     of("left_percentage", leftItem.getInteger("percentage")),
@@ -254,39 +254,42 @@ public class AlchemistMenu extends FastInv {
             ecoCost = getFromFormula("dust.eco-cost-formula", costPlaceholders);
             expCost = getFromFormula("dust.exp-cost-formula", costPlaceholders);
 
-            Group newGroup = instance.getGroupManager().getValues().stream()
+            Group newGroup = this.instance
+                    .getGroupManager()
+                    .getValues()
+                    .stream()
                     .filter(s -> s.getOrder() == group.getOrder() + 1)
                     .findFirst()
                     .orElseThrow(() -> new IllegalStateException("No group higher than: " + group.getIdentifier()));
 
-            getInventory().setItem(PREVIEW_SLOT, instance.getSpecialItems().getDust(newGroup, "magic", successRate, true));
+            getInventory().setItem(this.PREVIEW_SLOT, this.instance.getSpecialItems().getDust(newGroup, "magic", successRate, true));
         }
 
-        addItem(ACCEPT_SLOT, new ItemBuilder(config.getConfigurationSection("contents.accept-after"),
+        addItem(this.ACCEPT_SLOT, new ItemBuilder(this.config.getConfigurationSection("contents.accept-after"),
                 of("eco_cost", ecoCost),
                 of("exp_cost", expCost)
         ).build(), event -> {
             if (!EconomyManager.hasBalance(event.getPlayer(), ecoCost) || getExp(event.getPlayer()) < expCost) {
-                instance.getLocale().getMessage("alchemist.cannotafford").sendPrefixedMessage(event.getPlayer());
+                this.instance.getLocale().getMessage("alchemist.cannotafford").sendPrefixedMessage(event.getPlayer());
                 return;
             }
 
             EconomyManager.withdrawBalance(event.getPlayer(), ecoCost);
             changeExp(event.getPlayer(), -expCost);
-            instance.getLocale().getMessage("alchemist.success")
+            this.instance.getLocale().getMessage("alchemist.success")
                     .processPlaceholder("eco_cost", ecoCost)
                     .processPlaceholder("exp_cost", expCost)
                     .sendPrefixedMessage(event.getPlayer());
 
-            event.getPlayer().getInventory().addItem(getInventory().getItem(PREVIEW_SLOT));
-            clear(RIGHT_SLOT);
-            clear(LEFT_SLOT);
+            event.getPlayer().getInventory().addItem(getInventory().getItem(this.PREVIEW_SLOT));
+            clear(this.RIGHT_SLOT);
+            clear(this.LEFT_SLOT);
             event.getPlayer().closeInventory();
         });
     }
 
     private int getFromFormula(String path, Placeholder... placeholders) {
-        String toTest = config.getString(path);
+        String toTest = this.config.getString(path);
 
         for (Placeholder placeholder : placeholders)
             toTest = toTest.replace(placeholder.getPlaceholder(), placeholder.getToReplace().toString());

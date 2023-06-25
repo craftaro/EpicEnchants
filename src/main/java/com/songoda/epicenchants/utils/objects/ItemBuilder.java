@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class ItemBuilder {
-
     private final ItemStack item;
     private ItemMeta meta;
     private final Set<EnchantmentWrapper> enchantmentWrappers;
@@ -54,8 +53,8 @@ public class ItemBuilder {
     public ItemBuilder(ConfigurationSection section, Player player, Placeholder... placeholders) {
         this(section, placeholders);
 
-        if (XMaterial.PLAYER_HEAD.isSimilar(item)) {
-            ((SkullMeta) item.getItemMeta()).setOwner(player.getName());
+        if (XMaterial.PLAYER_HEAD.isSimilar(this.item)) {
+            ((SkullMeta) this.item.getItemMeta()).setOwner(player.getName());
         }
     }
 
@@ -120,11 +119,11 @@ public class ItemBuilder {
      * Name:
      */
     public boolean hasName() {
-        return meta.hasDisplayName();
+        return this.meta.hasDisplayName();
     }
 
     public ItemBuilder name(String name) {
-        meta.setDisplayName(name);
+        this.meta.setDisplayName(name);
         return this;
     }
 
@@ -132,7 +131,7 @@ public class ItemBuilder {
      * Lore:
      */
     public boolean hasLore() {
-        return meta.hasLore();
+        return this.meta.hasLore();
     }
 
     public ItemBuilder lore(String... lore) {
@@ -140,37 +139,37 @@ public class ItemBuilder {
     }
 
     public ItemBuilder lore(List<String> lore) {
-        meta.setLore(lore);
+        this.meta.setLore(lore);
         return this;
     }
 
     public ItemBuilder addLore(List<String> lore) {
-        if (!meta.hasLore()) {
-            meta.setLore(lore);
+        if (!this.meta.hasLore()) {
+            this.meta.setLore(lore);
             return this;
         }
 
-        List<String> toAdd = meta.getLore();
+        List<String> toAdd = this.meta.getLore();
         toAdd.addAll(lore);
-        meta.setLore(toAdd);
+        this.meta.setLore(toAdd);
         return this;
     }
 
     public ItemBuilder removeLore(String string) {
-        if (meta == null || !meta.hasLore()) {
+        if (this.meta == null || !this.meta.hasLore()) {
             return this;
         }
 
-        meta.setLore(meta.getLore().stream().filter(s -> !s.startsWith(string)).collect(Collectors.toList()));
+        this.meta.setLore(this.meta.getLore().stream().filter(s -> !s.startsWith(string)).collect(Collectors.toList()));
         return this;
     }
 
     public ItemBuilder removeLore(int index) {
-        if (!meta.hasLore()) {
+        if (!this.meta.hasLore()) {
             return this;
         }
 
-        List<String> lore = meta.getLore();
+        List<String> lore = this.meta.getLore();
 
         if (index >= lore.size()) {
             return this;
@@ -178,7 +177,7 @@ public class ItemBuilder {
 
         lore.remove(index);
 
-        meta.setLore(lore);
+        this.meta.setLore(lore);
         return this;
     }
 
@@ -190,29 +189,29 @@ public class ItemBuilder {
      * Enchantments:
      */
     public boolean hasEnchants() {
-        return meta.hasEnchants();
+        return this.meta.hasEnchants();
     }
 
     public boolean hasEnchant(Enchantment enchantment) {
-        return meta.hasEnchant(enchantment);
+        return this.meta.hasEnchant(enchantment);
     }
 
     public boolean hasConflictingEnchant(Enchantment enchantment) {
-        return meta.hasConflictingEnchant(enchantment);
+        return this.meta.hasConflictingEnchant(enchantment);
     }
 
     public ItemBuilder addEnchant(Enchantment enchantment, int level) {
-        meta.addEnchant(enchantment, level, true);
+        this.meta.addEnchant(enchantment, level, true);
         return this;
     }
 
     public ItemBuilder removeEnchant(Enchantment enchantment) {
-        meta.removeEnchant(enchantment);
+        this.meta.removeEnchant(enchantment);
         return this;
     }
 
     public ItemBuilder addEnchantWrapper(EnchantmentWrapper enchantmentWrapper) {
-        enchantmentWrappers.add(enchantmentWrapper);
+        this.enchantmentWrappers.add(enchantmentWrapper);
         return this;
     }
 
@@ -220,21 +219,21 @@ public class ItemBuilder {
      * Skulls:
      */
     public boolean hasSkullOwner() {
-        return ((SkullMeta) meta).hasOwner();
+        return ((SkullMeta) this.meta).hasOwner();
     }
 
     public String getSkullOwner() {
-        return ((SkullMeta) meta).getOwner();
+        return ((SkullMeta) this.meta).getOwner();
     }
 
     public ItemBuilder skullOwner(String owner) {
-        item.setDurability((short) 3);
-        ((SkullMeta) meta).setOwner(owner);
+        this.item.setDurability((short) 3);
+        ((SkullMeta) this.meta).setOwner(owner);
         return this;
     }
 
     public ItemBuilder durability(int durability) {
-        item.setDurability((short) durability);
+        this.item.setDurability((short) durability);
         return this;
     }
 
@@ -242,16 +241,16 @@ public class ItemBuilder {
      * Flags:
      */
     public boolean hasFlag(ItemFlag flag) {
-        return meta.hasItemFlag(flag);
+        return this.meta.hasItemFlag(flag);
     }
 
     public ItemBuilder addFlags(ItemFlag... flags) {
-        meta.addItemFlags(flags);
+        this.meta.addItemFlags(flags);
         return this;
     }
 
     public ItemBuilder removeFlags(ItemFlag... flags) {
-        meta.removeItemFlags(flags);
+        this.meta.removeItemFlags(flags);
         return this;
     }
 
@@ -263,30 +262,30 @@ public class ItemBuilder {
      * Build the ItemStack.
      */
     public ItemStack build() {
-        item.setItemMeta(meta);
-        return item;
+        this.item.setItemMeta(this.meta);
+        return this.item;
     }
 
     public ItemStack buildWithWrappers(int level, Player user, LivingEntity opponent) {
-        item.setItemMeta(meta);
-        enchantmentWrappers.forEach(enchant -> item.addUnsafeEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level, user, opponent)));
-        return item;
+        this.item.setItemMeta(this.meta);
+        this.enchantmentWrappers.forEach(enchant -> this.item.addUnsafeEnchantment(enchant.getEnchantment(), enchant.getAmplifier(level, user, opponent)));
+        return this.item;
     }
 
     public Map<Enchantment, Integer> getEnchants() {
-        return meta.getEnchants();
+        return this.meta.getEnchants();
     }
 
     public Set<ItemFlag> getFlags() {
-        return meta.getItemFlags();
+        return this.meta.getItemFlags();
     }
 
     public List<String> getLore() {
-        return meta.getLore();
+        return this.meta.getLore();
     }
 
     public ItemMeta getMeta() {
-        return meta;
+        return this.meta;
     }
 
     /*
@@ -294,6 +293,6 @@ public class ItemBuilder {
      */
 
     public String getName() {
-        return meta.getDisplayName();
+        return this.meta.getDisplayName();
     }
 }

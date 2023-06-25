@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getHeldItem;
 
 public class Placeholders {
-
     private static final Map<String, Function<Event, String>> EVENT_FUNCTIONS = new HashMap<String, Function<Event, String>>() {{
         put("{block_type}", event -> {
             if (event instanceof BlockBreakEvent) {

@@ -15,31 +15,31 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CommandGiveBook extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandGiveBook(EpicEnchants plugin) {
-        super(false, "givebook");
+        super(CommandType.CONSOLE_OK, "givebook");
         this.plugin = plugin;
     }
 
     //givebook <player> <enchant> [level] [success-rate] [destroy-rate]
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        if (args.length < 2 || args.length > 5)
+        if (args.length < 2 || args.length > 5) {
             return ReturnType.SYNTAX_ERROR;
+        }
 
         OfflinePlayer target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            plugin.getLocale().newMessage("&cThis player does not exist...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cThis player does not exist...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
-        Optional<Enchant> optionalEnchant = plugin.getEnchantManager().getValue(args[1].replaceAll("_", " "));
+        Optional<Enchant> optionalEnchant = this.plugin.getEnchantManager().getValue(args[1].replaceAll("_", " "));
 
         if (!optionalEnchant.isPresent()) {
-            plugin.getLocale().newMessage("&cNo enchants exist with that name...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cNo enchants exist with that name...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
@@ -49,25 +49,28 @@ public class CommandGiveBook extends AbstractCommand {
         int destroyRate = -1;
 
         if (args.length > 2) {
-            if (!CommandCommons.isInt(args[2], sender))
+            if (!CommandCommons.isInt(args[2], sender)) {
                 return ReturnType.FAILURE;
+            }
             level = Integer.parseInt(args[2]);
         }
 
         if (args.length > 3) {
-            if (!CommandCommons.isInt(args[3], sender))
+            if (!CommandCommons.isInt(args[3], sender)) {
                 return ReturnType.FAILURE;
+            }
             successRate = Integer.parseInt(args[3]);
         }
 
         if (args.length > 4) {
-            if (!CommandCommons.isInt(args[4], sender))
+            if (!CommandCommons.isInt(args[4], sender)) {
                 return ReturnType.FAILURE;
+            }
             destroyRate = Integer.parseInt(args[4]);
         }
 
         if (level != -0 && (level > enchant.getMaxLevel() || level < 0)) {
-            plugin.getLocale().getMessage("command.book." + (level > enchant.getMaxLevel() ? "maxlevel" : "minlevel"))
+            this.plugin.getLocale().getMessage("command.book." + (level > enchant.getMaxLevel() ? "maxlevel" : "minlevel"))
                     .processPlaceholder("enchant", enchant.getIdentifier())
                     .processPlaceholder("max_level", enchant.getMaxLevel())
                     .sendPrefixedMessage(sender);
@@ -75,10 +78,10 @@ public class CommandGiveBook extends AbstractCommand {
         }
 
         target.getPlayer().getInventory().addItem(enchant.getBook().get(enchant, level, successRate, destroyRate));
-        plugin.getLocale().getMessage("command.book.received")
+        this.plugin.getLocale().getMessage("command.book.received")
                 .processPlaceholder("enchant", enchant.getIdentifier())
                 .sendPrefixedMessage(target.getPlayer());
-        plugin.getLocale().getMessage("command.book.gave")
+        this.plugin.getLocale().getMessage("command.book.gave")
                 .processPlaceholder("player", target.getPlayer().getName())
                 .processPlaceholder("enchant", enchant.getIdentifier())
                 .sendPrefixedMessage(sender);
@@ -90,21 +93,27 @@ public class CommandGiveBook extends AbstractCommand {
         if (args.length == 1) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         } else if (args.length == 2) {
-            return plugin.getEnchantManager().getValues()
+            return this.plugin.getEnchantManager().getValues()
                     .stream().map(Enchant::getIdentifier).collect(Collectors.toList());
         } else if (args.length == 3) {
-            Enchant enchant = plugin.getEnchantManager().getValues()
-                    .stream().findFirst().orElse(null);
+            Enchant enchant = this.plugin
+                    .getEnchantManager()
+                    .getValues()
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
             List<String> levels = new ArrayList<>();
             if (enchant != null) {
-                for (int i = 1; i <= enchant.getMaxLevel(); i++)
+                for (int i = 1; i <= enchant.getMaxLevel(); i++) {
                     levels.add(String.valueOf(i));
+                }
             }
             return levels;
         } else if (args.length == 4 || args.length == 5) {
             List<String> rates = new ArrayList<>();
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= 100; i++) {
                 rates.add(String.valueOf(i));
+            }
             return rates;
         }
         return null;

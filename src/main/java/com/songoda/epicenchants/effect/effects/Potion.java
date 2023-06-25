@@ -31,17 +31,24 @@ public class Potion extends EffectExecutor {
 
         if (getTriggerTypes().contains(TriggerType.STATIC_EFFECT) || getTriggerTypes().contains(TriggerType.HELD_ITEM)) {
             if (eventType == EventType.ON) {
-                consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, (int) amplifier.get(level - 1, 0, user, opponent),
-                        false, false)), user, opponent);
+                consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, Integer.MAX_VALUE, (int) amplifier.get(level - 1, 0, user, opponent), false, false)), user, opponent);
             } else if (eventType == EventType.OFF) {
                 consume(entity -> entity.removePotionEffect(effectType), user, opponent);
             }
+
             return;
         }
 
         LeveledModifier duration = LeveledModifier.of(getSection().getString("duration"));
 
-        consume(entity -> entity.addPotionEffect(new PotionEffect(effectType, (int) duration.get(level, 60, user, opponent) * 20,
-                (int) amplifier.get(level - 1, 0, user, opponent), false, false)), user, opponent);
+        consume(
+                entity -> entity.addPotionEffect(new PotionEffect(effectType,
+                        (int) duration.get(level, 60, user, opponent) * 20,
+                        (int) amplifier.get(level - 1, 0, user, opponent),
+                        false,
+                        false)),
+                user,
+                opponent
+        );
     }
 }

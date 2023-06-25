@@ -20,8 +20,7 @@ public class DropHeld extends EffectExecutor {
         consume(entity -> {
             Player player = ((Player) entity);
             if (player.getItemInHand().getType() != Material.AIR) {
-                entity.getLocation().getWorld().dropItemNaturally(entity.getLocation(), new ItemBuilder(player
-                        .getItemInHand()).build());
+                entity.getLocation().getWorld().dropItemNaturally(entity.getLocation(), new ItemBuilder(player.getItemInHand()).build());
                 player.setItemInHand(null);
             }
         }, user, opponent);

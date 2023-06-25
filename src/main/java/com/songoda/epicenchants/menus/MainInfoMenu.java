@@ -11,7 +11,6 @@ import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.getSlots;
 
 public class MainInfoMenu extends FastInv implements Listener {
-
     public MainInfoMenu(EpicEnchants instance, FileConfiguration config) {
         super(config.getInt("rows") * 9, color(config.getString("title")));
         config.getConfigurationSection("contents").getKeys(false)
@@ -19,10 +18,18 @@ public class MainInfoMenu extends FastInv implements Listener {
                 .map(s -> "contents." + s)
                 .map(config::getConfigurationSection)
                 .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
-                    if (section.getString("group") == null) return;
-                    Group group = instance.getGroupManager().getValue(section.getString("group"))
+                    if (section.getString("group") == null) {
+                        return;
+                    }
+
+                    Group group = instance
+                            .getGroupManager()
+                            .getValue(section.getString("group"))
                             .orElseThrow(() -> new IllegalArgumentException("Invalid group: " + section.getString("group")));
-                    instance.getInfoManager().getMenu(group).ifPresent(menu -> menu.open(event.getPlayer()));
+
+                    instance.getInfoManager()
+                            .getMenu(group)
+                            .ifPresent(menu -> menu.open(event.getPlayer()));
                 }));
     }
 }

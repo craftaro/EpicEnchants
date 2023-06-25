@@ -14,7 +14,7 @@ public class CancelEvent extends EffectEventExecutor {
     }
 
     @Override
-    public void execute(Player player, LivingEntity opponent, int level, Event event, EventType eventType) {
+    public void execute(Player user, LivingEntity opponent, int level, Event event, EventType eventType) {
         if (event instanceof Cancellable) {
             ((Cancellable) event).setCancelled(true);
         }

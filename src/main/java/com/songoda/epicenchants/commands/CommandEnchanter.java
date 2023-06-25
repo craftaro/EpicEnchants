@@ -9,18 +9,17 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CommandEnchanter extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandEnchanter(EpicEnchants plugin) {
-        super(true, "enchanter");
+        super(CommandType.PLAYER_ONLY, "enchanter");
         this.plugin = plugin;
     }
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
         Player player = (Player) sender;
-        new EnchanterMenu(plugin, plugin.getFileManager().getConfiguration("menus/enchanter-menu"), player).open(player);
+        new EnchanterMenu(this.plugin, this.plugin.getFileManager().getConfiguration("menus/enchanter-menu"), player).open(player);
         return ReturnType.SUCCESS;
     }
 

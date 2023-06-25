@@ -17,15 +17,15 @@ public class LeveledModifier {
     }
 
     public double get(int level, double def, Player user, LivingEntity opponent) {
-        if (string == null || string.isEmpty()) {
+        if (this.string == null || this.string.isEmpty()) {
             return def;
         }
 
-        if (string.equalsIgnoreCase("MAX")) {
+        if (this.string.equalsIgnoreCase("MAX")) {
             return Integer.MAX_VALUE;
         }
 
-        String toTest = Placeholders.setPlaceholders(string, user, opponent, level);
+        String toTest = Placeholders.setPlaceholders(this.string, user, opponent, level);
 
         Object value = GeneralUtils.parseJS(toTest, "LeveledModifier", def);
         return value instanceof Double ? (double) value : (int) value;

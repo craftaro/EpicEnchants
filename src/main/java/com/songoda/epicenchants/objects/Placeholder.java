@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.objects;
 
 public class Placeholder {
-    private String placeholder;
-    private Object toReplace;
+    private final String placeholder;
+    private final Object toReplace;
 
     private Placeholder(String placeholder, Object toReplace) {
         this.placeholder = "{" + placeholder + "}";
@@ -14,10 +14,10 @@ public class Placeholder {
     }
 
     public String getPlaceholder() {
-        return placeholder;
+        return this.placeholder;
     }
 
     public Object getToReplace() {
-        return toReplace;
+        return this.toReplace;
     }
 }

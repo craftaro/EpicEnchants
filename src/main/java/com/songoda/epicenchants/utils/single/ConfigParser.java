@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static com.songoda.epicenchants.utils.single.GeneralUtils.color;
 
 public class ConfigParser {
-    public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) throws Exception {
+    public static Enchant parseEnchant(EpicEnchants instance, FileConfiguration config) {
         return Enchant.builder()
                 .author("author")
                 .identifier(config.getString("identifier"))

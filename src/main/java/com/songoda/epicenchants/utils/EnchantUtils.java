@@ -2,6 +2,7 @@ package com.songoda.epicenchants.utils;
 
 import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTCompound;
 import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.utils.NumberUtils;
 import com.craftaro.core.utils.TextUtils;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
@@ -48,7 +49,7 @@ public class EnchantUtils {
     }
 
     public Tuple<ItemStack, EnchantResult> apply(ItemStack itemStack, Enchant enchant, int level, int successRate, int destroyRate) {
-        boolean hasProtection = new NBTItem(itemStack).hasKey("protected");
+        boolean hasProtection = new NBTItem(itemStack).hasTag("protected");
 
         Map<Enchant, Integer> currentEnchantMap = getEnchants(itemStack);
         Set<String> currentIds = currentEnchantMap.keySet().stream().map(Enchant::getIdentifier).collect(Collectors.toSet());
@@ -69,7 +70,7 @@ public class EnchantUtils {
         if (!GeneralUtils.chance(successRate)) {
             if (GeneralUtils.chance(destroyRate)) {
                 if (hasProtection) {
-                    NBTItem nbtItem = new ItemBuilder(itemStack).removeLore(instance.getSpecialItems().getWhiteScrollLore()).nbt();
+                    NBTItem nbtItem = new ItemBuilder(itemStack).removeLore(this.instance.getSpecialItems().getWhiteScrollLore()).nbt();
                     nbtItem.removeKey("protected");
                     return Tuple.of(nbtItem.getItem(), PROTECTED);
                 }
@@ -81,14 +82,14 @@ public class EnchantUtils {
         ItemBuilder itemBuilder = new ItemBuilder(itemStack);
 
         if (hasProtection) {
-            itemBuilder.removeLore(instance.getSpecialItems().getWhiteScrollLore());
+            itemBuilder.removeLore(this.instance.getSpecialItems().getWhiteScrollLore());
         }
 
         itemBuilder.removeLore(enchant.getFormat(-1, Settings.ROMAN.getBoolean()).replace("-1", "").trim());
         itemBuilder.addLore(enchant.getFormat(level, Settings.ROMAN.getBoolean()));
 
         if (hasProtection) {
-            itemBuilder.addLore(instance.getSpecialItems().getWhiteScrollLore());
+            itemBuilder.addLore(this.instance.getSpecialItems().getWhiteScrollLore());
         }
 
         NBTItem nbtItem = itemBuilder.nbt();
@@ -105,7 +106,7 @@ public class EnchantUtils {
         }
         NBTItem nbtItem = new NBTItem(itemStack);
 
-        if (!nbtItem.hasKey("enchants")) {
+        if (!nbtItem.hasTag("enchants")) {
             return Collections.emptyMap();
         }
 
@@ -115,8 +116,8 @@ public class EnchantUtils {
             return Collections.emptyMap();
         }
 
-        return compound.getKeys().stream().filter(key -> instance.getEnchantManager().getValueUnsafe(key) != null)
-                .collect(Collectors.toMap(key -> instance.getEnchantManager().getValueUnsafe(key), compound::getInteger));
+        return compound.getKeys().stream().filter(key -> this.instance.getEnchantManager().getValueUnsafe(key) != null)
+                .collect(Collectors.toMap(key -> this.instance.getEnchantManager().getValueUnsafe(key), compound::getInteger));
     }
 
     public void handlePlayer(@NotNull Player player, @Nullable LivingEntity opponent, Event event, TriggerType triggerType) {
@@ -155,26 +156,34 @@ public class EnchantUtils {
 
     public int getMaximumEnchantsCanApplyItem(ItemStack itemStack, Player p) {
         int max;
-        if (p.isOp()) return 100; // in theory no single item will have 100 enchantments at a time.
-        if (instance.getFileManager().getConfiguration("items/item-limits").contains("limits." + itemStack.getType().toString())) {
-            max = instance.getFileManager().getConfiguration("items/item-limits").getInt("limits." + itemStack.getType().toString());
+        if (p.isOp()) {
+            return 100; // in theory, no single item will have 100 enchantments at a time.
+        }
+        if (this.instance.getFileManager().getConfiguration("items/item-limits").contains("limits." + itemStack.getType().toString())) {
+            max = this.instance.getFileManager().getConfiguration("items/item-limits").getInt("limits." + itemStack.getType().toString());
         } else {
-            max = instance.getFileManager().getConfiguration("items/item-limits").getInt("default");
+            max = this.instance.getFileManager().getConfiguration("items/item-limits").getInt("default");
         }
         return max;
     }
 
     public int getMaximumEnchantsCanApply(Player p) {
         int max = 0;
-        if (p.isOp()) return 100; // in theory no single item will have 100 enchantments at a time.
+        if (p.isOp()) {
+            return 100; // in theory, no single item will have 100 enchantments at a time.
+        }
         for (PermissionAttachmentInfo effectivePermission : p.getEffectivePermissions()) {
-            if (!effectivePermission.getPermission().startsWith("epicenchants.maxapply.")) continue;
+            if (!effectivePermission.getPermission().startsWith("epicenchants.maxapply.")) {
+                continue;
+            }
 
-            String node[] = effectivePermission.getPermission().split("\\.");
+            String[] node = effectivePermission.getPermission().split("\\.");
 
-            if (Methods.isInt(node[node.length - 1])) {
+            if (NumberUtils.isInt(node[node.length - 1])) {
                 int num = Integer.parseInt(node[node.length - 1]);
-                if (num > max) max = num;
+                if (num > max) {
+                    max = num;
+                }
             }
         }
         return max;

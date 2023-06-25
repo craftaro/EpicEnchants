@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class Manager<K, V> {
-
     final EpicEnchants instance;
     private final Map<K, V> map;
 
@@ -19,15 +18,16 @@ public abstract class Manager<K, V> {
     }
 
     public Optional<V> getValue(K key) {
-        for (Object k : map.keySet()) {
-            if (k.toString().equalsIgnoreCase(key.toString()))
-                return Optional.ofNullable(map.get(k));
+        for (Object k : this.map.keySet()) {
+            if (k.toString().equalsIgnoreCase(key.toString())) {
+                return Optional.ofNullable(this.map.get(k));
+            }
         }
         return Optional.empty();
     }
 
     public void add(K key, V value) {
-        map.put(key, value);
+        this.map.put(key, value);
     }
 
     public V getValueUnsafe(K key) {
@@ -35,14 +35,14 @@ public abstract class Manager<K, V> {
     }
 
     public Collection<V> getValues() {
-        return Collections.unmodifiableCollection(map.values());
+        return Collections.unmodifiableCollection(this.map.values());
     }
 
     public Collection<K> getKeys() {
-        return Collections.unmodifiableCollection(map.keySet());
+        return Collections.unmodifiableCollection(this.map.keySet());
     }
 
     public void clear() {
-        map.clear();
+        this.map.clear();
     }
 }

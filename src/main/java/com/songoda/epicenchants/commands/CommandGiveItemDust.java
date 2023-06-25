@@ -15,32 +15,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandGiveItemDust extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandGiveItemDust(EpicEnchants plugin) {
-        super(false, "giveitemdust");
+        super(CommandType.CONSOLE_OK, "giveitemdust");
         this.plugin = plugin;
     }
 
     //giveitemdust <player> <group> [type] [percentage]
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        if (args.length < 2 || args.length > 5)
+        if (args.length < 2 || args.length > 5) {
             return ReturnType.SYNTAX_ERROR;
+        }
 
         OfflinePlayer target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            plugin.getLocale().newMessage("&cThis player does not exist...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cThis player does not exist...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
-        List<Group> groups = plugin.getGroupManager().getValues().stream()
+        List<Group> groups = this.plugin.getGroupManager().getValues().stream()
                 .filter(group -> group.getIdentifier().equalsIgnoreCase(args[1])).collect(Collectors.toList());
 
         if (groups.isEmpty()) {
-            plugin.getLocale().newMessage("&cThe group you entered was no found...").sendPrefixedMessage(sender);
+            this.plugin.getLocale().newMessage("&cThe group you entered was no found...").sendPrefixedMessage(sender);
             return ReturnType.FAILURE;
         }
 
@@ -54,16 +54,17 @@ public class CommandGiveItemDust extends AbstractCommand {
         }
 
         if (args.length > 3) {
-            if (!CommandCommons.isInt(args[3], sender))
+            if (!CommandCommons.isInt(args[3], sender)) {
                 return ReturnType.FAILURE;
+            }
             percentage = Integer.parseInt(args[3]);
         }
 
-        target.getPlayer().getInventory().addItem(plugin.getSpecialItems().getDust(group, dustType, percentage, true));
-        plugin.getLocale().getMessage("command.dust.received")
+        target.getPlayer().getInventory().addItem(this.plugin.getSpecialItems().getDust(group, dustType, percentage, true));
+        this.plugin.getLocale().getMessage("command.dust.received")
                 .processPlaceholder("group", group.getIdentifier())
                 .sendPrefixedMessage(target.getPlayer());
-        plugin.getLocale().getMessage("command.dust.gave")
+        this.plugin.getLocale().getMessage("command.dust.gave")
                 .processPlaceholder("player", target.getPlayer().getName())
                 .processPlaceholder("group", group.getIdentifier())
                 .sendPrefixedMessage(sender);
@@ -75,18 +76,22 @@ public class CommandGiveItemDust extends AbstractCommand {
         if (args.length == 1) {
             return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         } else if (args.length == 2) {
-            return plugin.getGroupManager().getValues().stream()
-                    .map(Group::getIdentifier).collect(Collectors.toList());
+            return this.plugin.getGroupManager()
+                    .getValues()
+                    .stream()
+                    .map(Group::getIdentifier)
+                    .collect(Collectors.toList());
         } else if (args.length == 3) {
             List<String> dusts = new ArrayList<>();
 
-            FileConfiguration dustConfig = plugin.getFileManager().getConfiguration("items/dusts");
+            FileConfiguration dustConfig = this.plugin.getFileManager().getConfiguration("items/dusts");
             dusts.addAll(dustConfig.getConfigurationSection("dusts").getKeys(false));
             return dusts;
         } else if (args.length == 4) {
             List<String> rates = new ArrayList<>();
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= 100; i++) {
                 rates.add(String.valueOf(i));
+            }
             return rates;
         }
         return null;

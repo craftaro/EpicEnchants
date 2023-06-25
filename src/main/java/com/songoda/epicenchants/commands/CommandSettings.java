@@ -9,17 +9,16 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CommandSettings extends AbstractCommand {
-
     private final EpicEnchants plugin;
 
     public CommandSettings(EpicEnchants plugin) {
-        super(true, "Settings");
+        super(CommandType.PLAYER_ONLY, "Settings");
         this.plugin = plugin;
     }
 
     @Override
     protected ReturnType runCommand(CommandSender sender, String... args) {
-        plugin.getGuiManager().showGUI((Player) sender, new PluginConfigGui(plugin));
+        this.plugin.getGuiManager().showGUI((Player) sender, new PluginConfigGui(this.plugin));
         return ReturnType.SUCCESS;
     }
 

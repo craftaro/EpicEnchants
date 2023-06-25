@@ -54,8 +54,8 @@ public class TinkererMenu extends FastInv {
                 .forEach(section -> {
                     addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build(), event -> {
                         if (section.getName().equalsIgnoreCase("accept-left") || section.getName().equalsIgnoreCase("accept-right")) {
-                            slotMap.values().stream().map(slot -> getInventory().getItem(slot)).filter(Objects::nonNull).forEach(event.getPlayer().getInventory()::addItem);
-                            slotMap.keySet().forEach(slot -> getInventory().clear(slot));
+                            this.slotMap.values().stream().map(slot -> getInventory().getItem(slot)).filter(Objects::nonNull).forEach(event.getPlayer().getInventory()::addItem);
+                            this.slotMap.keySet().forEach(slot -> getInventory().clear(slot));
                             accepted.set(true);
                             event.getPlayer().closeInventory();
                             instance.getLocale().getMessage("tinkerer.accepted").sendPrefixedMessage(event.getPlayer());
@@ -118,14 +118,14 @@ public class TinkererMenu extends FastInv {
 
             int slot = event.getSlot();
 
-            if (!slotMap.keySet().contains(slot)) {
+            if (!this.slotMap.keySet().contains(slot)) {
                 return;
             }
 
             if (getInventory().getItem(slot) != null && getInventory().getItem(slot).getType() != Material.AIR) {
                 event.getPlayer().getInventory().addItem(getInventory().getItem(slot));
                 getInventory().clear(slot);
-                getInventory().clear(slotMap.get(slot));
+                getInventory().clear(this.slotMap.get(slot));
             }
         });
 
@@ -154,7 +154,7 @@ public class TinkererMenu extends FastInv {
 
         // Player closed inventory
         onClose(event -> {
-            slotMap.keySet().stream().filter(s -> getInventory().getItem(s) != null).forEach(s -> {
+            this.slotMap.keySet().stream().filter(s -> getInventory().getItem(s) != null).forEach(s -> {
                 event.getPlayer().getInventory().addItem(getInventory().getItem(s));
             });
 
@@ -186,7 +186,7 @@ public class TinkererMenu extends FastInv {
     }
 
     private boolean handleItem(ItemStack itemStack, ItemType itemType) {
-        Optional<Map.Entry<Integer, Integer>> emptySlot = slotMap.entrySet().stream()
+        Optional<Map.Entry<Integer, Integer>> emptySlot = this.slotMap.entrySet().stream()
                 .filter(slot -> getInventory().getItem(slot.getKey()) == null || getInventory().getItem(slot.getKey()).getType() == Material.AIR)
                 .findFirst();
 
@@ -200,7 +200,7 @@ public class TinkererMenu extends FastInv {
         addItem(emptySlot.get().getKey(), finalItemStack);
 
         if (itemType == BOOK) {
-            getInventory().setItem(emptySlot.get().getValue(), instance.getSpecialItems().getSecretDust(new NBTItem(finalItemStack)));
+            getInventory().setItem(emptySlot.get().getValue(), this.instance.getSpecialItems().getSecretDust(new NBTItem(finalItemStack)));
         }
 
         return true;
@@ -220,7 +220,7 @@ public class TinkererMenu extends FastInv {
 
     private int getExpAmount(ItemStack itemStack) {
         AtomicInteger total = new AtomicInteger();
-        ConfigurationSection section = config.getConfigurationSection("exp-table-per-level");
+        ConfigurationSection section = this.config.getConfigurationSection("exp-table-per-level");
 
         itemStack.getEnchantments().forEach((enchantment, level) -> {
             total.addAndGet(section.getInt(enchantment.getName(), section.getInt("DEFAULT")) * level);
@@ -239,7 +239,7 @@ public class TinkererMenu extends FastInv {
         }
 
         enchantments.getKeys().forEach(key -> {
-            Enchant enchant = instance.getEnchantManager().getValueUnsafe(key);
+            Enchant enchant = this.instance.getEnchantManager().getValueUnsafe(key);
             total.addAndGet(section.getInt(enchant.getIdentifier(), enchant.getGroup().getTinkererExp()) * enchantments.getInteger(key));
         });
 

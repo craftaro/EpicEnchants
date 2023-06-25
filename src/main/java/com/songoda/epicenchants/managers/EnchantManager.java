@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import static com.songoda.epicenchants.utils.single.ConfigParser.parseEnchant;
 
 public class EnchantManager extends Manager<String, Enchant> {
-
     public EnchantManager(EpicEnchants instance) {
         super(instance);
     }
@@ -30,7 +29,7 @@ public class EnchantManager extends Manager<String, Enchant> {
     }
 
     public void loadEnchants() {
-        instance.getFileManager().getYmlFiles("enchants").forEach(file -> {
+        this.instance.getFileManager().getYmlFiles("enchants").forEach(file -> {
             try {
                 loadEnchant(file);
             } catch (Exception e) {
@@ -41,10 +40,8 @@ public class EnchantManager extends Manager<String, Enchant> {
         });
     }
 
-    public void loadEnchant(File file) throws Exception {
-        Enchant enchant = parseEnchant(instance, YamlConfiguration.loadConfiguration(file));
+    public void loadEnchant(File file) {
+        Enchant enchant = parseEnchant(this.instance, YamlConfiguration.loadConfiguration(file));
         add(enchant.getIdentifier(), enchant);
     }
 }
-
-

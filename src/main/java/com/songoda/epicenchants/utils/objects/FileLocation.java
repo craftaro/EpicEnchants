@@ -19,22 +19,22 @@ public class FileLocation {
     }
 
     public String getResourcePath(String dir) {
-        return (versionDependent ? "version-dependent/" + dir + "/" : "") + path;
+        return (this.versionDependent ? "version-dependent/" + dir + "/" : "") + this.path;
     }
 
     public boolean isDirectory() {
-        return path.endsWith("/");
+        return this.path.endsWith("/");
     }
 
     public boolean isRequired() {
-        return required;
+        return this.required;
     }
 
     public boolean isVersionDependent() {
-        return versionDependent;
+        return this.versionDependent;
     }
 
     public String getPath() {
-        return path;
+        return this.path;
     }
 }

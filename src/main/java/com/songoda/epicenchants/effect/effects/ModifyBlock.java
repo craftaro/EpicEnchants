@@ -28,7 +28,6 @@ public class ModifyBlock extends EffectEventExecutor {
             block.breakNaturally();
             return;
         }
-
         block.setType(Material.getMaterial(getSection().getString("material")));
     }
 }

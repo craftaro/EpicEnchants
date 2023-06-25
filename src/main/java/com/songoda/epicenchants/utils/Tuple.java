@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.utils;
 
 public class Tuple<key, value> {
-    private key x;
-    private value y;
+    private final key x;
+    private final value y;
 
     public Tuple(key x, value y) {
         this.x = x;
@@ -18,6 +18,6 @@ public class Tuple<key, value> {
     }
 
     public static <key, value> Tuple of(key x, value y) {
-        return new Tuple(x, y);
+        return new Tuple<>(x, y);
     }
 }

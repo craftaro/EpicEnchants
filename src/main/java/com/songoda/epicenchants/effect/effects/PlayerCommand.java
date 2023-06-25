@@ -28,7 +28,8 @@ public class PlayerCommand extends EffectExecutor {
             return;
         }
 
-        consume(entity -> GeneralUtils.getString(getSection(), "message").stream()
+        consume(entity -> GeneralUtils.getString(getSection(), "message")
+                .stream()
                 .map(s -> Placeholders.setPlaceholders(s, user, opponent, level))
                 .forEach(((Player) entity)::performCommand), user, opponent);
     }

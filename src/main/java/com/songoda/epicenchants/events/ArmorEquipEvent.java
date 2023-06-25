@@ -8,8 +8,8 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
 public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
+    private static final HandlerList HANDLERS = new HandlerList();
 
-    private static final HandlerList handlers = new HandlerList();
     private boolean cancel = false;
     private final EquipMethod equipType;
     private final ArmorType type;
@@ -18,13 +18,13 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
     /**
      * Constructor for the ArmorEquipEvent.
      *
-     * @param player        The player who put on / removed the armor.
+     * @param who        The player who put on / removed the armor.
      * @param type          The ArmorType of the armor added
      * @param oldArmorPiece The ItemStack of the armor removed.
      * @param newArmorPiece The ItemStack of the armor added.
      */
-    public ArmorEquipEvent(final Player player, final EquipMethod equipType, final ArmorType type, final ItemStack oldArmorPiece, final ItemStack newArmorPiece) {
-        super(player);
+    public ArmorEquipEvent(final Player who, final EquipMethod equipType, final ArmorType type, final ItemStack oldArmorPiece, final ItemStack newArmorPiece) {
+        super(who);
         this.equipType = equipType;
         this.type = type;
         this.oldArmorPiece = oldArmorPiece;
@@ -36,18 +36,9 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
      *
      * @return A list of handlers handling this event.
      */
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    /**
-     * Gets a list of handlers handling this event.
-     *
-     * @return A list of handlers handling this event.
-     */
     @Override
-    public final HandlerList getHandlers() {
-        return handlers;
+    public HandlerList getHandlers() {
+        return HANDLERS;
     }
 
     /**
@@ -55,7 +46,7 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
      *
      * @param cancel If this event should be cancelled.
      */
-    public final void setCancelled(final boolean cancel) {
+    public void setCancelled(final boolean cancel) {
         this.cancel = cancel;
     }
 
@@ -64,33 +55,33 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
      *
      * @return If this event is cancelled
      */
-    public final boolean isCancelled() {
-        return cancel;
+    public boolean isCancelled() {
+        return this.cancel;
     }
 
-    public final ArmorType getType() {
-        return type;
+    public ArmorType getType() {
+        return this.type;
     }
 
     /**
      * Returns the last equipped armor piece, could be a piece of armor, {@link Material#AIR}, or null.
      */
-    public final ItemStack getOldArmorPiece() {
-        return oldArmorPiece;
+    public ItemStack getOldArmorPiece() {
+        return this.oldArmorPiece;
     }
 
-    public final void setOldArmorPiece(final ItemStack oldArmorPiece) {
+    public void setOldArmorPiece(final ItemStack oldArmorPiece) {
         this.oldArmorPiece = oldArmorPiece;
     }
 
     /**
      * Returns the newly equipped armor, could be a piece of armor, {@link Material#AIR}, or null.
      */
-    public final ItemStack getNewArmorPiece() {
-        return newArmorPiece;
+    public ItemStack getNewArmorPiece() {
+        return this.newArmorPiece;
     }
 
-    public final void setNewArmorPiece(final ItemStack newArmorPiece) {
+    public void setNewArmorPiece(final ItemStack newArmorPiece) {
         this.newArmorPiece = newArmorPiece;
     }
 
@@ -98,12 +89,21 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
      * Gets the method used to either equip or unequip an armor piece.
      */
     public EquipMethod getMethod() {
-        return equipType;
+        return this.equipType;
+    }
+
+    /**
+     * Gets a list of handlers handling this event.
+     *
+     * @return A list of handlers handling this event.
+     */
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
     }
 
     public enum EquipMethod {// These have got to be the worst documentations ever.
         /**
-         * When you shift click an armor piece to equip or unequip
+         * When you shift-click an armor piece to equip or unequip
          */
         SHIFT_CLICK,
         /**
@@ -115,7 +115,7 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
          */
         PICK_DROP,
         /**
-         * When you right click an armor piece in the hotbar without the inventory open to equip.
+         * When you right-click an armor piece in the hotbar without the inventory open to equip.
          */
         HOTBAR,
         /**
@@ -123,18 +123,17 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
          */
         HOTBAR_SWAP,
         /**
-         * When in range of a dispenser that shoots an armor piece to equip.
+         * When in range of a dispenser that shoots an armor piece to equip
          */
         DISPENSER,
         /**
-         * When an armor piece is removed due to it losing all durability.
+         * When an armor piece is removed due to it losing all durability
          */
         BROKE,
         /**
          * When you die causing all armor to unequip
          */
         DEATH,
-        ;
     }
 
     public enum ArmorType {
@@ -154,17 +153,26 @@ public final class ArmorEquipEvent extends PlayerEvent implements Cancellable {
          * @return The parsed ArmorType. (null if none were found.)
          */
         public static ArmorType matchType(final ItemStack itemStack) {
-            if (itemStack == null || itemStack.getType().equals(Material.AIR)) return null;
+            if (itemStack == null || itemStack.getType() == Material.AIR) {
+                return null;
+            }
+
             String type = itemStack.getType().name();
-            if (type.endsWith("_HELMET") || type.endsWith("_SKULL")) return HELMET;
-            else if (type.endsWith("_CHESTPLATE") || type.equals("ELYTRA")) return CHESTPLATE;
-            else if (type.endsWith("_LEGGINGS")) return LEGGINGS;
-            else if (type.endsWith("_BOOTS")) return BOOTS;
-            else return null;
+            if (type.endsWith("_HELMET") || type.endsWith("_SKULL")) {
+                return HELMET;
+            } else if (type.endsWith("_CHESTPLATE") || type.equals("ELYTRA")) {
+                return CHESTPLATE;
+            } else if (type.endsWith("_LEGGINGS")) {
+                return LEGGINGS;
+            } else if (type.endsWith("_BOOTS")) {
+                return BOOTS;
+            } else {
+                return null;
+            }
         }
 
         public int getSlot() {
-            return slot;
+            return this.slot;
         }
     }
 }

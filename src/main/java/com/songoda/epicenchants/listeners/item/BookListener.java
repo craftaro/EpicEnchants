@@ -30,26 +30,26 @@ public class BookListener extends ItemListener {
 
     @Override
     void onApply(InventoryClickEvent event, NBTItem cursor, NBTItem current) {
-        if (!cursor.hasKey("book-item") || !cursor.getBoolean("book-item")) {
+        if (!cursor.hasTag("book-item") || !cursor.getBoolean("book-item")) {
             return;
         }
 
         event.setCancelled(true);
 
         ItemStack toApply = event.getCurrentItem();
-        Enchant enchant = instance.getEnchantManager().getValue(cursor.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
+        Enchant enchant = this.instance.getEnchantManager().getValue(cursor.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
         if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(current.getItem().getType()).get())) {
             return;
         }
         // get total amount of enchantments on item
-        int currentEnchantmentTotal = instance.getEnchantUtils().getEnchants(toApply).size();
-        int maxAllowedOverride = instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
-        int maxAllowedApply = instance.getEnchantUtils().getMaximumEnchantsCanApplyItem(toApply, (Player) event.getWhoClicked());
+        int currentEnchantmentTotal = this.instance.getEnchantUtils().getEnchants(toApply).size();
+        int maxAllowedOverride = this.instance.getEnchantUtils().getMaximumEnchantsCanApply((Player) event.getWhoClicked());
+        int maxAllowedApply = this.instance.getEnchantUtils().getMaximumEnchantsCanApplyItem(toApply, (Player) event.getWhoClicked());
         maxAllowedApply = Math.min(maxAllowedApply, maxAllowedOverride);
         // item is at max enchantments
         if (currentEnchantmentTotal >= maxAllowedApply) {
-            instance.getLocale().getMessage("enchants.maxallowed").processPlaceholder("max_enchants", maxAllowedApply).sendPrefixedMessage(event.getWhoClicked());
+            this.instance.getLocale().getMessage("enchants.maxallowed").processPlaceholder("max_enchants", maxAllowedApply).sendPrefixedMessage(event.getWhoClicked());
             return;
         }
 
@@ -64,9 +64,9 @@ public class BookListener extends ItemListener {
             return;
         }
 
-        Tuple<ItemStack, EnchantResult> result = instance.getEnchantUtils().apply(toApply, enchant, enchantEvent.getLevel(), enchantEvent.getSuccessRate(), enchantEvent.getDestroyRate());
+        Tuple<ItemStack, EnchantResult> result = this.instance.getEnchantUtils().apply(toApply, enchant, enchantEvent.getLevel(), enchantEvent.getSuccessRate(), enchantEvent.getDestroyRate());
 
-        instance.getLocale().getMessage(GeneralUtils.getMessageFromResult(result.getRight()))
+        this.instance.getLocale().getMessage(GeneralUtils.getMessageFromResult(result.getRight()))
                 .processPlaceholder("enchant", enchant.getIdentifier())
                 .sendPrefixedMessage(event.getWhoClicked());
 
@@ -83,7 +83,7 @@ public class BookListener extends ItemListener {
 
     @Override
     void onClick(PlayerInteractEvent event, NBTItem clicked) {
-        if (!clicked.hasKey("mystery-book") || !clicked.getBoolean("mystery-book")) {
+        if (!clicked.hasTag("mystery-book") || !clicked.getBoolean("mystery-book")) {
             return;
         }
 
@@ -93,9 +93,9 @@ public class BookListener extends ItemListener {
             return;
         }
 
-        Group group = instance.getGroupManager().getValue(clicked.getString("group")).orElseThrow(() -> new IllegalStateException("Book without group!"));
+        Group group = this.instance.getGroupManager().getValue(clicked.getString("group")).orElseThrow(() -> new IllegalStateException("Book without group!"));
 
-        Optional<Enchant> enchant = instance.getEnchantManager().getRandomEnchant(group);
+        Optional<Enchant> enchant = this.instance.getEnchantManager().getRandomEnchant(group);
 
         if (!enchant.isPresent()) {
             throw new IllegalStateException("The " + group.getName() + " group does not have any enchants.");
@@ -106,7 +106,7 @@ public class BookListener extends ItemListener {
         useItem(event);
         event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get(), level));
 
-        event.getPlayer().sendMessage(instance.getLocale().getMessage("book.discover")
+        event.getPlayer().sendMessage(this.instance.getLocale().getMessage("book.discover")
                 .processPlaceholder("group_name", group.getName())
                 .processPlaceholder("group_color", group.getColor())
                 .processPlaceholder("enchant_format", enchant.get().getFormat())

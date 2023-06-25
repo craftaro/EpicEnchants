@@ -33,7 +33,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
 
-                     <release>${java.release}</release>
+                    <release>${java.release}</release>
                 </configuration>
             </plugin>
 
@@ -95,6 +95,11 @@
 
     <repositories>
         <repository>
+            <id>craftaro-minecraft-plugins</id>
+            <url>https://repo.craftaro.com/repository/minecraft-plugins/</url>
+        </repository>
+
+        <repository>
             <id>songoda-public</id>
             <url>https://repo.songoda.com/repository/public/</url>
         </repository>
@@ -107,17 +112,17 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.craftaro</groupId>
+            <artifactId>CraftaroCore</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.songoda</groupId>
-            <artifactId>SongodaCore</artifactId>
-            <version>2.6.19</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>

@@ -1,6 +1,7 @@
 package com.songoda.epicenchants.objects;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.enums.TriggerType;
@@ -23,14 +24,14 @@ public class Enchant {
     private Group group;
     private int maxLevel;
     private Set<String> conflict;
-    private Set<CompatibleMaterial> itemWhitelist;
+    private Set<XMaterial> itemWhitelist;
     private Set<EffectExecutor> effectExecutors;
     private List<String> description;
     private String format;
     @Nullable
     private BookItem bookItem;
 
-    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<CompatibleMaterial> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
+    Enchant(String author, String identifier, Group group, int maxLevel, Set<String> conflict, Set<XMaterial> itemWhitelist, Set<EffectExecutor> effectExecutors, List<String> description, String format, BookItem bookItem) {
         this.author = author;
         this.identifier = identifier;
         this.group = group;
@@ -96,7 +97,7 @@ public class Enchant {
         return this.conflict;
     }
 
-    public Set<CompatibleMaterial> getItemWhitelist() {
+    public Set<XMaterial> getItemWhitelist() {
         return new HashSet<>(this.itemWhitelist);
     }
 
@@ -123,7 +124,7 @@ public class Enchant {
         private Group group;
         private int maxLevel;
         private Set<String> conflict;
-        private Set<CompatibleMaterial> itemWhitelist;
+        private Set<XMaterial> itemWhitelist;
         private Set<EffectExecutor> effectExecutors;
         private List<String> description;
         private String format;
@@ -157,7 +158,7 @@ public class Enchant {
             return this;
         }
 
-        public Enchant.EnchantBuilder itemWhitelist(Set<CompatibleMaterial> itemWhitelist) {
+        public Enchant.EnchantBuilder itemWhitelist(Set<XMaterial> itemWhitelist) {
             this.itemWhitelist = itemWhitelist;
             return this;
         }

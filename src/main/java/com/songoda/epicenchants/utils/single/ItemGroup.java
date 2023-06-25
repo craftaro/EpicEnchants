@@ -1,8 +1,9 @@
 package com.songoda.epicenchants.utils.single;
 
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.compatibility.CompatibleMaterial;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
@@ -13,12 +14,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.songoda.core.compatibility.CompatibleMaterial.*;
+import static com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial.*;
 import static com.songoda.epicenchants.utils.single.ItemGroup.Group.*;
 
 public class ItemGroup {
 
-    private final Multimap<Group, CompatibleMaterial> groupMap;
+    private final Multimap<Group, XMaterial> groupMap;
 
     public ItemGroup() {
         groupMap = HashMultimap.create();
@@ -46,27 +47,26 @@ public class ItemGroup {
         groupMap.put(TRIDENTS, TRIDENT);
     }
 
-    public Set<CompatibleMaterial> get(String key) {
+    public Set<XMaterial> get(String key) {
         Optional<Group> optionalGroup = Group.from(key);
-        Set<CompatibleMaterial> output = new HashSet<>();
+        Set<XMaterial> output = new HashSet<>();
 
         optionalGroup.ifPresent(group -> output.addAll(getMaterials(group)));
 
-        if (CompatibleMaterial.getMaterial(key) != null) {
-            output.add(CompatibleMaterial.getMaterial(key));
-        }
+        Optional<XMaterial> material = CompatibleMaterial.getMaterial(key);
+        material.ifPresent(output::add);
 
         return output;
     }
 
-    public boolean isValid(CompatibleMaterial material) {
+    public boolean isValid(XMaterial material) {
         for (Group group : groupMap.keys())
             if (getMaterials(group).contains(material))
                 return true;
         return false;
     }
 
-    public Set<String> getGroups(Set<CompatibleMaterial> materials) {
+    public Set<String> getGroups(Set<XMaterial> materials) {
         Set<String> groups = new HashSet<>();
 
         for (int i = 0; i < 5; i++) {
@@ -76,11 +76,11 @@ public class ItemGroup {
             });
         }
 
-        groups.addAll(materials.stream().map(CompatibleMaterial::toString).collect(Collectors.toSet()));
+        groups.addAll(materials.stream().map(XMaterial::toString).collect(Collectors.toSet()));
         return groups;
     }
 
-    public Optional<Group> getGroup(Set<CompatibleMaterial> materials) {
+    public Optional<Group> getGroup(Set<XMaterial> materials) {
         Optional<Group> group = Arrays.stream(Group.values())
                 .filter(s -> !s.getChildren().isEmpty() && s.getChildren().stream().allMatch(child -> materials.containsAll(groupMap.get(child))))
                 .findFirst();
@@ -92,8 +92,8 @@ public class ItemGroup {
         return groupMap.asMap().entrySet().stream().filter(s -> materials.containsAll(s.getValue())).map(Map.Entry::getKey).findFirst();
     }
 
-    public Set<CompatibleMaterial> getMaterials(Group group) {
-        Set<CompatibleMaterial> out = new HashSet<>();
+    public Set<XMaterial> getMaterials(Group group) {
+        Set<XMaterial> out = new HashSet<>();
 
         for (int i = 0; i < 5; i++) {
             if (group.getChildren().isEmpty())

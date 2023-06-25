@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.commands;
 
-import com.songoda.core.commands.AbstractCommand;
+import com.craftaro.core.commands.AbstractCommand;
 import com.songoda.epicenchants.CommandCommons;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Group;

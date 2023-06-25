@@ -5,8 +5,6 @@ import com.songoda.epicenchants.enums.EventType;
 import com.songoda.epicenchants.objects.LeveledModifier;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -91,11 +89,13 @@ public class SpawnMob extends EffectExecutor {
             }
 
             if (entity instanceof LivingEntity) {
-                AttributeInstance attack = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
-                attack.setBaseValue(attackDamage.get(level, (int) Math.round(attack.getBaseValue()), user, opponent));
+                LivingEntity livingEntity = (LivingEntity) entity;
 
-                AttributeInstance heal = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_MAX_HEALTH);
-                heal.setBaseValue(health.get(level, (int) Math.round(heal.getBaseValue()), user, opponent));
+//                AttributeInstance attack = ((LivingEntity) entity).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+//                attack.setBaseValue(attackDamage.get(level, (int) Math.round(attack.getBaseValue()), user, opponent));
+
+                double maxHealth = livingEntity.getMaxHealth();
+                livingEntity.setMaxHealth(health.get(level, (int) Math.round(maxHealth), user, opponent));
             }
         }
     }

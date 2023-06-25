@@ -1,6 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.compatibility.CompatibleHand;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -10,7 +11,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class ItemListener implements Listener {
@@ -61,9 +61,8 @@ public abstract class ItemListener implements Listener {
     void useItem(PlayerInteractEvent event) {
         int slot = event.getPlayer().getInventory().getHeldItemSlot();
 
-        try {
-            if (event.getHand() == EquipmentSlot.OFF_HAND) slot = 40;
-        } catch (Exception | Error ignore) {
+        if (CompatibleHand.getHand(event) == CompatibleHand.OFF_HAND) {
+            slot = 40;
         }
 
         if (event.getItem().getAmount() > 1) {

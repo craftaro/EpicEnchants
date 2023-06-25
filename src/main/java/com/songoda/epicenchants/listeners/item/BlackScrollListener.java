@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTCompound;
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTCompound;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.utils.single.RomanNumber;

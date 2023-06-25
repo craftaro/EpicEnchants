@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.objects;
 
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import com.songoda.epicenchants.utils.settings.Settings;

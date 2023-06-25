@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.effect.effects;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.epicenchants.effect.EffectExecutor;
 import com.songoda.epicenchants.enums.EventType;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,7 +24,7 @@ public class DropHead extends EffectExecutor {
     }
 
     private Optional<ItemStack> getHead(Entity entity) {
-        ItemStack out = CompatibleMaterial.PLAYER_HEAD.getItem();
+        ItemStack out = XMaterial.PLAYER_HEAD.parseItem();
         String skin = null;
 
         switch (entity.getType()) {
@@ -47,10 +47,10 @@ public class DropHead extends EffectExecutor {
                 skin = "MHF_Spider";
                 break;
             case ZOMBIE:
-                out = CompatibleMaterial.ZOMBIE_HEAD.getItem();
+                out = XMaterial.ZOMBIE_HEAD.parseItem();
                 break;
             case SKELETON:
-                out = CompatibleMaterial.SKELETON_SKULL.getItem();
+                out = XMaterial.SKELETON_SKULL.parseItem();
                 break;
             case VILLAGER:
                 skin = "MHF_Villager";
@@ -62,7 +62,7 @@ public class DropHead extends EffectExecutor {
                 skin = "MHF_Blaze";
                 break;
             case CREEPER:
-                out = CompatibleMaterial.CREEPER_HEAD.getItem();
+                out = XMaterial.CREEPER_HEAD.parseItem();
             case ENDERMAN:
                 skin = "MHF_Enderman";
                 break;
@@ -72,8 +72,6 @@ public class DropHead extends EffectExecutor {
             case IRON_GOLEM:
                 skin = "MHF_Golem";
                 break;
-            case WITHER_SKELETON:
-                out = CompatibleMaterial.WITHER_SKELETON_SKULL.getItem();
             case PLAYER:
                 break;
             default:
@@ -82,9 +80,9 @@ public class DropHead extends EffectExecutor {
 
         SkullMeta skullMeta = (SkullMeta) out.getItemMeta();
 
-        if (skin != null && CompatibleMaterial.getMaterial(out) == CompatibleMaterial.PLAYER_HEAD
-                || entity instanceof Player)
+        if ((skin != null && XMaterial.PLAYER_HEAD.isSimilar(out)) || entity instanceof Player) {
             skullMeta.setOwner(entity instanceof Player ? entity.getName() : skin);
+        }
         out.setItemMeta(skullMeta);
 
         return Optional.of(out);

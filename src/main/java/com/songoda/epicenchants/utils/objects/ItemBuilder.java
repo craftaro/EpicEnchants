@@ -1,6 +1,7 @@
 package com.songoda.epicenchants.utils.objects;
 
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.objects.Placeholder;
 import com.songoda.epicenchants.utils.single.ConfigParser;
 import com.songoda.epicenchants.utils.single.GeneralUtils;
@@ -53,8 +54,8 @@ public class ItemBuilder {
     public ItemBuilder(ConfigurationSection section, Player player, Placeholder... placeholders) {
         this(section, placeholders);
 
-        if (item.getType() == Material.LEGACY_SKULL_ITEM) {
-            ((SkullMeta) item.getItemMeta()).setOwningPlayer(player);
+        if (XMaterial.PLAYER_HEAD.isSimilar(item)) {
+            ((SkullMeta) item.getItemMeta()).setOwner(player.getName());
         }
     }
 
@@ -254,15 +255,6 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder unbreakable() {
-        return unbreakable(true);
-    }
-
-    public ItemBuilder unbreakable(boolean unbreakable) {
-        meta.setUnbreakable(unbreakable);
-        return this;
-    }
-
     public NBTItem nbt() {
         return new NBTItem(build());
     }
@@ -303,12 +295,5 @@ public class ItemBuilder {
 
     public String getName() {
         return meta.getDisplayName();
-    }
-
-    /*
-     * Unbreakability:
-     */
-    public boolean isUnbreakable() {
-        return meta.isUnbreakable();
     }
 }

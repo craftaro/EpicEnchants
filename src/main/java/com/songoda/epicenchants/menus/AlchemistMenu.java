@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.menus;
 
-import com.songoda.core.hooks.EconomyManager;
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.hooks.EconomyManager;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Enchant;
 import com.songoda.epicenchants.objects.Group;

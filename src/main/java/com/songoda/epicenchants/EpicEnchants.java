@@ -1,12 +1,13 @@
 package com.songoda.epicenchants;
 
-import com.songoda.core.SongodaCore;
-import com.songoda.core.SongodaPlugin;
-import com.songoda.core.commands.CommandManager;
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.configuration.Config;
-import com.songoda.core.gui.GuiManager;
-import com.songoda.core.hooks.EconomyManager;
+import com.craftaro.core.SongodaCore;
+import com.craftaro.core.SongodaPlugin;
+import com.craftaro.core.commands.CommandManager;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.configuration.Config;
+import com.craftaro.core.gui.GuiManager;
+import com.craftaro.core.hooks.EconomyManager;
+import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
 import com.songoda.epicenchants.commands.CommandAlchemist;
 import com.songoda.epicenchants.commands.CommandApply;
 import com.songoda.epicenchants.commands.CommandEnchanter;
@@ -71,10 +72,10 @@ public class EpicEnchants extends SongodaPlugin {
     @Override
     public void onPluginEnable() {
         // Run Songoda Updater
-        SongodaCore.registerPlugin(this, 67, CompatibleMaterial.DIAMOND_SWORD);
+        SongodaCore.registerPlugin(this, 67, XMaterial.DIAMOND_SWORD);
 
         // setup commands
-        this.commandManager = new com.songoda.core.commands.CommandManager(this);
+        this.commandManager = new com.craftaro.core.commands.CommandManager(this);
         this.commandManager.addMainCommand("ee")
                 .addSubCommand(new CommandReload(this))
                 .addSubCommand(new CommandAlchemist(this))

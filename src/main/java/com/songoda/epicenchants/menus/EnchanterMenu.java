@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.menus;
 
-import com.songoda.core.hooks.EconomyManager;
+import com.craftaro.core.hooks.EconomyManager;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.objects.Group;
 import com.songoda.epicenchants.utils.objects.FastInv;
@@ -84,4 +84,3 @@ public class EnchanterMenu extends FastInv {
                 .forEach(section -> addItem(getSlots(section.getString("slot")), new ItemBuilder(section).build()));
     }
 }
-

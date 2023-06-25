@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.ItemBuilder;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,7 +27,7 @@ public class WhiteScrollListener extends ItemListener {
             return;
         }
 
-        if (!instance.getItemGroup().isValid(CompatibleMaterial.getMaterial(event.getCurrentItem())))
+        if (!instance.getItemGroup().isValid(CompatibleMaterial.getMaterial(event.getCurrentItem().getType()).get()))
             return;
 
         current.setBoolean("protected", true);

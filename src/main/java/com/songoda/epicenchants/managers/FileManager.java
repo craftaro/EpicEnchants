@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.managers;
 
-import com.songoda.core.compatibility.ServerVersion;
+import com.craftaro.core.compatibility.ServerVersion;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.utils.objects.FileLocation;
 import com.songoda.epicenchants.utils.settings.Settings;

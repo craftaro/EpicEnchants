@@ -1,6 +1,7 @@
 package com.songoda.epicenchants.utils.single;
 
-import com.songoda.core.math.MathUtils;
+import com.craftaro.core.compatibility.CompatibleHand;
+import com.craftaro.core.math.MathUtils;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.enums.TriggerType;
 import org.apache.commons.lang.StringUtils;
@@ -10,8 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -74,11 +73,8 @@ public class GeneralUtils {
         } else if (entity.getEquipment() != null) {
             ItemStack item = entity.getEquipment().getItemInHand();
 
-            try {
-                if (item.getType() == Material.AIR) {
-                    return entity.getEquipment().getItemInOffHand();
-                }
-            } catch (NoSuchMethodError ignore) {
+            if (item == null || item.getType() == Material.AIR) {
+                return CompatibleHand.OFF_HAND.getItem(entity);
             }
             return item;
         }
@@ -86,16 +82,10 @@ public class GeneralUtils {
     }
 
     public static int getHeldItemSlot(Player player, Event event) {
-        int slot = player.getInventory().getHeldItemSlot();
-
-        try {
-            if (event instanceof PlayerInteractEvent && ((PlayerInteractEvent) event).getHand() == EquipmentSlot.OFF_HAND) {
-                slot = 40;
-            }
-        } catch (NoSuchMethodError ignore) {
+        if (CompatibleHand.getHand(event) == CompatibleHand.OFF_HAND) {
+            return 40;
         }
-
-        return slot;
+        return player.getInventory().getHeldItemSlot();
     }
 
     public static Object parseJS(String toParse, String type, Object def) {

@@ -10,9 +10,10 @@ softdepend:
   - UltimateBottles
   - Vault
 
-author: Songoda
+author: Craftaro
 website: ${project.url}
 
+# TODO: Fix the stuff below (ussage?, why ee and not epicenchants?, etc.)
 commands:
   ee:
     aliases:

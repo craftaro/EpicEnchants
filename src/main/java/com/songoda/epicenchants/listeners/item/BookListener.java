@@ -1,7 +1,7 @@
 package com.songoda.epicenchants.listeners.item;
 
-import com.songoda.core.compatibility.CompatibleMaterial;
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.compatibility.CompatibleMaterial;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.events.EnchantApplyEvent;
@@ -39,7 +39,7 @@ public class BookListener extends ItemListener {
         ItemStack toApply = event.getCurrentItem();
         Enchant enchant = instance.getEnchantManager().getValue(cursor.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
 
-        if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(current.getItem()))) {
+        if (!enchant.getItemWhitelist().contains(CompatibleMaterial.getMaterial(current.getItem().getType()).get())) {
             return;
         }
         // get total amount of enchantments on item

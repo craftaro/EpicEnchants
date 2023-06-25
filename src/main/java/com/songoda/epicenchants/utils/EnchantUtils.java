@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.utils;
 
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTCompound;
-import com.songoda.core.third_party.de.tr7zw.nbtapi.NBTItem;
-import com.songoda.core.utils.TextUtils;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTCompound;
+import com.craftaro.core.third_party.de.tr7zw.nbtapi.NBTItem;
+import com.craftaro.core.utils.TextUtils;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.EnchantResult;
 import com.songoda.epicenchants.enums.EventType;
@@ -18,8 +18,8 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

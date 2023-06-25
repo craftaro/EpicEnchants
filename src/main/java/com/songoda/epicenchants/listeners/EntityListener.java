@@ -1,6 +1,6 @@
 package com.songoda.epicenchants.listeners;
 
-import com.songoda.core.nms.NmsManager;
+import com.craftaro.core.nms.NmsManager;
 import com.songoda.epicenchants.EpicEnchants;
 import com.songoda.epicenchants.enums.TriggerType;
 import org.bukkit.entity.LivingEntity;

@@ -1,8 +1,8 @@
 package com.songoda.epicenchants.utils.settings;
 
-import com.songoda.core.configuration.Config;
-import com.songoda.core.configuration.ConfigSetting;
-import com.songoda.core.hooks.EconomyManager;
+import com.craftaro.core.configuration.Config;
+import com.craftaro.core.configuration.ConfigSetting;
+import com.craftaro.core.hooks.EconomyManager;
 import com.songoda.epicenchants.EpicEnchants;
 
 import java.util.stream.Collectors;

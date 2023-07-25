@@ -3,7 +3,7 @@ description: ${project.description}
 version: ${project.version}
 api-version: 1.13
 
-main: com.songoda.epicenchants.EpicEnchants
+main: com.craftaro.epicenchants.EpicEnchants
 softdepend:
   - PlaceholderAPI
   - PlayerPoints
@@ -15,6 +15,5 @@ website: ${project.url}
 # TODO: Fix the stuff below (ussage?, why ee and not epicenchants?, etc.)
 commands:
   ee:
-    aliases:
-      - epicenchants
-    ussage: reload
+    aliases: [epicenchants]
+    usage: reload

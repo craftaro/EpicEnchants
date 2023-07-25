@@ -1,4 +1,4 @@
-author: "Songoda"
+author: "Craftaro"
 
 # The enchant identifier must be unique.
 identifier: Explosive
@@ -21,7 +21,7 @@ description:
 item-whitelist:
   - "BOWS"
 
-# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
+# For a full list of effects, please visit: https://wiki.craftaro.com/index.php/Epic_Enchants#Tutorials
 effects:
   EXPLODE:
     # Chance that this will happen

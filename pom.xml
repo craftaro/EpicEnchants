@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.songoda</groupId>
+    <groupId>com.craftaro</groupId>
     <artifactId>EpicEnchants</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
 
     <name>EpicEnchants</name>
     <description>Unlock the potential of your weapons, tools and armor by making your own custom enchants.</description>
@@ -31,19 +31,18 @@
     </scm>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
-
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
-
                         <configuration>
                             <finalName>${project.name}-${project.version}</finalName>
 
@@ -54,7 +53,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.craftaro.core</pattern>
-                                    <shadedPattern>com.songoda.epicenchants.core</shadedPattern>
+                                    <shadedPattern>com.craftaro.epicenchants.core</shadedPattern>
                                 </relocation>
                             </relocations>
 

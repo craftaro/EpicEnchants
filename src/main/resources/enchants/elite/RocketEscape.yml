@@ -1,4 +1,4 @@
-author: Songoda
+author: Craftaro
 
 # The enchant identifier must be unique.
 identifier: RocketEscape
@@ -20,7 +20,7 @@ description:
 item-whitelist:
   - "BOOTS"
 
-# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
+# For a full list of effects, please visit: https://wiki.craftaro.com/index.php/Epic_Enchants#Tutorials
 effects:
   THROW:
     # The trigger that will fire this effect.

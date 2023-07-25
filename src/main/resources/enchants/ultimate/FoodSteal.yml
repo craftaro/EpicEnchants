@@ -20,7 +20,7 @@ description:
 item-whitelist:
   - "SWORDS"
 
-# For a full list of effects, please visit: https://wiki.songoda.com/Epic_Enchants#Tutorials
+# For a full list of effects, please visit: https://wiki.craftaro.com/index.php/Epic_Enchants#Tutorials
 effects:
   STEAL_FOOD:
     # The trigger that will fire this effect

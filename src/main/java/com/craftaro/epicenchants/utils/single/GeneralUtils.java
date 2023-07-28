@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -82,6 +83,9 @@ public class GeneralUtils {
     }
 
     public static int getHeldItemSlot(Player player, Event event) {
+        if (event == null) {
+            return player.getInventory().getHeldItemSlot();
+        }
         if (CompatibleHand.getHand(event) == CompatibleHand.OFF_HAND) {
             return 40;
         }

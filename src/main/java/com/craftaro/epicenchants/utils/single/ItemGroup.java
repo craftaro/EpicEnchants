@@ -1,6 +1,6 @@
 package com.craftaro.epicenchants.utils.single;
 
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial.*;
+import static com.craftaro.third_party.com.cryptomorin.xseries.XMaterial.*;
 
 public class ItemGroup {
 

@@ -1,7 +1,7 @@
 package com.craftaro.epicenchants.commands;
 
 import com.craftaro.core.commands.AbstractCommand;
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import com.craftaro.epicenchants.objects.Enchant;
 import com.craftaro.epicenchants.CommandCommons;
 import com.craftaro.epicenchants.EpicEnchants;

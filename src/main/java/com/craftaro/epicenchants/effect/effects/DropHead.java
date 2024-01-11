@@ -1,6 +1,6 @@
 package com.craftaro.epicenchants.effect.effects;
 
-import com.craftaro.core.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import com.craftaro.epicenchants.effect.EffectExecutor;
 import com.craftaro.epicenchants.enums.EventType;
 import org.bukkit.configuration.ConfigurationSection;

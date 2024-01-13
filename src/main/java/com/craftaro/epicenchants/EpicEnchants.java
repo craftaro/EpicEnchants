@@ -4,10 +4,19 @@ import com.craftaro.core.SongodaCore;
 import com.craftaro.core.SongodaPlugin;
 import com.craftaro.core.commands.CommandManager;
 import com.craftaro.core.configuration.Config;
-import com.craftaro.core.dependency.Dependency;
 import com.craftaro.core.gui.GuiManager;
 import com.craftaro.core.hooks.EconomyManager;
-import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
+import com.craftaro.epicenchants.commands.CommandAlchemist;
+import com.craftaro.epicenchants.commands.CommandApply;
+import com.craftaro.epicenchants.commands.CommandEnchanter;
+import com.craftaro.epicenchants.commands.CommandGiveBook;
+import com.craftaro.epicenchants.commands.CommandGiveItemDust;
+import com.craftaro.epicenchants.commands.CommandGiveRandomBook;
+import com.craftaro.epicenchants.commands.CommandGiveScroll;
+import com.craftaro.epicenchants.commands.CommandList;
+import com.craftaro.epicenchants.commands.CommandReload;
+import com.craftaro.epicenchants.commands.CommandSettings;
+import com.craftaro.epicenchants.commands.CommandTinkerer;
 import com.craftaro.epicenchants.listeners.ArmorListener;
 import com.craftaro.epicenchants.listeners.EntityListener;
 import com.craftaro.epicenchants.listeners.HeldItemListener;
@@ -21,28 +30,16 @@ import com.craftaro.epicenchants.managers.FileManager;
 import com.craftaro.epicenchants.managers.GroupManager;
 import com.craftaro.epicenchants.managers.InfoManager;
 import com.craftaro.epicenchants.objects.Enchant;
-import com.craftaro.epicenchants.commands.CommandAlchemist;
-import com.craftaro.epicenchants.commands.CommandApply;
-import com.craftaro.epicenchants.commands.CommandEnchanter;
-import com.craftaro.epicenchants.commands.CommandGiveBook;
-import com.craftaro.epicenchants.commands.CommandGiveItemDust;
-import com.craftaro.epicenchants.commands.CommandGiveRandomBook;
-import com.craftaro.epicenchants.commands.CommandGiveScroll;
-import com.craftaro.epicenchants.commands.CommandList;
-import com.craftaro.epicenchants.commands.CommandReload;
-import com.craftaro.epicenchants.commands.CommandSettings;
-import com.craftaro.epicenchants.commands.CommandTinkerer;
 import com.craftaro.epicenchants.utils.EnchantUtils;
 import com.craftaro.epicenchants.utils.SpecialItems;
 import com.craftaro.epicenchants.utils.objects.FastInv;
 import com.craftaro.epicenchants.utils.settings.Settings;
 import com.craftaro.epicenchants.utils.single.ItemGroup;
+import com.craftaro.third_party.com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EpicEnchants extends SongodaPlugin {
@@ -56,11 +53,6 @@ public class EpicEnchants extends SongodaPlugin {
     private SpecialItems specialItems;
     private EnchantUtils enchantUtils;
     private ItemGroup itemGroup;
-
-    @Override
-    protected Set<Dependency> getDependencies() {
-        return new HashSet<>();
-    }
 
     @Override
     public void onPluginLoad() {

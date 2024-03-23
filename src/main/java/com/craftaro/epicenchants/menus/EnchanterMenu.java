@@ -55,22 +55,28 @@ public class EnchanterMenu extends FastInv {
                             return;
                         }
 
-                        if (EconomyManager.isEnabled() && !EconomyManager.hasBalance((player), ecoCost) || getExp(player) < expCost) {
+                        if (EconomyManager.isEnabled() && EconomyManager.getBalance(player) < ecoCost && getExp(player) < expCost) {
                             instance.getLocale().getMessage("enchanter.cannotafford").sendPrefixedMessage(player);
                             return;
                         }
 
-                        if (EconomyManager.isEnabled()) {
+                        if (EconomyManager.isEnabled() && EconomyManager.getBalance(player) >= ecoCost) {
                             EconomyManager.withdrawBalance(player, ecoCost);
-                            event.getPlayer().sendMessage(instance.getLocale().getMessage("enchanter.success")
+                            event.getPlayer().sendMessage(instance.getLocale().getMessage("enchanter.successeco")
                                     .processPlaceholder("group_name", group.getName())
                                     .processPlaceholder("group_color", group.getColor())
                                     .processPlaceholder("eco_cost", ecoCost)
+                                    .getPrefixedMessage());
+                        }
+                        else{
+                            changeExp(player, -expCost);
+                            event.getPlayer().sendMessage(instance.getLocale().getMessage("enchanter.successexp")
+                                    .processPlaceholder("group_name", group.getName())
+                                    .processPlaceholder("group_color", group.getColor())
                                     .processPlaceholder("exp_cost", expCost)
                                     .getPrefixedMessage());
                         }
 
-                        changeExp(player, -expCost);
                         player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));
                         this.delay.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + 120);
                     });

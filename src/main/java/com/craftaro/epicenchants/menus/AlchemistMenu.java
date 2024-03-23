@@ -273,13 +273,18 @@ public class AlchemistMenu extends FastInv {
                 return;
             }
 
+            if(EconomyManager.isEnabled()){
             EconomyManager.withdrawBalance(event.getPlayer(), ecoCost);
-            changeExp(event.getPlayer(), -expCost);
-            this.instance.getLocale().getMessage("alchemist.success")
+            this.instance.getLocale().getMessage("alchemist.successeco")
                     .processPlaceholder("eco_cost", ecoCost)
+                    .sendPrefixedMessage(event.getPlayer());
+            }
+            else {
+            changeExp(event.getPlayer(), -expCost);
+            this.instance.getLocale().getMessage("alchemist.successexp")
                     .processPlaceholder("exp_cost", expCost)
                     .sendPrefixedMessage(event.getPlayer());
-
+            }
             event.getPlayer().getInventory().addItem(getInventory().getItem(this.PREVIEW_SLOT));
             clear(this.RIGHT_SLOT);
             clear(this.LEFT_SLOT);

@@ -39,7 +39,8 @@ whitescroll:
   applied: '&7This item is now protected!'
 enchanter:
   cannotafford: '&cYou cannot afford this purchase.'
-  success: '&7Purchased &6{group_color}{group_name} &7book for &6{exp_cost} experience&7.'
+  successexp: '&7Purchased &6{group_color}{group_name} &7book for &6{exp_cost} experience&7.'
+  successeco: '&7Purchased &6{group_color}{group_name} &7book for &6${eco_cost}&7.'
 tinkerer:
   open: '&7Trading with the tinkerer.'
   cancelled: '&cCancelled.'
@@ -56,7 +57,8 @@ alchemist:
   differentlevels: '&cThe alchemist can only combine books of the same level...'
   differentgroups: '&cThe alchemist can only combine dust of the same group...'
   cannotafford: '&cYou cannot afford this exchange...'
-  success: '&7Exchanged for &6{exp_cost} &7experience.'
+  successeco: '&7Exchanged for &6${eco_cost}.'
+  successexp: '&7Exchanged for &6{exp_cost} &7experience.'
 enchants:
   invalidmaterial: '&cYou can not apply &4{enchant}&r &cto that item...'
   failure: '&4{enchant}&r &cfailed to apply...'

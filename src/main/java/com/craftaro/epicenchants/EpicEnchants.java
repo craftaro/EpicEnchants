@@ -91,6 +91,7 @@ public class EpicEnchants extends SongodaPlugin {
         this.setLocale(Settings.LANGUGE_MODE.getString(), false);
 
         EconomyManager.getManager().setPreferredHook(Settings.ECONOMY_PLUGIN.getString());
+        System.out.println(EconomyManager.getManager().getCurrentHook().toString());
 
         preload();
 

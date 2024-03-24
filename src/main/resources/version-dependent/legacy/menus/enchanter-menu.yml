@@ -19,7 +19,6 @@ contents:
       - "&fof possible enchants you could unlock!"
       - ""
       - "&b&lCOST &r&f{exp_cost} EXP"
-      - "&b&lCOST &r&f${exp_cost}"
     group: SIMPLE
     exp-cost: 400
     eco-cost: 0

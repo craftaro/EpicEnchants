@@ -14,6 +14,7 @@ public class Settings {
 
     public static final ConfigSetting BLACK_MIN = new ConfigSetting(CONFIG, "Main.Black Scroll Min", 20);
     public static final ConfigSetting BLACK_MAX = new ConfigSetting(CONFIG, "Main.Black Scroll Max", 100);
+    public static final ConfigSetting MODE = new ConfigSetting(CONFIG, "Main.Mode", "EXP", "Can be ECO or EXP");
 
     public static final ConfigSetting ECONOMY_PLUGIN = new ConfigSetting(CONFIG, "Main.Economy", EconomyManager.getEconomy() == null ? "Vault" : EconomyManager.getEconomy().getName(),
             "Which economy plugin should be used?",

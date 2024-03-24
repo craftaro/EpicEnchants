@@ -14,12 +14,12 @@ accept-slot: 31
 book:
   success-rate-formula: "({left_success_rate} + {right_success_rate}) / 4"
   destroy-rate-formula: "({left_destroy_rate} + {right_destroy_rate}) / 4 + {max_destroy_rate}"
-  eco-cost-formula: "0"
+  eco-cost-formula: "({group_order_index} + 1) * {final_success_rate} * 4"
   exp-cost-formula: "({group_order_index} + 1) * {final_success_rate}"
 
 dust:
   percentage-formula: "({left_percentage} + {right_percentage}) / 2"
-  eco-cost-formula: "0"
+  eco-cost-formula: "({group_order_index} + 1) * {final_success_rate} * 4"
   exp-cost-formula: "({group_order_index} + 1) * {final_success_rate}"
 
 contents:
@@ -37,14 +37,14 @@ contents:
     display-name: "&cWaiting for you..."
     lore:
       - "&7The alchemist is waiting"
-      - "&7for your enchange..."
+      - "&7for your exchange..."
   accept-after:
     material: INK_SACK
     data: 10
     display-name: "&eClick to confirm"
     lore:
       - "&cCost: {exp_cost} EXP"
-      - ""
+      - "&cCost: ${eco_cost}"
       - "&7Click to confirm the exchange"
       - "&7after which you will receive"
       - "&7the item displayed above."

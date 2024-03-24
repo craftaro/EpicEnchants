@@ -8,6 +8,7 @@ import com.craftaro.epicenchants.objects.Group;
 import com.craftaro.epicenchants.objects.Placeholder;
 import com.craftaro.epicenchants.utils.objects.FastInv;
 import com.craftaro.epicenchants.utils.objects.ItemBuilder;
+import com.craftaro.epicenchants.utils.settings.Settings;
 import com.craftaro.epicenchants.utils.single.GeneralUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -202,7 +203,7 @@ public class AlchemistMenu extends FastInv {
         NBTItem rightItem = new NBTItem(getInventory().getItem(this.RIGHT_SLOT));
         int ecoCost;
         int expCost;
-
+        String Mode = Settings.MODE.getString();
         if (leftItem.hasTag("book-item")) {
             int level = leftItem.getInteger("level");
             Enchant enchant = this.instance.getEnchantManager().getValue(leftItem.getString("enchant")).orElseThrow(() -> new IllegalStateException("Book without enchant!"));
@@ -268,22 +269,32 @@ public class AlchemistMenu extends FastInv {
                 Placeholder.of("eco_cost", ecoCost),
                 Placeholder.of("exp_cost", expCost)
         ).build(), event -> {
-            if (!EconomyManager.hasBalance(event.getPlayer(), ecoCost) || getExp(event.getPlayer()) < expCost) {
+
+            if (EconomyManager.isEnabled() && Mode.equalsIgnoreCase("ECO") && EconomyManager.getBalance(event.getPlayer()) < ecoCost){
+                this.instance.getLocale().getMessage("alchemist.cannotafford").sendPrefixedMessage(event.getPlayer());
+                return;
+            }
+            if (Mode.equalsIgnoreCase("EXP") && getExp(event.getPlayer()) < expCost) {
                 this.instance.getLocale().getMessage("alchemist.cannotafford").sendPrefixedMessage(event.getPlayer());
                 return;
             }
 
-            if(EconomyManager.isEnabled()){
-            EconomyManager.withdrawBalance(event.getPlayer(), ecoCost);
-            this.instance.getLocale().getMessage("alchemist.successeco")
-                    .processPlaceholder("eco_cost", ecoCost)
-                    .sendPrefixedMessage(event.getPlayer());
-            }
-            else {
-            changeExp(event.getPlayer(), -expCost);
-            this.instance.getLocale().getMessage("alchemist.successexp")
-                    .processPlaceholder("exp_cost", expCost)
-                    .sendPrefixedMessage(event.getPlayer());
+            switch (Mode.toUpperCase()) {
+                case "ECO":
+                        EconomyManager.withdrawBalance(event.getPlayer(), ecoCost);
+                        this.instance.getLocale().getMessage("alchemist.successeco")
+                                .processPlaceholder("eco_cost", ecoCost)
+                                .sendPrefixedMessage(event.getPlayer());
+                    break;
+                case "EXP":
+                    changeExp(event.getPlayer(), -expCost);
+                    this.instance.getLocale().getMessage("alchemist.successexp")
+                            .processPlaceholder("exp_cost", expCost)
+                            .sendPrefixedMessage(event.getPlayer());
+                    break;
+                default:
+                    System.out.println("Wrong MODE value detected. Use ECO or EXP.");
+                    break;
             }
             event.getPlayer().getInventory().addItem(getInventory().getItem(this.PREVIEW_SLOT));
             clear(this.RIGHT_SLOT);

@@ -19,6 +19,7 @@ contents:
       - "&fof possible enchants you could unlock!"
       - ""
       - "&b&lCOST &r&f{exp_cost} EXP"
+      - "&b&lCOST &r&f${eco_cost}"
     group: SIMPLE
     exp-cost: 400
     eco-cost: 0
@@ -35,6 +36,7 @@ contents:
       - "&fof possible enchants you could unlock!"
       - ""
       - "&b&lCOST &r&f{exp_cost} EXP"
+      - "&b&lCOST &r&f${eco_cost}"
     group: UNIQUE
     exp-cost: 800
     eco-cost: 0
@@ -51,6 +53,7 @@ contents:
       - "&fof possible enchants you could unlock!"
       - ""
       - "&b&lCOST &r&f{exp_cost} EXP"
+      - "&b&lCOST &r&f${eco_cost}"
     group: ELITE
     exp-cost: 2500
     eco-cost: 0
@@ -67,6 +70,7 @@ contents:
       - "&fof possible enchants you could unlock!"
       - ""
       - "&b&lCOST &r&f{exp_cost} EXP"
+      - "&b&lCOST &r&f${eco_cost}"
     group: ULTIMATE
     exp-cost: 5000
     eco-cost: 0
@@ -83,6 +87,7 @@ contents:
       - "&fof possible enchants you could unlock!"
       - ""
       - "&b&lCOST &r&f{exp_cost} EXP"
+      - "&b&lCOST &r&f${eco_cost}"
     group: LEGENDARY
     exp-cost: 25000
     eco-cost: 0

@@ -87,6 +87,7 @@ public class EnchanterMenu extends FastInv {
                                 System.out.println("Wrong MODE value detected. Use ECO or EXP.");
                                 break;
                         }
+                        player.getInventory().addItem(instance.getSpecialItems().getMysteryBook(group));
                         this.delay.put(event.getPlayer().getUniqueId(), System.currentTimeMillis() + 120);
                     });
                 });

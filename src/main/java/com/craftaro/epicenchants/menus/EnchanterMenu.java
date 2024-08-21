@@ -62,12 +62,12 @@ public class EnchanterMenu extends FastInv {
 
                         if (EconomyManager.isEnabled()) {
                             EconomyManager.withdrawBalance(player, ecoCost);
-                            event.getPlayer().sendMessage(instance.getLocale().getMessage("enchanter.success")
+                            instance.getLocale().getMessage("enchanter.success")
                                     .processPlaceholder("group_name", group.getName())
                                     .processPlaceholder("group_color", group.getColor())
                                     .processPlaceholder("eco_cost", ecoCost)
                                     .processPlaceholder("exp_cost", expCost)
-                                    .getPrefixedMessage());
+                                    .sendPrefixedMessage(event.getPlayer());
                         }
 
                         changeExp(player, -expCost);

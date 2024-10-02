@@ -106,11 +106,11 @@ public class BookListener extends ItemListener {
         useItem(event);
         event.getPlayer().getInventory().addItem(enchant.get().getBook().get(enchant.get(), level));
 
-        event.getPlayer().sendMessage(this.instance.getLocale().getMessage("book.discover")
+        this.instance.getLocale().getMessage("book.discover")
                 .processPlaceholder("group_name", group.getName())
                 .processPlaceholder("group_color", group.getColor())
                 .processPlaceholder("enchant_format", enchant.get().getFormat())
                 .processPlaceholder("level", level)
-                .getPrefixedMessage());
+                .sendPrefixedMessage(event.getPlayer());
     }
 }
